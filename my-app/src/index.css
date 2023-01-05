@@ -1,7 +1,16 @@
+:root {
+  --bg-blue: #1F2E6E;
+  --button-red: #FF3A3A;
+  --button-blue: #1F2E6E;
+  --header-black: #2D2D2F;
+  --forum-white: #F5F5F5;
+  --mod-yellow: #EFB61E;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', 'Poppins', 'Montserrat',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
