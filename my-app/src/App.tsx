@@ -1,14 +1,19 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
+import styled from 'styled-components';
 import './App.css';
 import ModulePageThread from './components/threads/ModulePageThread';
+import { Colors } from './constants';
+
+const Background = styled.div`
+  background-color: ${Colors.blue};
+  width: 100%;
+  height: 100vh;
+`
 
 function App() {
   return (
-    <div className="App">
+    <Background>
       <ModulePageThread/>
-    </div>
+    </Background>
   );
 }
 
