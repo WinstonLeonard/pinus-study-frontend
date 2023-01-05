@@ -3,6 +3,7 @@ export const Colors = {
     red: "#FF3A3A",
     dark_grey: "#2D2D2F",
     white: "#F5F5F5",
+    white_accent: "#BDBDBD", // for pressed module threads
     yellow: "#EFB61E",
 }
 
