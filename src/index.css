@@ -1,4 +1,12 @@
+/* 
+  Loads the font Poppins from Google Fonts.
+  Example on how to use in CSS:
+  font-family: 'Poppins-SemiBold', 'sans-serif';
+
+  Format Poppins-{ Bold/Italic/SemiBold }
+*/
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
+
 
 :root {
   --bg-blue: #1F2E6E;
