@@ -3,6 +3,7 @@ export interface Thread {
 	Title: string;
 	Content: string;
 	AuthorId: number;
+	Username: string;
 	Timestamp: string;
 	ModuleId: string;
 	LikesCount: number;
@@ -15,6 +16,7 @@ export const ThreadInitialState : Thread = {
 	Title: "",
 	Content: "",
 	AuthorId: 0,
+	Username: "",
 	Timestamp: "",
 	ModuleId: "",
 	LikesCount: 0,
