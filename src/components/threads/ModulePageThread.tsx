@@ -73,9 +73,46 @@ const ModulePageThread = ({threadId} : any) => {
         return content;
     }
 
+    /**
+     * Parses the timestamp to produce the duration since the
+     * thread was made.
+     * 
+     * @param timestamp The timestamp fetched from the database.
+     * @returns The duration since the thread.
+     */
+    const parseDuration = (timestamp : string) : string => {
+        const parsedTimestamp = Date.parse(timestamp);
+        const datePosted = new Date(parsedTimestamp);
+        const durationInMillieconds = Date.now().valueOf() - datePosted.valueOf();
+        const seconds = Math.floor(durationInMillieconds / 1000);
+
+        // years are defined as 365 days + 1/4 days to account for leap year
+        const years = Math.ceil(seconds / 31557600);
+
+        // months are standardized to 30 days
+        const months = Math.ceil(seconds / 2628288);
+        const days = Math.ceil(seconds / 86400);
+        const hours = Math.ceil(seconds / 3600);
+        const minutes = Math.ceil(seconds / 60);
+
+        if (years >= 1) {
+            return years + "y";
+        } else if (months >= 1) {
+            return months + "mo";
+        } else if (days >= 1) {
+            return days + "d";
+        } else if (hours >= 1) {
+            return hours + "h";
+        } else if (minutes >= 1) {
+            return minutes + "m";
+        } else {
+            return seconds + "s";
+        }
+    }
+
     return (
         <ThreadContainer>
-            <PostedSince>4d</PostedSince>
+            <PostedSince>{parseDuration(thread.Timestamp)}</PostedSince>
             <StyledQuestionTitle>{thread.Title}</StyledQuestionTitle>
             <br/>
             <RegularText>Posted by {thread.Username}</RegularText>
