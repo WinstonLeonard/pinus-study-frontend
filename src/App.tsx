@@ -29,7 +29,7 @@ function App() {
     <Background>
       <ThreadComponent 
         threadId={2}
-        type="THREAD_PAGE"
+        type="QUESTION_PAGE"
       />
     </Background>
   );

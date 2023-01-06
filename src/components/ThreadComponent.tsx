@@ -10,15 +10,36 @@ import ThumbDownOutlinedIcon from '@mui/icons-material/ThumbDownOutlined';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 
 
-// TODO: Add POST methods for likes (change functions in `<ThumbButton onClick={...}`)
+/** TODO: Add POST methods for likes (change functions in `<ThumbButton onClick={...}`) and upon submitting comment */ 
 
-type ThreadType = "MODULE_PAGE" | "THREAD_PAGE";
+type ThreadType = "MODULE_PAGE" | "QUESTION_PAGE";
 
-const VerticalCenterAlignLayout = styled.div`
-    display: flex;
-    align-items: center;
+/** SHARED COMPONENTS */
+const QuestionTitle = styled.span`
+    font-family: 'Poppins-Medium', sans-serif;
+    font-size: 1.875em; 
 `
 
+const Text = styled.span`
+    font-size: 1.25em; 
+`
+
+const RegularText = styled(Text)`
+    font-family: 'Poppins', sans-serif;
+`
+
+const Content = styled.span`
+    display: inline-block;
+    font-family: 'Poppins-Medium', sans-serif;
+    font-size: 1.5em; 
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+`
+
+const PostedSince = styled(RegularText)`
+    float: right;
+`
+/** MODULE-PAGE THREAD ONLY */
 const ThreadContainerButton = styled.button`
     background-color: ${Colors.white};
     width: 50vw;
@@ -33,6 +54,7 @@ const ThreadContainerButton = styled.button`
     }
 `
 
+/** THREAD-PAGE THREAD ONLY Å*/
 const ThreadContainerDiv = styled.div`
     background-color: ${Colors.white};
     width: 50vw;
@@ -43,17 +65,9 @@ const ThreadContainerDiv = styled.div`
     font-size: 12px;
 `
 
-const StyledQuestionTitle = styled.span`
-    font-family: 'Poppins-Medium', sans-serif;
-    font-size: 1.875em; 
-`
-
-const Text = styled.span`
-    font-size: 1.25em; 
-`
-
-const RegularText = styled(Text)`
-    font-family: 'Poppins', sans-serif;
+const VerticalCenterAlignLayout = styled.div`
+    display: flex;
+    align-items: center;
 `
 
 const MediumText = styled(Text)`
@@ -64,16 +78,6 @@ const ReplyText = styled(MediumText)`
     :hover {
         text-decoration: underline;
     }
-`
-const PostedSince = styled(RegularText)`
-    float: right;
-`
-const TextArea = styled.span`
-    display: inline-block;
-    font-family: 'Poppins-Medium', sans-serif;
-    font-size: 1.5em; 
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
 `
 
 const ThumbButton = styled.button`
@@ -95,10 +99,11 @@ const ReplyInputField = styled.input`
 
 `
 /**
- * Thread preview shown on the Module Page.
+ * Thread component for the web forum.
  * 
  * @param threadId The thread id to fetch the data.
- * @param threadType The type of thread to be rendered.
+ * @param type The type of thread to be rendered. The only valid values are "QUESTION_PAGE" or "MODULE_PAGE",
+ *             or it can be omitted.
  */
 const ThreadComponent = ({threadId , type} : {threadId : number, type? : ThreadType}) => {
     const [thread, setThread] = useState<Thread>(ThreadInitialState);
@@ -110,10 +115,10 @@ const ThreadComponent = ({threadId , type} : {threadId : number, type? : ThreadT
         setOpenReply(!openReply);
     }
 
-    /* For navigating from module page to thread page */
+    /* For navigating from module page to question page (router stuff)*/
     // const navigate = useNavigate();
 
-    // const navigateToThreadPage = () => {
+    // const navigateToQuestionPage = () => {
     //     navigate("INSERT_PATH_HERE")
     // }
 
@@ -158,7 +163,7 @@ const ThreadComponent = ({threadId , type} : {threadId : number, type? : ThreadT
      */
     useEffect(() => {
         fetchThreadData();
-        if (type === "THREAD_PAGE") {
+        if (type === "QUESTION_PAGE") {
             fetchLikeStatus();
         }
     }, [])
@@ -210,15 +215,18 @@ const ThreadComponent = ({threadId , type} : {threadId : number, type? : ThreadT
         return seconds + "s";
     }
 
+    /**
+     * Renders the thread in the Module Page.
+     */
     const renderModulePageThread = () => {
         return (
             <ThreadContainerButton>
                 <PostedSince>{parseDuration(thread.Timestamp)}</PostedSince>
-                <StyledQuestionTitle>{thread.Title}</StyledQuestionTitle>
+                <QuestionTitle>{thread.Title}</QuestionTitle>
                 <br/>
                 <RegularText>Posted by {thread.Username}</RegularText>
                 <br/>
-                <TextArea>{shortenLongPosts(thread.Content)}</TextArea>
+                <Content>{shortenLongPosts(thread.Content)}</Content>
                 <br/>
                 <CommentOutlinedIcon sx={{fontSize: "1.375em"}}/>
                 <RegularText> {thread.Comments || 0}</RegularText>
@@ -226,15 +234,18 @@ const ThreadComponent = ({threadId , type} : {threadId : number, type? : ThreadT
         )
     }
 
-    const renderThreadPageThread = () => {
+    /**
+     * Renders the thread in the Question Page.
+     */
+    const renderQuestionPageThread = () => {
         return (
             <ThreadContainerDiv>
                 <PostedSince>{parseDuration(thread.Timestamp)}</PostedSince>
-                <StyledQuestionTitle>{thread.Title}</StyledQuestionTitle>
+                <QuestionTitle>{thread.Title}</QuestionTitle>
                 <br/>
                 <RegularText>Posted by {thread.Username}</RegularText>
                 <br/>
-                <TextArea>{thread.Content}</TextArea>
+                <Content>{thread.Content}</Content>
                 <br/>
                 <VerticalCenterAlignLayout>
                     <ThumbButton onClick={() => setLiked(!liked)}>
@@ -246,7 +257,7 @@ const ThreadComponent = ({threadId , type} : {threadId : number, type? : ThreadT
                         {disliked? <ThumbDownIcon/> : <ThumbDownOutlinedIcon/>}
                     </ThumbButton>
                     <MediumText>&#8196;{thread.DislikesCount}&#8195;</MediumText>
-                    <ModeCommentOutlinedIcon></ModeCommentOutlinedIcon>
+                    <ModeCommentOutlinedIcon/>
                     <MediumText>&#8196;</MediumText>
                     <ReplyText onClick={() => openReplyInputField()}>Reply</ReplyText>
                 </VerticalCenterAlignLayout>
@@ -256,8 +267,8 @@ const ThreadComponent = ({threadId , type} : {threadId : number, type? : ThreadT
     }
 
     switch(type) {
-        case "THREAD_PAGE":
-            return renderThreadPageThread();
+        case "QUESTION_PAGE":
+            return renderQuestionPageThread();
         case "MODULE_PAGE":
             return renderModulePageThread();
         default:
