@@ -9,6 +9,9 @@ import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ThumbDownOutlinedIcon from '@mui/icons-material/ThumbDownOutlined';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 
+
+// TODO: Add POST methods for likes (change functions in `<ThumbButton onClick={...}`)
+
 type ThreadType = "MODULE_PAGE" | "THREAD_PAGE";
 
 const VerticalCenterAlignLayout = styled.div`
