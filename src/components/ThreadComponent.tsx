@@ -40,6 +40,11 @@ const PostedSince = styled(RegularText)`
     float: right;
 `
 
+const VerticalCenterAlignLayout = styled.div`
+    display: flex;
+    align-items: center;
+`
+
 /** MODULE-PAGE THREAD ONLY */
 const ThreadContainerButton = styled.button`
     background-color: ${Colors.white};
@@ -64,11 +69,6 @@ const ThreadContainerDiv = styled.div`
     padding: 1.5em;
     text-align: left;
     font-size: 12px;
-`
-
-const VerticalCenterAlignLayout = styled.div`
-    display: flex;
-    align-items: center;
 `
 
 const MediumText = styled(Text)`
@@ -231,8 +231,10 @@ const ThreadComponent = ({threadId , type} : {threadId : number, type? : ThreadT
                 <br/>
                 <Content>{shortenLongPosts(thread.Content)}</Content>
                 <br/>
-                <CommentOutlinedIcon sx={{fontSize: "1.375em"}}/>
-                <RegularText> {thread.Comments || 0}</RegularText>
+                <VerticalCenterAlignLayout>
+                    <CommentOutlinedIcon sx={{fontSize: "1.375em"}}/>
+                    <RegularText>&#8196;{thread.Comments || 0}</RegularText>
+                </VerticalCenterAlignLayout>
             </ThreadContainerButton>
         )
     }

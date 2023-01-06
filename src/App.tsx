@@ -31,6 +31,11 @@ function App() {
         threadId={2}
         type="QUESTION_PAGE"
       />
+      <br/>
+      <ThreadComponent 
+        threadId={2}
+        type="MODULE_PAGE"
+      />
     </Background>
   );
 }
