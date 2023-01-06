@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { API_URL, Colors } from '../../constants';
-import { Thread, ThreadInitialState } from '../../features/threads/threadSlice';
+import { API_URL, Colors } from '../constants';
+import { Thread, ThreadInitialState } from '../features/threads/threadSlice';
 import CommentOutlinedIcon from '@mui/icons-material/CommentOutlined';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
@@ -9,7 +9,7 @@ import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ThumbDownOutlinedIcon from '@mui/icons-material/ThumbDownOutlined';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 
-export type ThreadType = "MODULE_PAGE" | "THREAD_PAGE";
+type ThreadType = "MODULE_PAGE" | "THREAD_PAGE";
 
 const VerticalCenterAlignLayout = styled.div`
     display: flex;
@@ -80,7 +80,17 @@ const ThumbButton = styled.button`
         background-color: ${Colors.white_accent};
     }
 `
+const ReplyInputField = styled.input`
+    margin-top: 0.75em;
+    width: calc(50vw - 3em);
+    font-family: 'Poppins-Italic', sans-serif;
+    font-size: 1.25em;
+    border-radius: 20px;
+    border: none;
+    background-color: ${Colors.light_grey_75};
+    padding: 0.5em 1.25em 0.5em 1.25em;
 
+`
 /**
  * Thread preview shown on the Module Page.
  * 
@@ -90,7 +100,12 @@ const ThumbButton = styled.button`
 const ThreadComponent = ({threadId , type} : {threadId : number, type? : ThreadType}) => {
     const [thread, setThread] = useState<Thread>(ThreadInitialState);
     const [liked, setLiked] = useState<Boolean>(false);
+    const [disliked, setDisliked] = useState<Boolean>(false);
     const [openReply, setOpenReply] = useState<Boolean>(false);
+
+    const openReplyInputField = () : void => {
+        setOpenReply(!openReply);
+    }
 
     /* For navigating from module page to thread page */
     // const navigate = useNavigate();
@@ -119,8 +134,20 @@ const ThreadComponent = ({threadId , type} : {threadId : number, type? : ThreadT
     const fetchLikeStatus = () => {
         fetch(API_URL + `/likes/thread/${threadId}/${thread.AuthorId}`)
             .then(response => response.json())
-            .then(data => setLiked(data.state))
-            .catch(error => console.log(error));
+            .then(data => {
+                switch (data.state) {
+                    case 1:
+                        setLiked(true);
+                        break;
+                    case -1: 
+                        setDisliked(true);
+                        break;
+                    case 0:
+                    default:
+                        break;
+                }
+            })
+            .catch(error => console.log(error))
     }
 
     /**
@@ -158,30 +185,26 @@ const ThreadComponent = ({threadId , type} : {threadId : number, type? : ThreadT
         const parsedTimestamp = Date.parse(timestamp);
         const datePosted = new Date(parsedTimestamp);
         const durationInMillieconds = Date.now().valueOf() - datePosted.valueOf();
-        const seconds = Math.floor(durationInMillieconds / 1000);
+        const seconds = Math.ceil(durationInMillieconds / 1000);
+        
+        if (seconds <= 60) return seconds + "s";
 
-        // years are defined as 365 days + 1/4 days to account for leap year
-        const years = Math.ceil(seconds / 31557600);
+        const years = Math.ceil(seconds / 31557600); // defined as 365 days + 1/4 days to account for leap year
+        if (years >= 1) return years + "y";
+        
+        const months = Math.ceil(seconds / 2628288); // standardized to 30 days
+        if (months >= 1) return months + "mo";
 
-        // months are standardized to 30 days
-        const months = Math.ceil(seconds / 2628288);
         const days = Math.ceil(seconds / 86400);
-        const hours = Math.ceil(seconds / 3600);
-        const minutes = Math.ceil(seconds / 60);
+        if (days >= 1) return days + "d";
 
-        if (years >= 1) {
-            return years + "y";
-        } else if (months >= 1) {
-            return months + "mo";
-        } else if (days >= 1) {
-            return days + "d";
-        } else if (hours >= 1) {
-            return hours + "h";
-        } else if (minutes >= 1) {
-            return minutes + "m";
-        } else {
-            return seconds + "s";
-        }
+        const hours = Math.ceil(seconds / 3600);
+        if (hours >= 1) return hours + "h";
+
+        const minutes = Math.ceil(seconds / 60);
+        if (minutes >= 1) return minutes + "m";
+        
+        return seconds + "s";
     }
 
     const renderModulePageThread = () => {
@@ -211,20 +234,20 @@ const ThreadComponent = ({threadId , type} : {threadId : number, type? : ThreadT
                 <TextArea>{thread.Content}</TextArea>
                 <br/>
                 <VerticalCenterAlignLayout>
-                    <ThumbButton>
+                    <ThumbButton onClick={() => setLiked(!liked)}>
                         {liked? <ThumbUpIcon/> : <ThumbUpOutlinedIcon/>}
                     </ThumbButton>
                     {/* &#8195; (Em Space) and &#8196; (Three-Per-Em Space) are Unicode spaces. */}
                     <MediumText>&#8196;{thread.LikesCount}&#8195;</MediumText>
-                    <ThumbButton>
-                        <ThumbDownIcon></ThumbDownIcon>
+                    <ThumbButton onClick={() => setDisliked(!disliked)}>
+                        {disliked? <ThumbDownIcon/> : <ThumbDownOutlinedIcon/>}
                     </ThumbButton>
                     <MediumText>&#8196;{thread.DislikesCount}&#8195;</MediumText>
                     <ModeCommentOutlinedIcon></ModeCommentOutlinedIcon>
                     <MediumText>&#8196;</MediumText>
-                    <ReplyText onClick = {() => setOpenReply(true)}>Reply</ReplyText>
-                    {openReply ? "" : ""}
+                    <ReplyText onClick={() => openReplyInputField()}>Reply</ReplyText>
                 </VerticalCenterAlignLayout>
+                {openReply ? <ReplyInputField placeholder="Enter your reply here..."/> : null}
             </ThreadContainerDiv>
         )
     }
