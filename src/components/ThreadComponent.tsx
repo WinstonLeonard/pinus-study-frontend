@@ -195,8 +195,8 @@ const ThreadComponent = ({threadId , type} : {threadId : number, type? : ThreadT
     const parseDuration = (timestamp : string) : string => {
         const parsedTimestamp = Date.parse(timestamp);
         const datePosted = new Date(parsedTimestamp);
-        const durationInMillieconds = Date.now().valueOf() - datePosted.valueOf();
-        const seconds = Math.ceil(durationInMillieconds / 1000);
+        const durationInMilliseconds = Date.now().valueOf() - datePosted.valueOf();
+        const seconds = Math.ceil(durationInMilliseconds / 1000);
         
         if (seconds < 60) return seconds + "s";
 
