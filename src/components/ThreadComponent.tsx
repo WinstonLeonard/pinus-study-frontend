@@ -198,7 +198,7 @@ const ThreadComponent = ({threadId , type} : {threadId : number, type? : ThreadT
         const durationInMillieconds = Date.now().valueOf() - datePosted.valueOf();
         const seconds = Math.ceil(durationInMillieconds / 1000);
         
-        if (seconds <= 60) return seconds + "s";
+        if (seconds < 60) return seconds + "s";
 
         const years = Math.ceil(seconds / 31557600); // defined as 365 days + 1/4 days to account for leap year
         if (years >= 1) return years + "y";
