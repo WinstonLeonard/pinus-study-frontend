@@ -39,6 +39,7 @@ const Content = styled.span`
 const PostedSince = styled(RegularText)`
     float: right;
 `
+
 /** MODULE-PAGE THREAD ONLY */
 const ThreadContainerButton = styled.button`
     background-color: ${Colors.white};
@@ -87,6 +88,7 @@ const ThumbButton = styled.button`
         background-color: ${Colors.white_accent};
     }
 `
+
 const ReplyInputField = styled.input`
     margin-top: 0.75em;
     width: calc(50vw - 3em);
@@ -98,6 +100,7 @@ const ReplyInputField = styled.input`
     padding: 0.5em 1.25em 0.5em 1.25em;
 
 `
+
 /**
  * Thread component for the web forum.
  * 
