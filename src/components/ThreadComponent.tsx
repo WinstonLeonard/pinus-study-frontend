@@ -227,7 +227,7 @@ const ThreadComponent = ({threadId , type} : {threadId : number, type? : ThreadT
                 <PostedSince>{parseDuration(thread.Timestamp)}</PostedSince>
                 <QuestionTitle>{thread.Title}</QuestionTitle>
                 <br/>
-                <RegularText>Posted by {thread.Username}</RegularText>
+                <RegularText>Posted by @{thread.Username}</RegularText>
                 <br/>
                 <Content>{shortenLongPosts(thread.Content)}</Content>
                 <br/>
@@ -246,7 +246,7 @@ const ThreadComponent = ({threadId , type} : {threadId : number, type? : ThreadT
                 <PostedSince>{parseDuration(thread.Timestamp)}</PostedSince>
                 <QuestionTitle>{thread.Title}</QuestionTitle>
                 <br/>
-                <RegularText>Posted by {thread.Username}</RegularText>
+                <RegularText>Posted by @{thread.Username}</RegularText>
                 <br/>
                 <Content>{thread.Content}</Content>
                 <br/>
