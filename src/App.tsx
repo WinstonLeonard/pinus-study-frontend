@@ -1,17 +1,8 @@
-import styled from 'styled-components';
-import './App.css';
-import ModulePageThread from './components/threads/ModulePageThread';
-import { Colors } from './constants';
-
-const Background = styled.div`
-    background-color: ${Colors.blue};
-    width: 100%;
-    background-size: cover;
-    min-height: 100vh;
-`
+import ThreadComponent from './components/ThreadComponent';
+import Background from './components/Background';
 // import ModulePageThread from './components/threads/ModulePageThread';
 
-// function TestCORS() {
+// function TestCORS() 
 //   const makeAPICall = async () => {
 //     try {
 //       const response = await fetch('http://localhost:8080/ping', {mode:'cors'});
@@ -33,9 +24,13 @@ const Background = styled.div`
 // }
 
 function App() {
+
   return (
     <Background>
-      <ModulePageThread threadId={2} />
+      <ThreadComponent 
+        threadId={2}
+        type="THREAD_PAGE"
+      />
     </Background>
   );
 }
