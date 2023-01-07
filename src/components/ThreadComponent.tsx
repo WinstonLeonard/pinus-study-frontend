@@ -196,23 +196,23 @@ const ThreadComponent = ({threadId , type} : {threadId : number, type? : ThreadT
         const parsedTimestamp = Date.parse(timestamp);
         const datePosted = new Date(parsedTimestamp);
         const durationInMilliseconds = Date.now().valueOf() - datePosted.valueOf();
-        const seconds = Math.ceil(durationInMilliseconds / 1000);
+        const seconds = Math.floor(durationInMilliseconds / 1000);
         
         if (seconds < 60) return seconds + "s";
 
-        const years = Math.ceil(seconds / 31557600); // defined as 365 days + 1/4 days to account for leap year
+        const years = Math.floor(seconds / 31557600); // defined as 365 days + 1/4 days to account for leap year
         if (years >= 1) return years + "y";
         
-        const months = Math.ceil(seconds / 2628288); // standardized to 30 days
+        const months = Math.floor(seconds / 2628288); // standardized to 30 days
         if (months >= 1) return months + "mo";
 
-        const days = Math.ceil(seconds / 86400);
+        const days = Math.floor(seconds / 86400);
         if (days >= 1) return days + "d";
 
-        const hours = Math.ceil(seconds / 3600);
+        const hours = Math.floor(seconds / 3600);
         if (hours >= 1) return hours + "h";
 
-        const minutes = Math.ceil(seconds / 60);
+        const minutes = Math.floor(seconds / 60);
         if (minutes >= 1) return minutes + "m";
         
         return seconds + "s";
