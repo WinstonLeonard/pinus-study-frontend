@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useMemo, MouseEvent } from "react";
 import isHotkey from "is-hotkey";
 import {
     Editable,
@@ -17,7 +17,8 @@ import {
 } from "slate";
 import { withHistory } from "slate-history";
 
-import { Button, Icon, Toolbar } from "../index";
+import { Button, Icon, Toolbar } from "./index";
+import { CustomText, TextAlignFormat } from "../../slate";
 
 const HOTKEYS = {
     "mod+b": "bold",
@@ -27,7 +28,7 @@ const HOTKEYS = {
 };
 
 const LIST_TYPES = ["numbered-list", "bulleted-list"];
-const TEXT_ALIGN_TYPES = ["left", "center", "right", "justify"];
+const TEXT_ALIGN_TYPES: string[] = ["left", "center", "right", "justify"];
 
 const TextEditor = () => {
     const renderElement = useCallback(
@@ -73,7 +74,8 @@ const TextEditor = () => {
                     for (const hotkey in HOTKEYS) {
                         if (isHotkey(hotkey, event as any)) {
                             event.preventDefault();
-                            const mark = HOTKEYS[hotkey];
+                            const mark =
+                                HOTKEYS[hotkey as keyof typeof HOTKEYS];
                             toggleMark(editor, mark);
                         }
                     }
@@ -83,7 +85,16 @@ const TextEditor = () => {
     );
 };
 
-const toggleBlock = (editor : Editor, format : string) => {
+const formatDirectory : Record<string, TextAlignFormat> = {
+    start: "start",
+    end: "end",
+    left: "left",
+    right: "right",
+    center: "center",
+    justify: "justify",
+}
+
+const toggleBlock = (editor: Editor, format: string) => {
     const isActive = isBlockActive(
         editor,
         format,
@@ -102,7 +113,7 @@ const toggleBlock = (editor : Editor, format : string) => {
     let newProperties: Partial<SlateElement>;
     if (TEXT_ALIGN_TYPES.includes(format)) {
         newProperties = {
-            align: isActive ? undefined : format,
+            align: isActive ? "left" : formatDirectory[format],
         };
     } else {
         newProperties = {
@@ -117,7 +128,7 @@ const toggleBlock = (editor : Editor, format : string) => {
     }
 };
 
-const toggleMark = (editor : Editor, format : string) => {
+const toggleMark = (editor: Editor, format: string) => {
     const isActive = isMarkActive(editor, format);
 
     if (isActive) {
@@ -127,7 +138,7 @@ const toggleMark = (editor : Editor, format : string) => {
     }
 };
 
-const isBlockActive = (editor : Editor, format : string, blockType = "type") => {
+const isBlockActive = (editor: Editor, format: string, blockType = "type") => {
     const { selection } = editor;
     if (!selection) return false;
 
@@ -137,20 +148,30 @@ const isBlockActive = (editor : Editor, format : string, blockType = "type") => 
             match: (n) =>
                 !Editor.isEditor(n) &&
                 SlateElement.isElement(n) &&
-                n[blockType] === format,
+                n[blockType as keyof typeof n] === format,
         })
     );
 
     return !!match;
 };
 
-const isMarkActive = (editor : Editor, format : string) => {
+const isMarkActive = (editor: Editor, format: string) => {
     const marks = Editor.marks(editor);
-    return marks ? marks[format] === true : false;
+    return marks ? marks[format as keyof typeof marks] === true : false;
 };
 
-const Element = ({ attributes, children, element }) => {
-    const style = { textAlign: element.align };
+const Element = (props: RenderElementProps) => {
+    const element = props.element;
+    const attributes = props.attributes;
+    const children = props.children;
+
+    if (element.align === undefined) {
+        element.align = "left";
+    }
+
+    let style: React.CSSProperties = { textAlign: element.align, };
+
+
     switch (element.type) {
         case "block-quote":
             return (
@@ -197,7 +218,10 @@ const Element = ({ attributes, children, element }) => {
     }
 };
 
-const Leaf = ({ attributes, children, leaf }) => {
+const Leaf = (props: RenderLeafProps) => {
+    const leaf = props.leaf;
+    const attributes = props.attributes;
+    let children = props.children;
     if (leaf.bold) {
         children = <strong>{children}</strong>;
     }
@@ -217,7 +241,7 @@ const Leaf = ({ attributes, children, leaf }) => {
     return <span {...attributes}>{children}</span>;
 };
 
-const BlockButton = ({ format, icon }) => {
+const BlockButton = ({ format, icon }: { format: string; icon: string }) => {
     const editor = useSlate();
     return (
         <Button
@@ -226,7 +250,7 @@ const BlockButton = ({ format, icon }) => {
                 format,
                 TEXT_ALIGN_TYPES.includes(format) ? "align" : "type"
             )}
-            onMouseDown={(event) => {
+            onMouseDown={(event: MouseEvent<HTMLButtonElement>) => {
                 event.preventDefault();
                 toggleBlock(editor, format);
             }}
@@ -236,12 +260,12 @@ const BlockButton = ({ format, icon }) => {
     );
 };
 
-const MarkButton = ({ format, icon } : { format : string, icon : Icon }) => {
+const MarkButton = ({ format, icon }: { format: string; icon: string }) => {
     const editor = useSlate();
     return (
         <Button
             active={isMarkActive(editor, format)}
-            onMouseDown={(event) => {
+            onMouseDown={(event: MouseEvent<HTMLButtonElement>) => {
                 event.preventDefault();
                 toggleMark(editor, format);
             }}

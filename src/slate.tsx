@@ -1,35 +1,56 @@
-import { BaseEditor } from 'slate'
-import { HistoryEditor } from 'slate-history'
-import { ReactEditor } from 'slate-react'
+import { BaseEditor } from "slate";
+import { HistoryEditor } from "slate-history";
+import { ReactEditor } from "slate-react";
 
-export type CustomEditor = BaseEditor & ReactEditor & HistoryEditor
+export type CustomEditor = BaseEditor & ReactEditor & HistoryEditor;
 
 export type ParagraphElement = {
-  type: 'paragraph'
-  children: CustomText[]
-}
+    type: "paragraph";
+    align?: "start" | "end" | "left" | "right" | "center" | "justify" | "match-parent";
+    children: CustomText[];
+};
 
 export type HeadingElement = {
-  type: 'heading'
-  level: number
-  children: CustomText[]
-}
+    type: "heading";
+    level: number;
+    align?: "start" | "end" | "left" | "right" | "center" | "justify" | "match-parent";
+    children: CustomText[];
+};
 
 export type CodeElement = {
-  type: 'code'
-  children: CustomText[]
-}
+    type: "code";
+    align?: "start" | "end" | "left" | "right" | "center" | "justify" | "match-parent";
+    children: CustomText[];
+};
 
-export type CustomElement = ParagraphElement | HeadingElement | CodeElement
+export type AnyElement = {
+    type: string;
+    align?: "start" | "end" | "left" | "right" | "center" | "justify" | "match-parent";
+    children: CustomText[];
+};
 
-export type FormattedText = { text: string; bold?: true }
+export type CustomElement =
+    | ParagraphElement
+    | HeadingElement
+    | CodeElement
+    | AnyElement;
 
-export type CustomText = FormattedText
+export type FormattedText = {
+    text: string;
+    bold?: true | undefined;
+    italic?: true | undefined;
+    code?: true | undefined;
+    underline?: true | undefined;
+};
 
-declare module 'slate' {
-  interface CustomTypes {
-    Editor: BaseEditor & ReactEditor
-    Element: CustomElement
-    Text: CustomText
-  }
+export type CustomText = FormattedText;
+
+export type TextAlignFormat = "start" | "end" | "left" | "right" | "center" | "justify" | "match-parent";
+
+declare module "slate" {
+    interface CustomTypes {
+        Editor: BaseEditor & ReactEditor;
+        Element: CustomElement;
+        Text: CustomText;
+    }
 }

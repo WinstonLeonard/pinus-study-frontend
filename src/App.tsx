@@ -1,5 +1,6 @@
 import ThreadComponent from './components/ThreadComponent';
 import NewThread from './components/NewThread';
+import TextEditor from './components/editor/TextEditor';
 import Background from './components/Background';
 // import ModulePageThread from './components/threads/ModulePageThread';
 
@@ -28,7 +29,8 @@ function App() {
 
   return (
     <Background>
-      <NewThread />
+      <TextEditor />
+      {/* <NewThread /> */}
       {/* <ThreadComponent 
         threadId={2}
         type="QUESTION_PAGE"
