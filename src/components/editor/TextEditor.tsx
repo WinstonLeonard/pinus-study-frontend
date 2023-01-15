@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, MouseEvent } from "react";
+import React, { useCallback, useMemo, useState, MouseEvent } from "react";
 import isHotkey from "is-hotkey";
 import {
     Editable,
@@ -17,8 +17,52 @@ import {
 } from "slate";
 import { withHistory } from "slate-history";
 
+import styled, { createGlobalStyle } from "styled-components";
 import { Button, Icon, Toolbar } from "./index";
-import { CustomText, TextAlignFormat } from "../../slate";
+import { TextAlignFormat } from "../../slate";
+import { API_URL, Colors } from "../../constants";
+
+// STYLED COMPONENTS
+const GlobalStyle = createGlobalStyle`
+    body {
+        margin: 3em 8em;
+        font-family: 'Poppins', sans-serif;
+    }
+`;
+
+const HeadingText = styled.div`
+    font-size: 2em;
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+`;
+
+const Text = styled.span`
+    font-size: 1.25em;
+`;
+
+const RegularText = styled(Text)`
+    font-family: "Poppins", sans-serif;
+`;
+
+const Input = styled.input`
+    font-family: "Poppins", sans-serif;
+    font-size: 18px;
+    padding: 10px 15px;
+    background: ${Colors.light_grey_50};
+    border: none;
+    border-radius: 15px;
+    width: 80%;
+    ::placeholder {
+        color: ${Colors.light_grey};
+        font-style: italic;
+    }
+`;
+
+const CodeBackground = styled.span`
+    padding: 0px 5px;
+    border-radius: 3px;
+    background: ${Colors.light_grey_50};
+`
 
 const HOTKEYS = {
     "mod+b": "bold",
@@ -41,58 +85,77 @@ const TextEditor = () => {
     );
     const editor = useMemo(() => withHistory(withReact(createEditor())), []);
 
+    const [postTitle, setPostTitle] = useState({ text: "" });
+
+    const onChange = (e: React.FormEvent<HTMLInputElement>): void => {
+        setPostTitle({ text: e.currentTarget.value });
+    };
+
     return (
-        <Slate editor={editor} value={initialValue}>
-            <Toolbar>
-                <MarkButton format="bold" icon="format_bold" />
-                <MarkButton format="italic" icon="format_italic" />
-                <MarkButton format="underline" icon="format_underlined" />
-                <MarkButton format="code" icon="code" />
-                <BlockButton format="heading-one" icon="looks_one" />
-                <BlockButton format="heading-two" icon="looks_two" />
-                <BlockButton format="block-quote" icon="format_quote" />
-                <BlockButton
-                    format="numbered-list"
-                    icon="format_list_numbered"
+        <>
+            <GlobalStyle />
+            <div className="post-title">
+                <Input
+                    type="text"
+                    value={postTitle.text}
+                    onChange={onChange}
+                    placeholder="Enter question title here ..."
                 />
-                <BlockButton
-                    format="bulleted-list"
-                    icon="format_list_bulleted"
-                />
-                <BlockButton format="left" icon="format_align_left" />
-                <BlockButton format="center" icon="format_align_center" />
-                <BlockButton format="right" icon="format_align_right" />
-                <BlockButton format="justify" icon="format_align_justify" />
-            </Toolbar>
-            <Editable
-                renderElement={renderElement}
-                renderLeaf={renderLeaf}
-                placeholder="Enter some rich text…"
-                spellCheck
-                autoFocus
-                onKeyDown={(event) => {
-                    for (const hotkey in HOTKEYS) {
-                        if (isHotkey(hotkey, event as any)) {
-                            event.preventDefault();
-                            const mark =
-                                HOTKEYS[hotkey as keyof typeof HOTKEYS];
-                            toggleMark(editor, mark);
+            </div>
+
+            <Slate editor={editor} value={initialValue}>
+                <Editable
+                    renderElement={renderElement}
+                    renderLeaf={renderLeaf}
+                    placeholder="Description"
+                    spellCheck
+                    autoFocus
+                    onKeyDown={(event) => {
+                        for (const hotkey in HOTKEYS) {
+                            if (isHotkey(hotkey, event as any)) {
+                                event.preventDefault();
+                                const mark =
+                                    HOTKEYS[hotkey as keyof typeof HOTKEYS];
+                                toggleMark(editor, mark);
+                            }
                         }
-                    }
-                }}
-            />
-        </Slate>
+                    }}
+                />
+
+                <Toolbar>
+                    <MarkButton format="bold" icon="format_bold" />
+                    <MarkButton format="italic" icon="format_italic" />
+                    <MarkButton format="underline" icon="format_underlined" />
+                    <MarkButton format="code" icon="code" />
+                    <BlockButton format="heading-one" icon="looks_one" />
+                    <BlockButton format="heading-two" icon="looks_two" />
+                    <BlockButton format="block-quote" icon="format_quote" />
+                    <BlockButton
+                        format="numbered-list"
+                        icon="format_list_numbered"
+                    />
+                    <BlockButton
+                        format="bulleted-list"
+                        icon="format_list_bulleted"
+                    />
+                    <BlockButton format="left" icon="format_align_left" />
+                    <BlockButton format="center" icon="format_align_center" />
+                    <BlockButton format="right" icon="format_align_right" />
+                    <BlockButton format="justify" icon="format_align_justify" />
+                </Toolbar>
+            </Slate>
+        </>
     );
 };
 
-const formatDirectory : Record<string, TextAlignFormat> = {
+const formatDirectory: Record<string, TextAlignFormat> = {
     start: "start",
     end: "end",
     left: "left",
     right: "right",
     center: "center",
     justify: "justify",
-}
+};
 
 const toggleBlock = (editor: Editor, format: string) => {
     const isActive = isBlockActive(
@@ -169,8 +232,7 @@ const Element = (props: RenderElementProps) => {
         element.align = "left";
     }
 
-    let style: React.CSSProperties = { textAlign: element.align, };
-
+    let style: React.CSSProperties = { textAlign: element.align };
 
     switch (element.type) {
         case "block-quote":
@@ -227,7 +289,7 @@ const Leaf = (props: RenderLeafProps) => {
     }
 
     if (leaf.code) {
-        children = <code>{children}</code>;
+        children = <CodeBackground><code>{children}</code></CodeBackground>;
     }
 
     if (leaf.italic) {
@@ -278,37 +340,44 @@ const MarkButton = ({ format, icon }: { format: string; icon: string }) => {
 const initialValue: Descendant[] = [
     {
         type: "paragraph",
-        children: [
-            { text: "This is editable " },
-            { text: "rich", bold: true },
-            { text: " text, " },
-            { text: "much", italic: true },
-            { text: " better than a " },
-            { text: "<textarea>", code: true },
-            { text: "!" },
-        ],
-    },
-    {
-        type: "paragraph",
-        children: [
-            {
-                text: "Since it's rich text, you can do things like turn a selection of text ",
-            },
-            { text: "bold", bold: true },
-            {
-                text: ", or add a semantically rendered block quote in the middle of the page, like this:",
-            },
-        ],
-    },
-    {
-        type: "block-quote",
-        children: [{ text: "A wise quote." }],
-    },
-    {
-        type: "paragraph",
-        align: "center",
-        children: [{ text: "Try it out for yourself!" }],
+        children: [{ text: "" }],
     },
 ];
+
+// const initialValue: Descendant[] = [
+//     {
+//         type: "paragraph",
+//         children: [
+//             { text: "This is editable " },
+//             { text: "rich", bold: true },
+//             { text: " text, " },
+//             { text: "much", italic: true },
+//             { text: " better than a " },
+//             { text: "<textarea>", code: true },
+//             { text: "!" },
+//         ],
+//     },
+//     {
+//         type: "paragraph",
+//         children: [
+//             {
+//                 text: "Since it's rich text, you can do things like turn a selection of text ",
+//             },
+//             { text: "bold", bold: true },
+//             {
+//                 text: ", or add a semantically rendered block quote in the middle of the page, like this:",
+//             },
+//         ],
+//     },
+//     {
+//         type: "block-quote",
+//         children: [{ text: "A wise quote." }],
+//     },
+//     {
+//         type: "paragraph",
+//         align: "center",
+//         children: [{ text: "Try it out for yourself!" }],
+//     },
+// ];
 
 export default TextEditor;

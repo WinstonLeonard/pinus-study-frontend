@@ -28,19 +28,7 @@ import Background from './components/Background';
 function App() {
 
   return (
-    <Background>
       <TextEditor />
-      {/* <NewThread /> */}
-      {/* <ThreadComponent 
-        threadId={2}
-        type="QUESTION_PAGE"
-      />
-      <br/>
-      <ThreadComponent 
-        threadId={2}
-        type="MODULE_PAGE"
-      /> */}
-    </Background>
   );
 }
 
