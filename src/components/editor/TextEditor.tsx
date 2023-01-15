@@ -358,46 +358,56 @@ const Element = (props: RenderElementProps) => {
     const attributes = props.attributes;
     const children = props.children;
 
+    console.log(props)
+
+    let align : TextAlignFormat = "left";
+
+    if (element.align) {
+        align = element.align;
+    }
+
+    let style: React.CSSProperties = { textAlign: align };
+
     switch (element.type) {
         case "block-quote":
             return (
-                <blockquote {...attributes}>
+                <blockquote style={style} {...attributes}>
                     {children}
                 </blockquote>
             );
         case "bulleted-list":
             return (
-                <ul {...attributes}>
+                <ul style={style} {...attributes}>
                     {children}
                 </ul>
             );
         case "heading-one":
             return (
-                <h1 {...attributes}>
+                <h1 style={style} {...attributes}>
                     {children}
                 </h1>
             );
         case "heading-two":
             return (
-                <h2 {...attributes}>
+                <h2 style={style} {...attributes}>
                     {children}
                 </h2>
             );
         case "list-item":
             return (
-                <li {...attributes}>
+                <li style={style} {...attributes}>
                     {children}
                 </li>
             );
         case "numbered-list":
             return (
-                <ol {...attributes}>
+                <ol style={style} {...attributes}>
                     {children}
                 </ol>
             );
         default:
             return (
-                <p {...attributes}>
+                <p style={style} {...attributes}>
                     {children}
                 </p>
             );
