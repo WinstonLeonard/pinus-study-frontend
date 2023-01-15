@@ -23,17 +23,13 @@ import { TextAlignFormat } from "../../slate";
 import { API_URL, Colors } from "../../constants";
 
 // STYLED COMPONENTS
+
 const GlobalStyle = createGlobalStyle`
     body {
         margin: 3em 8em;
+        font-size: 16px;
         font-family: 'Poppins', sans-serif;
     }
-`;
-
-const HeadingText = styled.div`
-    font-size: 2em;
-    font-family: "Poppins", sans-serif;
-    font-weight: 700;
 `;
 
 const Text = styled.span`
@@ -47,11 +43,11 @@ const RegularText = styled(Text)`
 const Input = styled.input`
     font-family: "Poppins", sans-serif;
     font-size: 18px;
-    padding: 10px 15px;
+    padding: 10px 16px;
     background: ${Colors.light_grey_50};
     border: none;
     border-radius: 15px;
-    width: 80%;
+    width: calc(100% - 32px);
     ::placeholder {
         color: ${Colors.light_grey};
         font-style: italic;
@@ -61,9 +57,57 @@ const Input = styled.input`
 const CodeBackground = styled.span`
     padding: 0px 5px;
     border-radius: 3px;
-    background: ${Colors.light_grey_50};
-`
+    background: ${Colors.white};
+`;
 
+const EditorBackground = styled.div`
+    background: ${Colors.light_grey_50};
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-top: 0.25em;
+    margin-top: 1em;
+    border-radius: 15px;
+`;
+
+const ThreadContainer = styled.div`
+    width: 80%;
+    margin: 0 auto;
+`;
+
+const UiButton = styled.button`
+    border: none;
+    border-radius: 50px;
+    padding: 0.25em 1.5em;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    font-size: 1.1em;
+    color: white;
+`;
+
+const PostButton = styled(UiButton)`
+    background: ${Colors.red};
+`;
+
+const TagButton = styled(UiButton)`
+    background: ${Colors.yellow};
+`;
+
+const Buttons = styled.div`
+    margin-top: 1.5em;
+    display: flex;
+    justify-content: space-between;
+`;
+
+const TagButtons = styled.div`
+    gap: .5em;
+    display: flex;
+`;
+
+const AddTagButton = styled(UiButton)`
+    background: white;
+    color: ${Colors.dark_grey};
+    padding: 0 0.25em;
+`
 const HOTKEYS = {
     "mod+b": "bold",
     "mod+i": "italic",
@@ -71,8 +115,20 @@ const HOTKEYS = {
     "mod+`": "code",
 };
 
+// LOCAL CONSTANTS
+
 const LIST_TYPES = ["numbered-list", "bulleted-list"];
+
 const TEXT_ALIGN_TYPES: string[] = ["left", "center", "right", "justify"];
+
+const TEXT_ALIGN_FORMAT_RECORD: Record<string, TextAlignFormat> = {
+    start: "start",
+    end: "end",
+    left: "left",
+    right: "right",
+    center: "center",
+    justify: "justify",
+};
 
 const TextEditor = () => {
     const renderElement = useCallback(
@@ -94,67 +150,115 @@ const TextEditor = () => {
     return (
         <>
             <GlobalStyle />
-            <div className="post-title">
+            <ThreadContainer>
                 <Input
                     type="text"
                     value={postTitle.text}
                     onChange={onChange}
                     placeholder="Enter question title here ..."
                 />
-            </div>
+                <EditorBackground>
+                    <Slate editor={editor} value={initialValue}>
+                        <Editable
+                            renderElement={renderElement}
+                            renderLeaf={renderLeaf}
+                            placeholder="Description"
+                            spellCheck
+                            autoFocus
+                            onKeyDown={(event) => {
+                                for (const hotkey in HOTKEYS) {
+                                    if (isHotkey(hotkey, event as any)) {
+                                        event.preventDefault();
+                                        const mark =
+                                            HOTKEYS[
+                                                hotkey as keyof typeof HOTKEYS
+                                            ];
+                                        toggleMark(editor, mark);
+                                    }
+                                }
+                            }}
+                        />
 
-            <Slate editor={editor} value={initialValue}>
-                <Editable
-                    renderElement={renderElement}
-                    renderLeaf={renderLeaf}
-                    placeholder="Description"
-                    spellCheck
-                    autoFocus
-                    onKeyDown={(event) => {
-                        for (const hotkey in HOTKEYS) {
-                            if (isHotkey(hotkey, event as any)) {
-                                event.preventDefault();
-                                const mark =
-                                    HOTKEYS[hotkey as keyof typeof HOTKEYS];
-                                toggleMark(editor, mark);
-                            }
-                        }
-                    }}
-                />
-
-                <Toolbar>
-                    <MarkButton format="bold" icon="format_bold" />
-                    <MarkButton format="italic" icon="format_italic" />
-                    <MarkButton format="underline" icon="format_underlined" />
-                    <MarkButton format="code" icon="code" />
-                    <BlockButton format="heading-one" icon="looks_one" />
-                    <BlockButton format="heading-two" icon="looks_two" />
-                    <BlockButton format="block-quote" icon="format_quote" />
-                    <BlockButton
-                        format="numbered-list"
-                        icon="format_list_numbered"
-                    />
-                    <BlockButton
-                        format="bulleted-list"
-                        icon="format_list_bulleted"
-                    />
-                    <BlockButton format="left" icon="format_align_left" />
-                    <BlockButton format="center" icon="format_align_center" />
-                    <BlockButton format="right" icon="format_align_right" />
-                    <BlockButton format="justify" icon="format_align_justify" />
-                </Toolbar>
-            </Slate>
+                        <Toolbar>
+                            <MarkButton format="bold" icon="format_bold" />
+                            <MarkButton format="italic" icon="format_italic" />
+                            <MarkButton
+                                format="underline"
+                                icon="format_underlined"
+                            />
+                            <MarkButton format="code" icon="code" />
+                            <BlockButton
+                                format="heading-one"
+                                icon="looks_one"
+                            />
+                            <BlockButton
+                                format="heading-two"
+                                icon="looks_two"
+                            />
+                            <BlockButton
+                                format="block-quote"
+                                icon="format_quote"
+                            />
+                            <BlockButton
+                                format="numbered-list"
+                                icon="format_list_numbered"
+                            />
+                            <BlockButton
+                                format="bulleted-list"
+                                icon="format_list_bulleted"
+                            />
+                            <BlockButton
+                                format="left"
+                                icon="format_align_left"
+                            />
+                            <BlockButton
+                                format="center"
+                                icon="format_align_center"
+                            />
+                            <BlockButton
+                                format="right"
+                                icon="format_align_right"
+                            />
+                            <BlockButton
+                                format="justify"
+                                icon="format_align_justify"
+                            />
+                        </Toolbar>
+                    </Slate>
+                </EditorBackground>
+                <Buttons>
+                    <TagButtons>
+                        <TagButton
+                            onClick={() => {
+                                console.log("tag");
+                            }}
+                        >
+                            {" "}
+                            Requesting for Help{" "}
+                        </TagButton>
+                        <TagButton
+                            onClick={() => {
+                                console.log("tag");
+                            }}
+                        >
+                            {" "}
+                            Ask a Question{" "}
+                        </TagButton>
+                        <AddTagButton onClick={() => { console.log("add tag")}}>
+                            + Add Tags
+                        </AddTagButton>
+                    </TagButtons>
+                    <PostButton
+                        onClick={() => {
+                            console.log("hi");
+                        }}
+                    >
+                        Post Question
+                    </PostButton>
+                </Buttons>
+            </ThreadContainer>
         </>
     );
-};
-
-const formatDirectory: Record<string, TextAlignFormat> = {
-    start: "start",
-    end: "end",
-    left: "left",
-    right: "right",
-    center: "center",
-    justify: "justify",
 };
 
 const toggleBlock = (editor: Editor, format: string) => {
@@ -176,7 +280,7 @@ const toggleBlock = (editor: Editor, format: string) => {
     let newProperties: Partial<SlateElement>;
     if (TEXT_ALIGN_TYPES.includes(format)) {
         newProperties = {
-            align: isActive ? "left" : formatDirectory[format],
+            align: isActive ? "left" : TEXT_ALIGN_FORMAT_RECORD[format],
         };
     } else {
         newProperties = {
@@ -289,7 +393,11 @@ const Leaf = (props: RenderLeafProps) => {
     }
 
     if (leaf.code) {
-        children = <CodeBackground><code>{children}</code></CodeBackground>;
+        children = (
+            <CodeBackground>
+                <code>{children}</code>
+            </CodeBackground>
+        );
     }
 
     if (leaf.italic) {

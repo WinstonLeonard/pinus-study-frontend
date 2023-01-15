@@ -1,6 +1,7 @@
 import React, { Ref, PropsWithChildren, ReactNode } from 'react'
 import ReactDOM from 'react-dom'
 import { cx, css } from '@emotion/css'
+import { Colors } from '../../constants'
 
 interface BaseProps {
   className: string
@@ -35,8 +36,8 @@ export const Button = React.forwardRef(
               ? 'white'
               : '#aaa'
             : active
-            ? 'black'
-            : '#ccc'};
+            ? 'white'
+            : Colors.light_grey};
         `
       )}
     />
@@ -183,10 +184,12 @@ export const Toolbar = React.forwardRef(
         className,
         css`
           position: relative;
-          padding: 1px 18px 17px;
-          margin: 0 -20px;
-          border-bottom: 2px solid #eee;
-          margin-bottom: 20px;
+          padding: 0.5em 1em;
+          border-bottom-left-radius: 15px;
+          border-bottom-right-radius: 15px;
+          margin: 0 -1em;
+          margin-top: 4em;
+          background: ${Colors.blue};
         `
       )}
     />

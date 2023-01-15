@@ -9,6 +9,7 @@ export const Colors = {
     light_grey: "#8F8F8F",
     light_grey_75: "#8F8F8F75",
     light_grey_50: "#8F8F8F50",
+    light_grey_25: "#8F8F8F25",
     white: "#F5F5F5",
     white_accent: "#BDBDBD", // for pressed module threads
     yellow: "#EFB61E",
