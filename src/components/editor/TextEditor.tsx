@@ -1,4 +1,10 @@
-import React, { useCallback, useMemo, useState, MouseEvent } from "react";
+import React, {
+    useCallback,
+    useMemo,
+    useState,
+    MouseEvent,
+    useDebugValue,
+} from "react";
 import isHotkey from "is-hotkey";
 import {
     Editable,
@@ -16,6 +22,7 @@ import {
     Element as SlateElement,
 } from "slate";
 import { withHistory } from "slate-history";
+import { serialize } from "./serializer";
 
 import styled, { createGlobalStyle } from "styled-components";
 import { Button, Icon, Toolbar } from "./index";
@@ -99,7 +106,7 @@ const Buttons = styled.div`
 `;
 
 const TagButtons = styled.div`
-    gap: .5em;
+    gap: 0.5em;
     display: flex;
 `;
 
@@ -107,15 +114,16 @@ const AddTagButton = styled(UiButton)`
     background: white;
     color: ${Colors.dark_grey};
     padding: 0 0.25em;
-`
+`;
+
+// LOCAL CONSTANTS
+
 const HOTKEYS = {
     "mod+b": "bold",
     "mod+i": "italic",
     "mod+u": "underline",
     "mod+`": "code",
 };
-
-// LOCAL CONSTANTS
 
 const LIST_TYPES = ["numbered-list", "bulleted-list"];
 
@@ -130,6 +138,8 @@ const TEXT_ALIGN_FORMAT_RECORD: Record<string, TextAlignFormat> = {
     justify: "justify",
 };
 
+// FUNCTIONS
+
 const TextEditor = () => {
     const renderElement = useCallback(
         (props: RenderElementProps) => <Element {...props} />,
@@ -142,6 +152,8 @@ const TextEditor = () => {
     const editor = useMemo(() => withHistory(withReact(createEditor())), []);
 
     const [postTitle, setPostTitle] = useState({ text: "" });
+
+    const [textData, setTextData] = useState({});
 
     const onChange = (e: React.FormEvent<HTMLInputElement>): void => {
         setPostTitle({ text: e.currentTarget.value });
@@ -158,7 +170,19 @@ const TextEditor = () => {
                     placeholder="Enter question title here ..."
                 />
                 <EditorBackground>
-                    <Slate editor={editor} value={initialValue}>
+                    <Slate
+                        editor={editor}
+                        value={initialValue}
+                        onChange={(value) => {
+                            const isAstChange = editor.operations.some(
+                                (op) => "set_selection" !== op.type
+                            );
+                            if (isAstChange) {
+                                // Save the value to Local Storage.
+                                setTextData(value);
+                            }
+                        }}
+                    >
                         <Editable
                             renderElement={renderElement}
                             renderLeaf={renderLeaf}
@@ -244,13 +268,17 @@ const TextEditor = () => {
                             {" "}
                             Ask a Question{" "}
                         </TagButton>
-                        <AddTagButton onClick={() => { console.log("add tag")}}>
+                        <AddTagButton
+                            onClick={() => {
+                                console.log("add tag");
+                            }}
+                        >
                             + Add Tags
                         </AddTagButton>
                     </TagButtons>
                     <PostButton
                         onClick={() => {
-                            console.log("hi");
+                            console.log(serialize(textData));
                         }}
                     >
                         Post Question
