@@ -3,7 +3,6 @@ import React, {
     useMemo,
     useState,
     MouseEvent,
-    useDebugValue,
 } from "react";
 import isHotkey from "is-hotkey";
 import {
@@ -37,14 +36,6 @@ const GlobalStyle = createGlobalStyle`
         font-size: 16px;
         font-family: 'Poppins', sans-serif;
     }
-`;
-
-const Text = styled.span`
-    font-size: 1.25em;
-`;
-
-const RegularText = styled(Text)`
-    font-family: "Poppins", sans-serif;
 `;
 
 const Input = styled.input`
@@ -136,6 +127,13 @@ const TEXT_ALIGN_FORMAT_RECORD: Record<string, TextAlignFormat> = {
     right: "right",
     center: "center",
     justify: "justify",
+};
+
+type ModulePostData = {
+    title: string;
+    content: string;
+    userID: number;
+    token: string;
 };
 
 // FUNCTIONS
@@ -360,52 +358,46 @@ const Element = (props: RenderElementProps) => {
     const attributes = props.attributes;
     const children = props.children;
 
-    if (element.align === undefined) {
-        element.align = "left";
-    }
-
-    let style: React.CSSProperties = { textAlign: element.align };
-
     switch (element.type) {
         case "block-quote":
             return (
-                <blockquote style={style} {...attributes}>
+                <blockquote {...attributes}>
                     {children}
                 </blockquote>
             );
         case "bulleted-list":
             return (
-                <ul style={style} {...attributes}>
+                <ul {...attributes}>
                     {children}
                 </ul>
             );
         case "heading-one":
             return (
-                <h1 style={style} {...attributes}>
+                <h1 {...attributes}>
                     {children}
                 </h1>
             );
         case "heading-two":
             return (
-                <h2 style={style} {...attributes}>
+                <h2 {...attributes}>
                     {children}
                 </h2>
             );
         case "list-item":
             return (
-                <li style={style} {...attributes}>
+                <li {...attributes}>
                     {children}
                 </li>
             );
         case "numbered-list":
             return (
-                <ol style={style} {...attributes}>
+                <ol {...attributes}>
                     {children}
                 </ol>
             );
         default:
             return (
-                <p style={style} {...attributes}>
+                <p {...attributes}>
                     {children}
                 </p>
             );
@@ -479,41 +471,5 @@ const initialValue: Descendant[] = [
         children: [{ text: "" }],
     },
 ];
-
-// const initialValue: Descendant[] = [
-//     {
-//         type: "paragraph",
-//         children: [
-//             { text: "This is editable " },
-//             { text: "rich", bold: true },
-//             { text: " text, " },
-//             { text: "much", italic: true },
-//             { text: " better than a " },
-//             { text: "<textarea>", code: true },
-//             { text: "!" },
-//         ],
-//     },
-//     {
-//         type: "paragraph",
-//         children: [
-//             {
-//                 text: "Since it's rich text, you can do things like turn a selection of text ",
-//             },
-//             { text: "bold", bold: true },
-//             {
-//                 text: ", or add a semantically rendered block quote in the middle of the page, like this:",
-//             },
-//         ],
-//     },
-//     {
-//         type: "block-quote",
-//         children: [{ text: "A wise quote." }],
-//     },
-//     {
-//         type: "paragraph",
-//         align: "center",
-//         children: [{ text: "Try it out for yourself!" }],
-//     },
-// ];
 
 export default TextEditor;
