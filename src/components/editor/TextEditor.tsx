@@ -138,6 +138,11 @@ type ModulePostData = {
 
 // FUNCTIONS
 
+/**
+ * TextEditor component for the web forum, used for creating a new thread
+ * on the modules page of the forum website. Supports rich text formatting.
+ * @returns A React component that represents the Text Editor.
+ */
 const TextEditor = () => {
     const renderElement = useCallback(
         (props: RenderElementProps) => <Element {...props} />,
@@ -287,6 +292,11 @@ const TextEditor = () => {
     );
 };
 
+/**
+ * Toggles the active settings of the current / selected blcok.
+ * @param editor A Slate Editor instance
+ * @param format The format of the text alignment
+ */
 const toggleBlock = (editor: Editor, format: string) => {
     const isActive = isBlockActive(
         editor,
@@ -321,6 +331,11 @@ const toggleBlock = (editor: Editor, format: string) => {
     }
 };
 
+/**
+ * Toggles the active settings of marks in the current or selected text
+ * @param editor A Slate Editor instance
+ * @param format The format of the text alignment
+ */
 const toggleMark = (editor: Editor, format: string) => {
     const isActive = isMarkActive(editor, format);
 
@@ -331,6 +346,13 @@ const toggleMark = (editor: Editor, format: string) => {
     }
 };
 
+/**
+ * Checks if the format alignment in the specified block is active.
+ * @param editor A Slate Editor instance
+ * @param format The format of the text alignment
+ * @param blockType The type of the block
+ * @returns a boolean value, true if the block is active, false otherwise
+ */
 const isBlockActive = (editor: Editor, format: string, blockType = "type") => {
     const { selection } = editor;
     if (!selection) return false;
@@ -348,11 +370,23 @@ const isBlockActive = (editor: Editor, format: string, blockType = "type") => {
     return !!match;
 };
 
+/**
+ * Checks whether the mark in the current text is active.
+ * @param editor A Slate Editor instance
+ * @param format The format of the text alignment
+ * @returns True if the specified mark is active, false otherwise
+ */
 const isMarkActive = (editor: Editor, format: string) => {
     const marks = Editor.marks(editor);
     return marks ? marks[format as keyof typeof marks] === true : false;
 };
 
+/**
+ * Renders an Element instance in Slate with specified attributes and
+ * children nodes or text.
+ * @param props An object containing element, attributes and children
+ * @returns A React component representing an Element instance.
+ */
 const Element = (props: RenderElementProps) => {
     const element = props.element;
     const attributes = props.attributes;
@@ -414,6 +448,11 @@ const Element = (props: RenderElementProps) => {
     }
 };
 
+/**
+ * Renders a Leaf, the lowest node instance in a slate editor.
+ * @param props The properties for the Leaf, contains node, attributes, children
+ * @returns a Leaf component
+ */
 const Leaf = (props: RenderLeafProps) => {
     const leaf = props.leaf;
     const attributes = props.attributes;
@@ -441,6 +480,9 @@ const Leaf = (props: RenderLeafProps) => {
     return <span {...attributes}>{children}</span>;
 };
 
+/**
+ * Button for Block Actions
+ */
 const BlockButton = ({ format, icon }: { format: string; icon: string }) => {
     const editor = useSlate();
     return (
@@ -460,6 +502,9 @@ const BlockButton = ({ format, icon }: { format: string; icon: string }) => {
     );
 };
 
+/**
+ * Button for Mark actions
+ */
 const MarkButton = ({ format, icon }: { format: string; icon: string }) => {
     const editor = useSlate();
     return (
