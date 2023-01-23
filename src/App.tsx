@@ -6,7 +6,7 @@ function App() {
 
   return (
     <Background>
-      <SignUpModal/>
+      <LoginModal/>
     </Background>
   );
 }

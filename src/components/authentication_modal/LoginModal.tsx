@@ -9,14 +9,26 @@ const LoginModal = () => {
     const [password, setPassword] = useState<string>("");
     const [showError, setShowError] = useState<Boolean>(false);
 
+    /**
+     * Detects changes on the Email / Username input element.
+     * @param event The change taking place
+     */
     const handleEmailOrUsernameChange = (event: any) => {
         setEmailOrUsername(event.target.value);
     }
 
+    /**
+     * Detects changes on the Password input element.
+     * @param event The change taking place
+     */
     const handlePasswordChange = (event: any) => {
         setPassword(event.target.value);
     }
 
+    /**
+     * Logs the user into the application. If the user inputs invalid 
+     * credentials, an error message will be shown.
+     */
     const logIn = () => {
         if (emailOrUsername.trim() === "" || password === "") {
             setShowError(true);
@@ -59,6 +71,9 @@ const LoginModal = () => {
         // Navigate here
     }
 
+    /**
+     * Hides error message upon input to the Email / Username or Password field.
+     */
     useEffect(() => {
         setShowError(false);
     }, [emailOrUsername, password]);

@@ -23,8 +23,9 @@ export const CloseIconDiv = styled.button`
 export const ModalBackground = styled.div`
     background-color: ${Colors.white};
     border-radius: 40px;
+    min-height: 55vh;
     padding: 2em;
-    width: 30vw;
+    width: 20vw;
 `
 
 export const ModalDiv = styled.div<{ direction?: string ; justifyContent? : string }>`
@@ -37,7 +38,7 @@ export const ModalDiv = styled.div<{ direction?: string ; justifyContent? : stri
 
 export const ModalTitle = styled.span`
     font-family: Poppins-SemiBold;
-    font-size: 2.5em;
+    font-size: 2em;
 `
 
 export const ModalInput = styled.input<{marginBottom? : string}>`
@@ -47,7 +48,7 @@ export const ModalInput = styled.input<{marginBottom? : string}>`
     color: ${Colors.dark_grey};
     flex-grow: 1;
     font-family: Poppins-Medium;
-    font-size: 1.25em;
+    font-size: 1.15em;
     margin-bottom: ${props => props.marginBottom? props.marginBottom : 0};
     padding: 0.75em 1.5em 0.75em 1.5em;
 
@@ -69,17 +70,24 @@ export const ForgetPassword = styled.span`
     text-decoration: underline;
 `
 
+/**
+ * Button for Log In, Sign Up, Create Account.
+ */
 export const AuthButton = styled.button`
     background-color: ${Colors.blue};
+    border: none;
     border-radius: 40px;
     color: ${Colors.white};
     cursor: pointer;
     flex-grow: 1;
     font-family: Poppins-Bold;
-    font-size: 1.25em;
+    font-size: 1.15em;
     padding: 0.75em 1.5em 0.75em 1.5em;
 `
 
+/**
+ * Small text on the bottom of the modals to switch across the log in and sign up modals.
+ */
 export const SwitchModalPrompt = styled.span<{textDecoration? : string ; cursor? : string}>`
     color: ${Colors.dark_grey};
     cursor: ${props => props.cursor? props.cursor : "default"};
