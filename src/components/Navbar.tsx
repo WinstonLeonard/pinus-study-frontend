@@ -23,6 +23,10 @@ const NavbarContainer = styled.div`
     z-index: 1020;
     top: 0;
     font-family: "Poppins", sans-serif;
+    border-bottom: solid;
+    border-bottom-width: 2px;
+    border-bottom-color: ${Colors.light_grey};
+    box-shadow: 0 2px 7px 0 ${Colors.light_grey};
 `;
 
 const Logo = styled.img`
