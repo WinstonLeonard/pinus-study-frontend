@@ -1,4 +1,15 @@
-import { AuthButton, BlurredBackground, CloseIconDiv, ErrorMessage, ForgetPassword, ModalBackground, ModalDiv, ModalInput, ModalTitle, SwitchModalPrompt } from "./ModalComponents";
+import { 
+    AuthButton, 
+    BlurredBackground, 
+    CloseIconDiv, 
+    ErrorMessage, 
+    ForgetPassword, 
+    ModalBackground, 
+    ModalDiv, 
+    ModalInput, 
+    ModalTitle, 
+    SwitchModalPrompt 
+} from "./ModalComponents";
 import { useEffect, useState } from "react";
 import { API_URL } from "../../constants";
 import CloseIcon from '@mui/icons-material/Close';
@@ -65,13 +76,6 @@ const LoginModal = () => {
     }
 
     /**
-     * #TODO : Implement when router is implemented.
-     */
-    const navigateToSignUpModal = () => {
-        // Navigate here
-    }
-
-    /**
      * Hides error message upon input to the Email / Username or Password field.
      */
     useEffect(() => {
@@ -113,7 +117,7 @@ const LoginModal = () => {
                     <SwitchModalPrompt>Don't have an account?&nbsp;</SwitchModalPrompt>
                     <SwitchModalPrompt 
                         textDecoration="underline" 
-                        onClick={navigateToSignUpModal}
+                        onClick={() => { /* Implement setState here */}}
                         cursor="pointer">Sign Up here.</SwitchModalPrompt>
                 </ModalDiv>
             </ModalBackground>

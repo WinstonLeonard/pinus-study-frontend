@@ -1,6 +1,16 @@
 import { useEffect, useState } from "react";
-import { AuthButton, BlurredBackground, CloseIconDiv, ErrorMessage, ModalBackground, ModalDiv, ModalInput, ModalTitle, SwitchModalPrompt } from "./ModalComponents";
 import CloseIcon from '@mui/icons-material/Close';
+import { 
+    AuthButton, 
+    BlurredBackground, 
+    CloseIconDiv, 
+    ErrorMessage, 
+    ModalBackground, 
+    ModalDiv, 
+    ModalInput, 
+    ModalTitle, 
+    SwitchModalPrompt 
+} from "./ModalComponents";
 
 const SignUpModal = () => {
 
@@ -33,21 +43,14 @@ const SignUpModal = () => {
     }
 
     /**
-     * #TODO: Implement when router has been implemented.
+     * #TODO
      */
-    const navigateToCreateAccountModal = () => {
+    const showCreateAccountModal = () => {
         if (validateEmail(email)) {
             // navigate code here
         } else {
             setShowError(true);
         }
-    }
-
-    /**
-     * #TODO: Implement when router has been implemented.
-     */
-    const navigateToLoginModal = () => {
-        // navigate code here
     }
 
     /**
@@ -74,7 +77,7 @@ const SignUpModal = () => {
                     { showError? <ErrorMessage>You have entered an invalid email.</ErrorMessage> : null }
                 </ModalDiv>
                 <ModalDiv>
-                    <AuthButton onClick={navigateToCreateAccountModal}>Sign Up</AuthButton>
+                    <AuthButton onClick={showCreateAccountModal}>Sign Up</AuthButton>
                 </ModalDiv>
                 <ModalDiv/>
                 <ModalDiv/>
@@ -85,7 +88,7 @@ const SignUpModal = () => {
                     <SwitchModalPrompt>Already a member?&nbsp;</SwitchModalPrompt>
                     <SwitchModalPrompt 
                         textDecoration="underline" 
-                        onClick={navigateToLoginModal}
+                        onClick={() => { /* implement setState */ }}
                         cursor="pointer">Log In here.</SwitchModalPrompt>
                 </ModalDiv>
             </ModalBackground>
