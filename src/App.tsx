@@ -1,10 +1,10 @@
-import ThreadComponent from './components/ThreadComponent';
-import NewThread from './components/NewThread';
-import TextEditor from './components/editor/TextEditor';
-import Background from './components/Background';
+import ThreadComponent from "./components/ThreadComponent";
+import Navbar from "./components/Navbar";
+import TextEditor from "./components/editor/TextEditor";
+import Background from "./components/Background";
 // import ModulePageThread from './components/threads/ModulePageThread';
 
-// function TestCORS() 
+// function TestCORS()
 //   const makeAPICall = async () => {
 //     try {
 //       const response = await fetch('http://localhost:8080/ping', {mode:'cors'});
@@ -26,20 +26,16 @@ import Background from './components/Background';
 // }
 
 function App() {
-
-  return (
-    <Background>
-      <ThreadComponent 
-        threadId={2}
-        type="QUESTION_PAGE"
-      />
-      <br/>
-      <ThreadComponent 
-        threadId={2}
-        type="MODULE_PAGE"
-      />
-    </Background>
-  );
+    return (
+        <div className="app">
+            <Navbar />
+            <Background>
+                <ThreadComponent threadId={2} type="QUESTION_PAGE" />
+                <br />
+                <ThreadComponent threadId={2} type="MODULE_PAGE" />
+            </Background>
+        </div>
+    );
 }
 
 export default App;
