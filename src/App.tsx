@@ -1,3 +1,5 @@
+import SignUpModal from './components/authentication_modal/SignUpModal';
+import LoginModal from './components/authentication_modal/LoginModal';
 import ThreadComponent from "./components/ThreadComponent";
 import Navbar from "./components/Navbar";
 import TextEditor from "./components/editor/TextEditor";
