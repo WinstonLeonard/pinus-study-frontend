@@ -91,9 +91,18 @@ const SearchBar = styled.input`
     }
 `;
 
+/**
+ * Navbar component for the web forum.
+ * 
+ * @returns A React Component to show a fixed Navbar on top of every page. Navbar is
+ * implemented in the App component.
+ */
 const NavigationBar = () => {
+
+    // State to store the value of search query in module search bar
     const [query, setQuery] = useState("");
 
+    // Updates the query state upon data change in the module search bar
     const onChange = (e: React.FormEvent<HTMLInputElement>): void => {
         setQuery(e.currentTarget.value);
     };

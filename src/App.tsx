@@ -2,7 +2,6 @@ import ThreadComponent from "./components/ThreadComponent";
 import Navbar from "./components/Navbar";
 import TextEditor from "./components/editor/TextEditor";
 import Background from "./components/Background";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 // import ModulePageThread from './components/threads/ModulePageThread';
 
 // function TestCORS()
