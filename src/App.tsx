@@ -1,8 +1,6 @@
 import ThreadComponent from "./components/ThreadComponent";
 import Navbar from "./components/Navbar";
-import TextEditor from "./components/editor/TextEditor";
 import Background from "./components/Background";
-// import ModulePageThread from './components/threads/ModulePageThread';
 
 // function TestCORS()
 //   const makeAPICall = async () => {
@@ -36,7 +34,6 @@ function App() {
             </Background>
         </div>
     );
->>>>>>> main
 }
 
 export default App;
