@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import { API_URL } from "../../constants";
 import CloseIcon from '@mui/icons-material/Close';
 
-const LoginModal = () => {
+const LoginModal = ({cancel, showSignUpModal} : {cancel: () => void; showSignUpModal: () => void}) => {
 
     const [emailOrUsername, setEmailOrUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
@@ -85,7 +85,7 @@ const LoginModal = () => {
     return (
         <BlurredBackground>
             <ModalBackground>
-                <CloseIconDiv>
+                <CloseIconDiv onClick={cancel}>
                     <CloseIcon/>
                 </CloseIconDiv>
                 <ModalDiv>
@@ -117,7 +117,7 @@ const LoginModal = () => {
                     <SwitchModalPrompt>Don't have an account?&nbsp;</SwitchModalPrompt>
                     <SwitchModalPrompt 
                         textDecoration="underline" 
-                        onClick={() => { /* Implement setState here */}}
+                        onClick={showSignUpModal}
                         cursor="pointer">Sign Up here.</SwitchModalPrompt>
                 </ModalDiv>
             </ModalBackground>

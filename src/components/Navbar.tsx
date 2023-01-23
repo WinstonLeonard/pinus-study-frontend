@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 import { logo } from "../assets";
 import { Colors } from "../constants";
 import SearchIcon from "@mui/icons-material/Search";
-import SignUpModal from './authentication_modal/SignUpModal';
-import LoginModal from './authentication_modal/LoginModal';
+import LoginModal from "./authentication_modal/LoginModal";
+import SignUpModal from "./authentication_modal/SignUpModal";
 
 // STYLED COMPONENTS
 
@@ -103,6 +103,23 @@ const NavigationBar = () => {
 
     // State to store the value of search query in module search bar
     const [query, setQuery] = useState("");
+    const [showLogIn, setShowLogIn] = useState<Boolean>(false);
+    const [showSignUp, setShowSignUp] = useState<Boolean>(false);
+
+    const hideAllModals = () => {
+        setShowLogIn(false);
+        setShowSignUp(false);
+    }
+
+    const showSignUpModal = () => {
+        setShowLogIn(false);
+        setShowSignUp(true);
+    }
+
+    const showLogInModal = () => {
+        setShowLogIn(true);
+        setShowSignUp(false);
+    }
 
     // Updates the query state upon data change in the module search bar
     const onChange = (e: React.FormEvent<HTMLInputElement>): void => {
@@ -111,6 +128,8 @@ const NavigationBar = () => {
 
     return (
         <NavbarContainer>
+            { showLogIn? <LoginModal cancel={hideAllModals} showSignUpModal={showSignUpModal}/> : null }
+            { showSignUp? <SignUpModal cancel={hideAllModals} showLogInModal={showLogInModal}/> : null }
             <SubDivision>
                 <Link to="/">
                     <Logo src={logo} />
@@ -127,10 +146,10 @@ const NavigationBar = () => {
             </SubDivision>
             <Buttons>
                 <Link to="/" style={{ textDecoration: "none" }}>
-                    <LoginButton>Login</LoginButton>
+                    <LoginButton onClick={() => {setShowLogIn(true)}}>Login</LoginButton>
                 </Link>
                 <Link to="/" style={{ textDecoration: "none" }}>
-                    <SignUpButton>Sign Up</SignUpButton>
+                    <SignUpButton onClick={() => {setShowSignUp(true)}}>Sign Up</SignUpButton>
                 </Link>
             </Buttons>
         </NavbarContainer>

@@ -12,7 +12,7 @@ import {
     SwitchModalPrompt 
 } from "./ModalComponents";
 
-const SignUpModal = () => {
+const SignUpModal = ({cancel, showLogInModal} : {cancel: () => void; showLogInModal: () => void}) => {
 
     const [email, setEmail] = useState<string>("");
     const [showError, setShowError] = useState<Boolean>(false); 
@@ -63,7 +63,7 @@ const SignUpModal = () => {
     return (
         <BlurredBackground>
             <ModalBackground>
-                <CloseIconDiv>
+                <CloseIconDiv onClick={cancel}>
                     <CloseIcon/>
                 </CloseIconDiv>
                 <ModalDiv>
@@ -88,7 +88,7 @@ const SignUpModal = () => {
                     <SwitchModalPrompt>Already a member?&nbsp;</SwitchModalPrompt>
                     <SwitchModalPrompt 
                         textDecoration="underline" 
-                        onClick={() => { /* implement setState */ }}
+                        onClick={showLogInModal}
                         cursor="pointer">Log In here.</SwitchModalPrompt>
                 </ModalDiv>
             </ModalBackground>
