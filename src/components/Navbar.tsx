@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { logo } from "../assets";
 import { Colors } from "../constants";
 import SearchIcon from "@mui/icons-material/Search";
+import SignUpModal from './authentication_modal/SignUpModal';
+import LoginModal from './authentication_modal/LoginModal';
 
 // STYLED COMPONENTS
 
