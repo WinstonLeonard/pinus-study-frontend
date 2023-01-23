@@ -37,6 +37,7 @@ export const ModalDiv = styled.div<{ direction?: string ; justifyContent? : stri
 `
 
 export const ModalTitle = styled.span`
+    color: ${Colors.dark_grey};
     font-family: Poppins-SemiBold;
     font-size: 2em;
 `
