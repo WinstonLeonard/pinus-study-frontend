@@ -6,6 +6,7 @@ const Background = styled.div`
     background-size: cover;
     min-height: 100vh;
     margin-top: 79px;
+    padding: 20px;
 `
 
 export default Background;
