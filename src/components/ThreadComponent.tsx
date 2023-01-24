@@ -16,7 +16,8 @@ type ThreadType = "MODULE_PAGE" | "QUESTION_PAGE";
 
 /** SHARED COMPONENTS */
 const QuestionTitle = styled.span`
-    font-family: 'Poppins-Medium', sans-serif;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
     font-size: 1.875em; 
 `
 
@@ -30,7 +31,8 @@ const RegularText = styled(Text)`
 
 const Content = styled.span`
     display: inline-block;
-    font-family: 'Poppins-Medium', sans-serif;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
     font-size: 1.5em; 
     margin-top: 0.5em;
     margin-bottom: 0.5em;
@@ -72,7 +74,8 @@ const ThreadContainerDiv = styled.div`
 `
 
 const MediumText = styled(Text)`
-    font-family: 'Poppins-Medium', sans-serif;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
 `
 
 const ReplyText = styled(MediumText)`
@@ -92,7 +95,8 @@ const ThumbButton = styled.button`
 const ReplyInputField = styled.input`
     margin-top: 0.75em;
     width: calc(50vw - 3em);
-    font-family: 'Poppins-Italic', sans-serif;
+    font-family: 'Poppins', sans-serif;
+    font-style: italic;
     font-size: 1.25em;
     border-radius: 20px;
     border: none;

@@ -28,7 +28,7 @@ const NavbarContainer = styled.div`
     border-bottom: solid;
     border-bottom-width: 2px;
     border-bottom-color: ${Colors.light_grey};
-    box-shadow: 0 2px 7px 0 ${Colors.light_grey};
+    box-shadow: 0 0 7px 0 ${Colors.light_grey};
 `;
 
 const Logo = styled.img`
@@ -38,7 +38,7 @@ const Logo = styled.img`
 
 const SubDivision = styled.div`
     display: flex;
-    gap: 3rem;
+    gap: 2rem;
     align-items: center;
 `;
 
@@ -69,7 +69,7 @@ const SignUpButton = styled.span`
 `;
 
 const SearchBarContainer = styled.span`
-    padding: 0.6rem 1rem;
+    padding: 0.5rem 1rem;
     background: ${Colors.white};
     border-radius: 25px;
     align-items: center;
