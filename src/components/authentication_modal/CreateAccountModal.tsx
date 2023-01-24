@@ -23,7 +23,6 @@ const CreateAccountModal = ({
     cancel: () => void;
     showLogInModal: () => void;
 }) => {
-    const [name, setName] = useState<string>("");
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [confirmPassword, setConfirmPassword] = useState<string>("");
@@ -33,15 +32,9 @@ const CreateAccountModal = ({
         useState<Boolean>(false);
 
     /**
-     * Detects changes on the Email / Username input element.
+     * Detects changes on the Username input element.
      * @param event The change taking place
      */
-    const handleNameChange = (
-        event: React.FormEvent<HTMLInputElement>
-    ): void => {
-        setName(event.currentTarget.value);
-    };
-
     const handleUsernameChange = (
         event: React.FormEvent<HTMLInputElement>
     ): void => {
@@ -56,10 +49,20 @@ const CreateAccountModal = ({
         setPassword(event.currentTarget.value);
     };
 
+    /**
+     * Detects changes on the Confirm Password input element.
+     * @param event The change taking place
+     */
     const handleConfirmPasswordChange = (event: React.FormEvent<HTMLInputElement>) => {
         setConfirmPassword(event.currentTarget.value);
     };
 
+    /**
+     * Checks if the confirm password field matches the password field.
+     * Toggles whether to show the password mismatch error accordingly.
+     * @param event The change taking place
+     * @return true if the confirm password matches the password, false otherwise.
+     */
     const checkPassword = () : Boolean => {
         if (confirmPassword.trim() === password.trim()) {
             setShowPasswordMismatchError(false);
@@ -76,7 +79,7 @@ const CreateAccountModal = ({
      */
     const signUp = () => {
         if (!checkPassword()) {
-            if (name.trim() === "" || username.trim() === "" || password === "") {
+            if (username.trim() === "" || password === "") {
                 setShowError(true);
             } else {
                 fetch(API_URL + `/signup`, {
@@ -115,11 +118,11 @@ const CreateAccountModal = ({
     };
 
     /**
-     * Hides error message upon input to the Name, Username or Password field.
+     * Hides error message upon input to the Username or Password field.
      */
     useEffect(() => {
         setShowError(false);
-    }, [name, username, password]);
+    }, [username, password]);
 
     return (
         <BlurredBackground>
@@ -131,12 +134,6 @@ const CreateAccountModal = ({
                     <ModalTitle>Create Account</ModalTitle>
                 </ModalDiv>
                 <ModalDiv direction="column">
-                    <ModalInput
-                        marginBottom="1em"
-                        placeholder="Name"
-                        onChange={handleNameChange}
-                        value={name}
-                    />
                     <ModalInput
                         marginBottom="1em"
                         placeholder="Username"
