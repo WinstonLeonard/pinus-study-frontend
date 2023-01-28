@@ -18,7 +18,7 @@ const router = createBrowserRouter([
     },
     {
         path:"/search/:keyword",
-        element: <SearchModulesPage/>
+        element: <App />
     },
     {
         path: "*",
