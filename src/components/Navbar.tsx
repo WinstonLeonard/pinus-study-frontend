@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 import { logo } from "../assets";
 import { Colors } from "../constants";
 import SearchIcon from "@mui/icons-material/Search";
-import LoginModal from "./authentication_modal/LoginModal";
-import SignUpModal from "./authentication_modal/SignUpModal";
+import { CreateAccountModal, LoginModal, SignUpModal } from "./authentication_modal"
+
 
 // STYLED COMPONENTS
 
@@ -28,7 +28,7 @@ const NavbarContainer = styled.div`
     border-bottom: solid;
     border-bottom-width: 2px;
     border-bottom-color: ${Colors.light_grey};
-    box-shadow: 0 2px 7px 0 ${Colors.light_grey};
+    box-shadow: 0 0 7px 0 ${Colors.light_grey};
 `;
 
 const Logo = styled.img`
@@ -38,7 +38,7 @@ const Logo = styled.img`
 
 const SubDivision = styled.div`
     display: flex;
-    gap: 3rem;
+    gap: 2rem;
     align-items: center;
 `;
 
@@ -69,7 +69,7 @@ const SignUpButton = styled.span`
 `;
 
 const SearchBarContainer = styled.span`
-    padding: 0.6rem 1rem;
+    padding: 0.5rem 1rem;
     background: ${Colors.white};
     border-radius: 25px;
     align-items: center;
@@ -103,22 +103,36 @@ const NavigationBar = () => {
 
     // State to store the value of search query in module search bar
     const [query, setQuery] = useState("");
+
+    // States for login / signup / create account modals
+    const [signUpEmail, setSignUpEmail] = useState<string>("");
     const [showLogIn, setShowLogIn] = useState<Boolean>(false);
     const [showSignUp, setShowSignUp] = useState<Boolean>(false);
+    const [showCreateAccount, setShowCreateAccount] = useState<Boolean>(false);
 
     const hideAllModals = () => {
         setShowLogIn(false);
         setShowSignUp(false);
+        setShowCreateAccount(false);
     }
 
     const showSignUpModal = () => {
         setShowLogIn(false);
         setShowSignUp(true);
+        setShowCreateAccount(false);
     }
 
     const showLogInModal = () => {
         setShowLogIn(true);
         setShowSignUp(false);
+        setShowCreateAccount(false);
+    }
+
+    const authoriseCreateAccountModal = (email: string) => {
+        setSignUpEmail(email);
+        setShowLogIn(false);
+        setShowSignUp(false);
+        setShowCreateAccount(true);
     }
 
     // Updates the query state upon data change in the module search bar
@@ -128,8 +142,9 @@ const NavigationBar = () => {
 
     return (
         <NavbarContainer>
-            { showLogIn? <LoginModal cancel={hideAllModals} showSignUpModal={showSignUpModal}/> : null }
-            { showSignUp? <SignUpModal cancel={hideAllModals} showLogInModal={showLogInModal}/> : null }
+            { showLogIn? <LoginModal cancel={hideAllModals} showSignUpModal={showSignUpModal} /> : null }
+            { showSignUp? <SignUpModal cancel={hideAllModals} showLogInModal={showLogInModal} authoriseCreateAccountModal={authoriseCreateAccountModal} /> : null }
+            { showCreateAccount ? <CreateAccountModal cancel={hideAllModals} email={signUpEmail} showLogInModal={showLogInModal} /> : null }
             <SubDivision>
                 <Link to="/">
                     <Logo src={logo} />
