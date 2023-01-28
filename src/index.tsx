@@ -6,6 +6,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import SearchModulesPage from "./pages/SearchModulesPage";
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);
@@ -14,6 +15,10 @@ const router = createBrowserRouter([
     {
         path: "/",
         element: <App />,
+    },
+    {
+        path:"/search/:keyword",
+        element: <SearchModulesPage/>
     },
     {
         path: "*",
