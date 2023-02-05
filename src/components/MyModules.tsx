@@ -1,9 +1,29 @@
 import styled from 'styled-components';
 import { Colors } from '../constants';
 
+export const ModuleComponent = styled.div`
+    cursor: pointer;
+    width: 15vw;
+    height: 8vw;
+    border: none;
+    border-radius: 20px;
+    background-color: ${Colors.yellow};
+    color: ${Colors.white};
+    font-family: 'Poppins', 'sans-serif';
+    font-weight: 600;
+    font-size: 2.25em;
+    padding: 0.5vw 1vw 0.5vw 1vw;
+    :hover {
+        background-color: ${Colors.yellow_accent};
+        color: ${Colors.white_accent};
+    }
+`
+
 const MyModulesContainer = styled.div`
     background-color: ${Colors.white};
     border-radius: 20px;
+    width: 17.5vw;
+    max-width: 17.5vw;
     min-height: 70vh;
     max-height: 70vh;
     padding: 1.5em;
@@ -29,6 +49,10 @@ const MyModulesChildren = styled.div<{marginTop? : string}>`
     padding: 0.25em 0.5em 0.25em 0.5em;
     margin-top: ${props => props.marginTop? props.marginTop : "0.375em"};
     margin-bottom: 0.375em;
+    :hover {
+        background-color: ${Colors.yellow_accent};
+        color: ${Colors.white_accent};
+    }
 `
 
 const Scrollable = styled.div`
