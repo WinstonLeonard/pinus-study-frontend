@@ -14,6 +14,7 @@ export const Colors = {
     white: "#F5F5F5",
     white_accent: "#BDBDBD", // for pressed module threads
     yellow: "#EFB61E",
+    yellow_accent: "#c2910e"
 }
 
 export const API_URL = "http://localhost:8080";

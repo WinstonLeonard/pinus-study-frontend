@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { logo } from "../assets";
 import { Colors } from "../constants";
 import SearchIcon from "@mui/icons-material/Search";
@@ -110,6 +110,8 @@ const NavigationBar = () => {
     const [showSignUp, setShowSignUp] = useState<Boolean>(false);
     const [showCreateAccount, setShowCreateAccount] = useState<Boolean>(false);
 
+    const navigate = useNavigate();
+
     const hideAllModals = () => {
         setShowLogIn(false);
         setShowSignUp(false);
@@ -140,6 +142,21 @@ const NavigationBar = () => {
         setQuery(e.currentTarget.value);
     };
 
+    const navigateToSearchPage = () => {
+        navigate(`/search/${query}`)
+    }
+
+    const searchBar = document.getElementById('search-bar');
+
+    searchBar?.addEventListener("keydown", event => {
+        if (event.key === "Enter") {
+            navigateToSearchPage();
+            setQuery("");
+            event.stopPropagation();
+            event.preventDefault();
+        }
+    })
+
     return (
         <NavbarContainer>
             { showLogIn? <LoginModal cancel={hideAllModals} showSignUpModal={showSignUpModal} /> : null }
@@ -152,6 +169,7 @@ const NavigationBar = () => {
                 <SearchBarContainer>
                     <SearchIcon color="disabled" />
                     <SearchBar
+                        id="search-bar"
                         type="text"
                         value={query}
                         onChange={onChange}
