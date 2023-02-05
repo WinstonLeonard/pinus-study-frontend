@@ -27,7 +27,10 @@ import SearchModulesPage from "./pages/SearchModulesPage";
 function App() {
     return (
         <div className="app">
-            <SearchModulesPage/>
+            <Navbar/>
+            <Background>
+                <SearchModulesPage/>
+            </Background>
         </div>
     );
 }
