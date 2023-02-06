@@ -2,6 +2,7 @@ import ThreadComponent from "./components/ThreadComponent";
 import Navbar from "./components/Navbar";
 import Background from "./components/Background";
 import SearchModulesPage from "./pages/SearchModulesPage";
+import ThreadList from "./components/ThreadList";
 
 // function TestCORS()
 //   const makeAPICall = async () => {
@@ -29,7 +30,9 @@ function App() {
         <div className="app">
             <Navbar/>
             <Background>
-                <SearchModulesPage/>
+                {/* <SearchModulesPage/> */}
+                <ThreadList selectedModule="CS1231"/>
+                <ThreadList selectedModule="CS1010E"/>
             </Background>
         </div>
     );
