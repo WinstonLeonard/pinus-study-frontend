@@ -30,8 +30,8 @@ function App() {
         <div className="app">
             <Navbar/>
             <Background>
-                <ThreadList selectedModule="CS1231"/>
-                {/* <SearchModulesPage/> */}
+                <SearchModulesPage/>
+                {/* <ThreadList selectedModule="CS1231"/> */}
             </Background>
         </div>
     );
