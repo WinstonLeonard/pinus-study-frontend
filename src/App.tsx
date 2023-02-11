@@ -31,7 +31,6 @@ function App() {
             <Navbar/>
             <Background>
                 <SearchModulesPage/>
-                {/* <ThreadList selectedModule="CS1231"/> */}
             </Background>
         </div>
     );
