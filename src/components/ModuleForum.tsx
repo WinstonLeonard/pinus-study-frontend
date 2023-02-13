@@ -13,6 +13,7 @@ export const RedButton = styled.div`
     padding: 8px;
     display: grid;
     place-items: center;
+    cursor: pointer;
 `
 
 const ForumBackground = styled.div`
