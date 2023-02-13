@@ -7,13 +7,10 @@ import ThreadComponent from './ThreadComponent';
 const ThreadWrapper = styled.span`
     display: flex;  
     flex-direction: column;
-    padding-top: 1em;
-    padding-left: 1em;
 `
 
 const ThreadComponentWrapper = styled.span`
     margin-top:1em;
-    margin-left:1em;
 `
 // const ThreadWrapper = styled.span`
 //     display: flex;
