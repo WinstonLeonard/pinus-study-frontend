@@ -75,12 +75,12 @@ const ModulePage = () => {
                             </ButtonDiv>
                         </HeadingDiv>
                         <ThreadListContainer>
-                            <ThreadList selectedModule="CS1231"/>
+                            <ThreadList selectedModule={mod? mod.toString() : ""}/>
                         </ThreadListContainer>
                     </div>
                     <RightSide>
                         <ModuleForumDiv>
-                            <ModuleForum selectedModule="CS1231"/>
+                            <ModuleForum selectedModule={mod? mod.toString() : ""}/>
                         </ModuleForumDiv>
                         <MyModulesDiv>
                             <MyModules/>

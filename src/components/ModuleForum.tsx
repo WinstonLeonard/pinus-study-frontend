@@ -46,7 +46,7 @@ const Bottom = styled.div`
 const ForumHeading = styled.div`
     color: ${Colors.white};
     font-weight: 700;
-    font-size: 2em;
+    font-size: 1.8em;
     text-decoration: underline;
 `
 
@@ -77,7 +77,7 @@ const ModuleForum = ({ selectedModule } : { selectedModule : string }) => {
     const [module, setModule] = useState<Module>(ModuleInitialState);
 
     const fetchMod = () => {
-        fetch(API_URL + `/module/${selectedModule}`)
+        fetch(API_URL + `/module/${selectedModule.toUpperCase()}`)
             .then(response => response.json())
             .then(data => {
                 console.log(data);
