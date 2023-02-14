@@ -5,12 +5,13 @@ import { Module, ModuleInitialState } from "../features/modules/moduleSlice";
 
 export const RedButton = styled.div`
     font-family: 'Poppins', 'sans-serif';
+    color: ${Colors.white};
     background-color: ${Colors.red};
     width: inherit;
     border-radius: 20px;
     font-weight: 700;
     font-size: 1em;
-    padding: 8px;
+    padding: 8px 0px;
     display: grid;
     place-items: center;
     cursor: pointer;

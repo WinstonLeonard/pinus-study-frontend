@@ -4,7 +4,7 @@ import Background from "../components/Background";
 import NavigationBar from "../components/Navbar";
 import { Colors } from "../constants";
 import MyModules from "../components/MyModules";
-import ModuleForum from "../components/ModuleForum";
+import ModuleForum, { RedButton } from "../components/ModuleForum";
 import ThreadList from "../components/ThreadList";
 
 const ModulePageWrapper = styled.div`
@@ -14,36 +14,29 @@ const ModulePageWrapper = styled.div`
     padding: 2em;
 `
 
-const ModuleGridWrapper = styled.div`
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-column-gap: 1em;
-    grid-row-gap: 1em;
-`
-
 const RightSide = styled.div`
     display: grid;
 `
 
 const HeadingDiv = styled.div`
-    margin-bottom: 1em;
-`
-
-const HeadingWrapper = styled.span`
-    width: 100%;
     display: flex;
-    
+    vertical-align: middle;
+    margin-bottom: 1em;
+    width: 100%;
 `
 
 const Heading = styled.span`
+    width: 50%;
     font-family: "Poppins", "sans-serif";
     font-weight: 600;
-    font-size: 2.25em;
+    font-size: 2em;
     color: ${Colors.white};
 `
 
-const HeadingItalic = styled(Heading)`
-    font-style: italic;
+const ButtonDiv = styled.div`
+    width: 50%;
+    display: flex;
+    justify-content: end;
 `
 
 const MyModulesDiv = styled.div`
@@ -71,6 +64,11 @@ const ModulePage = () => {
                             <Heading>
                                 Discussion Forum
                             </Heading>
+                            <ButtonDiv>
+                                <RedButton>
+                                    + New Post
+                                </RedButton>
+                            </ButtonDiv>
                         </HeadingDiv>
                         <ThreadList selectedModule="CS1231"/>
                     </div>
