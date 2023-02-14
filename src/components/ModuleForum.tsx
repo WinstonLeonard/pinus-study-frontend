@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { API_URL, Colors } from "../constants";
 import { Module, ModuleInitialState } from "../features/modules/moduleSlice";
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 
 export const RedButton = styled.div`
     font-family: 'Poppins', 'sans-serif';
@@ -66,11 +67,16 @@ const RedLink = styled.a`
     text-decoration: underline;
 `
 
+const SubscriberDiv = styled.div`
+    display: flex;
+`
+
 const SubscriberDesc = styled.span`
     color: ${Colors.white};
     font-weight: 500;
     font-size: 1em;
     text-decoration: underline;
+    margin-left: 0.5em;
 `
 
 const ModuleForum = ({ selectedModule } : { selectedModule : string }) => {
@@ -112,9 +118,12 @@ const ModuleForum = ({ selectedModule } : { selectedModule : string }) => {
                     </div>
                 </Top>
                 <Bottom>
-                    <SubscriberDesc>
-                        {module.SubscriberCount} subscribers
-                    </SubscriberDesc>
+                    <SubscriberDiv>
+                        <PeopleAltIcon/>
+                        <SubscriberDesc>
+                            {module.SubscriberCount} subscribers
+                        </SubscriberDesc>
+                    </SubscriberDiv>
                     <RedButton>
                         Subscribe
                     </RedButton>
