@@ -39,6 +39,10 @@ const ButtonDiv = styled.div`
     justify-content: end;
 `
 
+const ThreadListContainer = styled.div`
+    margin-left: 8px;
+`
+
 const MyModulesDiv = styled.div`
     display: grid;
     align-items: center;
@@ -70,7 +74,9 @@ const ModulePage = () => {
                                 </RedButton>
                             </ButtonDiv>
                         </HeadingDiv>
-                        <ThreadList selectedModule="CS1231"/>
+                        <ThreadListContainer>
+                            <ThreadList selectedModule="CS1231"/>
+                        </ThreadListContainer>
                     </div>
                     <RightSide>
                         <ModuleForumDiv>
