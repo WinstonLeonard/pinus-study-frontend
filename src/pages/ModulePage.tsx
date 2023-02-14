@@ -15,7 +15,8 @@ const ModulePageWrapper = styled.div`
 `
 
 const RightSide = styled.div`
-    display: grid;
+    display: flex;
+    flex-direction: column;
 `
 
 const HeadingDiv = styled.div`
@@ -46,13 +47,13 @@ const ThreadListContainer = styled.div`
 const MyModulesDiv = styled.div`
     display: grid;
     align-items: center;
-    padding: calc(2em + 20px);
+    padding: 1.25em calc(2em + 20px);
 `
 
 const ModuleForumDiv = styled.div`
     display: grid;
     align-items: center;
-    padding: calc(2em + 20px);
+    padding: 1.25em calc(2em + 20px);
 `
 
 const ModulePage = () => {
