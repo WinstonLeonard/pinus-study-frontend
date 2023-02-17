@@ -7,6 +7,7 @@ import reportWebVitals from "./reportWebVitals";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import HomePage from "./pages/HomePage";
+import ModulePage from "./pages/ModulePage";
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
         path: "*",
         element: <App />,
     },
+    {
+        path: "/module/:mod",
+        element: <ModulePage />,
+    }
 ]);
 
 root.render(

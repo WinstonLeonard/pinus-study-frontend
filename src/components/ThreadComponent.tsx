@@ -50,7 +50,7 @@ const VerticalCenterAlignLayout = styled.div`
 /** MODULE-PAGE THREAD ONLY */
 const ThreadContainerButton = styled.button`
     background-color: ${Colors.white};
-    width: 50vw;
+    width: 100%;
     border-radius: 20px;
     border: none;
     padding: 1.5em;

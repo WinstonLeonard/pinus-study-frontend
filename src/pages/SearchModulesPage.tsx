@@ -4,6 +4,7 @@ import MyModules, { ModuleComponent } from "../components/MyModules";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Module } from "../features/modules/moduleSlice";
+import { Link } from "react-router-dom";
 
 
 const ModulePageWrapper = styled.div`
@@ -91,9 +92,11 @@ const SearchModulesPage = () => {
                             ? null
                             : searchResults.map(module => {
                                 return (
-                                    <div key={module.Id}>
-                                        <ModuleComponent>{module.Id}</ModuleComponent>
-                                    </div>
+                                    <Link to={`/module/${module.Id.toLocaleLowerCase()}`} style={{ textDecoration: 'none' }}>
+                                        <div key={module.Id}>
+                                            <ModuleComponent>{module.Id}</ModuleComponent>
+                                       </div>
+                                    </Link>
                                 )
                         })}
                 </ModuleGridWrapper>

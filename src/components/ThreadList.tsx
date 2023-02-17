@@ -7,13 +7,10 @@ import ThreadComponent from './ThreadComponent';
 const ThreadWrapper = styled.span`
     display: flex;  
     flex-direction: column;
-    padding-top: 1em;
-    padding-left: 1em;
 `
 
 const ThreadComponentWrapper = styled.span`
     margin-top:1em;
-    margin-left:1em;
 `
 // const ThreadWrapper = styled.span`
 //     display: flex;
@@ -23,11 +20,15 @@ const ThreadComponentWrapper = styled.span`
 
 const ThreadList = ({ selectedModule } : { selectedModule : string }) => {
     const [module, setModule] = useState<Module>(ModuleInitialState);
+    const [noThreadsFound, setNoThreadsFound] = useState<Boolean>(true);
 
     const fetchMod = () => {
-        fetch(API_URL + `/module/${selectedModule}`)
+        fetch(API_URL + `/module/${selectedModule.toUpperCase()}`)
             .then(response => response.json())
-            .then(data => setModule(data.module))
+            .then(data => {
+                console.log(data)
+                setModule(data.module)
+            })
             .catch(error => console.log(error))
     }
 
@@ -36,16 +37,21 @@ const ThreadList = ({ selectedModule } : { selectedModule : string }) => {
     }, [])
 
     const renderThreadList = () => {
-        const curr_thread = module.Threads
+        const curr_thread = module.Threads;
+        console.log(curr_thread);
+
         return (
             <ThreadWrapper>
-                {curr_thread.map(thread => {
-                    return (
-                        <ThreadComponentWrapper>
-                            <ThreadComponent threadId={thread.Id}/>
-                        </ThreadComponentWrapper>
-                    )
-                })}
+                {module == (ModuleInitialState) || curr_thread === null 
+                    ? null
+                    : curr_thread.map(thread => {
+                        return (
+                            <ThreadComponentWrapper>
+                                <ThreadComponent threadId={thread.Id}/>
+                            </ThreadComponentWrapper>
+                        )
+                    })
+                }
             </ThreadWrapper>
         )
     }
