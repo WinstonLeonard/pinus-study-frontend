@@ -1,6 +1,7 @@
 import ThreadComponent from "./components/ThreadComponent";
 import Navbar from "./components/Navbar";
 import Background from "./components/Background";
+import HomePage from "./pages/HomePage";
 
 // function TestCORS()
 //   const makeAPICall = async () => {
@@ -26,12 +27,14 @@ import Background from "./components/Background";
 function App() {
     return (
         <div className="app">
+            <HomePage />
             <Navbar />
+            {/* <Navbar />
             <Background>
                 <ThreadComponent threadId={2} type="QUESTION_PAGE" />
                 <br />
                 <ThreadComponent threadId={2} type="MODULE_PAGE" />
-            </Background>
+            </Background> */}
         </div>
     );
 }
