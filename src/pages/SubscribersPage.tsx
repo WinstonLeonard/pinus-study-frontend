@@ -6,7 +6,7 @@ import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import { API_URL, Colors } from "../constants";
 import MyModules from "../components/MyModules";
 import ModuleForum, { RedButton } from "../components/ModuleForum";
-import ThreadList from "../components/ThreadList";
+import SubscriberComponent from "../components/SubscriberComponent";
 import { useEffect, useState } from "react";
 
 const SubscribersPageWrapper = styled.div`
@@ -106,9 +106,9 @@ const SubscribersPage = () => {
                                 {subscribers ? subscribers.length : 0}
                             </SubscribersCountDiv>
                         </HeadingDiv>
-                        {/* <SubscribersContainer>
-                            AAA
-                        </SubscribersContainer> */}
+                        <SubscribersContainer>
+                            <SubscriberComponent subscriberName="John"/>
+                        </SubscribersContainer>
                     </div>
                     <RightSide>
                         <ModuleForumDiv>
