@@ -52,7 +52,7 @@ const Heading = styled.span`
 
 const SubscribersContainer = styled.div`
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     grid-column-gap: 1em;
     grid-row-gap: 1em;
 `
@@ -107,7 +107,12 @@ const SubscribersPage = () => {
                             </SubscribersCountDiv>
                         </HeadingDiv>
                         <SubscribersContainer>
-                            <SubscriberComponent subscriberName="John"/>
+                            {subscribers 
+                                ? subscribers.map((subscriber) => (
+                                    <SubscriberComponent subscriberName={subscriber}/>
+                                ))
+                                : null
+                            }
                         </SubscribersContainer>
                     </div>
                     <RightSide>
