@@ -30,7 +30,7 @@ const HeadingDiv = styled.div`
 `
 
 const IconDiv = styled.div`
-    margin-left: 12px;
+    margin-left: 16px;
     font-size: 2.25em;
     display: flex;
     place-items: center;
@@ -38,7 +38,7 @@ const IconDiv = styled.div`
 
 const SubscribersCountDiv = styled.div`
     font-size: 1.2em;
-    margin-left: 12px;
+    margin-left: 8px;
     display: flex;
     place-items: center;
 `
