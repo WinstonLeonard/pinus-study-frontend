@@ -71,7 +71,7 @@ const SubscriberDiv = styled.div`
     display: flex;
 `
 
-const SubscriberDesc = styled.span`
+const SubscriberDesc = styled.a`
     color: ${Colors.white};
     font-weight: 500;
     font-size: 1em;
@@ -120,7 +120,7 @@ const ModuleForum = ({ selectedModule } : { selectedModule : string }) => {
                 <Bottom>
                     <SubscriberDiv>
                         <PeopleAltIcon/>
-                        <SubscriberDesc>
+                        <SubscriberDesc href={`/subscribers/${selectedModule}`}>
                             {module.SubscriberCount} subscribers
                         </SubscriberDesc>
                     </SubscriberDiv>

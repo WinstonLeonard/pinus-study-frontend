@@ -2,12 +2,13 @@ import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import Background from "../components/Background";
 import NavigationBar from "../components/Navbar";
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import { Colors } from "../constants";
 import MyModules from "../components/MyModules";
 import ModuleForum, { RedButton } from "../components/ModuleForum";
 import ThreadList from "../components/ThreadList";
 
-const ModulePageWrapper = styled.div`
+const SubscribersPageWrapper = styled.div`
     display: grid;
     grid-template-columns: 8.5fr 1.5fr;
     grid-column-gap: 1em;
@@ -23,21 +24,23 @@ const HeadingDiv = styled.div`
     display: flex;
     vertical-align: middle;
     margin-bottom: 1em;
-    width: 100%;
+    color: white;
+`
+
+const IconDiv = styled.div`
+    margin-left: 12px;
+    font-size: 2.25em;
+`
+
+const SubscribersCountDiv = styled.div`
+    font-size: 1.2em;
 `
 
 const Heading = styled.span`
-    width: 50%;
     font-family: "Poppins", "sans-serif";
     font-weight: 600;
-    font-size: 2em;
+    font-size: 2.25em;
     color: ${Colors.white};
-`
-
-const ButtonDiv = styled.div`
-    width: 50%;
-    display: flex;
-    justify-content: end;
 `
 
 const ThreadListContainer = styled.div`
@@ -63,17 +66,18 @@ const SubscribersPage = () => {
         <div>
             <NavigationBar/>
             <Background>
-                <ModulePageWrapper>
+                <SubscribersPageWrapper>
                     <div>
                         <HeadingDiv>
                             <Heading>
-                                Discussion Forum
+                                Subscribers
                             </Heading>
-                            <ButtonDiv>
-                                <RedButton>
-                                    + New Post
-                                </RedButton>
-                            </ButtonDiv>
+                            <IconDiv>
+                                <PeopleAltIcon/>
+                            </IconDiv>
+                            <SubscribersCountDiv>
+
+                            </SubscribersCountDiv>
                         </HeadingDiv>
                         <ThreadListContainer>
                             <ThreadList selectedModule={mod? mod.toString() : ""}/>
@@ -87,7 +91,7 @@ const SubscribersPage = () => {
                             <MyModules/>
                         </MyModulesDiv>
                     </RightSide>
-                </ModulePageWrapper>
+                </SubscribersPageWrapper>
             </Background>
         </div>
     )
