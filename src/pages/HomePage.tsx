@@ -1,7 +1,8 @@
 import styled from "styled-components";
-import {Colors} from "../constants";
+import { API_URL, Colors} from "../constants";
 import Background from "../components/Background";
 import { MyModulesGuest, ModuleComponent }  from "../components/MyModules";
+import { useEffect, useState } from "react";
 
 const HomePageWrapper = styled.div`
     display: grid;
@@ -52,6 +53,37 @@ const MyModulesDiv = styled.div`
 `
 
 const HomePage = () => {
+    // const [popularModules] = useState<>
+
+    // const queryDatabase = (page?: number) => {
+    //     fetch(API_URL + `/module`, {
+    //         method: "POST",
+    //         headers: {
+    //             "Accept": "application/json",
+    //             "Content-Type": "application/json",
+    //         },
+    //         body: JSON.stringify({
+    //             keyword: keyword? keyword.toUpperCase() : "",
+    //             page: page? page : 1,
+    //         }),
+    //     }).then(response => response.json())
+    //     .then(data => {
+    //         console.log(data)
+    //         if (data.module_list !== null) {
+    //             setSearchResults(data.module_list)
+    //             setNoModulesFound(false);
+    //         } else {
+    //             setNoModulesFound(true);
+    //         }
+    //     });
+    // }
+    
+    // useEffect(() => {
+    //     queryDatabase(1);
+    // }, [])
+    
+    // }
+
     return (
         <div>
             <Background>
