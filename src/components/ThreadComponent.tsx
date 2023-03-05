@@ -51,7 +51,7 @@ const VerticalCenterAlignLayout = styled.div`
 /** MODULE-PAGE THREAD ONLY */
 const ThreadContainerButton = styled.button`
     background-color: ${Colors.white};
-    width: 50vw;
+    width: 100%;
     border-radius: 20px;
     border: none;
     padding: 1.5em;
@@ -232,7 +232,7 @@ const ThreadComponent = ({threadId , type} : {threadId : number, type? : ThreadT
                 <PostedSince>{parseDuration(thread.Timestamp)}</PostedSince>
                 <QuestionTitle>{thread.Title}</QuestionTitle>
                 <br/>
-                <RegularText>Posted by @{thread.Username}</RegularText>
+                <RegularText>Posted by @{thread.Username} in {thread.ModuleId}</RegularText>
                 <br/>
                 <Content>{shortenLongPosts(thread.Content)}</Content>
                 <br/>

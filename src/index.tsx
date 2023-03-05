@@ -6,6 +6,9 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import HomePage from "./pages/HomePage";
+import ModulePage from "./pages/ModulePage";
+import SubscribersPage from "./pages/SubscribersPage";
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);
@@ -13,11 +16,23 @@ const root = createRoot(container);
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <App />,
+        element: <HomePage />,
+    },
+    {
+        path:"/search/:keyword",
+        element: <App />
     },
     {
         path: "*",
         element: <App />,
+    },
+    {
+        path: "/module/:mod",
+        element: <ModulePage />,
+    },
+    {
+        path: "/subscribers/:mod",
+        element: <SubscribersPage />
     },
 ]);
 
