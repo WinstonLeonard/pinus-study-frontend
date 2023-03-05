@@ -53,36 +53,26 @@ const MyModulesDiv = styled.div`
 `
 
 const HomePage = () => {
-    // const [popularModules] = useState<>
+    const [modules, setModules] = useState([]);
 
-    // const queryDatabase = (page?: number) => {
-    //     fetch(API_URL + `/module`, {
-    //         method: "POST",
-    //         headers: {
-    //             "Accept": "application/json",
-    //             "Content-Type": "application/json",
-    //         },
-    //         body: JSON.stringify({
-    //             keyword: keyword? keyword.toUpperCase() : "",
-    //             page: page? page : 1,
-    //         }),
-    //     }).then(response => response.json())
-    //     .then(data => {
-    //         console.log(data)
-    //         if (data.module_list !== null) {
-    //             setSearchResults(data.module_list)
-    //             setNoModulesFound(false);
-    //         } else {
-    //             setNoModulesFound(true);
-    //         }
-    //     });
-    // }
-    
-    // useEffect(() => {
-    //     queryDatabase(1);
-    // }, [])
-    
-    // }
+    useEffect(() => {
+        fetch(API_URL + `/module`, {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                keyword: "",
+                page: 1,
+            }),
+        }).then(response => response.json())
+        .then(data => {
+            setModules(data);
+        });
+    }, []);
+
+    const sortedModules = [...modules].sort((a, b) => b.SubscriberCount - a.SubscriberCount);
 
     return (
         <div>
@@ -92,9 +82,9 @@ const HomePage = () => {
                         <DisplayWrapper>
                             <Heading>Popular Modules</Heading><br></br>
                             <PopularModulesWrapper>
-                                <ModuleComponent>CS1010S</ModuleComponent>
-                                <ModuleComponent>DSA2101</ModuleComponent>
-                                <ModuleComponent>EC1101E</ModuleComponent>
+                                {sortedModules.map(module => (
+                                    <ModuleComponent key={module.Id}>{module.Name}</ModuleComponent>
+                                ))}
                             </PopularModulesWrapper>
                             <Heading>What is PINUS Study?</Heading>
                             <WelcomeMessage>
