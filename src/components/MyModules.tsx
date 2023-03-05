@@ -11,7 +11,7 @@ export const ModuleComponent = styled.div`
     color: ${Colors.white};
     font-family: 'Poppins', 'sans-serif';
     font-weight: 600;
-    font-size: 2.25em;
+    font-size: 1.25em;
     padding: 0.5vw 1vw 0.5vw 1vw;
     :hover {
         background-color: ${Colors.yellow_accent};
@@ -38,6 +38,15 @@ const MyModulesHeading = styled.span`
     font-size: 1.625em;
 `
 
+const MyModulesText = styled.span`
+    padding: 1.25em;
+    display: flex;
+    font-family: "Poppins", "sans-serif";
+    font-weight: 500;
+    font-size: 1.25em;
+    font-style: italic;
+`
+
 const MyModulesChildren = styled.div<{marginTop? : string}>`
     background-color: ${Colors.yellow};
     border-radius: 20px;
@@ -61,7 +70,16 @@ const Scrollable = styled.div`
     height: 60vh;
 `
 
-const MyModules = () => {
+export const MyModulesGuest = () => {
+    return (
+        <MyModulesContainer>
+            <MyModulesHeading>My Modules</MyModulesHeading>
+                <MyModulesText><div><a href="">Log in</a> to access your subscribed modules.</div></MyModulesText>
+        </MyModulesContainer>
+    );
+}
+
+export const MyModules = () => {
     return (
         <MyModulesContainer>
             <MyModulesHeading>My Modules</MyModulesHeading>
@@ -79,4 +97,4 @@ const MyModules = () => {
     );
 }
 
-export default MyModules;
+// export default MyModules;
