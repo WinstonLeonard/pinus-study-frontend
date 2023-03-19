@@ -3,7 +3,7 @@ import {
     BlurredBackground,
     CloseIconDiv,
     ErrorMessage,
-    ForgetPassword,
+    // ForgetPassword,
     ModalBackground,
     ModalDiv,
     ModalInput,
@@ -101,7 +101,8 @@ const CreateAccountModal = ({
                             setShowError(true);
                         } else {
                             // #TODO: redux functions here
-                            sessionStorage.setItem("token", data.token);
+                            localStorage.setItem("token", data.token);
+                            localStorage.setItem("userId", data.userid);
                             cancel();
                         }
                     })
@@ -110,12 +111,12 @@ const CreateAccountModal = ({
         }
     };
 
-    /**
-     * #TODO: Implement when backend is ready
-     */
-    const forgetPassword = () => {
-        // Implement code here
-    };
+    // /**
+    //  * #TODO: Implement when backend is ready
+    //  */
+    // const forgetPassword = () => {
+    //     // Implement code here
+    // };
 
     /**
      * Hides error message upon input to the Username or Password field.
