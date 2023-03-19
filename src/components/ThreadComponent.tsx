@@ -9,6 +9,7 @@ import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ThumbDownOutlinedIcon from '@mui/icons-material/ThumbDownOutlined';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
+import { useNavigate } from 'react-router-dom';
 
 
 /** TODO: Add POST methods for likes (change functions in `<ThumbButton onClick={...}`) and upon submitting comment */ 
@@ -118,6 +119,8 @@ const ThreadComponent = ({threadId , type} : {threadId : number, type? : ThreadT
     const [liked, setLiked] = useState<Boolean>(false);
     const [disliked, setDisliked] = useState<Boolean>(false);
     const [openReply, setOpenReply] = useState<Boolean>(false);
+
+    const navigate = useNavigate();
 
     const openReplyInputField = () : void => {
         setOpenReply(!openReply);
@@ -244,6 +247,10 @@ const ThreadComponent = ({threadId , type} : {threadId : number, type? : ThreadT
         )
     }
 
+    const directToUserPage = () => {
+        navigate(`/profile/${thread.AuthorId}`)
+    }
+
     /**
      * Renders the thread in the Question Page.
      */
@@ -253,7 +260,7 @@ const ThreadComponent = ({threadId , type} : {threadId : number, type? : ThreadT
                 <PostedSince>{parseDuration(thread.Timestamp)}</PostedSince>
                 <QuestionTitle>{thread.Title}</QuestionTitle>
                 <br/>
-                <RegularText>Posted by @{thread.Username}</RegularText>
+                <RegularText>Posted by <div onClick={directToUserPage}>@{thread.Username}</div></RegularText>
                 <br/>
                 <Content>{thread.Content}</Content>
                 <br/>

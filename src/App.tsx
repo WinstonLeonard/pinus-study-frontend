@@ -1,9 +1,7 @@
-import ThreadComponent from "./components/ThreadComponent";
 import Navbar from "./components/Navbar";
 import Background from "./components/Background";
 import HomePage from "./pages/HomePage";
 import SearchModulesPage from "./pages/SearchModulesPage";
-import ThreadList from "./components/ThreadList";
 
 // function TestCORS()
 //   const makeAPICall = async () => {

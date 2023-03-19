@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { Colors } from '../constants';
 
@@ -13,7 +14,13 @@ const SubscriberComponentBackground = styled.div`
     font-size: 1.60em;
     padding: 0.5vw 1vw 0.5vw 1vw;
     display: flex;
-    vertical-align: middle;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    
+    :hover {
+        background-color: ${Colors.white_accent};
+    }
 `
 
 const ProfilePicDiv = styled.div`
@@ -37,14 +44,21 @@ const NameDiv = styled.div`
     text-align: left;
 `
 
-const SubscriberComponent = ({ subscriberName }: { subscriberName: string }) => {
+const SubscriberComponent = ({ subscriberId }: { subscriberId: string }) => {
+
+    const navigate = useNavigate();
+
+    const navigateToProfilePage = () => {
+        navigate(`/profile/${subscriberId}`)
+    }
+
     return (
         <SubscriberComponentBackground>
             <ProfilePicDiv>
                 <TempProfilePic/>
             </ProfilePicDiv>
-            <NameDiv>
-                @{subscriberName}
+            <NameDiv onClick={navigateToProfilePage}>
+                @{subscriberId}
             </NameDiv>
         </SubscriberComponentBackground>
     )

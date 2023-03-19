@@ -9,6 +9,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import ModulePage from "./pages/ModulePage";
 import SubscribersPage from "./pages/SubscribersPage";
+import ProfilePage from "./pages/ProfilePage";
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
         path: "/subscribers/:mod",
         element: <SubscribersPage />
     },
+    {
+        path: "/profile/:userId",
+        element: <ProfilePage />
+    }
 ]);
 
 root.render(

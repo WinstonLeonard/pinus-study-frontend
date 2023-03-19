@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { API_URL, Colors } from '../constants';
+import { API_URL } from '../constants';
 import { Module, ModuleInitialState } from '../features/modules/moduleSlice';
 import ThreadComponent from './ThreadComponent';
 
@@ -20,7 +20,7 @@ const ThreadComponentWrapper = styled.span`
 
 const ThreadList = ({ selectedModule } : { selectedModule : string }) => {
     const [module, setModule] = useState<Module>(ModuleInitialState);
-    const [noThreadsFound, setNoThreadsFound] = useState<Boolean>(true);
+    // const [noThreadsFound, setNoThreadsFound] = useState<Boolean>(true);
 
     const fetchMod = () => {
         fetch(API_URL + `/module/${selectedModule.toUpperCase()}`)
@@ -42,7 +42,7 @@ const ThreadList = ({ selectedModule } : { selectedModule : string }) => {
 
         return (
             <ThreadWrapper>
-                {module == (ModuleInitialState) || curr_thread === null 
+                {module === (ModuleInitialState) || curr_thread === null 
                     ? null
                     : curr_thread.map(thread => {
                         return (
