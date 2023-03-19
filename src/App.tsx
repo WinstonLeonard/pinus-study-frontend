@@ -1,8 +1,5 @@
-// import ThreadComponent from "./components/ThreadComponent";
 import Navbar from "./components/Navbar";
 import Background from "./components/Background";
-// import SearchModulesPage from "./pages/SearchModulesPage";
-// import ThreadList from "./components/ThreadList";
 import SearchModulesPage from "./pages/SearchModulesPage";
 
 // function TestCORS()
