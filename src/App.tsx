@@ -1,6 +1,7 @@
 import ThreadComponent from "./components/ThreadComponent";
 import Navbar from "./components/Navbar";
 import Background from "./components/Background";
+import HomePage from "./pages/HomePage";
 import SearchModulesPage from "./pages/SearchModulesPage";
 import ThreadList from "./components/ThreadList";
 
@@ -28,10 +29,14 @@ import ThreadList from "./components/ThreadList";
 function App() {
     return (
         <div className="app">
-            <Navbar/>
+            <HomePage />
+            <Navbar />
+            {/* <Navbar />
             <Background>
-                <SearchModulesPage/>
-            </Background>
+                <ThreadComponent threadId={2} type="QUESTION_PAGE" />
+                <br />
+                <ThreadComponent threadId={2} type="MODULE_PAGE" />
+            </Background> */}
         </div>
     );
 }
