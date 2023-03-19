@@ -22,7 +22,6 @@ const ForumBackground = styled.div`
     border-radius: 20px;
     width: 17.5vw;
     max-width: 17.5vw;
-    height: 45vh;
     padding: 1.5em;
     border: none;
     border-radius: 20px;
@@ -38,6 +37,7 @@ const Top = styled.div`
 
 const Bottom = styled.div`
     display: grid;
+    margin-top: 3em;
     height: 50%;
     vertical-align: bottom;
     align-content: end;
