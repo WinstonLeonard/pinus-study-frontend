@@ -5,7 +5,7 @@ import NavigationBar from "../components/Navbar";
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import { API_URL, Colors } from "../constants";
 import MyModules from "../components/MyModules";
-import ModuleForum, { RedButton } from "../components/ModuleForum";
+import ModuleForum from "../components/ModuleForum";
 import SubscriberComponent from "../components/SubscriberComponent";
 import { useEffect, useState } from "react";
 
@@ -71,15 +71,15 @@ const ModuleForumDiv = styled.div`
 
 const SubscribersPage = () => {
     const { mod } = useParams();
-    const selectedModule = mod? mod.toString() : ""
+    // const selectedModule = mod? mod.toString() : ""
 
     const [subscribers, setSubcribers] = useState([]);
 
     const fetchSubs = () => {
-        fetch(API_URL + `/subscribes/${selectedModule.toUpperCase()}`)
+        fetch(API_URL + `/subscribes/${mod?.toUpperCase()}`)
             .then(response => response.json())
             .then(data => {
-                console.log("subs", data.users)
+                console.log("subs", data)
                 setSubcribers(data.users)
             })
             .catch(error => console.log(error))
@@ -109,7 +109,7 @@ const SubscribersPage = () => {
                         <SubscribersContainer>
                             {subscribers 
                                 ? subscribers.map((subscriber) => (
-                                    <SubscriberComponent subscriberName={subscriber}/>
+                                    <SubscriberComponent subscriberId={subscriber}/>
                                 ))
                                 : null
                             }
