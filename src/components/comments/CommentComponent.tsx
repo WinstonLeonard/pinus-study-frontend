@@ -94,6 +94,16 @@ const LevelContainerDiv = styled.div<MarginProps>`
   margin-left: 2em;
 `;
 
+
+const Line = styled.div`
+  border-top: 1px solid ${Colors.light_grey};
+  margin-top: .25em;
+  margin-bottom: 1em;
+  margin-left: -0.5em;
+  margin-right: -0.5em;
+`;
+
+
 const MediumText = styled(Text)`
   font-family: "Poppins", sans-serif;
   font-weight: 500;
@@ -281,6 +291,7 @@ const CommentComponent = ({
   } else {
     return (
       <LevelContainerDiv level={level}>
+        <Line />
         <PostedSince>{parseDuration(comment.Timestamp)}</PostedSince>
         <RegularText>Replied by @{comment.Username}</RegularText>
         <br />
