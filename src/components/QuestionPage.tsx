@@ -6,6 +6,9 @@ import { Colors } from "../constants";
 import MyModules from "../components/MyModules";
 import ModuleForum, { RedButton } from "../components/ModuleForum";
 import TestComments from "./comments/TestComments";
+import { API_URL } from "../constants";
+import { Thread, ThreadInitialState } from "../features/threads/threadSlice";
+import CommentList from "./comments/CommentList";
 
 // Uncomment display grid once my module component is done
 const MainContainer = styled.div`
@@ -45,12 +48,31 @@ const RightSide = styled.div`
 `;
 const QuestionPage = () => {
   const { threadId } = useParams();
+  const [thread, setThread] = useState<Thread>(ThreadInitialState);
 
   console.log(threadId);
 
   if (!threadId) {
     return <div></div>; // Handle invalid question page here. Probly some 404 page or such
   }
+
+  /**
+   * Fetches thread data from the backend.
+   */
+  const fetchThreadData = () => {
+    fetch(API_URL + `/thread/${threadId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setThread(data.thread);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+//   useEffect(() => {
+//     fetchThreadData();
+//   }, [])
 
   return (
     <>
@@ -65,6 +87,7 @@ const QuestionPage = () => {
             />
             <SpacingEmptyDiv />
             <Heading>Replies</Heading>
+            {/* { thread.Comments ? <CommentList comments={thread.Comments} level={0} /> : null} */}
             <TestComments />
           </div>
           <RightSide>

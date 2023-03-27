@@ -96,6 +96,11 @@ const comments: Comment[] = [
   },
 ];
 
+/**
+ * FOR TESTING PURPOSES ONLY
+ * 
+ * @returns 
+ */
 const TestComments = () => {
   return (
     <div>

@@ -6,12 +6,10 @@ import App from "./App";
 import { QuestionPage } from "./components";
 import reportWebVitals from "./reportWebVitals";
 import "./index.css";
-import ReplyTextEditor from "./components/editor/ReplyTextEditor";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import ModulePage from "./pages/ModulePage";
 import SubscribersPage from "./pages/SubscribersPage";
-import TestComments from "./components/comments/TestComments";
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);
@@ -36,18 +34,11 @@ const router = createBrowserRouter([
     {
         path: "/subscribers/:mod",
         element: <SubscribersPage />
-    },{
+    },
+    {
         path: "/thread/:threadId",
         element: <QuestionPage />
     }, 
-    {
-        path: "/replytest",
-        element: <ReplyTextEditor />
-    },
-    {
-        path: "/commentTest",
-        element: <TestComments />
-    }
 ]);
 
 root.render(
