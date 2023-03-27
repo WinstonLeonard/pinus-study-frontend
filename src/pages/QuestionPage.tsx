@@ -113,8 +113,8 @@ const QuestionPage = () => {
             ) : (
               <ThreadContainerDiv>
                 <MediumText>
-                No replies yet :( Be the first to reply!
-                    </MediumText>
+                  No replies yet :( Be the first to reply!
+                </MediumText>
                 <ReplyTextEditor id={thread.Id} />
               </ThreadContainerDiv>
             )}
