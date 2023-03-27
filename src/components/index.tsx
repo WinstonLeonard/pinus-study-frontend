@@ -1,6 +1,6 @@
 import Background from "./Background";
 import Navbar from "./Navbar";
-import QuestionPage from "./QuestionPage"
+import QuestionPage from "../pages/QuestionPage"
 import ThreadComponent from "./ThreadComponent"
 
 export {

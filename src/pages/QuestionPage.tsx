@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
-import { Navbar, Background, ThreadComponent } from ".";
+import { Navbar, Background, ThreadComponent } from "../components";
 import { Colors } from "../constants";
 import MyModules from "../components/MyModules";
 import ModuleForum, { RedButton } from "../components/ModuleForum";
 import { API_URL } from "../constants";
 import { Thread, ThreadInitialState } from "../features/threads/threadSlice";
-import CommentList from "./comments/CommentList";
-import ReplyTextEditor from "./editor/ReplyTextEditor";
+import CommentList from "../components/comments/CommentList";
+import ReplyTextEditor from "../components/editor/ReplyTextEditor";
 
 // Uncomment display grid once my module component is done
 const MainContainer = styled.div`
