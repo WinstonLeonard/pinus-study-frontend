@@ -42,10 +42,6 @@ const MyModulesDiv = styled.div`
     padding: calc(2em + 20px);
 `
 
-const Pages = styled.div`
-    width: 100%;
-
-`
 const SearchModulesPage = () => {
     const { keyword } = useParams();
 

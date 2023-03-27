@@ -61,7 +61,8 @@ const LoginModal = ({cancel, showSignUpModal} : {cancel: () => void; showSignUpM
                     setShowError(true);
                 } else {
                     // #TODO: redux functions here
-                    sessionStorage.setItem("token", data.token);
+                    localStorage.setItem("token", data.token);
+                    localStorage.setItem("userId", data.userid);
                 }
             })
             .catch(error => console.log(error));

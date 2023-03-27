@@ -1,0 +1,134 @@
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import { Colors } from '../constants';
+import { User } from '../features/users/userSlice';
+
+const ProfileContainer = styled.div`
+    background-color: ${Colors.white};
+    width: 12.5vw;
+    padding-top: 4vw;
+    padding-bottom: 4vw;
+    padding-right: 2.5vw;
+    padding-left: 2.5vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    flex-direction: column;
+    max-height: 50vh;
+`
+
+const ProfilePicture = styled.div<{notMyProfile?: boolean}>`
+    width: 11vw;
+    height: 11vw;
+    background-color: ${props => props.notMyProfile? Colors.yellow : Colors.red};
+    border: none;
+    border-radius: 20vw;
+`
+
+const NameDiv = styled.div<{paddingTop?: string}>`
+    padding-top: ${props => props.paddingTop? props.paddingTop : "0em"};
+    display: flex;
+    justify-content: center;
+`
+
+const Name = styled.span`
+    font-family: Poppins-Bold;
+    color: ${Colors.dark_grey};
+    font-size: 1.75em;
+`
+
+const Button = styled.div<{marginTop?: string, red?: boolean}>`
+    margin-top: ${props => props.marginTop? props.marginTop: '0em'};
+    background-color: ${props => props.red? Colors.red : Colors.blue};
+    font-family: Poppins-Bold;
+    color: ${Colors.white};
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+    border-radius: 50px;
+    padding-top: 0.375em;
+    padding-bottom: 0.375em;
+
+    :hover {
+        background-color: ${props => props.red? Colors.red_accent : Colors.blue_accent};
+        color: ${Colors.white_accent}
+    }
+`
+
+const PostAndLikes = styled.div`
+    margin-top: 1em;
+    display: flex;
+    flex-direction: row;
+`
+
+const NumberAndDescription = styled.div`
+    text-align: center;
+`
+
+const Number = styled.div`
+    font-family: Poppins-Bold;
+    font-size: 2em;
+`
+
+const Description = styled.div`
+    font-family: Poppins-Medium;
+    font-size: 1em;
+    text-align: center;
+`
+
+const VerticalLine = styled.div`
+    background-color: ${Colors.light_grey_50};
+    margin-left: 1.5em;
+    margin-right: 1.5em;
+    width: 0.05vw;
+    height: 10vh;
+`
+
+const ProfileComponent = ({user, userId} : {user: User, userId?: string}) => {
+
+    const navigate = useNavigate();
+
+    const logOut = () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("userId");
+        navigate('/');
+    }
+
+    return (
+        <ProfileContainer>
+            {
+                localStorage.getItem("userId") === userId? <ProfilePicture/> : <ProfilePicture notMyProfile/>
+            }
+            
+            <NameDiv paddingTop="1em">
+                <Name>@{user.Username}</Name>
+            </NameDiv>
+
+            {
+                localStorage.getItem("userId") === userId? (
+                    <>
+                        <Button marginTop='1em'>View My Modules</Button>
+                        {/* <Button marginTop='0.5em'>Edit My Profile</Button> */}
+                        <Button red marginTop='0.5em' onClick={logOut}>Log Out</Button>
+                    </>
+                ) : null
+            }
+            
+            <PostAndLikes>
+                <NumberAndDescription>
+                    <Number>{user.NumberOfQuestionsAsked}</Number>
+                    <Description>Questions<br/>Asked</Description>
+                </NumberAndDescription>
+                <VerticalLine/>
+                <NumberAndDescription>
+                    <Number>{user.NumberOfLikesReceived}</Number>
+                    <Description>Likes<br/>Received</Description>
+                </NumberAndDescription>
+            </PostAndLikes>
+        </ProfileContainer>
+        
+    );
+}
+
+export default ProfileComponent;
