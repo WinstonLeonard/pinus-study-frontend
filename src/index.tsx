@@ -11,6 +11,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import ModulePage from "./pages/ModulePage";
 import SubscribersPage from "./pages/SubscribersPage";
+import TestComments from "./components/comments/TestComments";
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
     {
         path: "/replytest",
         element: <ReplyTextEditor />
+    },
+    {
+        path: "/commentTest",
+        element: <TestComments />
     }
 ]);
 
