@@ -1,7 +1,11 @@
-import React from "react";
 import CommentComponent from "./CommentComponent";
-import { Comment } from "../../features/comments/commentSlice";
 
+/**
+ * Generates a List of Comments for the Web Forum
+ * 
+ * @param param0 an object with comments and level attributes, both number[] and number respectively
+ * @returns a JSX component that represents a list of comments
+ */
 const CommentList = ({ comments, level }: { comments: number[], level: number }) => {
   return (
     <>

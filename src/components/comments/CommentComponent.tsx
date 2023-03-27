@@ -136,11 +136,10 @@ const ViewRepliesLink = styled.div`
 `;
 
 /**
- * Thread component for the web forum.
+ * Comment component for the web forum.
  *
- * @param threadId The thread id to fetch the data.
- * @param type The type of thread to be rendered. The only valid values are "QUESTION_PAGE" or "MODULE_PAGE",
- *             or it can be omitted.
+ * @param threadId The comment id to fetch the data.
+ * @param level The level of indentation of the comment (for nested comments purposes)
  */
 const CommentComponent = ({
   commentId,
@@ -149,6 +148,7 @@ const CommentComponent = ({
   commentId: number;
   level: number;
 }) => {
+
   const [comment, setComment] = useState<Comment>(CommentInitialState);
   const [liked, setLiked] = useState<Boolean>(false);
   const [disliked, setDisliked] = useState<Boolean>(false);
@@ -159,63 +159,56 @@ const CommentComponent = ({
     setOpenReply(!openReply);
   };
 
-  /* For navigating from module page to question page (router stuff)*/
-  // const navigate = useNavigate();
-
-  // const navigateToQuestionPage = () => {
-  //     navigate("INSERT_PATH_HERE")
-  // }
-
   /**
-   * Fetches thread data from the backend.
+   * Fetches comment data from the backend.
    */
-  // const fetchThreadData = () => {
-  //     fetch(API_URL + `/comment/${commentId}`)
-  //         .then((response) => response.json())
-  //         .then((data) => {
-  //             setComment(data);
-  //         })
-  //         .catch((error) => {
-  //             console.log(error);
-  //         });
-  // };
+  const fetchThreadData = () => {
+      fetch(API_URL + `/comment/${commentId}`)
+          .then((response) => response.json())
+          .then((data) => {
+              setComment(data);
+          })
+          .catch((error) => {
+              console.log(error);
+          });
+  };
 
   /**
    * Fetches liked status from the backend.
    */
-  // const fetchLikeStatus = () => {
-  //     fetch(API_URL + `/likes/comment/${commentId}/${comment.AuthorId}`)
-  //         .then((response) => response.json())
-  //         .then((data) => {
-  //             switch (data.state) {
-  //                 case 1:
-  //                     setLiked(true);
-  //                     break;
-  //                 case -1:
-  //                     setDisliked(true);
-  //                     break;
-  //                 case 0:
-  //                 default:
-  //                     break;
-  //             }
-  //         })
-  //         .catch((error) => console.log(error));
-  // };
+  const fetchLikeStatus = () => {
+      fetch(API_URL + `/likes/comment/${commentId}/${comment.AuthorId}`)
+          .then((response) => response.json())
+          .then((data) => {
+              switch (data.state) {
+                  case 1:
+                      setLiked(true);
+                      break;
+                  case -1:
+                      setDisliked(true);
+                      break;
+                  case 0:
+                  default:
+                      break;
+              }
+          })
+          .catch((error) => console.log(error));
+  };
 
   /**
    * Hook to fetch data.
    */
-  // useEffect(() => {
-  //     fetchThreadData();
-  //     fetchLikeStatus();
-  // }, []);
+  useEffect(() => {
+      fetchThreadData();
+      fetchLikeStatus();
+  }, []);
 
   /**
    * Parses the timestamp to produce the duration since the
-   * thread was made.
+   * comment was made.
    *
    * @param timestamp The timestamp fetched from the database.
-   * @returns The duration since the thread.
+   * @returns The duration since the comment.
    */
   const parseDuration = (timestamp: string): string => {
     const parsedTimestamp = Date.parse(timestamp);
