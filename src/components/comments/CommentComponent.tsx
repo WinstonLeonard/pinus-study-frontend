@@ -143,13 +143,13 @@ const ViewRepliesLink = styled.div`
  *             or it can be omitted.
  */
 const CommentComponent = ({
-  commentPass,
+  commentId,
   level,
 }: {
-  commentPass: Comment;
+  commentId: number;
   level: number;
 }) => {
-  const [comment, setComment] = useState<Comment>(commentPass);
+  const [comment, setComment] = useState<Comment>(CommentInitialState);
   const [liked, setLiked] = useState<Boolean>(false);
   const [disliked, setDisliked] = useState<Boolean>(false);
   const [openReply, setOpenReply] = useState<Boolean>(false);
@@ -266,7 +266,7 @@ const CommentComponent = ({
           <MediumText>&#8196;</MediumText>
           <ReplyText onClick={() => openReplyInputField()}>Reply</ReplyText>
         </VerticalCenterAlignLayout>
-        {openReply ? <ReplyTextEditor /> : null}
+        {openReply ? <ReplyTextEditor id={commentId} /> : null}
         {comment.Children && !viewReplies ? (
           <ViewRepliesLink onClick={() => setViewReplies(true)}>
             <KeyboardArrowDownIcon style={{ fill: Colors.red }} />
@@ -307,7 +307,7 @@ const CommentComponent = ({
           <MediumText>&#8196;</MediumText>
           <ReplyText onClick={() => openReplyInputField()}>Reply</ReplyText>
         </VerticalCenterAlignLayout>
-        {openReply ? <ReplyTextEditor /> : null}
+        {openReply ? <ReplyTextEditor id={commentId} /> : null}
         {comment.Children && !viewReplies ? (
           <ViewRepliesLink onClick={() => setViewReplies(true)}>
             <KeyboardArrowDownIcon style={{ fill: Colors.red }} />

@@ -2,12 +2,12 @@ import React from "react";
 import CommentComponent from "./CommentComponent";
 import { Comment } from "../../features/comments/commentSlice";
 
-const CommentList = ({ comments, level }: { comments: Comment[], level: number }) => {
+const CommentList = ({ comments, level }: { comments: number[], level: number }) => {
   return (
     <>
-      {comments.map((comment: Comment) => (
+      {comments.map((comment: number) => (
         <div>
-          <CommentComponent commentPass={comment} level={level} />
+          <CommentComponent commentId={comment} level={level} />
         </div>
       ))}
     </>

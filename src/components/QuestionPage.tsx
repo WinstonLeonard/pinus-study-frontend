@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
-import { Navbar, Background, ReplyComponent, ThreadComponent } from ".";
+import { Navbar, Background, ThreadComponent } from ".";
 import { Colors } from "../constants";
 import MyModules from "../components/MyModules";
 import ModuleForum, { RedButton } from "../components/ModuleForum";
-import TestComments from "./comments/TestComments";
 import { API_URL } from "../constants";
 import { Thread, ThreadInitialState } from "../features/threads/threadSlice";
 import CommentList from "./comments/CommentList";
+import ReplyTextEditor from "./editor/ReplyTextEditor";
 
 // Uncomment display grid once my module component is done
 const MainContainer = styled.div`
@@ -46,6 +46,27 @@ const RightSide = styled.div`
   display: flex;
   flex-direction: column;
 `;
+
+/** THREAD-PAGE THREAD ONLY Å*/
+const ThreadContainerDiv = styled.div`
+  background-color: ${Colors.white};
+  width: 50vw;
+  border-radius: 20px;
+  border: none;
+  padding: 1.5em;
+  text-align: left;
+  font-size: 12px;
+  margin: 1em 0;
+`;
+
+const MediumText = styled.span`
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  color: ${Colors.light_grey};
+  font-size: 1.6em;
+  padding-left: 0.5em;
+`;
+
 const QuestionPage = () => {
   const { threadId } = useParams();
   const [thread, setThread] = useState<Thread>(ThreadInitialState);
@@ -70,9 +91,9 @@ const QuestionPage = () => {
       });
   };
 
-//   useEffect(() => {
-//     fetchThreadData();
-//   }, [])
+  //   useEffect(() => {
+  //     fetchThreadData();
+  //   }, [])
 
   return (
     <>
@@ -87,8 +108,16 @@ const QuestionPage = () => {
             />
             <SpacingEmptyDiv />
             <Heading>Replies</Heading>
-            {/* { thread.Comments ? <CommentList comments={thread.Comments} level={0} /> : null} */}
-            <TestComments />
+            {thread.Comments ? (
+              <CommentList comments={thread.Comments} level={0} />
+            ) : (
+              <ThreadContainerDiv>
+                <MediumText>
+                No replies yet :( Be the first to reply!
+                    </MediumText>
+                <ReplyTextEditor id={thread.Id} />
+              </ThreadContainerDiv>
+            )}
           </div>
           <RightSide>
             <MyModulesDiv>
