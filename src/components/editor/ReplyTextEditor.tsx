@@ -24,8 +24,6 @@ import { TextAlignFormat } from "../../slate";
 import { API_URL, Colors } from "../../constants";
 
 // STYLED COMPONENTS
-
-
 const Input = styled.input`
     font-family: "Poppins", sans-serif;
     font-size: 18px;
