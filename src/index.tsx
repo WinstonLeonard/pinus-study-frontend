@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import App from "./App";
+import { QuestionPage } from "./components";
 import reportWebVitals from "./reportWebVitals";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
     {
         path: "/subscribers/:mod",
         element: <SubscribersPage />
+    },
+    {
+        path: "/thread/:threadId",
+        element: <QuestionPage />
     },
     {
         path: "/profile/:userId",

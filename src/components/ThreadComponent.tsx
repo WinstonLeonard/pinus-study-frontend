@@ -9,6 +9,7 @@ import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ThumbDownOutlinedIcon from '@mui/icons-material/ThumbDownOutlined';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
+import ReplyTextEditor from './editor/ReplyTextEditor';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -278,7 +279,7 @@ const ThreadComponent = ({threadId , type} : {threadId : number, type? : ThreadT
                     <MediumText>&#8196;</MediumText>
                     <ReplyText onClick={() => openReplyInputField()}>Reply</ReplyText>
                 </VerticalCenterAlignLayout>
-                {openReply ? <ReplyInputField placeholder="Enter your reply here..."/> : null}
+                {openReply ? <ReplyTextEditor id={thread.Id} /> : null}
             </ThreadContainerDiv>
         )
     }

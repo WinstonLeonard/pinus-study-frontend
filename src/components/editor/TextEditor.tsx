@@ -281,6 +281,7 @@ const TextEditor = () => {
                     </TagButtons>
                     <PostButton
                         onClick={() => {
+                            console.log(textData);
                             console.log(serialize(textData));
                         }}
                     >

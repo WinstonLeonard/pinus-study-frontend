@@ -44,6 +44,41 @@ export const Button = React.forwardRef(
   )
 )
 
+export const ReplyToolbarButton = React.forwardRef(
+  (
+    {
+      className,
+      active,
+      reversed,
+      ...props
+    }: PropsWithChildren<
+      {
+        active: boolean
+        reversed: boolean
+      } & BaseProps
+    >,
+    ref: Ref<OrNull<HTMLSpanElement>>
+  ) => (
+    <span
+      {...props}
+    //   ref={ref}
+      className={cx(
+        className,
+        css`
+          cursor: pointer;
+          color: ${reversed
+            ? active
+              ? 'Colors.light_grey'
+              : '#aaa'
+            : active
+            ? Colors.light_grey
+            : Colors.light_grey_75};
+        `
+      )}
+    />
+  )
+)
+
 export const EditorValue = React.forwardRef(
   (
     {
@@ -190,6 +225,27 @@ export const Toolbar = React.forwardRef(
           margin: 0 -1em;
           margin-top: 4em;
           background: ${Colors.blue};
+        `
+      )}
+    />
+  )
+)
+
+export const ReplyToolbar = React.forwardRef(
+  (
+    { className, ...props }: PropsWithChildren<BaseProps>,
+    ref: Ref<OrNull<HTMLDivElement>>
+  ) => (
+    <Menu
+      {...props}
+    //   ref={ref}
+      className={cx(
+        className,
+        css`
+          position: relative;
+          padding: 0.5em 1em;
+          margin: .5em 0;
+          background: ${Colors.white};
         `
       )}
     />
