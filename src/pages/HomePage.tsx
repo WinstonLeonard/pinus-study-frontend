@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { API_URL, Colors} from "../constants";
 import Background from "../components/Background";
 import { MyModulesGuest, ModuleComponent }  from "../components/MyModules";
+import NavigationBar from "../components/Navbar";
 import { useEffect, useState } from "react";
 
 const HomePageWrapper = styled.div`
@@ -53,7 +54,7 @@ const MyModulesDiv = styled.div`
 `
 
 const HomePage = () => {
-    const [modules, setModules] = useState([]);
+    const [modules, setModules] = useState<any[]>([]);
 
     useEffect(() => {
         fetch(API_URL + `/module`, {
@@ -76,6 +77,7 @@ const HomePage = () => {
 
     return (
         <div>
+            <NavigationBar/>
             <Background>
                 <HomePageWrapper>
                     <div>

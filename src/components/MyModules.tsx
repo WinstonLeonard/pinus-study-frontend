@@ -74,7 +74,7 @@ export const MyModulesGuest = () => {
     return (
         <MyModulesContainer>
             <MyModulesHeading>My Modules</MyModulesHeading>
-                <MyModulesText><div><a href="">Log in</a> to access your subscribed modules.</div></MyModulesText>
+                <MyModulesText><div><a href="/">Log in</a> to access your subscribed modules.</div></MyModulesText>
         </MyModulesContainer>
     );
 }
@@ -97,4 +97,4 @@ export const MyModules = () => {
     );
 }
 
-// export default MyModules;
+export default MyModules;
