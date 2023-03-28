@@ -69,11 +69,10 @@ const HomePage = () => {
             }),
         }).then(response => response.json())
         .then(data => {
-            setModules(data);
+            const sortedModules = [...data.module_list].sort((a, b) => b.SubscriberCount - a.SubscriberCount);
+            setModules(sortedModules);
         });
     }, []);
-
-    const sortedModules = [...modules].sort((a, b) => b.SubscriberCount - a.SubscriberCount);
 
     return (
         <div>
@@ -84,7 +83,7 @@ const HomePage = () => {
                         <DisplayWrapper>
                             <Heading>Popular Modules</Heading><br></br>
                             <PopularModulesWrapper>
-                                {sortedModules.map(module => (
+                                {modules.map(module => (
                                     <ModuleComponent key={module.Id}>{module.Name}</ModuleComponent>
                                 ))}
                             </PopularModulesWrapper>
