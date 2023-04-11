@@ -1,5 +1,7 @@
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import { Colors } from '../constants';
+import { API_URL } from '../constants';
 
 export const ModuleComponent = styled.div`
     cursor: pointer;
@@ -70,6 +72,19 @@ const Scrollable = styled.div`
     height: 60vh;
 `
 
+const MyModulesChildrenWrapper = ({ moduleCode }: { moduleCode: string }) => {  
+    const handleButtonClick = () => {
+      // Redirect to the desired URL on button click
+      window.location.href = "/module/" + moduleCode 
+    };
+  
+    return (
+      <MyModulesChildren onClick={handleButtonClick}>
+        {moduleCode}
+      </MyModulesChildren>
+    );
+  };
+
 export const MyModulesGuest = () => {
     return (
         <MyModulesContainer>
@@ -80,18 +95,42 @@ export const MyModulesGuest = () => {
 }
 
 export const MyModules = () => {
+    const [myModules, setMyModules] = useState([])
+    const DUMMY_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE2ODEyMzI5NzIsInVzZXJfaWQiOjIyfQ.9h6GEq9WhdxAuYZwg3AbF0IT4WZagAUZQ9LuVOENZOA"
+    const DUMMY_USERID = 22
+    useEffect(() => {
+        const fetchData = async () => {
+          try {
+            const response = await fetch(API_URL + `/me`, {
+              method: 'POST',
+              headers: {
+                Authorization: `Bearer ${DUMMY_TOKEN}`,
+              },
+              mode: 'cors',
+              body: JSON.stringify({ userid: DUMMY_USERID }),
+            });
+    
+            if (!response.ok) {
+              throw new Error('Failed to fetch data');
+            }
+    
+            const jsonData = await response.json();
+            setMyModules(jsonData.MyModules)
+          } catch (error) {
+            console.error(error);
+          }
+        };
+    
+        fetchData();
+    }, []);
+
+
     return (
         <MyModulesContainer>
             <MyModulesHeading>My Modules</MyModulesHeading>
             <Scrollable>
-                <MyModulesChildren marginTop='0em'>CS1101S</MyModulesChildren>
-                <MyModulesChildren>CS1101S</MyModulesChildren>
-                <MyModulesChildren>CS1101S</MyModulesChildren>
-                <MyModulesChildren>CS1101S</MyModulesChildren>
-                <MyModulesChildren>CS1101S</MyModulesChildren>
-                <MyModulesChildren>CS1101S</MyModulesChildren>
-                <MyModulesChildren>CS1101S</MyModulesChildren>
-                <MyModulesChildren>CS1101S</MyModulesChildren>
+                {myModules.map(moduleCode => <MyModulesChildrenWrapper moduleCode={moduleCode}/>)}
+                {/* {myModules.slice(1).map(i => <MyModulesChildren>{i}</MyModulesChildren>)} */}
             </Scrollable>
         </MyModulesContainer>
     );
