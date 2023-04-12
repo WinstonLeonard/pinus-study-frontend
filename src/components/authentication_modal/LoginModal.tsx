@@ -13,8 +13,9 @@ import {
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { login, selectToken } from '../../redux/features/users/userSlice';
-import { API_URL } from "../../constants";
+import { LOGIN_URL } from "../../constants";
 import CloseIcon from '@mui/icons-material/Close';
+import { getUserDetailsRequest } from "../../requests";
 
 const LoginModal = ({cancel, showSignUpModal} : {cancel: () => void; showSignUpModal: () => void}) => {
     const [emailOrUsername, setEmailOrUsername] = useState<string>("");
@@ -47,7 +48,7 @@ const LoginModal = ({cancel, showSignUpModal} : {cancel: () => void; showSignUpM
             setShowError(true);
             return;
         }
-        fetch(API_URL + `/login`, {
+        fetch(LOGIN_URL, {
             method: "POST",
             headers: {
                 'Accept': 'application/json',

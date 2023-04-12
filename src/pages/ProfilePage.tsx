@@ -8,6 +8,7 @@ import ThreadComponent from "../components/ThreadComponent";
 import { API_URL, Colors } from "../constants";
 import { User, selectUser, updateUser } from "../redux/features/users/userSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { getUserDetailsRequest } from "../requests";
 
 const ProfilePageWrapper = styled.div`
     display: grid;
@@ -35,19 +36,8 @@ const ProfilePage = () => {
     const user = useSelector(selectUser);
     const dispatch = useDispatch();
 
-    const getUserDetails = () => {
-        fetch(API_URL + `/user/${user.Id}`)
-        .then((response) => response.json())
-        .then((data) => {
-            if (data.status === 'failure') {
-                return;
-            }
-            dispatch(updateUser(data));
-        });
-    }
-
     useEffect(() => {
-        getUserDetails();
+        getUserDetailsRequest(user.Id, dispatch);
     }, [])
 
     return (

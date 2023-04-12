@@ -1,9 +1,11 @@
 import styled from "styled-components";
 import { API_URL, Colors} from "../constants";
 import Background from "../components/Background";
-import { MyModulesGuest, ModuleComponent }  from "../components/MyModules";
+import MyModules, { MyModulesGuest, ModuleComponent }  from "../components/MyModules";
 import NavigationBar from "../components/Navbar";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { selectUser } from "../redux/features/users/userSlice";
 
 const HomePageWrapper = styled.div`
     display: grid;
@@ -54,7 +56,12 @@ const MyModulesDiv = styled.div`
 `
 
 const HomePage = () => {
+    const user = useSelector(selectUser);
     const [modules, setModules] = useState<any[]>([]);
+
+    const isLoggedIn = () => {
+        return user.Id !== 0 && user.Token !== "";
+    }
 
     useEffect(() => {
         fetch(API_URL + `/module`, {
@@ -99,7 +106,7 @@ const HomePage = () => {
                         </DisplayWrapper>
                     </div>
                     <MyModulesDiv>
-                        <MyModulesGuest />
+                        {isLoggedIn() ? <MyModules /> : <MyModulesGuest />}
                     </MyModulesDiv>
                 </HomePageWrapper>
             </Background>
