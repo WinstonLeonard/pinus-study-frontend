@@ -178,7 +178,7 @@ const NavigationBar = () => {
         if (isLoggedIn()) {
             hideAllModals();
         }
-    }, [userId, hideAllModals, isLoggedIn])
+    }, [userId])
 
     return (
         <NavbarContainer>

@@ -2,6 +2,8 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { Colors } from '../constants';
 import { User } from '../redux/features/users/userSlice';
+import { useDispatch } from 'react-redux';
+import { logout } from '../redux/features/users/userSlice';
 
 const ProfileContainer = styled.div`
     background-color: ${Colors.white};
@@ -85,36 +87,25 @@ const VerticalLine = styled.div`
     height: 10vh;
 `
 
-const ProfileComponent = ({user, userId} : {user: User, userId?: string}) => {
-
+const ProfileComponent = ({user, userId} : {user: User, userId?: number}) => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const logOut = () => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("userId");
+        dispatch(logout());
         navigate('/');
     }
 
     return (
         <ProfileContainer>
-            {
-                localStorage.getItem("userId") === userId? <ProfilePicture/> : <ProfilePicture notMyProfile/>
-            }
+            <ProfilePicture/>
             
             <NameDiv paddingTop="1em">
                 <Name>@{user.Username}</Name>
             </NameDiv>
-
-            {
-                localStorage.getItem("userId") === userId? (
-                    <>
-                        <Button marginTop='1em'>View My Modules</Button>
-                        {/* <Button marginTop='0.5em'>Edit My Profile</Button> */}
-                        <Button red marginTop='0.5em' onClick={logOut}>Log Out</Button>
-                    </>
-                ) : null
-            }
-            
+            <Button marginTop='1em'>View My Modules</Button>
+            {/* <Button marginTop='0.5em'>Edit My Profile</Button> */}
+            <Button red marginTop='0.5em' onClick={logOut}>Log Out</Button>
             <PostAndLikes>
                 <NumberAndDescription>
                     <Number>{user.NumberOfQuestionsAsked}</Number>
