@@ -66,7 +66,7 @@ const LoginModal = ({cancel, showSignUpModal} : {cancel: () => void; showSignUpM
                 return;
             }
             dispatch(login({
-                Username: "",
+                Id: data.userid,
                 Token: data.token
             }));
         })

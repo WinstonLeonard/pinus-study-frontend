@@ -3,6 +3,7 @@ import { Thread } from "../threads/threadSlice";
 import { createSlice } from "@reduxjs/toolkit";
 
 export interface User {
+  Id: number;
   Username: string;
   Token: string;
   NumberOfQuestionsAsked: number;
@@ -12,6 +13,7 @@ export interface User {
 }
 
 export const UserInitialState : User = {
+  Id: 0,
   Username: "",
   Token: "",
   NumberOfQuestionsAsked: 999,
@@ -28,7 +30,7 @@ export const userSlice = createSlice({
       console.log(action.payload);
       const newState = {
         ...state,
-        Username: action.payload.Username,
+        Id: action.payload.Id,
         Token: action.payload.Token
       };
       return newState;
@@ -39,5 +41,7 @@ export const userSlice = createSlice({
 export const { login } = userSlice.actions;
 
 export const selectToken = (state: RootState) => state.user.Token;
+
+export const selectId = (state: RootState) => state.user.Id;
 
 export default userSlice.reducer;

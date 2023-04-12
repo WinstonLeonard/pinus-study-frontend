@@ -5,7 +5,8 @@ import { logo } from "../assets";
 import { Colors } from "../constants";
 import SearchIcon from "@mui/icons-material/Search";
 import { CreateAccountModal, LoginModal, SignUpModal } from "./authentication_modal"
-
+import { useSelector, useDispatch } from "react-redux";
+import { selectId, selectToken } from "../features/users/userSlice";
 
 // STYLED COMPONENTS
 
@@ -116,7 +117,15 @@ const NavigationBar = () => {
     const [showLogIn, setShowLogIn] = useState<Boolean>(false);
     const [showSignUp, setShowSignUp] = useState<Boolean>(false);
     const [showCreateAccount, setShowCreateAccount] = useState<Boolean>(false);
-    const [userId, setUserId] = useState<string | null>(localStorage.getItem("userId"));
+
+    const userToken = useSelector(selectToken);
+    const userId = useSelector(selectId);
+    const dispatch = useDispatch();
+
+
+    const isLoggedIn = () => {
+        return userToken !== "" && userId !== 0
+    };
 
     const navigate = useNavigate();
 
@@ -186,15 +195,21 @@ const NavigationBar = () => {
                 </SearchBarContainer>
             </SubDivision>
             <Buttons>
-                <Link to="/" style={{ textDecoration: "none" }}>
-                    <LoginButton onClick={() => {setShowLogIn(true)}}>Login</LoginButton>
-                </Link>
-                <Link to="/" style={{ textDecoration: "none" }}>
-                    <SignUpButton onClick={() => {setShowSignUp(true)}}>Sign Up</SignUpButton>
-                </Link>
-                <Link to={`/profile/${userId}`} style={{ textDecoration: "none" }}>
-                    <ProfilePicture/>
-                </Link>
+                {isLoggedIn() ? (
+                    <Link to={`/profile/${userId}`} style={{ textDecoration: "none" }}>
+                        <ProfilePicture/>
+                    </Link>
+                    
+                ) : (
+                    <>
+                    <Link to="/" style={{ textDecoration: "none" }}>
+                        <LoginButton onClick={() => {setShowLogIn(true)}}>Login</LoginButton>
+                    </Link>
+                    <Link to="/" style={{ textDecoration: "none" }}>
+                        <SignUpButton onClick={() => {setShowSignUp(true)}}>Sign Up</SignUpButton>
+                    </Link>
+                    </>
+                )}
             </Buttons>
         </NavbarContainer>
     );
