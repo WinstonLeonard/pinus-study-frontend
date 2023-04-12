@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import { Colors } from '../constants';
 import { API_URL } from '../constants';
+import { DUMMY_TOKEN, DUMMY_USERID } from '../redux/state';
 
 export const ModuleComponent = styled.div`
     cursor: pointer;
@@ -96,8 +97,7 @@ export const MyModulesGuest = () => {
 
 export const MyModules = () => {
     const [myModules, setMyModules] = useState([])
-    const DUMMY_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE2ODEyMzI5NzIsInVzZXJfaWQiOjIyfQ.9h6GEq9WhdxAuYZwg3AbF0IT4WZagAUZQ9LuVOENZOA"
-    const DUMMY_USERID = 22
+
     useEffect(() => {
         const fetchData = async () => {
           try {

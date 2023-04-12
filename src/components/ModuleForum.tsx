@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { API_URL, Colors } from "../constants";
 import { Module, ModuleInitialState } from "../features/modules/moduleSlice";
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
+import { DUMMY_USERID, DUMMY_TOKEN } from "../redux/state";
 
 export const RedButton = styled.div`
     font-family: 'Poppins', 'sans-serif';
@@ -81,6 +82,7 @@ const SubscriberDesc = styled.a`
 
 const ModuleForum = ({ selectedModule } : { selectedModule : string }) => {
     const [module, setModule] = useState<Module>(ModuleInitialState);
+    const [isSubscribed, setIsSubscribed] = useState<boolean>(false);
 
     const fetchMod = () => {
         fetch(API_URL + `/module/${selectedModule.toUpperCase()}`)
@@ -92,9 +94,51 @@ const ModuleForum = ({ selectedModule } : { selectedModule : string }) => {
             .catch(error => console.log(error))
     }
 
+    const fetchIsSubscribed = () => {
+        fetch(API_URL + `/subscribes/${selectedModule.toUpperCase()}/${DUMMY_USERID}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                setIsSubscribed(data.subscribed);
+            })
+            .catch(error => console.log(error))
+    }
+
+    const handleButtonClick = () => {
+        if (!isSubscribed) {
+            fetch(API_URL + `/subscribes/${selectedModule.toUpperCase()}/${DUMMY_USERID}`, {
+                method: 'POST',
+                headers: {
+                  Authorization: `Bearer ${DUMMY_TOKEN}`,
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                setIsSubscribed(true);
+            })
+            .catch(error => console.log(error))
+        } else {
+            fetch(API_URL + `/subscribes/${selectedModule.toUpperCase()}/${DUMMY_USERID}`, {
+                method: 'DELETE',
+                headers: {
+                  Authorization: `Bearer ${DUMMY_TOKEN}`,
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                setIsSubscribed(false);
+            })
+            .catch(error => console.log(error))
+        }
+
+    }
+    
     useEffect(() => {
         fetchMod();
-    }, [])
+        fetchIsSubscribed();
+    }, [module, isSubscribed]);
 
     return (
         <div>
@@ -124,8 +168,13 @@ const ModuleForum = ({ selectedModule } : { selectedModule : string }) => {
                             {module.SubscriberCount} subscribers
                         </SubscriberDesc>
                     </SubscriberDiv>
-                    <RedButton>
-                        Subscribe
+                    <RedButton onClick={handleButtonClick}>
+                        {isSubscribed ? (
+                            <p>Unsubscribe</p>
+                        ) : (
+                            <p>Subscribe</p>
+                        )
+                        }
                     </RedButton>
                 </Bottom>
             </ForumBackground>

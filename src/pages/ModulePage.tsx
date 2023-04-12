@@ -58,7 +58,7 @@ const ModuleForumDiv = styled.div`
 
 const ModulePage = () => {
     const { mod } = useParams();
-
+    
     return (
         <div>
             <NavigationBar/>
