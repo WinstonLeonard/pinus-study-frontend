@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { logo } from "../assets";
@@ -123,7 +123,6 @@ const NavigationBar = () => {
     const userId = useSelector(selectId);
     const dispatch = useDispatch();
 
-
     const isLoggedIn = () => {
         return userToken !== "" && userId !== 0
     };
@@ -174,6 +173,12 @@ const NavigationBar = () => {
             event.preventDefault();
         }
     })
+
+    useEffect(() => {
+        if (isLoggedIn()) {
+            hideAllModals();
+        }
+    }, [userId, hideAllModals, isLoggedIn])
 
     return (
         <NavbarContainer>
