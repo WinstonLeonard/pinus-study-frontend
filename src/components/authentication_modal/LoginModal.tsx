@@ -59,7 +59,6 @@ const LoginModal = ({cancel, showSignUpModal} : {cancel: () => void; showSignUpM
             }),
         }).then(response => response.json())
         .then(data => {
-            console.log(data);
             if (data.status === "failure" || data.token === '') {
                 setShowError(true);
                 return;

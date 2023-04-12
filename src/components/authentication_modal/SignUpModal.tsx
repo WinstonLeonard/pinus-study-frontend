@@ -12,9 +12,11 @@ import {
     SwitchModalPrompt 
 } from "./ModalComponents";
 
-const SignUpModal = ({cancel, showLogInModal, authoriseCreateAccountModal} : 
-    {cancel: () => void; showLogInModal: () => void, authoriseCreateAccountModal: (email: string) => void }) => {
-
+const SignUpModal = ({
+    cancel,
+    showLogInModal,
+    authoriseCreateAccountModal
+} : {cancel: () => void; showLogInModal: () => void, authoriseCreateAccountModal: (email: string) => void }) => {
     const [email, setEmail] = useState<string>("");
     const [showError, setShowError] = useState<Boolean>(false); 
 

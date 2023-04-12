@@ -14,6 +14,8 @@ import {
 import { useEffect, useState } from "react";
 import { API_URL } from "../../constants";
 import CloseIcon from "@mui/icons-material/Close";
+import { useDispatch } from "react-redux";
+import { login } from "../../redux/features/users/userSlice";
 
 const CreateAccountModal = ({
     email,
@@ -31,6 +33,8 @@ const CreateAccountModal = ({
     const [backendResponse, setBackendResponse] = useState<string>("");
     const [showPasswordMismatchError, setShowPasswordMismatchError] =
         useState<Boolean>(false);
+
+    const dispatch = useDispatch();
 
     /**
      * Detects changes on the Username input element.
@@ -67,10 +71,10 @@ const CreateAccountModal = ({
     const checkPassword = () : Boolean => {
         if (confirmPassword.trim() === password.trim()) {
             setShowPasswordMismatchError(false);
-            return false;
+            return true;
         } else {
             setShowPasswordMismatchError(true);
-            return true;
+            return false;
         }
     }
 
@@ -80,36 +84,38 @@ const CreateAccountModal = ({
      */
     const signUp = () => {
         if (!checkPassword()) {
-            if (username.trim() === "" || password === "") {
+            return;
+        }
+        if (username.trim() === "" || password === "") {
+            setShowError(true);
+            return;
+        }
+        fetch(API_URL + `/signup`, {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                username: username,
+                email: email,
+                password: password,
+            }),
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log(data);
+            if (data.status === "failure" || data.token === "") {
+                setBackendResponse(data.message);
                 setShowError(true);
             } else {
-                fetch(API_URL + `/signup`, {
-                    method: "POST",
-                    headers: {
-                        "Accept": "application/json",
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        username: username,
-                        email: email,
-                        password: password,
-                    }),
-                })
-                    .then((response) => response.json())
-                    .then((data) => {
-                        if (data.status === "failure" || data.token === "") {
-                            setBackendResponse(data.message);
-                            setShowError(true);
-                        } else {
-                            // #TODO: redux functions here
-                            localStorage.setItem("token", data.token);
-                            localStorage.setItem("userId", data.userid);
-                            cancel();
-                        }
-                    })
-                    .catch((error) => console.log(error));
+                dispatch(login({
+                    Id: data.userid,
+                    Token: data.token
+                }));
             }
-        }
+        })
+        .catch((error) => console.log(error));
     };
 
     // /**
