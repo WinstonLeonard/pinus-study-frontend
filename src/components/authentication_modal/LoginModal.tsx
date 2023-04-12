@@ -11,14 +11,17 @@ import {
     SwitchModalPrompt 
 } from "./ModalComponents";
 import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from 'react-redux';
+import { login, selectToken } from '../../features/users/userSlice';
 import { API_URL } from "../../constants";
 import CloseIcon from '@mui/icons-material/Close';
 
 const LoginModal = ({cancel, showSignUpModal} : {cancel: () => void; showSignUpModal: () => void}) => {
-
+    const userToken = useSelector(selectToken);
     const [emailOrUsername, setEmailOrUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [showError, setShowError] = useState<Boolean>(false);
+    const dispatch = useDispatch();
 
     /**
      * Detects changes on the Email / Username input element.
@@ -43,30 +46,31 @@ const LoginModal = ({cancel, showSignUpModal} : {cancel: () => void; showSignUpM
     const logIn = () => {
         if (emailOrUsername.trim() === "" || password === "") {
             setShowError(true);
-        } else {
-            fetch(API_URL + `/login`, {
-                method: "POST",
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    username: emailOrUsername,
-                    password: password,
-                }),
-            }).then(response => response.json())
-            .then(data => {
-                console.log(data);
-                if (data.status === "failure" || data.token === '') {
-                    setShowError(true);
-                } else {
-                    // #TODO: redux functions here
-                    localStorage.setItem("token", data.token);
-                    localStorage.setItem("userId", data.userid);
-                }
-            })
-            .catch(error => console.log(error));
+            return;
         }
+        fetch(API_URL + `/login`, {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: emailOrUsername,
+                password: password,
+            }),
+        }).then(response => response.json())
+        .then(data => {
+            console.log(data);
+            if (data.status === "failure" || data.token === '') {
+                setShowError(true);
+                return;
+            }
+            dispatch(login({
+                Username: "",
+                Token: data.token
+            }));
+        })
+        .catch(error => console.log(error));
     }
 
     /**
