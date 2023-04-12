@@ -52,11 +52,11 @@ const LoginModal = ({cancel, showSignUpModal} : {cancel: () => void; showSignUpM
                 },
                 body: JSON.stringify({
                     username: emailOrUsername,
-                    email: emailOrUsername,
                     password: password,
                 }),
             }).then(response => response.json())
             .then(data => {
+                console.log(data);
                 if (data.status === "failure" || data.token === '') {
                     setShowError(true);
                 } else {

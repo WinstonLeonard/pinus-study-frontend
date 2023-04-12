@@ -93,6 +93,13 @@ const SearchBar = styled.input`
     }
 `;
 
+const ProfilePicture = styled.button`
+    background: ${Colors.red};
+    width: 3em;
+    height: 3em;
+    border-radius: 50%;
+`;
+
 /**
  * Navbar component for the web forum.
  * 
@@ -109,6 +116,7 @@ const NavigationBar = () => {
     const [showLogIn, setShowLogIn] = useState<Boolean>(false);
     const [showSignUp, setShowSignUp] = useState<Boolean>(false);
     const [showCreateAccount, setShowCreateAccount] = useState<Boolean>(false);
+    const [userId, setUserId] = useState<string | null>(localStorage.getItem("userId"));
 
     const navigate = useNavigate();
 
@@ -183,6 +191,9 @@ const NavigationBar = () => {
                 </Link>
                 <Link to="/" style={{ textDecoration: "none" }}>
                     <SignUpButton onClick={() => {setShowSignUp(true)}}>Sign Up</SignUpButton>
+                </Link>
+                <Link to={`/profile/${userId}`} style={{ textDecoration: "none" }}>
+                    <ProfilePicture/>
                 </Link>
             </Buttons>
         </NavbarContainer>
