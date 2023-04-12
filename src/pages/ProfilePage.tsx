@@ -6,7 +6,7 @@ import NavigationBar from "../components/Navbar";
 import ProfileComponent from "../components/ProfileComponent";
 import ThreadComponent from "../components/ThreadComponent";
 import { API_URL, Colors } from "../constants";
-import { User, UserInitialState } from "../features/users/userSlice";
+import { User, UserInitialState } from "../redux/features/users/userSlice";
 
 const ProfilePageWrapper = styled.div`
     display: grid;

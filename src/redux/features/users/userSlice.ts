@@ -1,4 +1,4 @@
-import { RootState } from "../../redux/store";
+import { RootState } from "../../store";
 import { Thread } from "../threads/threadSlice";
 import { createSlice } from "@reduxjs/toolkit";
 

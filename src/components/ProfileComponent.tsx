@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { Colors } from '../constants';
-import { User } from '../features/users/userSlice';
+import { User } from '../redux/features/users/userSlice';
 
 const ProfileContainer = styled.div`
     background-color: ${Colors.white};

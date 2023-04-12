@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { Colors } from '../constants';
 import { API_URL } from '../constants';
 import { DUMMY_TOKEN, DUMMY_USERID } from '../redux/state';
+import { useDispatch } from 'react-redux';
+import { toggleLogin } from '../redux/features/modal/modal';
 
 export const ModuleComponent = styled.div`
     cursor: pointer;
@@ -87,12 +89,16 @@ const MyModulesChildrenWrapper = ({ moduleCode }: { moduleCode: string }) => {
   };
 
 export const MyModulesGuest = () => {
-    return (
-        <MyModulesContainer>
-            <MyModulesHeading>My Modules</MyModulesHeading>
-                <MyModulesText><div><a href="/">Log in</a> to access your subscribed modules.</div></MyModulesText>
-        </MyModulesContainer>
-    );
+  const dispatch = useDispatch();
+
+  return (
+    <MyModulesContainer>
+      <MyModulesHeading>My Modules</MyModulesHeading>
+      <MyModulesText>
+        <div>
+          <span style={{color: `${Colors.blue}`, cursor: 'pointer'}} onClick={() => dispatch(toggleLogin(true))}>Log in</span> to access your subscribed modules.</div></MyModulesText>
+    </MyModulesContainer>
+  );
 }
 
 export const MyModules = () => {

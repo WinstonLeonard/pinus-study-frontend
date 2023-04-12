@@ -6,7 +6,8 @@ import { Colors } from "../constants";
 import SearchIcon from "@mui/icons-material/Search";
 import { CreateAccountModal, LoginModal, SignUpModal } from "./authentication_modal"
 import { useSelector, useDispatch } from "react-redux";
-import { selectId, selectToken } from "../features/users/userSlice";
+import { selectId, selectToken } from "../redux/features/users/userSlice";
+import { selectCreateAccountModal, selectLoginModal, selectSignupModal, toggleCreateAccount, toggleLogin, toggleSignup } from "../redux/features/modal/modal";
 
 // STYLED COMPONENTS
 
@@ -114,10 +115,10 @@ const NavigationBar = () => {
 
     // States for login / signup / create account modals
     const [signUpEmail, setSignUpEmail] = useState<string>("");
-    const [showLogIn, setShowLogIn] = useState<Boolean>(false);
-    const [showSignUp, setShowSignUp] = useState<Boolean>(false);
-    const [showCreateAccount, setShowCreateAccount] = useState<Boolean>(false);
 
+    const showLogin = useSelector(selectLoginModal);
+    const showSignup = useSelector(selectSignupModal);
+    const showCreateAccount = useSelector(selectCreateAccountModal);
     const userToken = useSelector(selectToken);
     const userId = useSelector(selectId);
     const dispatch = useDispatch();
@@ -130,28 +131,28 @@ const NavigationBar = () => {
     const navigate = useNavigate();
 
     const hideAllModals = () => {
-        setShowLogIn(false);
-        setShowSignUp(false);
-        setShowCreateAccount(false);
+        dispatch(toggleLogin(false));
+        dispatch(toggleSignup(false));
+        dispatch(toggleCreateAccount(false));
     }
 
     const showSignUpModal = () => {
-        setShowLogIn(false);
-        setShowSignUp(true);
-        setShowCreateAccount(false);
+        dispatch(toggleLogin(false));
+        dispatch(toggleSignup(true));
+        dispatch(toggleCreateAccount(false));
     }
 
     const showLogInModal = () => {
-        setShowLogIn(true);
-        setShowSignUp(false);
-        setShowCreateAccount(false);
+        dispatch(toggleLogin(true));
+        dispatch(toggleSignup(false));
+        dispatch(toggleCreateAccount(false));
     }
 
     const authoriseCreateAccountModal = (email: string) => {
         setSignUpEmail(email);
-        setShowLogIn(false);
-        setShowSignUp(false);
-        setShowCreateAccount(true);
+        dispatch(toggleLogin(false));
+        dispatch(toggleSignup(false));
+        dispatch(toggleCreateAccount(true));
     }
 
     // Updates the query state upon data change in the module search bar
@@ -176,8 +177,8 @@ const NavigationBar = () => {
 
     return (
         <NavbarContainer>
-            { showLogIn? <LoginModal cancel={hideAllModals} showSignUpModal={showSignUpModal} /> : null }
-            { showSignUp? <SignUpModal cancel={hideAllModals} showLogInModal={showLogInModal} authoriseCreateAccountModal={authoriseCreateAccountModal} /> : null }
+            { showLogin ? <LoginModal cancel={hideAllModals} showSignUpModal={showSignUpModal} /> : null }
+            { showSignup ? <SignUpModal cancel={hideAllModals} showLogInModal={showLogInModal} authoriseCreateAccountModal={authoriseCreateAccountModal} /> : null }
             { showCreateAccount ? <CreateAccountModal cancel={hideAllModals} email={signUpEmail} showLogInModal={showLogInModal} /> : null }
             <SubDivision>
                 <Link to="/">
@@ -203,10 +204,10 @@ const NavigationBar = () => {
                 ) : (
                     <>
                     <Link to="/" style={{ textDecoration: "none" }}>
-                        <LoginButton onClick={() => {setShowLogIn(true)}}>Login</LoginButton>
+                        <LoginButton onClick={showLogInModal}>Login</LoginButton>
                     </Link>
                     <Link to="/" style={{ textDecoration: "none" }}>
-                        <SignUpButton onClick={() => {setShowSignUp(true)}}>Sign Up</SignUpButton>
+                        <SignUpButton onClick={showSignUpModal}>Sign Up</SignUpButton>
                     </Link>
                     </>
                 )}

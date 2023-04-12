@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { API_URL } from '../constants';
-import { Module, ModuleInitialState } from '../features/modules/moduleSlice';
+import { Module, ModuleInitialState } from '../redux/features/modules/moduleSlice';
 import ThreadComponent from './ThreadComponent';
 
 const ThreadWrapper = styled.span`

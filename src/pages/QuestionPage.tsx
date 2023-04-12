@@ -6,7 +6,7 @@ import { Colors } from "../constants";
 import MyModules from "../components/MyModules";
 import ModuleForum, { RedButton } from "../components/ModuleForum";
 import { API_URL } from "../constants";
-import { Thread, ThreadInitialState } from "../features/threads/threadSlice";
+import { Thread, ThreadInitialState } from "../redux/features/threads/threadSlice";
 import CommentList from "../components/comments/CommentList";
 import ReplyTextEditor from "../components/editor/ReplyTextEditor";
 
