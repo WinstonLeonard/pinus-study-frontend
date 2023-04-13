@@ -35,7 +35,7 @@ const NameDiv = styled.div<{paddingTop?: string}>`
 `
 
 const Name = styled.span`
-    font-family: Poppins-Bold;
+    font-family: "Poppins", "sans-serif";
     color: ${Colors.dark_grey};
     font-size: 1.75em;
 `
@@ -43,7 +43,7 @@ const Name = styled.span`
 const Button = styled.div<{marginTop?: string, red?: boolean}>`
     margin-top: ${props => props.marginTop? props.marginTop: '0em'};
     background-color: ${props => props.red? Colors.red : Colors.blue};
-    font-family: Poppins-Bold;
+    font-family: "Poppins", "sans-serif";
     color: ${Colors.white};
     cursor: pointer;
     width: 100%;
@@ -69,12 +69,12 @@ const NumberAndDescription = styled.div`
 `
 
 const Number = styled.div`
-    font-family: Poppins-Bold;
+    font-family: "Poppins", "sans-serif";
     font-size: 2em;
 `
 
 const Description = styled.div`
-    font-family: Poppins-Medium;
+    font-family: "Poppins", "sans-serif";
     font-size: 1em;
     text-align: center;
 `

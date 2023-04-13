@@ -44,7 +44,7 @@ const ThreadListContainer = styled.div`
     margin-left: 8px;
 `
 
-const MyModulesDiv = styled.div`
+export const MyModulesDiv = styled.div`
     display: grid;
     align-items: center;
     padding: 1.25em calc(2em + 20px);
@@ -58,7 +58,7 @@ const ModuleForumDiv = styled.div`
 
 const ModulePage = () => {
     const { mod } = useParams();
-    
+
     return (
         <div>
             <NavigationBar/>

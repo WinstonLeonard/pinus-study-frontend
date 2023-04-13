@@ -75,6 +75,19 @@ const Scrollable = styled.div`
     height: 60vh;
 `
 
+export const ModuleComponentWrapper = ({ moduleCode }: { moduleCode: string }) => {  
+  const handleButtonClick = () => {
+    // Redirect to the desired URL on button click
+    window.location.href = "/module/" + moduleCode 
+  };
+
+  return (
+    <ModuleComponent onClick={handleButtonClick}>
+      {moduleCode}
+    </ModuleComponent>
+  );
+};
+
 const MyModulesChildrenWrapper = ({ moduleCode }: { moduleCode: string }) => {  
     const handleButtonClick = () => {
       // Redirect to the desired URL on button click
@@ -114,7 +127,6 @@ export const MyModules = () => {
       <MyModulesHeading>My Modules</MyModulesHeading>
       <Scrollable>
         {user.Modules.map(moduleCode => <MyModulesChildrenWrapper moduleCode={moduleCode}/>)}
-        {/* {myModules.slice(1).map(i => <MyModulesChildren>{i}</MyModulesChildren>)} */}
       </Scrollable>
     </MyModulesContainer>
   );

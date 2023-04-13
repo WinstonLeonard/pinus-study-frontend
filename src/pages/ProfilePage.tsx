@@ -27,7 +27,7 @@ const ThreadComponentWrapper = styled.span`
 `
 
 const MostRecentPosts = styled.span`
-    font-family: Poppins-Bold;
+    font-family: "Poppins", "sans-serif";
     font-size: 2em;
     color: ${Colors.white};
 `

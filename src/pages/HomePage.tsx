@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { API_URL, Colors} from "../constants";
 import Background from "../components/Background";
-import MyModules, { MyModulesGuest, ModuleComponent }  from "../components/MyModules";
+import MyModules, { MyModulesGuest, ModuleComponentWrapper }  from "../components/MyModules";
 import NavigationBar from "../components/Navbar";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -91,7 +91,7 @@ const HomePage = () => {
                             <Heading>Popular Modules</Heading><br></br>
                             <PopularModulesWrapper>
                                 {modules.map(module => (
-                                    <ModuleComponent key={module.Id}>{module.Name}</ModuleComponent>
+                                    <ModuleComponentWrapper key={module.Id} moduleCode={module.Id} />
                                 ))}
                             </PopularModulesWrapper>
                             <Heading>What is PINUS Study?</Heading>
