@@ -6,7 +6,9 @@ import NavigationBar from "../components/Navbar";
 import ProfileComponent from "../components/ProfileComponent";
 import ThreadComponent from "../components/ThreadComponent";
 import { API_URL, Colors } from "../constants";
-import { User, UserInitialState } from "../features/users/userSlice";
+import { User, selectUser, updateUser } from "../redux/features/users/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserDetailsRequest } from "../requests";
 
 const ProfilePageWrapper = styled.div`
     display: grid;
@@ -31,22 +33,11 @@ const MostRecentPosts = styled.span`
 `
 
 const ProfilePage = () => {
-
-    const [user, setUser] = useState<User>(UserInitialState);
-    
-    const { userId } = useParams();
-
-    const getUserDetails = () => {
-        fetch(API_URL + `/user/${userId}`)
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data);
-                setUser(data);
-            });
-    }
+    const user = useSelector(selectUser);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        getUserDetails();
+        getUserDetailsRequest(user.Id, dispatch);
     }, [])
 
     return (
@@ -54,7 +45,7 @@ const ProfilePage = () => {
             <NavigationBar/>
             <Background>
                 <ProfilePageWrapper>
-                    <ProfileComponent user={user} userId={userId}/>
+                    <ProfileComponent user={user} userId={user.Id}/>
                     <ThreadWrapper>
                         <MostRecentPosts>Most Recent Posts</MostRecentPosts>
                         {user.RecentThreads.map(thread => {

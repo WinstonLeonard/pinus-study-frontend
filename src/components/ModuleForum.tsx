@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { API_URL, Colors } from "../constants";
-import { Module, ModuleInitialState } from "../features/modules/moduleSlice";
+import { Module, ModuleInitialState } from "../redux/features/modules/moduleSlice";
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import { DUMMY_USERID, DUMMY_TOKEN } from "../redux/state";
 

@@ -1,8 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import { Colors } from '../constants';
-import { API_URL } from '../constants';
-import { DUMMY_TOKEN, DUMMY_USERID } from '../redux/state';
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleLogin } from '../redux/features/modal/modal';
+import { selectUser } from '../redux/features/users/userSlice';
+import { getUserDetailsRequest } from '../requests';
 
 export const ModuleComponent = styled.div`
     cursor: pointer;
@@ -87,53 +89,35 @@ const MyModulesChildrenWrapper = ({ moduleCode }: { moduleCode: string }) => {
   };
 
 export const MyModulesGuest = () => {
-    return (
-        <MyModulesContainer>
-            <MyModulesHeading>My Modules</MyModulesHeading>
-                <MyModulesText><div><a href="/">Log in</a> to access your subscribed modules.</div></MyModulesText>
-        </MyModulesContainer>
-    );
+  const dispatch = useDispatch();
+
+  return (
+    <MyModulesContainer>
+      <MyModulesHeading>My Modules</MyModulesHeading>
+      <MyModulesText>
+        <div>
+          <span style={{color: `${Colors.blue}`, cursor: 'pointer'}} onClick={() => dispatch(toggleLogin(true))}>Log in</span> to access your subscribed modules.</div></MyModulesText>
+    </MyModulesContainer>
+  );
 }
 
 export const MyModules = () => {
-    const [myModules, setMyModules] = useState([])
+  const user = useSelector(selectUser);
+  const dispatch = useDispatch();
 
-    useEffect(() => {
-        const fetchData = async () => {
-          try {
-            const response = await fetch(API_URL + `/me`, {
-              method: 'POST',
-              headers: {
-                Authorization: `Bearer ${DUMMY_TOKEN}`,
-              },
-              mode: 'cors',
-              body: JSON.stringify({ userid: DUMMY_USERID }),
-            });
-    
-            if (!response.ok) {
-              throw new Error('Failed to fetch data');
-            }
-    
-            const jsonData = await response.json();
-            setMyModules(jsonData.MyModules)
-          } catch (error) {
-            console.error(error);
-          }
-        };
-    
-        fetchData();
-    }, []);
+  useEffect(() => {
+    getUserDetailsRequest(user.Id, dispatch);
+  }, [])
 
-
-    return (
-        <MyModulesContainer>
-            <MyModulesHeading>My Modules</MyModulesHeading>
-            <Scrollable>
-                {myModules.map(moduleCode => <MyModulesChildrenWrapper moduleCode={moduleCode}/>)}
-                {/* {myModules.slice(1).map(i => <MyModulesChildren>{i}</MyModulesChildren>)} */}
-            </Scrollable>
-        </MyModulesContainer>
-    );
+  return (
+    <MyModulesContainer>
+      <MyModulesHeading>My Modules</MyModulesHeading>
+      <Scrollable>
+        {user.Modules.map(moduleCode => <MyModulesChildrenWrapper moduleCode={moduleCode}/>)}
+        {/* {myModules.slice(1).map(i => <MyModulesChildren>{i}</MyModulesChildren>)} */}
+      </Scrollable>
+    </MyModulesContainer>
+  );
 }
 
 export default MyModules;

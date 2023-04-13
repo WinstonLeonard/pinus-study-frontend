@@ -4,7 +4,7 @@ import { API_URL, Colors } from "../../constants";
 import {
   Comment,
   CommentInitialState,
-} from "../../features/comments/commentSlice";
+} from "../../redux/features/comments/commentSlice";
 import CommentOutlinedIcon from "@mui/icons-material/CommentOutlined";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";

@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { API_URL, Colors } from '../constants';
-import { Thread, ThreadInitialState } from '../features/threads/threadSlice';
+import { Thread, ThreadInitialState } from '../redux/features/threads/threadSlice';
 import CommentOutlinedIcon from '@mui/icons-material/CommentOutlined';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';

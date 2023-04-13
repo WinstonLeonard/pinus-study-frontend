@@ -3,7 +3,7 @@ import { API_URL, Colors } from "../constants";
 import MyModules, { ModuleComponent } from "../components/MyModules";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Module } from "../features/modules/moduleSlice";
+import { Module } from "../redux/features/modules/moduleSlice";
 import { Link } from "react-router-dom";
 
 

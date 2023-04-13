@@ -1,9 +1,11 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import counterReducer from '../features/counter/counterSlice';
+import userReducer from './features/users/userSlice';
+import modalReducer from './features/modal/modal';
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
+    user: userReducer,
+    modal: modalReducer
   },
 });
 
