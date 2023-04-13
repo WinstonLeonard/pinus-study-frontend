@@ -14,7 +14,7 @@ const ModulePageWrapper = styled.div`
     padding: 2em;
 `
 
-const RightSide = styled.div`
+export const RightSide = styled.div`
     display: flex;
     flex-direction: column;
 `

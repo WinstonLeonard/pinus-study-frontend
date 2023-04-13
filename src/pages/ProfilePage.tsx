@@ -9,6 +9,9 @@ import { API_URL, Colors } from "../constants";
 import { User, selectUser, updateUser } from "../redux/features/users/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserDetailsRequest } from "../requests";
+import { RightSide } from "./ModulePage";
+import { MyModulesDiv } from "./ModulePage";
+import MyModules from "../components/MyModules";
 
 const ProfilePageWrapper = styled.div`
     display: grid;
@@ -57,6 +60,11 @@ const ProfilePage = () => {
                         })}
                     </ThreadWrapper>
                 </ProfilePageWrapper>
+                <RightSide>
+                        <MyModulesDiv>
+                            <MyModules/>
+                        </MyModulesDiv>
+                </RightSide>
             </Background>
         </div>
     )
