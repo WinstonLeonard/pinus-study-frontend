@@ -208,12 +208,8 @@ const NavigationBar = () => {
                     
                 ) : (
                     <>
-                    <Link to="/" style={{ textDecoration: "none" }}>
                         <LoginButton onClick={showLogInModal}>Login</LoginButton>
-                    </Link>
-                    <Link to="/" style={{ textDecoration: "none" }}>
                         <SignUpButton onClick={showSignUpModal}>Sign Up</SignUpButton>
-                    </Link>
                     </>
                 )}
             </Buttons>
