@@ -46,12 +46,6 @@ const ThreadListContainer = styled.div`
     margin-left: 8px;
 `
 
-const ModuleForumDiv = styled.div`
-    display: grid;
-    align-items: center;
-    padding: 1.25em calc(2em + 20px);
-`
-
 const ModulePage = () => {
     const { mod } = useParams();
     const userId = useSelector(selectId);
@@ -78,9 +72,7 @@ const ModulePage = () => {
                         </ThreadListContainer>
                     </div>
                     <RightSide>
-                        <ModuleForumDiv>
-                            <ModuleForum selectedModule={mod? mod.toString() : ""}/>
-                        </ModuleForumDiv>
+                        <ModuleForum selectedModule={mod? mod.toString() : ""}/>
                         <MyModules />
                     </RightSide>
                 </ModulePageWrapper>

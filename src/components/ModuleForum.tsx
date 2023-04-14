@@ -80,6 +80,12 @@ const SubscriberDesc = styled.a`
     margin-left: 0.5em;
 `
 
+const ModuleForumDiv = styled.div`
+    display: grid;
+    align-items: center;
+    padding: 1.25em calc(2em + 20px);
+`
+
 const ModuleForum = ({ selectedModule } : { selectedModule : string }) => {
     const [module, setModule] = useState<Module>(ModuleInitialState);
     const [isSubscribed, setIsSubscribed] = useState<boolean>(false);
@@ -141,7 +147,7 @@ const ModuleForum = ({ selectedModule } : { selectedModule : string }) => {
     }, [module, isSubscribed]);
 
     return (
-        <div>
+        <ModuleForumDiv>
             <ForumBackground>
                 <Top>
                     <ForumHeading>
@@ -178,7 +184,7 @@ const ModuleForum = ({ selectedModule } : { selectedModule : string }) => {
                     </RedButton>
                 </Bottom>
             </ForumBackground>
-        </div>
+        </ModuleForumDiv>
     );
 }
 
