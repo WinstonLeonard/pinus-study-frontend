@@ -160,14 +160,6 @@ const ModuleForum = ({ selectedModule } : { selectedModule : string }) => {
                             {module.Name}
                         </ForumDesc>
                     </div>
-                    <div>
-                        <ForumDesc>
-                            {`Link to `}
-                            <RedLink href="">
-                                resources archive
-                            </RedLink>
-                        </ForumDesc>
-                    </div>
                 </Top>
                 <Bottom>
                     <SubscriberDiv>
