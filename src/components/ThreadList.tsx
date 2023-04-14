@@ -36,6 +36,8 @@ const ThreadList = ({ selectedModule } : { selectedModule : string }) => {
         fetchMod();
     }, [])
 
+    
+
     const renderThreadList = () => {
         const curr_thread = module.Threads;
         console.log(curr_thread);

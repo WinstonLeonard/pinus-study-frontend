@@ -115,7 +115,7 @@ const ReplyInputField = styled.input`
  * @param type The type of thread to be rendered. The only valid values are "QUESTION_PAGE" or "MODULE_PAGE",
  *             or it can be omitted.
  */
-const ThreadComponent = ({threadId , type} : {threadId : number, type? : ThreadType}) => {
+const ThreadComponent = ({threadId, type} : {threadId : number, type? : ThreadType}) => {
     const [thread, setThread] = useState<Thread>(ThreadInitialState);
     const [liked, setLiked] = useState<Boolean>(false);
     const [disliked, setDisliked] = useState<Boolean>(false);
@@ -125,6 +125,10 @@ const ThreadComponent = ({threadId , type} : {threadId : number, type? : ThreadT
 
     const openReplyInputField = () : void => {
         setOpenReply(!openReply);
+    }
+
+    const handleThreadClick = () => {
+        navigate(`/thread/${threadId}`);
     }
 
     /* For navigating from module page to question page (router stuff)*/
@@ -232,19 +236,22 @@ const ThreadComponent = ({threadId , type} : {threadId : number, type? : ThreadT
      */
     const renderModulePageThread = () => {
         return (
-            <ThreadContainerButton>
-                <PostedSince>{parseDuration(thread.Timestamp)}</PostedSince>
-                <QuestionTitle>{thread.Title}</QuestionTitle>
-                <br/>
-                <RegularText>Posted by @{thread.Username} in {thread.ModuleId}</RegularText>
-                <br/>
-                <Content>{shortenLongPosts(thread.Content)}</Content>
-                <br/>
-                <VerticalCenterAlignLayout>
-                    <CommentOutlinedIcon sx={{fontSize: "1.375em"}}/>
-                    <RegularText>&#8196;{thread.Comments || 0}</RegularText>
-                </VerticalCenterAlignLayout>
-            </ThreadContainerButton>
+            <div onClick={handleThreadClick}>
+                <ThreadContainerButton>
+                    <PostedSince>{parseDuration(thread.Timestamp)}</PostedSince>
+                    <QuestionTitle>{thread.Title}</QuestionTitle>
+                    <br/>
+                    <RegularText>Posted by @{thread.Username} in {thread.ModuleId}</RegularText>
+                    <br/>
+                    <Content>{shortenLongPosts(thread.Content)}</Content>
+                    <br/>
+                    <VerticalCenterAlignLayout>
+                        <CommentOutlinedIcon sx={{fontSize: "1.375em"}}/>
+                        <RegularText>&#8196;{thread.Comments || 0}</RegularText>
+                    </VerticalCenterAlignLayout>
+                </ThreadContainerButton>
+            </div>
+
         )
     }
 
