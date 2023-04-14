@@ -30,18 +30,6 @@ const SpacingEmptyDiv = styled.div`
   padding-top: 2em;
 `;
 
-const MyModulesDiv = styled.div`
-  display: grid;
-  align-items: center;
-  padding: 1.25em calc(2em + 20px);
-`;
-
-const ModuleForumDiv = styled.div`
-  display: grid;
-  align-items: center;
-  padding: 1.25em calc(2em + 20px);
-`;
-
 const RightSide = styled.div`
   display: flex;
   flex-direction: column;
@@ -120,9 +108,7 @@ const QuestionPage = () => {
             )}
           </div>
           <RightSide>
-            <MyModulesDiv>
-              <MyModules />
-            </MyModulesDiv>
+            <MyModules />
           </RightSide>
         </MainContainer>
       </Background>

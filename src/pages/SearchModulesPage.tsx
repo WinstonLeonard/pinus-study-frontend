@@ -36,12 +36,6 @@ const ResultsHeadingItalic = styled(ResultsHeading)`
     font-style: italic;
 `
 
-const MyModulesDiv = styled.div`
-    display: grid;
-    align-items: center;
-    padding: calc(2em + 20px);
-`
-
 const SearchModulesPage = () => {
     const { keyword } = useParams();
 
@@ -95,11 +89,9 @@ const SearchModulesPage = () => {
                                     </Link>
                                 )
                         })}
-                </ModuleGridWrapper>
-                    </div>
-                <MyModulesDiv>
-                    <MyModules/>
-                </MyModulesDiv>
+                    </ModuleGridWrapper>
+                </div>
+                <MyModules/>
             </ModulePageWrapper>
         </div>
     )

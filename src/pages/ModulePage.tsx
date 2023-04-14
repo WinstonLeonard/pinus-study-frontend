@@ -3,12 +3,11 @@ import { useParams } from "react-router-dom";
 import Background from "../components/Background";
 import NavigationBar from "../components/Navbar";
 import { Colors } from "../constants";
-import MyModules, { MyModulesGuest } from "../components/MyModules";
+import MyModules from "../components/MyModules";
 import ModuleForum, { RedButton } from "../components/ModuleForum";
 import ThreadList from "../components/ThreadList";
 import { useSelector } from "react-redux";
 import { selectId, selectToken } from "../redux/features/users/userSlice";
-import { isLoggedIn } from "../utils";
 
 const ModulePageWrapper = styled.div`
     display: grid;
@@ -47,12 +46,6 @@ const ThreadListContainer = styled.div`
     margin-left: 8px;
 `
 
-export const MyModulesDiv = styled.div`
-    display: grid;
-    align-items: center;
-    padding: 1.25em calc(2em + 20px);
-`
-
 const ModuleForumDiv = styled.div`
     display: grid;
     align-items: center;
@@ -88,9 +81,7 @@ const ModulePage = () => {
                         <ModuleForumDiv>
                             <ModuleForum selectedModule={mod? mod.toString() : ""}/>
                         </ModuleForumDiv>
-                        <MyModulesDiv>
-                            { isLoggedIn(token, userId) ? <MyModules /> : <MyModulesGuest /> }
-                        </MyModulesDiv>
+                        <MyModules />
                     </RightSide>
                 </ModulePageWrapper>
             </Background>

@@ -8,6 +8,7 @@ import MyModules from "../components/MyModules";
 import ModuleForum from "../components/ModuleForum";
 import SubscriberComponent from "../components/SubscriberComponent";
 import { useEffect, useState } from "react";
+import { isLoggedIn } from "../utils";
 
 const SubscribersPageWrapper = styled.div`
     display: grid;
@@ -55,12 +56,6 @@ const SubscribersContainer = styled.div`
     grid-template-columns: 1fr 1fr 1fr;
     grid-column-gap: 1em;
     grid-row-gap: 1em;
-`
-
-const MyModulesDiv = styled.div`
-    display: grid;
-    align-items: center;
-    padding: 1.25em calc(2em + 20px);
 `
 
 const ModuleForumDiv = styled.div`
@@ -119,9 +114,7 @@ const SubscribersPage = () => {
                         <ModuleForumDiv>
                             <ModuleForum selectedModule={mod? mod.toString() : ""}/>
                         </ModuleForumDiv>
-                        <MyModulesDiv>
-                            <MyModules/>
-                        </MyModulesDiv>
+                        <MyModules/>
                     </RightSide>
                 </SubscribersPageWrapper>
             </Background>
