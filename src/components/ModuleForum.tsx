@@ -3,7 +3,8 @@ import styled from "styled-components";
 import { API_URL, Colors } from "../constants";
 import { Module, ModuleInitialState } from "../redux/features/modules/moduleSlice";
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
-import { DUMMY_USERID, DUMMY_TOKEN } from "../redux/state";
+import { useSelector } from "react-redux";
+import { selectId, selectToken } from "../redux/features/users/userSlice";
 
 export const RedButton = styled.div`
     font-family: 'Poppins', 'sans-serif';
@@ -89,6 +90,8 @@ const ModuleForumDiv = styled.div`
 const ModuleForum = ({ selectedModule } : { selectedModule : string }) => {
     const [module, setModule] = useState<Module>(ModuleInitialState);
     const [isSubscribed, setIsSubscribed] = useState<boolean>(false);
+    const userId = useSelector(selectId);
+    const token = useSelector(selectToken);
 
     const fetchMod = () => {
         fetch(API_URL + `/module/${selectedModule.toUpperCase()}`)
@@ -101,7 +104,7 @@ const ModuleForum = ({ selectedModule } : { selectedModule : string }) => {
     }
 
     const fetchIsSubscribed = () => {
-        fetch(API_URL + `/subscribes/${selectedModule.toUpperCase()}/${DUMMY_USERID}`)
+        fetch(API_URL + `/subscribes/${selectedModule.toUpperCase()}/${userId}`)
             .then(response => response.json())
             .then(data => {
                 console.log(data);
@@ -112,10 +115,10 @@ const ModuleForum = ({ selectedModule } : { selectedModule : string }) => {
 
     const handleButtonClick = () => {
         if (!isSubscribed) {
-            fetch(API_URL + `/subscribes/${selectedModule.toUpperCase()}/${DUMMY_USERID}`, {
+            fetch(API_URL + `/subscribes/${selectedModule.toUpperCase()}/${userId}`, {
                 method: 'POST',
                 headers: {
-                  Authorization: `Bearer ${DUMMY_TOKEN}`,
+                  Authorization: `Bearer ${token}`,
                 },
             })
             .then(response => response.json())
@@ -125,10 +128,10 @@ const ModuleForum = ({ selectedModule } : { selectedModule : string }) => {
             })
             .catch(error => console.log(error))
         } else {
-            fetch(API_URL + `/subscribes/${selectedModule.toUpperCase()}/${DUMMY_USERID}`, {
+            fetch(API_URL + `/subscribes/${selectedModule.toUpperCase()}/${userId}`, {
                 method: 'DELETE',
                 headers: {
-                  Authorization: `Bearer ${DUMMY_TOKEN}`,
+                  Authorization: `Bearer ${token}`,
                 },
             })
             .then(response => response.json())
@@ -138,7 +141,6 @@ const ModuleForum = ({ selectedModule } : { selectedModule : string }) => {
             })
             .catch(error => console.log(error))
         }
-
     }
     
     useEffect(() => {
