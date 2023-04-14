@@ -12,6 +12,7 @@ import ModulePage from "./pages/ModulePage";
 import SubscribersPage from "./pages/SubscribersPage";
 import ProfilePage from "./pages/ProfilePage";
 import { PersistGate } from "redux-persist/integration/react";
+import SearchModulesPage from "./pages/SearchModulesPage";
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);
@@ -23,7 +24,7 @@ const router = createBrowserRouter([
     },
     {
         path:"/search/:keyword",
-        element: <App />
+        element: <SearchModulesPage />
     },
     {
         path: "*",

@@ -103,6 +103,7 @@ const ProfilePicture = styled.button`
     width: 3em;
     height: 3em;
     border-radius: 50%;
+    cursor: pointer;
 `;
 
 /**
