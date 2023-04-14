@@ -44,7 +44,7 @@ const MyModulesHeading = styled.span`
 `
 
 const MyModulesText = styled.span`
-    padding: 1.25em;
+    padding-top: 1.25em;
     display: flex;
     font-family: "Poppins", "sans-serif";
     font-weight: 500;

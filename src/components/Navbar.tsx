@@ -59,6 +59,7 @@ const LoginButton = styled.span`
     border-style: solid;
     color: ${Colors.white};
     text-decoration: "none";
+    cursor: pointer;
 `;
 
 const SignUpButton = styled.span`
@@ -69,6 +70,7 @@ const SignUpButton = styled.span`
     border-radius: 30px;
     color: white;
     text-decoration: "none";
+    cursor: pointer;
 `;
 
 const SearchBarContainer = styled.span`
