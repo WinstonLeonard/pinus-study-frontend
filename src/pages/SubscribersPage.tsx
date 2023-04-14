@@ -57,18 +57,6 @@ const SubscribersContainer = styled.div`
     grid-row-gap: 1em;
 `
 
-const MyModulesDiv = styled.div`
-    display: grid;
-    align-items: center;
-    padding: 1.25em calc(2em + 20px);
-`
-
-const ModuleForumDiv = styled.div`
-    display: grid;
-    align-items: center;
-    padding: 1.25em calc(2em + 20px);
-`
-
 const SubscribersPage = () => {
     const { mod } = useParams();
     // const selectedModule = mod? mod.toString() : ""
@@ -116,12 +104,8 @@ const SubscribersPage = () => {
                         </SubscribersContainer>
                     </div>
                     <RightSide>
-                        <ModuleForumDiv>
-                            <ModuleForum selectedModule={mod? mod.toString() : ""}/>
-                        </ModuleForumDiv>
-                        <MyModulesDiv>
-                            <MyModules/>
-                        </MyModulesDiv>
+                        <ModuleForum selectedModule={mod? mod.toString() : ""}/>
+                        <MyModules/>
                     </RightSide>
                 </SubscribersPageWrapper>
             </Background>

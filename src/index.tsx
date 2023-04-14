@@ -1,7 +1,7 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
-import { store } from "./redux/store";
+import { persistor, store } from "./redux/store";
 import App from "./App";
 import { QuestionPage } from "./components";
 import reportWebVitals from "./reportWebVitals";
@@ -11,6 +11,8 @@ import HomePage from "./pages/HomePage";
 import ModulePage from "./pages/ModulePage";
 import SubscribersPage from "./pages/SubscribersPage";
 import ProfilePage from "./pages/ProfilePage";
+import { PersistGate } from "redux-persist/integration/react";
+import SearchModulesPage from "./pages/SearchModulesPage";
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);
@@ -22,7 +24,7 @@ const router = createBrowserRouter([
     },
     {
         path:"/search/:keyword",
-        element: <App />
+        element: <SearchModulesPage />
     },
     {
         path: "*",
@@ -49,7 +51,9 @@ const router = createBrowserRouter([
 root.render(
     <React.StrictMode>
         <Provider store={store}>
-            <RouterProvider router={router} />
+            <PersistGate persistor={persistor}>
+                <RouterProvider router={router} />
+            </PersistGate>
         </Provider>
     </React.StrictMode>
 );

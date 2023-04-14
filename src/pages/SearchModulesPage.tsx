@@ -5,6 +5,8 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Module } from "../redux/features/modules/moduleSlice";
 import { Link } from "react-router-dom";
+import { Background } from "../components";
+import NavigationBar from "../components/Navbar";
 
 
 const ModulePageWrapper = styled.div`
@@ -34,12 +36,6 @@ const ResultsHeading = styled.span`
 
 const ResultsHeadingItalic = styled(ResultsHeading)`
     font-style: italic;
-`
-
-const MyModulesDiv = styled.div`
-    display: grid;
-    align-items: center;
-    padding: calc(2em + 20px);
 `
 
 const SearchModulesPage = () => {
@@ -77,30 +73,31 @@ const SearchModulesPage = () => {
 
     return (
         <div>
-            <ModulePageWrapper>
-                <div>
-                    <ResultsHeadingDiv>
-                        <ResultsHeading>Results for </ResultsHeading>
-                        <ResultsHeadingItalic>'{keyword}'</ResultsHeadingItalic>
-                    </ResultsHeadingDiv>
-                    <ModuleGridWrapper>
-                        {noModulesFound
-                            ? null
-                            : searchResults.map(module => {
-                                return (
-                                    <Link to={`/module/${module.Id.toLocaleLowerCase()}`} style={{ textDecoration: 'none' }}>
-                                        <div key={module.Id}>
-                                            <ModuleComponent>{module.Id}</ModuleComponent>
-                                       </div>
-                                    </Link>
-                                )
-                        })}
-                </ModuleGridWrapper>
+            <Background>
+                <NavigationBar />
+                <ModulePageWrapper>
+                    <div>
+                        <ResultsHeadingDiv>
+                            <ResultsHeading>Results for </ResultsHeading>
+                            <ResultsHeadingItalic>'{keyword}'</ResultsHeadingItalic>
+                        </ResultsHeadingDiv>
+                        <ModuleGridWrapper>
+                            {noModulesFound
+                                ? null
+                                : searchResults.map(module => {
+                                    return (
+                                        <Link to={`/module/${module.Id.toLocaleLowerCase()}`} style={{ textDecoration: 'none' }}>
+                                            <div key={module.Id}>
+                                                <ModuleComponent>{module.Id}</ModuleComponent>
+                                        </div>
+                                        </Link>
+                                    )
+                            })}
+                        </ModuleGridWrapper>
                     </div>
-                <MyModulesDiv>
                     <MyModules/>
-                </MyModulesDiv>
-            </ModulePageWrapper>
+                </ModulePageWrapper>
+            </Background>
         </div>
     )
 }

@@ -8,6 +8,7 @@ import { CreateAccountModal, LoginModal, SignUpModal } from "./authentication_mo
 import { useSelector, useDispatch } from "react-redux";
 import { selectId, selectToken } from "../redux/features/users/userSlice";
 import { selectCreateAccountModal, selectLoginModal, selectSignupModal, toggleCreateAccount, toggleLogin, toggleSignup } from "../redux/features/modal/modal";
+import { isLoggedIn } from "../utils";
 
 // STYLED COMPONENTS
 
@@ -58,6 +59,7 @@ const LoginButton = styled.span`
     border-style: solid;
     color: ${Colors.white};
     text-decoration: "none";
+    cursor: pointer;
 `;
 
 const SignUpButton = styled.span`
@@ -68,6 +70,7 @@ const SignUpButton = styled.span`
     border-radius: 30px;
     color: white;
     text-decoration: "none";
+    cursor: pointer;
 `;
 
 const SearchBarContainer = styled.span`
@@ -100,6 +103,7 @@ const ProfilePicture = styled.button`
     width: 3em;
     height: 3em;
     border-radius: 50%;
+    cursor: pointer;
 `;
 
 /**
@@ -122,11 +126,6 @@ const NavigationBar = () => {
     const userToken = useSelector(selectToken);
     const userId = useSelector(selectId);
     const dispatch = useDispatch();
-
-    const isLoggedIn = () => {
-        return userToken !== "" && userId !== 0
-    };
-
     const navigate = useNavigate();
 
     const hideAllModals = () => {
@@ -175,7 +174,7 @@ const NavigationBar = () => {
     })
 
     useEffect(() => {
-        if (isLoggedIn()) {
+        if (isLoggedIn(userToken, userId)) {
             hideAllModals();
         }
     }, [userId])
@@ -201,19 +200,14 @@ const NavigationBar = () => {
                 </SearchBarContainer>
             </SubDivision>
             <Buttons>
-                {isLoggedIn() ? (
+                {isLoggedIn(userToken, userId) ? (
                     <Link to={`/profile/${userId}`} style={{ textDecoration: "none" }}>
                         <ProfilePicture/>
                     </Link>
-                    
                 ) : (
                     <>
-                    <Link to="/" style={{ textDecoration: "none" }}>
                         <LoginButton onClick={showLogInModal}>Login</LoginButton>
-                    </Link>
-                    <Link to="/" style={{ textDecoration: "none" }}>
                         <SignUpButton onClick={showSignUpModal}>Sign Up</SignUpButton>
-                    </Link>
                     </>
                 )}
             </Buttons>

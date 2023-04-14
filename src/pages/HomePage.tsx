@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { API_URL, Colors} from "../constants";
 import Background from "../components/Background";
-import MyModules, { MyModulesGuest, ModuleComponentWrapper }  from "../components/MyModules";
+import MyModules, { ModuleComponentWrapper } from "../components/MyModules";
 import NavigationBar from "../components/Navbar";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -47,12 +47,6 @@ const WelcomeMessage = styled.span`
     font-size: 0.75em; 
     margin-top: 0.5em;
     margin-bottom: 0.5em;
-`
-
-const MyModulesDiv = styled.div`
-    display: grid;
-    align-items: center;
-    padding: calc(2em + 20px);
 `
 
 const HomePage = () => {
@@ -105,9 +99,7 @@ const HomePage = () => {
                             </WelcomeMessage>
                         </DisplayWrapper>
                     </div>
-                    <MyModulesDiv>
-                        {isLoggedIn() ? <MyModules /> : <MyModulesGuest />}
-                    </MyModulesDiv>
+                    <MyModules />
                 </HomePageWrapper>
             </Background>
         </div>

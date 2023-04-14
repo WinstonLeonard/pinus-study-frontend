@@ -1,10 +1,11 @@
-import React, {useState, useEffect} from 'react';
+import { useEffect } from 'react';
 import styled from 'styled-components';
 import { Colors } from '../constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleLogin } from '../redux/features/modal/modal';
-import { selectUser } from '../redux/features/users/userSlice';
+import { selectId, selectToken, selectUser } from '../redux/features/users/userSlice';
 import { getUserDetailsRequest } from '../requests';
+import { isLoggedIn } from '../utils';
 
 export const ModuleComponent = styled.div`
     cursor: pointer;
@@ -44,7 +45,7 @@ const MyModulesHeading = styled.span`
 `
 
 const MyModulesText = styled.span`
-    padding: 1.25em;
+    padding-top: 1.25em;
     display: flex;
     font-family: "Poppins", "sans-serif";
     font-weight: 500;
@@ -75,6 +76,12 @@ const Scrollable = styled.div`
     height: 60vh;
 `
 
+export const MyModulesDiv = styled.div`
+    display: grid;
+    align-items: center;
+    padding: 1.25em calc(2em + 20px);
+`
+
 export const ModuleComponentWrapper = ({ moduleCode }: { moduleCode: string }) => {  
   const handleButtonClick = () => {
     // Redirect to the desired URL on button click
@@ -101,7 +108,7 @@ const MyModulesChildrenWrapper = ({ moduleCode }: { moduleCode: string }) => {
     );
   };
 
-export const MyModulesGuest = () => {
+const MyModulesGuest = () => {
   const dispatch = useDispatch();
 
   return (
@@ -114,7 +121,7 @@ export const MyModulesGuest = () => {
   );
 }
 
-export const MyModules = () => {
+const MyModulesLoggedIn = () => {
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
 
@@ -130,6 +137,17 @@ export const MyModules = () => {
       </Scrollable>
     </MyModulesContainer>
   );
+}
+
+const MyModules = () => {
+  const userId = useSelector(selectId);
+  const token = useSelector(selectToken);
+
+  return (
+    <MyModulesDiv>
+      { isLoggedIn(token, userId) ? <MyModulesLoggedIn /> : <MyModulesGuest /> }
+    </MyModulesDiv>
+  )
 }
 
 export default MyModules;

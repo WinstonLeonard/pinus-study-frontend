@@ -1,16 +1,14 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useEffect } from "react";
 import styled from "styled-components";
 import Background from "../components/Background";
 import NavigationBar from "../components/Navbar";
 import ProfileComponent from "../components/ProfileComponent";
 import ThreadComponent from "../components/ThreadComponent";
-import { API_URL, Colors } from "../constants";
-import { User, selectUser, updateUser } from "../redux/features/users/userSlice";
+import { Colors } from "../constants";
+import { selectUser } from "../redux/features/users/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserDetailsRequest } from "../requests";
 import { RightSide } from "./ModulePage";
-import { MyModulesDiv } from "./ModulePage";
 import MyModules from "../components/MyModules";
 
 const ProfilePageWrapper = styled.div`
@@ -61,9 +59,7 @@ const ProfilePage = () => {
                     </ThreadWrapper>
                 </ProfilePageWrapper>
                 <RightSide>
-                        <MyModulesDiv>
-                            <MyModules/>
-                        </MyModulesDiv>
+                    <MyModules />
                 </RightSide>
             </Background>
         </div>

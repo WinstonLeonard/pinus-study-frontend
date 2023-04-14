@@ -1,2 +1,1 @@
-export const DUMMY_USERID: number = 22;
-export const DUMMY_TOKEN: string = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE2ODEzMjI5MzgsInVzZXJfaWQiOjIyfQ.vH3jK9nxAlKINgHBXw6s-KAFDR5zLNbVH9slSqeoPzY";
+export {};

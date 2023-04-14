@@ -6,6 +6,8 @@ import { Colors } from "../constants";
 import MyModules from "../components/MyModules";
 import ModuleForum, { RedButton } from "../components/ModuleForum";
 import ThreadList from "../components/ThreadList";
+import { useSelector } from "react-redux";
+import { selectId, selectToken } from "../redux/features/users/userSlice";
 
 const ModulePageWrapper = styled.div`
     display: grid;
@@ -44,20 +46,10 @@ const ThreadListContainer = styled.div`
     margin-left: 8px;
 `
 
-export const MyModulesDiv = styled.div`
-    display: grid;
-    align-items: center;
-    padding: 1.25em calc(2em + 20px);
-`
-
-const ModuleForumDiv = styled.div`
-    display: grid;
-    align-items: center;
-    padding: 1.25em calc(2em + 20px);
-`
-
 const ModulePage = () => {
     const { mod } = useParams();
+    const userId = useSelector(selectId);
+    const token = useSelector(selectToken);
 
     return (
         <div>
@@ -80,12 +72,8 @@ const ModulePage = () => {
                         </ThreadListContainer>
                     </div>
                     <RightSide>
-                        <ModuleForumDiv>
-                            <ModuleForum selectedModule={mod? mod.toString() : ""}/>
-                        </ModuleForumDiv>
-                        <MyModulesDiv>
-                            <MyModules/>
-                        </MyModulesDiv>
+                        <ModuleForum selectedModule={mod? mod.toString() : ""}/>
+                        <MyModules />
                     </RightSide>
                 </ModulePageWrapper>
             </Background>
