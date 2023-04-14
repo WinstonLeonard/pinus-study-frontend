@@ -27,12 +27,12 @@ import styled, { createGlobalStyle } from "styled-components";
 import { Button, Icon, Toolbar } from "./index";
 import { TextAlignFormat } from "../../slate";
 import { API_URL, Colors } from "../../constants";
+import { BlurredBackground } from "../authentication_modal/ModalComponents";
 
 // STYLED COMPONENTS
 
 const GlobalStyle = createGlobalStyle`
     body {
-        margin: 3em 8em;
         font-size: 16px;
         font-family: 'Poppins', sans-serif;
     }
@@ -70,6 +70,9 @@ const EditorBackground = styled.div`
 const ThreadContainer = styled.div`
     width: 80%;
     margin: 0 auto;
+    background: ${Colors.white};
+    padding: 1em;
+    border-radius: 20px;
 `;
 
 const UiButton = styled.button`
@@ -102,7 +105,7 @@ const TagButtons = styled.div`
 `;
 
 const AddTagButton = styled(UiButton)`
-    background: white;
+    background: ${Colors.white};
     color: ${Colors.dark_grey};
     padding: 0 0.25em;
 `;
@@ -165,130 +168,132 @@ const TextEditor = () => {
     return (
         <>
             <GlobalStyle />
-            <ThreadContainer>
-                <Input
-                    type="text"
-                    value={postTitle.text}
-                    onChange={onChange}
-                    placeholder="Enter question title here ..."
-                />
-                <EditorBackground>
-                    <Slate
-                        editor={editor}
-                        value={initialValue}
-                        onChange={(value) => {
-                            const isAstChange = editor.operations.some(
-                                (op) => "set_selection" !== op.type
-                            );
-                            if (isAstChange) {
-                                // Save the value to Local Storage.
-                                setTextData(value);
-                            }
-                        }}
-                    >
-                        <Editable
-                            renderElement={renderElement}
-                            renderLeaf={renderLeaf}
-                            placeholder="Description"
-                            spellCheck
-                            autoFocus
-                            onKeyDown={(event) => {
-                                for (const hotkey in HOTKEYS) {
-                                    if (isHotkey(hotkey, event as any)) {
-                                        event.preventDefault();
-                                        const mark =
-                                            HOTKEYS[
-                                                hotkey as keyof typeof HOTKEYS
-                                            ];
-                                        toggleMark(editor, mark);
-                                    }
+            <BlurredBackground>
+                <ThreadContainer>
+                    <Input
+                        type="text"
+                        value={postTitle.text}
+                        onChange={onChange}
+                        placeholder="Enter question title here ..."
+                    />
+                    <EditorBackground>
+                        <Slate
+                            editor={editor}
+                            value={initialValue}
+                            onChange={(value) => {
+                                const isAstChange = editor.operations.some(
+                                    (op) => "set_selection" !== op.type
+                                );
+                                if (isAstChange) {
+                                    // Save the value to Local Storage.
+                                    setTextData(value);
                                 }
                             }}
-                        />
+                        >
+                            <Editable
+                                renderElement={renderElement}
+                                renderLeaf={renderLeaf}
+                                placeholder="Description"
+                                spellCheck
+                                autoFocus
+                                onKeyDown={(event) => {
+                                    for (const hotkey in HOTKEYS) {
+                                        if (isHotkey(hotkey, event as any)) {
+                                            event.preventDefault();
+                                            const mark =
+                                                HOTKEYS[
+                                                    hotkey as keyof typeof HOTKEYS
+                                                ];
+                                            toggleMark(editor, mark);
+                                        }
+                                    }
+                                }}
+                            />
 
-                        <Toolbar>
-                            <MarkButton format="bold" icon="format_bold" />
-                            <MarkButton format="italic" icon="format_italic" />
-                            <MarkButton
-                                format="underline"
-                                icon="format_underlined"
-                            />
-                            <MarkButton format="code" icon="code" />
-                            <BlockButton
-                                format="heading-one"
-                                icon="looks_one"
-                            />
-                            <BlockButton
-                                format="heading-two"
-                                icon="looks_two"
-                            />
-                            <BlockButton
-                                format="block-quote"
-                                icon="format_quote"
-                            />
-                            <BlockButton
-                                format="numbered-list"
-                                icon="format_list_numbered"
-                            />
-                            <BlockButton
-                                format="bulleted-list"
-                                icon="format_list_bulleted"
-                            />
-                            <BlockButton
-                                format="left"
-                                icon="format_align_left"
-                            />
-                            <BlockButton
-                                format="center"
-                                icon="format_align_center"
-                            />
-                            <BlockButton
-                                format="right"
-                                icon="format_align_right"
-                            />
-                            <BlockButton
-                                format="justify"
-                                icon="format_align_justify"
-                            />
-                        </Toolbar>
-                    </Slate>
-                </EditorBackground>
-                <Buttons>
-                    <TagButtons>
-                        <TagButton
+                            <Toolbar>
+                                <MarkButton format="bold" icon="format_bold" />
+                                <MarkButton format="italic" icon="format_italic" />
+                                <MarkButton
+                                    format="underline"
+                                    icon="format_underlined"
+                                />
+                                <MarkButton format="code" icon="code" />
+                                <BlockButton
+                                    format="heading-one"
+                                    icon="looks_one"
+                                />
+                                <BlockButton
+                                    format="heading-two"
+                                    icon="looks_two"
+                                />
+                                <BlockButton
+                                    format="block-quote"
+                                    icon="format_quote"
+                                />
+                                <BlockButton
+                                    format="numbered-list"
+                                    icon="format_list_numbered"
+                                />
+                                <BlockButton
+                                    format="bulleted-list"
+                                    icon="format_list_bulleted"
+                                />
+                                <BlockButton
+                                    format="left"
+                                    icon="format_align_left"
+                                />
+                                <BlockButton
+                                    format="center"
+                                    icon="format_align_center"
+                                />
+                                <BlockButton
+                                    format="right"
+                                    icon="format_align_right"
+                                />
+                                <BlockButton
+                                    format="justify"
+                                    icon="format_align_justify"
+                                />
+                            </Toolbar>
+                        </Slate>
+                    </EditorBackground>
+                    <Buttons>
+                        <TagButtons>
+                            <TagButton
+                                onClick={() => {
+                                    console.log("tag");
+                                }}
+                            >
+                                {" "}
+                                Requesting for Help{" "}
+                            </TagButton>
+                            <TagButton
+                                onClick={() => {
+                                    console.log("tag");
+                                }}
+                            >
+                                {" "}
+                                Ask a Question{" "}
+                            </TagButton>
+                            <AddTagButton
+                                onClick={() => {
+                                    console.log("add tag");
+                                }}
+                            >
+                                + Add Tags
+                            </AddTagButton>
+                        </TagButtons>
+                        <PostButton
                             onClick={() => {
-                                console.log("tag");
+                                console.log(textData);
+                                console.log(serialize(textData));
                             }}
                         >
-                            {" "}
-                            Requesting for Help{" "}
-                        </TagButton>
-                        <TagButton
-                            onClick={() => {
-                                console.log("tag");
-                            }}
-                        >
-                            {" "}
-                            Ask a Question{" "}
-                        </TagButton>
-                        <AddTagButton
-                            onClick={() => {
-                                console.log("add tag");
-                            }}
-                        >
-                            + Add Tags
-                        </AddTagButton>
-                    </TagButtons>
-                    <PostButton
-                        onClick={() => {
-                            console.log(textData);
-                            console.log(serialize(textData));
-                        }}
-                    >
-                        Post Question
-                    </PostButton>
-                </Buttons>
-            </ThreadContainer>
+                            Post Question
+                        </PostButton>
+                    </Buttons>
+                </ThreadContainer>
+            </BlurredBackground>
         </>
     );
 };
