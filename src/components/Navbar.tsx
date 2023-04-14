@@ -8,6 +8,7 @@ import { CreateAccountModal, LoginModal, SignUpModal } from "./authentication_mo
 import { useSelector, useDispatch } from "react-redux";
 import { selectId, selectToken } from "../redux/features/users/userSlice";
 import { selectCreateAccountModal, selectLoginModal, selectSignupModal, toggleCreateAccount, toggleLogin, toggleSignup } from "../redux/features/modal/modal";
+import { isLoggedIn } from "../utils";
 
 // STYLED COMPONENTS
 
@@ -122,11 +123,6 @@ const NavigationBar = () => {
     const userToken = useSelector(selectToken);
     const userId = useSelector(selectId);
     const dispatch = useDispatch();
-
-    const isLoggedIn = () => {
-        return userToken !== "" && userId !== 0
-    };
-
     const navigate = useNavigate();
 
     const hideAllModals = () => {
@@ -175,7 +171,7 @@ const NavigationBar = () => {
     })
 
     useEffect(() => {
-        if (isLoggedIn()) {
+        if (isLoggedIn(userToken, userId)) {
             hideAllModals();
         }
     }, [userId])
@@ -201,11 +197,10 @@ const NavigationBar = () => {
                 </SearchBarContainer>
             </SubDivision>
             <Buttons>
-                {isLoggedIn() ? (
+                {isLoggedIn(userToken, userId) ? (
                     <Link to={`/profile/${userId}`} style={{ textDecoration: "none" }}>
                         <ProfilePicture/>
                     </Link>
-                    
                 ) : (
                     <>
                         <LoginButton onClick={showLogInModal}>Login</LoginButton>
