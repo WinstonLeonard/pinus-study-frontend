@@ -58,9 +58,13 @@ const ModulePage = () => {
         setOpenTextEditor(true);
     }
 
+    const closeTextEditor = () => {
+        setOpenTextEditor(false);
+    }
+
     return (
         <div>
-            {openTextEditor ? <TextEditor/> : null}
+            {openTextEditor ? <TextEditor closeTextEditor={closeTextEditor}/> : null}
             <NavigationBar/>
             <Background>
                 <ModulePageWrapper>

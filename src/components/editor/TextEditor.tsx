@@ -27,7 +27,8 @@ import styled, { createGlobalStyle } from "styled-components";
 import { Button, Icon, Toolbar } from "./index";
 import { TextAlignFormat } from "../../slate";
 import { API_URL, Colors } from "../../constants";
-import { BlurredBackground } from "../authentication_modal/ModalComponents";
+import { BlurredBackground, CloseIconDiv } from "../authentication_modal/ModalComponents";
+import CloseIcon from '@mui/icons-material/Close';
 
 // STYLED COMPONENTS
 
@@ -146,7 +147,7 @@ type ModulePostData = {
  * on the modules page of the forum website. Supports rich text formatting.
  * @returns A React component that represents the Text Editor.
  */
-const TextEditor = () => {
+const TextEditor = ({closeTextEditor} : {closeTextEditor: () => void}) => {
     const renderElement = useCallback(
         (props: RenderElementProps) => <Element {...props} />,
         []
@@ -170,6 +171,9 @@ const TextEditor = () => {
             <GlobalStyle />
             <BlurredBackground>
                 <ThreadContainer>
+                    <CloseIconDiv onClick={closeTextEditor}>
+                        <CloseIcon/>
+                    </CloseIconDiv>
                     <Input
                         type="text"
                         value={postTitle.text}
