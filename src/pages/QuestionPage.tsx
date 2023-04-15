@@ -78,10 +78,10 @@ const QuestionPage = () => {
         console.log(error);
       });
   };
-
-  //   useEffect(() => {
-  //     fetchThreadData();
-  //   }, [])
+  console.log(thread)
+    // useEffect(() => {
+    //   fetchThreadData();
+    // }, [])
 
   return (
     <>
@@ -108,6 +108,7 @@ const QuestionPage = () => {
             )}
           </div>
           <RightSide>
+            <ModuleForum selectedModule={thread.ModuleId}/>
             <MyModules />
           </RightSide>
         </MainContainer>

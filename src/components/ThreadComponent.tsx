@@ -131,13 +131,6 @@ const ThreadComponent = ({threadId, type} : {threadId : number, type? : ThreadTy
         navigate(`/thread/${threadId}`);
     }
 
-    /* For navigating from module page to question page (router stuff)*/
-    // const navigate = useNavigate();
-
-    // const navigateToQuestionPage = () => {
-    //     navigate("INSERT_PATH_HERE")
-    // }
-
     /**
      * Fetches thread data from the backend.
      */
@@ -151,6 +144,8 @@ const ThreadComponent = ({threadId, type} : {threadId : number, type? : ThreadTy
                 console.log(error);
             })
     }
+
+    
 
     /**
      * Fetches liked status from the backend.

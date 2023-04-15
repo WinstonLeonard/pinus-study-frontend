@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import { selectId, selectToken } from "../redux/features/users/userSlice";
 import TextEditor from "../components/editor/TextEditor";
 import { useState } from "react"
+import {Button} from "../components/editor/index"
 
 const ModulePageWrapper = styled.div`
     display: grid;
@@ -82,11 +83,13 @@ const ModulePage = () => {
                         <ThreadListContainer>
                             <ThreadList selectedModule={mod? mod.toString() : ""}/>
                         </ThreadListContainer>
+                        
                     </div>
                     <RightSide>
                         <ModuleForum selectedModule={mod? mod.toString() : ""}/>
                         <MyModules />
                     </RightSide>
+
                 </ModulePageWrapper>
             </Background>
         </div>
