@@ -4,6 +4,7 @@ import { Colors } from '../constants';
 import { User } from '../redux/features/users/userSlice';
 import { useDispatch } from 'react-redux';
 import { logout } from '../redux/features/users/userSlice';
+import { pfp } from '../assets';
 
 const ProfileContainer = styled.div`
     background-color: ${Colors.white};
@@ -17,7 +18,7 @@ const ProfileContainer = styled.div`
     align-items: center;
     border-radius: 20px;
     flex-direction: column;
-    max-height: 50vh;
+    max-height: 70vh;
 `
 
 const ProfilePicture = styled.div<{notMyProfile?: boolean}>`
@@ -27,6 +28,12 @@ const ProfilePicture = styled.div<{notMyProfile?: boolean}>`
     border: none;
     border-radius: 20vw;
 `
+
+const ProfilePictureImage = styled.img`
+    background-color: ${Colors.white};
+    width: 11vw;
+    height: 11vw;
+`;
 
 const NameDiv = styled.div<{paddingTop?: string}>`
     padding-top: ${props => props.paddingTop? props.paddingTop : "0em"};
@@ -98,7 +105,9 @@ const ProfileComponent = ({user, userId} : {user: User, userId?: number}) => {
 
     return (
         <ProfileContainer>
-            <ProfilePicture/>
+            <ProfilePicture>
+                <ProfilePictureImage src={pfp}/>
+            </ProfilePicture>
             
             <NameDiv paddingTop="1em">
                 <Name>@{user.Username}</Name>
