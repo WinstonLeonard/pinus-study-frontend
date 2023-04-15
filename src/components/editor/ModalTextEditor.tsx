@@ -26,7 +26,7 @@ const TextEditorModal = ({cancel} : {cancel: () => void}) => {
                 <CloseIconDiv onClick={cancel}>
                     <CloseIcon/>
                 </CloseIconDiv>
-                <TextEditor />
+                <TextEditor closeTextEditor={cancel}/>
             </ModalBackground>
         </BlurredBackground>
     )
