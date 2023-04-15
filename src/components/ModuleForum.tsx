@@ -97,7 +97,6 @@ const ModuleForum = ({ selectedModule } : { selectedModule : string }) => {
         fetch(API_URL + `/module/${selectedModule.toUpperCase()}`)
             .then(response => response.json())
             .then(data => {
-                console.log(data);
                 setModule(data.module);
             })
             .catch(error => console.log(error))
@@ -107,7 +106,6 @@ const ModuleForum = ({ selectedModule } : { selectedModule : string }) => {
         fetch(API_URL + `/subscribes/${selectedModule.toUpperCase()}/${userId}`)
             .then(response => response.json())
             .then(data => {
-                console.log(data);
                 setIsSubscribed(data.subscribed);
             })
             .catch(error => console.log(error))
@@ -123,7 +121,6 @@ const ModuleForum = ({ selectedModule } : { selectedModule : string }) => {
             })
             .then(response => response.json())
             .then(data => {
-                console.log(data);
                 setIsSubscribed(true);
             })
             .catch(error => console.log(error))
@@ -136,7 +133,6 @@ const ModuleForum = ({ selectedModule } : { selectedModule : string }) => {
             })
             .then(response => response.json())
             .then(data => {
-                console.log(data);
                 setIsSubscribed(false);
             })
             .catch(error => console.log(error))

@@ -59,12 +59,6 @@ const QuestionPage = () => {
   const { threadId } = useParams();
   const [thread, setThread] = useState<Thread>(ThreadInitialState);
 
-  console.log(threadId);
-
-  if (!threadId) {
-    return <div></div>; // Handle invalid question page here. Probly some 404 page or such
-  }
-
   /**
    * Fetches thread data from the backend.
    */
@@ -79,10 +73,14 @@ const QuestionPage = () => {
       });
   };
 
-  //   useEffect(() => {
-  //     fetchThreadData();
-  //   }, [])
+    useEffect(() => {
+      fetchThreadData();
+    }, [])
 
+    if (!threadId) {
+      return <div></div>; // Handle invalid question page here. Probly some 404 page or such
+    }
+    
   return (
     <>
       <Navbar />
@@ -96,7 +94,7 @@ const QuestionPage = () => {
             />
             <SpacingEmptyDiv />
             <Heading>Replies</Heading>
-            {thread.Comments ? (
+            {thread.Comments && thread.Comments?.length > 0 ? (
               <CommentList comments={thread.Comments} level={0} />
             ) : (
               <ThreadContainerDiv>
@@ -108,6 +106,7 @@ const QuestionPage = () => {
             )}
           </div>
           <RightSide>
+            { thread !== ThreadInitialState ? <ModuleForum selectedModule={thread.ModuleId}/> : null}
             <MyModules />
           </RightSide>
         </MainContainer>
