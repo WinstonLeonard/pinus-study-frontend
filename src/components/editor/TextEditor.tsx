@@ -29,6 +29,8 @@ import { TextAlignFormat } from "../../slate";
 import { API_URL, Colors } from "../../constants";
 import { BlurredBackground, CloseIconDiv } from "../authentication_modal/ModalComponents";
 import CloseIcon from '@mui/icons-material/Close';
+import { selectId, selectToken } from "../../redux/features/users/userSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 // STYLED COMPONENTS
 
@@ -147,7 +149,29 @@ type ModulePostData = {
  * on the modules page of the forum website. Supports rich text formatting.
  * @returns A React component that represents the Text Editor.
  */
-const TextEditor = ({closeTextEditor} : {closeTextEditor: () => void}) => {
+const TextEditor = ({closeTextEditor, moduleid} : {closeTextEditor: () => void, moduleid: string}) => {
+    const userId = useSelector(selectId);
+    const token = useSelector(selectToken);
+
+    const postThread = () => {
+        fetch(API_URL + `/module/${moduleid}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+                authorid: userId,
+                title: serialize(postTitle),
+                content: serialize(textData),
+                tags: []
+            }),
+        }).then(response => response.json())
+        .then(data => {
+            console.log(data)
+        });
+    }
+
     const renderElement = useCallback(
         (props: RenderElementProps) => <Element {...props} />,
         []
@@ -291,6 +315,8 @@ const TextEditor = ({closeTextEditor} : {closeTextEditor: () => void}) => {
                             onClick={() => {
                                 console.log(textData);
                                 console.log(serialize(textData));
+                                postThread();
+                                closeTextEditor();
                             }}
                         >
                             Post Question
