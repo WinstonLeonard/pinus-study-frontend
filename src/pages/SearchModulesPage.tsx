@@ -44,6 +44,8 @@ const SearchModulesPage = () => {
     const [searchResults, setSearchResults] = useState<Module[]>([]);
     const [noModulesFound, setNoModulesFound] = useState<Boolean>(true);
 
+    console.log("Keyword: ", keyword)
+
     const queryDatabase = (page?: number) => {
         fetch(API_URL + `/module`, {
             method: "POST",
@@ -69,7 +71,7 @@ const SearchModulesPage = () => {
 
     useEffect(() => {
         queryDatabase(1);
-    }, [])
+    }, [keyword])
 
     return (
         <div>

@@ -229,6 +229,8 @@ const ThreadComponent = ({threadId, type} : {threadId : number, type? : ThreadTy
             })
     }
 
+    
+
     /**
      * Fetches liked status from the backend.
      */

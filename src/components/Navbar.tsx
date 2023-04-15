@@ -137,6 +137,7 @@ const NavigationBar = () => {
 
     // Updates the query state upon data change in the module search bar
     const onChange = (e: React.FormEvent<HTMLInputElement>): void => {
+        console.log("Query is ", e.currentTarget.value)
         setQuery(e.currentTarget.value);
     };
 
@@ -144,16 +145,21 @@ const NavigationBar = () => {
         navigate(`/search/${query}`)
     }
 
-    const searchBar = document.getElementById('search-bar');
-
-    searchBar?.addEventListener("keydown", event => {
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === "Enter") {
-            navigateToSearchPage();
-            setQuery("");
-            event.stopPropagation();
-            event.preventDefault();
+          navigateToSearchPage();
+          setQuery("");
+          event.stopPropagation();
+          event.preventDefault();
         }
-    })
+    };
+
+    useEffect(() => {
+        if (isLoggedIn(userToken, userId)) {
+            hideAllModals();
+        }
+
+    }, [userId])
 
     return (
         <NavbarContainer>
@@ -169,6 +175,7 @@ const NavigationBar = () => {
                         type="text"
                         value={query}
                         onChange={onChange}
+                        onKeyDown={handleKeyDown}
                         placeholder="Search modules here..."
                     />
                 </SearchBarContainer>
