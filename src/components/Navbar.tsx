@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { logo } from "../assets";
 import { Colors } from "../constants";
 import SearchIcon from "@mui/icons-material/Search";
-import { CreateAccountModal, LoginModal, SignUpModal } from "./authentication_modal"
 import { useSelector, useDispatch } from "react-redux";
 import { selectId, selectToken } from "../redux/features/users/userSlice";
-import { selectCreateAccountModal, selectLoginModal, selectSignupModal, toggleCreateAccount, toggleLogin, toggleSignup } from "../redux/features/modal/modal";
+import {toggleCreateAccount, toggleLogin, toggleSignup } from "../redux/features/modal/modal";
 import { isLoggedIn } from "../utils";
+import CombinedAuthenticationPage from "../pages/CombinedAuthenticationPage";
 
 // STYLED COMPONENTS
 
@@ -117,22 +117,11 @@ const NavigationBar = () => {
     // State to store the value of search query in module search bar
     const [query, setQuery] = useState("");
 
-    // States for login / signup / create account modals
-    const [signUpEmail, setSignUpEmail] = useState<string>("");
-
-    const showLogin = useSelector(selectLoginModal);
-    const showSignup = useSelector(selectSignupModal);
-    const showCreateAccount = useSelector(selectCreateAccountModal);
     const userToken = useSelector(selectToken);
     const userId = useSelector(selectId);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const hideAllModals = () => {
-        dispatch(toggleLogin(false));
-        dispatch(toggleSignup(false));
-        dispatch(toggleCreateAccount(false));
-    }
 
     const showSignUpModal = () => {
         dispatch(toggleLogin(false));
@@ -144,13 +133,6 @@ const NavigationBar = () => {
         dispatch(toggleLogin(true));
         dispatch(toggleSignup(false));
         dispatch(toggleCreateAccount(false));
-    }
-
-    const authoriseCreateAccountModal = (email: string) => {
-        setSignUpEmail(email);
-        dispatch(toggleLogin(false));
-        dispatch(toggleSignup(false));
-        dispatch(toggleCreateAccount(true));
     }
 
     // Updates the query state upon data change in the module search bar
@@ -173,17 +155,9 @@ const NavigationBar = () => {
         }
     })
 
-    useEffect(() => {
-        if (isLoggedIn(userToken, userId)) {
-            hideAllModals();
-        }
-    }, [userId])
-
     return (
         <NavbarContainer>
-            { showLogin ? <LoginModal cancel={hideAllModals} showSignUpModal={showSignUpModal} /> : null }
-            { showSignup ? <SignUpModal cancel={hideAllModals} showLogInModal={showLogInModal} authoriseCreateAccountModal={authoriseCreateAccountModal} /> : null }
-            { showCreateAccount ? <CreateAccountModal cancel={hideAllModals} email={signUpEmail} showLogInModal={showLogInModal} /> : null }
+            <CombinedAuthenticationPage/>
             <SubDivision>
                 <Link to="/">
                     <Logo src={logo} />

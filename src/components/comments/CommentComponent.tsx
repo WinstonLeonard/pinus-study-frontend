@@ -5,7 +5,7 @@ import {
   Comment,
   CommentInitialState,
 } from "../../redux/features/comments/commentSlice";
-import CommentOutlinedIcon from "@mui/icons-material/CommentOutlined";
+import { toggleLogin, toggleSignup, toggleCreateAccount } from "../../redux/features/modal/modal";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
@@ -15,8 +15,10 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import ReplyTextEditor from "../editor/ReplyTextEditor";
 import CommentList from "./CommentList";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectId, selectToken } from "../../redux/features/users/userSlice";
+import CombinedAuthenticationPage from "../../pages/CombinedAuthenticationPage";
+import { isLoggedIn } from "../../utils";
 
 /** TODO: Add POST methods for likes (change functions in `<ThumbButton onClick={...}`) and upon submitting comment */
 
@@ -142,10 +144,20 @@ const CommentComponent = ({
     setOpenReply(!openReply);
   };
 
+  const dispatch = useDispatch();
+
   let likeStatus = 0;
 
+  const showLogInModal = () => {
+    dispatch(toggleLogin(true));
+    dispatch(toggleSignup(false));
+    dispatch(toggleCreateAccount(false));
+  }
+
   const handleLikeButton = () => {
-    if (comment !== CommentInitialState && !loading) {
+    if (!isLoggedIn(token, userId)) {
+      showLogInModal();
+    } else if (comment !== CommentInitialState && !loading) {
         setLoading(true);
         switch (status) {
             case "LIKED":
@@ -172,30 +184,32 @@ const CommentComponent = ({
 }
 
   const handleDislikeButton = () => {
-      if (comment !== CommentInitialState && !loading) {
-          setLoading(true)
-          switch (status) {
-              case "LIKED":
-                  setLikesCount(likesCount - 1);
-                  setDislikesCount(dislikesCount + 1);
-                  setStatus("DISLIKED");
-                  likeStatus = -1;
-                  break;
-              case "DISLIKED":
-                  setDislikesCount(dislikesCount - 1);
-                  setStatus("NEUTRAL");
-                  likeStatus = 0;
-                  break;
-              case "NEUTRAL":
-                  setDislikesCount(dislikesCount + 1)
-                  setStatus("DISLIKED")
-                  likeStatus = -1;
-                  break;
-          }
+    if (!isLoggedIn(token, userId)) {
+      showLogInModal();
+    } else if (comment !== CommentInitialState && !loading) {
+      setLoading(true)
+      switch (status) {
+        case "LIKED":
+          setLikesCount(likesCount - 1);
+          setDislikesCount(dislikesCount + 1);
+          setStatus("DISLIKED");
+          likeStatus = -1;
+          break;
+        case "DISLIKED":
+          setDislikesCount(dislikesCount - 1);
+          setStatus("NEUTRAL");
+          likeStatus = 0;
+          break;
+        case "NEUTRAL":
+          setDislikesCount(dislikesCount + 1)
+          setStatus("DISLIKED")
+          likeStatus = -1;
+          break;
+        }
 
-          handleLikesCount();
-          setLoading(false);
-      }
+      handleLikesCount();
+      setLoading(false);
+    }
   }
 
   const handleLikesCount = () => {
@@ -305,6 +319,7 @@ const CommentComponent = ({
   if (level === 0) {
     return (
       <ThreadContainerDiv>
+        <CombinedAuthenticationPage/>
         <PostedSince>{parseDuration(comment.Timestamp)}</PostedSince>
         <RegularText>Replied by @{comment.Username}</RegularText>
         <br />
@@ -346,6 +361,7 @@ const CommentComponent = ({
   } else {
     return (
       <LevelContainerDiv level={level}>
+        <CombinedAuthenticationPage/>
         <Line />
         <PostedSince>{parseDuration(comment.Timestamp)}</PostedSince>
         <RegularText>Replied by @{comment.Username}</RegularText>

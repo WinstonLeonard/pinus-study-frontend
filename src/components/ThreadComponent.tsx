@@ -12,7 +12,10 @@ import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import ReplyTextEditor from './editor/ReplyTextEditor';
 import { useNavigate } from 'react-router-dom';
 import { selectId, selectToken } from '../redux/features/users/userSlice';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { isLoggedIn } from '../utils';
+import { toggleSignup, toggleCreateAccount, toggleLogin } from '../redux/features/modal/modal';
+import CombinedAuthenticationPage from '../pages/CombinedAuthenticationPage';
 
 
 /** TODO: Add POST methods for likes (change functions in `<ThumbButton onClick={...}`) and upon submitting comment */ 
@@ -98,19 +101,6 @@ const ThumbButton = styled.button`
     }
 `
 
-const ReplyInputField = styled.input`
-    margin-top: 0.75em;
-    width: calc(50vw - 3em);
-    font-family: 'Poppins', sans-serif;
-    font-style: italic;
-    font-size: 1.25em;
-    border-radius: 20px;
-    border: none;
-    background-color: ${Colors.light_grey_75};
-    padding: 0.5em 1.25em 0.5em 1.25em;
-
-`
-
 /**
  * Thread component for the web forum.
  * 
@@ -126,6 +116,7 @@ const ThreadComponent = ({threadId, type} : {threadId : number, type? : ThreadTy
     const [status, setStatus] = useState<LikedStatus>("NEUTRAL");
     const [loading, setLoading] = useState<boolean>(false);
 
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const token = useSelector(selectToken);
     const userId = useSelector(selectId);
@@ -140,8 +131,16 @@ const ThreadComponent = ({threadId, type} : {threadId : number, type? : ThreadTy
         navigate(`/thread/${threadId}`);
     }
 
+    const showLogInModal = () => {
+        dispatch(toggleLogin(true));
+        dispatch(toggleSignup(false));
+        dispatch(toggleCreateAccount(false));
+    }
+
     const handleLikeButton = () => {
-        if (thread !== ThreadInitialState && !loading) {
+        if (!isLoggedIn(token, userId)) {
+            showLogInModal();
+        } else if (thread !== ThreadInitialState && !loading) {
             setLoading(true)
             switch (status) {
                 case "LIKED":
@@ -168,7 +167,9 @@ const ThreadComponent = ({threadId, type} : {threadId : number, type? : ThreadTy
     }
 
     const handleDislikeButton = () => {
-        if (thread !== ThreadInitialState && !loading) {
+        if (!isLoggedIn(token, userId)) {
+            showLogInModal();
+        } else if (thread !== ThreadInitialState && !loading) {
             setLoading(true)
             switch (status) {
                 case "LIKED":
@@ -348,6 +349,7 @@ const ThreadComponent = ({threadId, type} : {threadId : number, type? : ThreadTy
     const renderQuestionPageThread = () => {
         return (
             <ThreadContainerDiv>
+                <CombinedAuthenticationPage/>
                 <PostedSince>{parseDuration(thread.Timestamp)}</PostedSince>
                 <QuestionTitle>{thread.Title}</QuestionTitle>
                 <br/>
