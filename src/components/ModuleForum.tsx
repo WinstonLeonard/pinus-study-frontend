@@ -138,11 +138,16 @@ const ModuleForum = ({ selectedModule } : { selectedModule : string }) => {
             .catch(error => console.log(error))
         }
     }
-    
+
     useEffect(() => {
         fetchMod();
         fetchIsSubscribed();
-    }, [module, isSubscribed]);
+    }, []);
+    
+    // useEffect(() => {
+    //     fetchMod();
+    //     fetchIsSubscribed();
+    // }, [module, isSubscribed]);
 
     return (
         <ModuleForumDiv>
