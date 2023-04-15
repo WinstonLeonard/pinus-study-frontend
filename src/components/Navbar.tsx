@@ -154,13 +154,6 @@ const NavigationBar = () => {
         }
     };
 
-    useEffect(() => {
-        if (isLoggedIn(userToken, userId)) {
-            hideAllModals();
-        }
-
-    }, [userId])
-
     return (
         <NavbarContainer>
             <CombinedAuthenticationPage/>
