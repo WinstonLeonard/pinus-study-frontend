@@ -71,7 +71,7 @@ const SearchModulesPage = () => {
 
     useEffect(() => {
         queryDatabase(1);
-    }, [])
+    }, [keyword])
 
     return (
         <div>
