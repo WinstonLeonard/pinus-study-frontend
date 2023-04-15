@@ -123,15 +123,23 @@ type ModulePostData = {
  * on the modules page of the forum website. Supports rich text formatting.
  * @returns A React component that represents the Text Editor.
  */
-const ReplyTextEditor = ({ id }: { id: number }) => {
+const ReplyTextEditor = ({
+  id,
+  threadId,
+}: {
+  id: number;
+  threadId: number;
+}) => {
   const renderElement = useCallback(
     (props: RenderElementProps) => <Element {...props} />,
     []
   );
+
   const renderLeaf = useCallback(
     (props: RenderLeafProps) => <Leaf {...props} />,
     []
   );
+
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
 
   const [textData, setTextData] = useState({});
@@ -146,7 +154,7 @@ const ReplyTextEditor = ({ id }: { id: number }) => {
       headers: {
         // Accept: "application/json",
         // "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         authorid: userID,
@@ -162,7 +170,7 @@ const ReplyTextEditor = ({ id }: { id: number }) => {
       .catch((error) => console.log(error));
   };
 
-  const refresh = () => window.location.reload()
+  const refresh = () => window.location.reload();
 
   return (
     <>

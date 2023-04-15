@@ -389,7 +389,7 @@ const ThreadComponent = ({threadId, type} : {threadId : number, type? : ThreadTy
                     <MediumText>&#8196;</MediumText>
                     <ReplyText onClick={openReplyInputField}>Reply</ReplyText>
                 </VerticalCenterAlignLayout>
-                {openReply ? <ReplyTextEditor id={thread.Id} /> : null}
+                {openReply ? <ReplyTextEditor id={thread.Id} threadId={thread.Id} /> : null}
             </ThreadContainerDiv>
         )
     }
