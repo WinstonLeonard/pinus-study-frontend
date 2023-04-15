@@ -9,6 +9,7 @@ import ThreadList from "../components/ThreadList";
 import { useSelector } from "react-redux";
 import { selectId, selectToken } from "../redux/features/users/userSlice";
 import TextEditor from "../components/editor/TextEditor";
+import { useState } from "react"
 import {Button} from "../components/editor/index"
 
 const ModulePageWrapper = styled.div`
@@ -52,9 +53,19 @@ const ModulePage = () => {
     const { mod } = useParams();
     const userId = useSelector(selectId);
     const token = useSelector(selectToken);
+    const [openTextEditor, setOpenTextEditor] = useState(false);
+
+    const showTextEditor = () => {
+        setOpenTextEditor(true);
+    }
+
+    const closeTextEditor = () => {
+        setOpenTextEditor(false);
+    }
 
     return (
         <div>
+            {openTextEditor ? <TextEditor closeTextEditor={closeTextEditor}/> : null}
             <NavigationBar/>
             <Background>
                 <ModulePageWrapper>
@@ -64,7 +75,7 @@ const ModulePage = () => {
                                 Discussion Forum
                             </Heading>
                             <ButtonDiv>
-                                <RedButton>
+                                <RedButton onClick={showTextEditor}>
                                     + New Post
                                 </RedButton>
                             </ButtonDiv>
