@@ -29,6 +29,9 @@ import { TextAlignFormat } from "../../slate";
 import { API_URL, Colors } from "../../constants";
 import { BlurredBackground, CloseIconDiv } from "../authentication_modal/ModalComponents";
 import CloseIcon from '@mui/icons-material/Close';
+import { useParams } from 'react-router-dom';
+import { useSelector } from "react-redux";
+import { selectId, selectToken } from "../../redux/features/users/userSlice";
 
 // STYLED COMPONENTS
 
@@ -140,7 +143,11 @@ type ModulePostData = {
     token: string;
 };
 
-// FUNCTIONS
+interface Params {
+    [key: string]: string | undefined;
+    mod: string;
+  }
+  
 
 /**
  * TextEditor component for the web forum, used for creating a new thread
@@ -148,24 +155,54 @@ type ModulePostData = {
  * @returns A React component that represents the Text Editor.
  */
 const TextEditor = ({closeTextEditor} : {closeTextEditor: () => void}) => {
-    const renderElement = useCallback(
-        (props: RenderElementProps) => <Element {...props} />,
-        []
-    );
-    const renderLeaf = useCallback(
-        (props: RenderLeafProps) => <Leaf {...props} />,
-        []
-    );
-    const editor = useMemo(() => withHistory(withReact(createEditor())), []);
 
     const [postTitle, setPostTitle] = useState({ text: "" });
-
     const [textData, setTextData] = useState({});
+    const { mod } = useParams<Params>(); // Retrieve Module ID through dynamic routing
+    const token = useSelector(selectToken);
+    const userID = useSelector(selectId);
+    const editor = useMemo(() => withHistory(withReact(createEditor())), []);
+
+    const refresh = () => window.location.reload();
 
     const onChange = (e: React.FormEvent<HTMLInputElement>): void => {
         setPostTitle({ text: e.currentTarget.value });
     };
 
+    const postData = (data: any) => {
+        const stringified = serialize(data);
+        fetch(API_URL + `/module/` + mod, {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            authorid: userID,
+            content: stringified,
+            title: postTitle.text,
+            tags: null,
+            moduleid: mod,
+          }),
+        })
+          .then((response) => response.json())
+          .then(closeTextEditor)
+          .then(refresh)
+          .catch((error) => console.log(error));
+      };
+    
+
+    const renderElement = useCallback(
+        (props: RenderElementProps) => <Element {...props} />,
+        []
+    );
+
+    const renderLeaf = useCallback(
+        (props: RenderLeafProps) => <Leaf {...props} />,
+        []
+    );
+    
     return (
         <>
             <GlobalStyle />
@@ -291,10 +328,7 @@ const TextEditor = ({closeTextEditor} : {closeTextEditor: () => void}) => {
                             {/* Dummy div */}
                         </div>
                         <PostButton
-                            onClick={() => {
-                                console.log(textData);
-                                console.log(serialize(textData));
-                            }}
+                            onClick={() => postData(textData)}
                         >
                             Post Question
                         </PostButton>
