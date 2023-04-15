@@ -8,6 +8,8 @@ import ModuleForum, { RedButton } from "../components/ModuleForum";
 import ThreadList from "../components/ThreadList";
 import { useSelector } from "react-redux";
 import { selectId, selectToken } from "../redux/features/users/userSlice";
+import TextEditor from "../components/editor/TextEditor";
+import {Button} from "../components/editor/index"
 
 const ModulePageWrapper = styled.div`
     display: grid;
@@ -70,11 +72,13 @@ const ModulePage = () => {
                         <ThreadListContainer>
                             <ThreadList selectedModule={mod? mod.toString() : ""}/>
                         </ThreadListContainer>
+                        
                     </div>
                     <RightSide>
                         <ModuleForum selectedModule={mod? mod.toString() : ""}/>
                         <MyModules />
                     </RightSide>
+
                 </ModulePageWrapper>
             </Background>
         </div>
