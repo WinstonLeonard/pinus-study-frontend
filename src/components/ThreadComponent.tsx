@@ -11,11 +11,17 @@ import ThumbDownOutlinedIcon from '@mui/icons-material/ThumbDownOutlined';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import ReplyTextEditor from './editor/ReplyTextEditor';
 import { useNavigate } from 'react-router-dom';
+import { selectId, selectToken } from '../redux/features/users/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { isLoggedIn } from '../utils';
+import { toggleSignup, toggleCreateAccount, toggleLogin } from '../redux/features/modal/modal';
+import CombinedAuthenticationPage from '../pages/CombinedAuthenticationPage';
 
 
 /** TODO: Add POST methods for likes (change functions in `<ThumbButton onClick={...}`) and upon submitting comment */ 
 
 type ThreadType = "MODULE_PAGE" | "QUESTION_PAGE";
+type LikedStatus = "NEUTRAL" | "LIKED" | "DISLIKED";
 
 /** SHARED COMPONENTS */
 const QuestionTitle = styled.span`
@@ -95,19 +101,6 @@ const ThumbButton = styled.button`
     }
 `
 
-const ReplyInputField = styled.input`
-    margin-top: 0.75em;
-    width: calc(50vw - 3em);
-    font-family: 'Poppins', sans-serif;
-    font-style: italic;
-    font-size: 1.25em;
-    border-radius: 20px;
-    border: none;
-    background-color: ${Colors.light_grey_75};
-    padding: 0.5em 1.25em 0.5em 1.25em;
-
-`
-
 /**
  * Thread component for the web forum.
  * 
@@ -117,11 +110,18 @@ const ReplyInputField = styled.input`
  */
 const ThreadComponent = ({threadId, type} : {threadId : number, type? : ThreadType}) => {
     const [thread, setThread] = useState<Thread>(ThreadInitialState);
-    const [liked, setLiked] = useState<Boolean>(false);
-    const [disliked, setDisliked] = useState<Boolean>(false);
-    const [openReply, setOpenReply] = useState<Boolean>(false);
+    const [likesCount, setLikesCount] = useState<number>(thread.LikesCount);
+    const [dislikesCount, setDislikesCount] = useState<number>(thread.DislikesCount);
+    const [openReply, setOpenReply] = useState<boolean>(false);
+    const [status, setStatus] = useState<LikedStatus>("NEUTRAL");
+    const [loading, setLoading] = useState<boolean>(false);
 
+    const dispatch = useDispatch();
     const navigate = useNavigate();
+    const token = useSelector(selectToken);
+    const userId = useSelector(selectId);
+
+    let likeStatus = 0;
 
     const openReplyInputField = () : void => {
         setOpenReply(!openReply);
@@ -131,6 +131,89 @@ const ThreadComponent = ({threadId, type} : {threadId : number, type? : ThreadTy
         navigate(`/thread/${threadId}`);
     }
 
+    const showLogInModal = () => {
+        dispatch(toggleLogin(true));
+        dispatch(toggleSignup(false));
+        dispatch(toggleCreateAccount(false));
+    }
+
+    const handleLikeButton = () => {
+        if (!isLoggedIn(token, userId)) {
+            showLogInModal();
+        } else if (thread !== ThreadInitialState && !loading) {
+            setLoading(true)
+            switch (status) {
+                case "LIKED":
+                    setLikesCount(likesCount - 1);
+                    setStatus("NEUTRAL");
+                    likeStatus = 0;
+                    break;
+                case "DISLIKED":
+                    setLikesCount(likesCount + 1);
+                    setDislikesCount(dislikesCount - 1);
+                    setStatus("LIKED");
+                    likeStatus = 1;
+                    break;
+                case "NEUTRAL":
+                    setLikesCount(likesCount + 1)
+                    setStatus("LIKED")
+                    likeStatus = 1;
+                    break;
+            }
+
+            handleLikesCount();
+            setLoading(false)
+        }
+    }
+
+    const handleDislikeButton = () => {
+        if (!isLoggedIn(token, userId)) {
+            showLogInModal();
+        } else if (thread !== ThreadInitialState && !loading) {
+            setLoading(true)
+            switch (status) {
+                case "LIKED":
+                    setLikesCount(likesCount - 1);
+                    setDislikesCount(dislikesCount + 1);
+                    setStatus("DISLIKED");
+                    likeStatus = -1;
+                    break;
+                case "DISLIKED":
+                    setDislikesCount(dislikesCount - 1);
+                    setStatus("NEUTRAL");
+                    likeStatus = 0;
+                    break;
+                case "NEUTRAL":
+                    setDislikesCount(dislikesCount + 1)
+                    setStatus("DISLIKED")
+                    likeStatus = -1;
+                    break;
+            }
+
+            handleLikesCount();
+            setLoading(false)
+        }
+    }
+
+    const handleLikesCount = () => {
+        console.log("likeStatus: " + likeStatus)
+        if (thread !== ThreadInitialState) {
+            console.log()
+            fetch(API_URL + `/likes/thread/${threadId}/${userId}/${likeStatus}`, {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify({
+                    token: token,
+                    state: likeStatus,
+                }),
+            }).then(response => console.log("success!"))
+        }
+    }
+    
     /**
      * Fetches thread data from the backend.
      */
@@ -139,8 +222,9 @@ const ThreadComponent = ({threadId, type} : {threadId : number, type? : ThreadTy
             .then((response) => response.json())
             .then((data) => {
                 setThread(data.thread);
-            })
-            .catch((error) => {
+                setLikesCount(data.thread.LikesCount)
+                setDislikesCount(data.thread.DislikesCount)
+            }).catch((error) => {
                 console.log(error);
             })
     }
@@ -151,18 +235,20 @@ const ThreadComponent = ({threadId, type} : {threadId : number, type? : ThreadTy
      * Fetches liked status from the backend.
      */
     const fetchLikeStatus = () => {
-        fetch(API_URL + `/likes/thread/${threadId}/${thread.AuthorId}`)
+        fetch(API_URL + `/likes/thread/${threadId}/${userId}`)
             .then(response => response.json())
             .then(data => {
+                console.log(data.state)
+                likeStatus = data.state
                 switch (data.state) {
                     case 1:
-                        setLiked(true);
+                        setStatus("LIKED");
                         break;
                     case -1: 
-                        setDisliked(true);
+                        setStatus("DISLIKED");
                         break;
                     case 0:
-                    default:
+                        setStatus("NEUTRAL");
                         break;
                 }
             })
@@ -173,11 +259,16 @@ const ThreadComponent = ({threadId, type} : {threadId : number, type? : ThreadTy
      * Hook to fetch data.
      */
     useEffect(() => {
+        setLoading(true)
         fetchThreadData();
-        if (type === "QUESTION_PAGE") {
+    }, [])
+
+    useEffect(() => {
+        if (type === "QUESTION_PAGE" && thread !== ThreadInitialState) {
             fetchLikeStatus();
         }
-    }, [])
+        setLoading(false)
+    }, [thread])
 
     /**
      * Shortens the content to max. 150 characters to prevent the 
@@ -260,6 +351,7 @@ const ThreadComponent = ({threadId, type} : {threadId : number, type? : ThreadTy
     const renderQuestionPageThread = () => {
         return (
             <ThreadContainerDiv>
+                <CombinedAuthenticationPage/>
                 <PostedSince>{parseDuration(thread.Timestamp)}</PostedSince>
                 <QuestionTitle>{thread.Title}</QuestionTitle>
                 <br/>
@@ -268,18 +360,18 @@ const ThreadComponent = ({threadId, type} : {threadId : number, type? : ThreadTy
                 <Content>{thread.Content}</Content>
                 <br/>
                 <VerticalCenterAlignLayout>
-                    <ThumbButton onClick={() => setLiked(!liked)}>
-                        {liked? <ThumbUpIcon/> : <ThumbUpOutlinedIcon/>}
+                    <ThumbButton onClick={handleLikeButton}>
+                        {status === "LIKED"? <ThumbUpIcon/> : <ThumbUpOutlinedIcon/>}
                     </ThumbButton>
                     {/* &#8195; (Em Space) and &#8196; (Three-Per-Em Space) are Unicode spaces. */}
-                    <MediumText>&#8196;{thread.LikesCount}&#8195;</MediumText>
-                    <ThumbButton onClick={() => setDisliked(!disliked)}>
-                        {disliked? <ThumbDownIcon/> : <ThumbDownOutlinedIcon/>}
+                    <MediumText>&#8196;{likesCount}&#8195;</MediumText>
+                    <ThumbButton onClick={handleDislikeButton}>
+                        {status === "DISLIKED"? <ThumbDownIcon/> : <ThumbDownOutlinedIcon/>}
                     </ThumbButton>
-                    <MediumText>&#8196;{thread.DislikesCount}&#8195;</MediumText>
+                    <MediumText>&#8196;{dislikesCount}&#8195;</MediumText>
                     <ModeCommentOutlinedIcon/>
                     <MediumText>&#8196;</MediumText>
-                    <ReplyText onClick={() => openReplyInputField()}>Reply</ReplyText>
+                    <ReplyText onClick={openReplyInputField}>Reply</ReplyText>
                 </VerticalCenterAlignLayout>
                 {openReply ? <ReplyTextEditor id={thread.Id} /> : null}
             </ThreadContainerDiv>

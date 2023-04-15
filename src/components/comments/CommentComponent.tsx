@@ -5,7 +5,7 @@ import {
   Comment,
   CommentInitialState,
 } from "../../redux/features/comments/commentSlice";
-import CommentOutlinedIcon from "@mui/icons-material/CommentOutlined";
+import { toggleLogin, toggleSignup, toggleCreateAccount } from "../../redux/features/modal/modal";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
@@ -15,21 +15,19 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import ReplyTextEditor from "../editor/ReplyTextEditor";
 import CommentList from "./CommentList";
+import { useDispatch, useSelector } from "react-redux";
+import { selectId, selectToken } from "../../redux/features/users/userSlice";
+import CombinedAuthenticationPage from "../../pages/CombinedAuthenticationPage";
+import { isLoggedIn } from "../../utils";
 
 /** TODO: Add POST methods for likes (change functions in `<ThumbButton onClick={...}`) and upon submitting comment */
 
-type ThreadType = "MODULE_PAGE" | "QUESTION_PAGE";
+type LikedStatus = "NEUTRAL" | "LIKED" | "DISLIKED";
 
 interface MarginProps {
   level: number;
 }
 /** SHARED COMPONENTS */
-const QuestionTitle = styled.span`
-  font-family: "Poppins", sans-serif;
-  font-weight: 500;
-  font-size: 1.875em;
-`;
-
 const Text = styled.span`
   font-size: 1.25em;
 `;
@@ -54,21 +52,6 @@ const PostedSince = styled(RegularText)`
 const VerticalCenterAlignLayout = styled.div`
   display: flex;
   align-items: center;
-`;
-
-/** MODULE-PAGE THREAD ONLY */
-const ThreadContainerButton = styled.button`
-  background-color: ${Colors.white};
-  width: 50vw;
-  border-radius: 20px;
-  border: none;
-  padding: 1.5em;
-  text-align: left;
-  font-size: 12px;
-
-  :hover {
-    background-color: ${Colors.white_accent};
-  }
 `;
 
 /** THREAD-PAGE THREAD ONLY Å*/
@@ -123,18 +106,6 @@ const ThumbButton = styled.button`
   }
 `;
 
-const ReplyInputField = styled.input`
-  margin-top: 0.75em;
-  width: calc(50vw - 3em);
-  font-family: "Poppins", sans-serif;
-  font-style: italic;
-  font-size: 1.25em;
-  border-radius: 20px;
-  border: none;
-  background-color: ${Colors.light_grey_75};
-  padding: 0.5em 1.25em 0.5em 1.25em;
-`;
-
 const ViewRepliesLink = styled.div`
   color: ${Colors.red};
   font-family: "Poppins", sans-serif;
@@ -160,58 +131,157 @@ const CommentComponent = ({
 }) => {
 
   const [comment, setComment] = useState<Comment>(CommentInitialState);
-  const [liked, setLiked] = useState<Boolean>(false);
-  const [disliked, setDisliked] = useState<Boolean>(false);
   const [openReply, setOpenReply] = useState<Boolean>(false);
   const [viewReplies, setViewReplies] = useState<Boolean>(false);
+  const [status, setStatus] = useState<LikedStatus>("NEUTRAL");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [likesCount, setLikesCount] = useState<number>(0);
+  const [dislikesCount, setDislikesCount] = useState<number>(0);
+  const userId = useSelector(selectId);
+  const token = useSelector(selectToken);
 
   const openReplyInputField = (): void => {
     setOpenReply(!openReply);
   };
 
-  /**
-   * Fetches comment data from the backend.
-   */
-  const fetchThreadData = () => {
-      fetch(API_URL + `/comment/${commentId}`)
-          .then((response) => response.json())
-          .then((data) => {
-              setComment(data);
-          })
-          .catch((error) => {
-              console.log(error);
-          });
-  };
+  const dispatch = useDispatch();
 
-  /**
-   * Fetches liked status from the backend.
-   */
-  const fetchLikeStatus = () => {
-      fetch(API_URL + `/likes/comment/${commentId}/${comment.AuthorId}`)
-          .then((response) => response.json())
-          .then((data) => {
+  let likeStatus = 0;
+
+  const showLogInModal = () => {
+    dispatch(toggleLogin(true));
+    dispatch(toggleSignup(false));
+    dispatch(toggleCreateAccount(false));
+  }
+
+  const handleLikeButton = () => {
+    if (!isLoggedIn(token, userId)) {
+      showLogInModal();
+    } else if (comment !== CommentInitialState && !loading) {
+        setLoading(true);
+        switch (status) {
+            case "LIKED":
+                setLikesCount(likesCount - 1);
+                setStatus("NEUTRAL");
+                likeStatus = 0;
+                break;
+            case "DISLIKED":
+                setLikesCount(likesCount + 1);
+                setDislikesCount(dislikesCount - 1);
+                setStatus("LIKED");
+                likeStatus = 1;
+                break;
+            case "NEUTRAL":
+                setLikesCount(likesCount + 1)
+                setStatus("LIKED")
+                likeStatus = 1;
+                break;
+        }
+
+        handleLikesCount();
+        setLoading(false);
+    }
+}
+
+  const handleDislikeButton = () => {
+    if (!isLoggedIn(token, userId)) {
+      showLogInModal();
+    } else if (comment !== CommentInitialState && !loading) {
+      setLoading(true)
+      switch (status) {
+        case "LIKED":
+          setLikesCount(likesCount - 1);
+          setDislikesCount(dislikesCount + 1);
+          setStatus("DISLIKED");
+          likeStatus = -1;
+          break;
+        case "DISLIKED":
+          setDislikesCount(dislikesCount - 1);
+          setStatus("NEUTRAL");
+          likeStatus = 0;
+          break;
+        case "NEUTRAL":
+          setDislikesCount(dislikesCount + 1)
+          setStatus("DISLIKED")
+          likeStatus = -1;
+          break;
+        }
+
+      handleLikesCount();
+      setLoading(false);
+    }
+  }
+
+  const handleLikesCount = () => {
+      if (comment !== CommentInitialState) {
+          fetch(API_URL + `/likes/comment/${commentId}/${userId}/${likeStatus}`, {
+              method: "POST",
+              headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${token}`,
+              },
+              body: JSON.stringify({
+                  token: token,
+                  state: likeStatus,
+              }),
+          }).then(response => console.log("success!"))
+      }
+  }
+
+    /**
+     * Fetches comment data from the backend.
+     */
+    const fetchCommentData = () => {
+        fetch(API_URL + `/comment/${commentId}`)
+            .then((response) => response.json())
+            .then((data) => {
+                setComment(data);
+                setLikesCount(data.Likes)
+                setDislikesCount(data.Dislikes)
+                console.log(likesCount)
+                
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+
+    /**
+     * Fetches liked status from the backend.
+     */
+    const fetchLikeStatus = () => {
+        fetch(API_URL + `/likes/comment/${commentId}/${userId}`)
+            .then((response) => response.json())
+            .then((data) => {
+              likeStatus = data.state
               switch (data.state) {
-                  case 1:
-                      setLiked(true);
-                      break;
-                  case -1:
-                      setDisliked(true);
-                      break;
-                  case 0:
-                  default:
-                      break;
+                case 1:
+                  setStatus("LIKED");
+                  break;
+                case -1: 
+                  setStatus("DISLIKED");
+                  break;
+                case 0:
+                  setStatus("NEUTRAL");
+                  break;
               }
-          })
-          .catch((error) => console.log(error));
-  };
+            })
+            .catch((error) => console.log(error));
+    };
 
   /**
    * Hook to fetch data.
    */
   useEffect(() => {
-      fetchThreadData();
-      fetchLikeStatus();
+    setLoading(true);
+    fetchCommentData();
   }, []);
+
+  useEffect(() => {
+    fetchLikeStatus();
+    setLoading(false);
+  }, [comment])
 
   /**
    * Parses the timestamp to produce the duration since the
@@ -222,7 +292,6 @@ const CommentComponent = ({
    */
   const parseDuration = (timestamp: string): string => {
     const parsedTimestamp = Date.parse(timestamp);
-    console.log(parsedTimestamp);
     const datePosted = new Date(parsedTimestamp);
     const durationInMilliseconds = Date.now().valueOf() - datePosted.valueOf();
     const seconds = Math.floor(durationInMilliseconds / 1000);
@@ -247,24 +316,25 @@ const CommentComponent = ({
     return seconds + "s";
   };
 
-  if (level == 0) {
+  if (level === 0) {
     return (
       <ThreadContainerDiv>
+        <CombinedAuthenticationPage/>
         <PostedSince>{parseDuration(comment.Timestamp)}</PostedSince>
         <RegularText>Replied by @{comment.Username}</RegularText>
         <br />
         <Content>{comment.Content}</Content>
         <br />
         <VerticalCenterAlignLayout>
-          <ThumbButton onClick={() => setLiked(!liked)}>
-            {liked ? <ThumbUpIcon /> : <ThumbUpOutlinedIcon />}
+          <ThumbButton onClick={handleLikeButton}>
+            {status === "LIKED" ? <ThumbUpIcon /> : <ThumbUpOutlinedIcon />}
           </ThumbButton>
           {/* &#8195; (Em Space) and &#8196; (Three-Per-Em Space) are Unicode spaces. */}
-          <MediumText>&#8196;{comment.Likes}&#8195;</MediumText>
-          <ThumbButton onClick={() => setDisliked(!disliked)}>
-            {disliked ? <ThumbDownIcon /> : <ThumbDownOutlinedIcon />}
+          <MediumText>&#8196;{likesCount}&#8195;</MediumText>
+          <ThumbButton onClick={handleDislikeButton}>
+            {status === "DISLIKED" ? <ThumbDownIcon /> : <ThumbDownOutlinedIcon />}
           </ThumbButton>
-          <MediumText>&#8196;{comment.Dislikes}&#8195;</MediumText>
+          <MediumText>&#8196;{dislikesCount}&#8195;</MediumText>
           <ModeCommentOutlinedIcon />
           <MediumText>&#8196;</MediumText>
           <ReplyText onClick={() => openReplyInputField()}>Reply</ReplyText>
@@ -291,6 +361,7 @@ const CommentComponent = ({
   } else {
     return (
       <LevelContainerDiv level={level}>
+        <CombinedAuthenticationPage/>
         <Line />
         <PostedSince>{parseDuration(comment.Timestamp)}</PostedSince>
         <RegularText>Replied by @{comment.Username}</RegularText>
@@ -298,15 +369,15 @@ const CommentComponent = ({
         <Content>{comment.Content}</Content>
         <br />
         <VerticalCenterAlignLayout>
-          <ThumbButton onClick={() => setLiked(!liked)}>
-            {liked ? <ThumbUpIcon /> : <ThumbUpOutlinedIcon />}
+          <ThumbButton onClick={handleLikeButton}>
+            {status === "LIKED" ? <ThumbUpIcon /> : <ThumbUpOutlinedIcon />}
           </ThumbButton>
           {/* &#8195; (Em Space) and &#8196; (Three-Per-Em Space) are Unicode spaces. */}
-          <MediumText>&#8196;{comment.Likes}&#8195;</MediumText>
-          <ThumbButton onClick={() => setDisliked(!disliked)}>
-            {disliked ? <ThumbDownIcon /> : <ThumbDownOutlinedIcon />}
+          <MediumText>&#8196;{likesCount}&#8195;</MediumText>
+          <ThumbButton onClick={handleDislikeButton}>
+            {status === "DISLIKED" ? <ThumbDownIcon /> : <ThumbDownOutlinedIcon />}
           </ThumbButton>
-          <MediumText>&#8196;{comment.Dislikes}&#8195;</MediumText>
+          <MediumText>&#8196;{dislikesCount}&#8195;</MediumText>
           <ModeCommentOutlinedIcon />
           <MediumText>&#8196;</MediumText>
           <ReplyText onClick={() => openReplyInputField()}>Reply</ReplyText>
