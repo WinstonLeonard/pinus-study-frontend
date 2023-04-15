@@ -158,8 +158,11 @@ const ReplyTextEditor = ({ id }: { id: number }) => {
       }),
     })
       .then((response) => response.json())
+      .then(refresh)
       .catch((error) => console.log(error));
   };
+
+  const refresh = () => window.location.reload()
 
   return (
     <>
