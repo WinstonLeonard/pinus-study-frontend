@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { logo } from "../assets";
 import { Colors } from "../constants";
@@ -50,16 +50,30 @@ const Buttons = styled(SubDivision)`
 `;
 
 const LoginButton = styled.span`
-    font-size: 15px;
-    padding: 0.6rem 1.6rem;
-    font-weight: 500;
-    border-radius: 30px;
-    border-color: ${Colors.white};
-    border-width: 1px;
-    border-style: solid;
-    color: ${Colors.white};
-    text-decoration: "none";
-    cursor: pointer;
+  font-size: 15px;
+  padding: 0.6rem 1.6rem;
+  font-weight: 500;
+  border-radius: 30px;
+  background-color: ${Colors.white};
+  color: ${Colors.black};
+  text-decoration: "none";
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  
+  &:hover {
+    background-color: ${Colors.yellow};
+    color:${Colors.white};
+    animation: ${keyframes`
+      0% {
+        background-color: ${Colors.white_accent};
+        color: ${Colors.black};
+      }
+      100% {
+        background-color: ${Colors.yellow};
+        color:${Colors.white};
+      }
+    `} 0.3s ease-in-out;
+  }
 `;
 
 const SignUpButton = styled.span`
@@ -71,6 +85,24 @@ const SignUpButton = styled.span`
     color: white;
     text-decoration: "none";
     cursor: pointer;
+    width:60px;
+
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  
+    &:hover {
+      background-color: ${Colors.yellow};
+      color:${Colors.white};
+      animation: ${keyframes`
+        0% {
+          background-color: ${Colors.white};
+          color: ${Colors.black};
+        }
+        100% {
+          background-color: ${Colors.yellow};
+          color:${Colors.white};
+        }
+      `} 0.3s ease-in-out;
+    }
 `;
 
 const SearchBarContainer = styled.span`
@@ -95,6 +127,10 @@ const SearchBar = styled.input`
     ::placeholder {
         color: ${Colors.light_grey};
         font-style: italic;
+    }
+
+    @media (max-width: 800px) {
+        width: 45vw;
     }
 `;
 

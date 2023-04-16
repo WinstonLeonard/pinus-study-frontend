@@ -36,18 +36,27 @@ const DisplayWrapper = styled.span`
     font-size: 2em;
 `
 
-const WelcomeMessage = styled.span`
+const WelcomeMessage = styled.div`
     background-color: ${Colors.white};
     border-radius: 20px;
-    display: inline-block;
     padding: 1.25em;
-    display: flex;
     font-family: 'Poppins', sans-serif;
     font-weight: 500;
     font-size: 0.75em; 
     margin-top: 0.5em;
     margin-bottom: 0.5em;
 `
+
+const FeedbackLink = styled.a`
+  color: ${Colors.blue};
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
+
+  &:hover {
+    color: ${Colors.light_blue};
+  }
+`;
 
 const HomePage = () => {
     const user = useSelector(selectUser);
@@ -92,8 +101,7 @@ const HomePage = () => {
                             <WelcomeMessage>
                                 PINUS Study is a platform built for PINUSians where they can interact and open a discussion thread for modules.
                                 <br /><br />
-                                New to PINUS Study? Check out this guide on how to use it.
-                                Have something you want to improve? Fill in this feedback form.
+                                Have something you want to improve? Fill in this <FeedbackLink href="https://forms.gle/ye8m37mFog1bQ167A">feedback form</FeedbackLink>.
                                 <br /><br />
                                 Have fun studying!
                             </WelcomeMessage>
