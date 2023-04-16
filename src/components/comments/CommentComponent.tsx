@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectId, selectToken } from "../../redux/features/users/userSlice";
 import CombinedAuthenticationPage from "../../pages/CombinedAuthenticationPage";
 import { isLoggedIn } from "../../utils";
+import { deserialize } from "../editor/serializer";
 
 /** TODO: Add POST methods for likes (change functions in `<ThumbButton onClick={...}`) and upon submitting comment */
 
@@ -43,6 +44,8 @@ const Content = styled.span`
   font-size: 1.5em;
   margin-top: 0.5em;
   margin-bottom: 0.5em;
+  margin-block-start: 0;
+  margin-block-end: 0;
 `;
 
 const PostedSince = styled(RegularText)`
@@ -125,9 +128,11 @@ const ViewRepliesLink = styled.div`
 const CommentComponent = ({
   commentId,
   level,
+  threadId,
 }: {
   commentId: number;
   level: number;
+  threadId: number;
 }) => {
 
   const [comment, setComment] = useState<Comment>(CommentInitialState);
@@ -323,7 +328,8 @@ const CommentComponent = ({
         <PostedSince>{parseDuration(comment.Timestamp)}</PostedSince>
         <RegularText>Replied by @{comment.Username}</RegularText>
         <br />
-        <Content>{comment.Content}</Content>
+        {/* <Content>{comment.Content}</Content> */}
+        <Content>{deserialize(comment.Content)}</Content>
         <br />
         <VerticalCenterAlignLayout>
           <ThumbButton onClick={handleLikeButton}>
@@ -339,8 +345,8 @@ const CommentComponent = ({
           <MediumText>&#8196;</MediumText>
           <ReplyText onClick={() => openReplyInputField()}>Reply</ReplyText>
         </VerticalCenterAlignLayout>
-        {openReply ? <ReplyTextEditor id={commentId} /> : null}
-        {comment.Children && !viewReplies ? (
+        {openReply ? <ReplyTextEditor id={commentId} threadId={threadId} /> : null}
+        {comment.CommentChilds && !viewReplies ? (
           <ViewRepliesLink onClick={() => setViewReplies(true)}>
             <KeyboardArrowDownIcon style={{ fill: Colors.red }} />
             View More Replies
@@ -351,9 +357,9 @@ const CommentComponent = ({
             Hide Replies
           </ViewRepliesLink>
         ) : null}
-        {comment.Children && viewReplies ? (
+        {comment.CommentChilds && viewReplies ? (
           <>
-            <CommentList comments={comment.Children} level={level + 1} />
+            <CommentList comments={comment.CommentChilds} level={level + 1} threadId={threadId} />
           </>
         ) : null}
       </ThreadContainerDiv>
@@ -382,8 +388,8 @@ const CommentComponent = ({
           <MediumText>&#8196;</MediumText>
           <ReplyText onClick={() => openReplyInputField()}>Reply</ReplyText>
         </VerticalCenterAlignLayout>
-        {openReply ? <ReplyTextEditor id={commentId} /> : null}
-        {comment.Children && !viewReplies ? (
+        {openReply ? <ReplyTextEditor id={commentId} threadId={threadId} /> : null}
+        {comment.CommentChilds && !viewReplies ? (
           <ViewRepliesLink onClick={() => setViewReplies(true)}>
             <KeyboardArrowDownIcon style={{ fill: Colors.red }} />
             View More Replies
@@ -394,9 +400,9 @@ const CommentComponent = ({
             Hide Replies
           </ViewRepliesLink>
         ) : null}
-        {comment.Children && viewReplies ? (
+        {comment.CommentChilds && viewReplies ? (
           <>
-            <CommentList comments={comment.Children} level={level + 1} />
+            <CommentList comments={comment.CommentChilds} level={level + 1} threadId={threadId} />
           </>
         ) : null}
       </LevelContainerDiv>
