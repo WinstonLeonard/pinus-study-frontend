@@ -89,6 +89,10 @@ const UiButton = styled.button`
 
 const PostButton = styled(UiButton)`
   background: ${Colors.red};
+  cursor: pointer,
+  &:hover {
+    background: ${Colos.red + "80"};
+  }
 `;
 
 const TagButton = styled(UiButton)`
