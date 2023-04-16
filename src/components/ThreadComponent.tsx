@@ -332,7 +332,7 @@ const ThreadComponent = ({threadId, type} : {threadId : number, type? : ThreadTy
                     <br/>
                     <VerticalCenterAlignLayout>
                         <CommentOutlinedIcon sx={{fontSize: "1.375em"}}/>
-                        <RegularText>&#8196;{thread.Comments || 0}</RegularText>
+                        <RegularText>&#8196;{thread.Comments?.length || 0}</RegularText>
                     </VerticalCenterAlignLayout>
                 </ThreadContainerButton>
             </div>
