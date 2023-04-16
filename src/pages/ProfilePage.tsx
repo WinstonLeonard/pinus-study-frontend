@@ -13,7 +13,7 @@ import MyModules from "../components/MyModules";
 
 const ProfilePageWrapper = styled.div`
     display: grid;
-    grid-template-columns: 1.5fr 8.5fr;
+    grid-template-columns: 1.5fr 8.5fr 1.5fr;
     grid-column-gap: 2em;
     padding: 2em;
 `
@@ -57,10 +57,10 @@ const ProfilePage = () => {
                             )
                         })}
                     </ThreadWrapper>
+                    <RightSide>
+                        <MyModules />
+                    </RightSide>
                 </ProfilePageWrapper>
-                <RightSide>
-                    <MyModules />
-                </RightSide>
             </Background>
         </div>
     )
