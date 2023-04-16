@@ -18,7 +18,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { getUserDetailsRequest } from "../../requests";
 import TextEditor from "./TextEditor"
 
-const TextEditorModal = ({cancel} : {cancel: () => void}) => {
+const TextEditorModal = ({cancel, moduleid} : {cancel: () => void, moduleid: string}) => {
 
     return (
         <BlurredBackground>
@@ -26,7 +26,7 @@ const TextEditorModal = ({cancel} : {cancel: () => void}) => {
                 <CloseIconDiv onClick={cancel}>
                     <CloseIcon/>
                 </CloseIconDiv>
-                <TextEditor closeTextEditor={cancel}/>
+                <TextEditor closeTextEditor={cancel} moduleid={moduleid}/>
             </ModalBackground>
         </BlurredBackground>
     )

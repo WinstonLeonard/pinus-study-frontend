@@ -33,6 +33,7 @@ import { useParams } from 'react-router-dom';
 import { useSelector } from "react-redux";
 import { selectId, selectToken } from "../../redux/features/users/userSlice";
 
+
 // STYLED COMPONENTS
 
 const GlobalStyle = createGlobalStyle`
@@ -158,7 +159,9 @@ interface Params {
  * on the modules page of the forum website. Supports rich text formatting.
  * @returns A React component that represents the Text Editor.
  */
+
 const TextEditor = ({closeTextEditor} : {closeTextEditor: () => void}) => {
+
 
     const [postTitle, setPostTitle] = useState({ text: "" });
     const [textData, setTextData] = useState({});
@@ -333,6 +336,7 @@ const TextEditor = ({closeTextEditor} : {closeTextEditor: () => void}) => {
                         </div>
                         <PostButton
                             onClick={() => postData(textData)}
+
                         >
                             Post Question
                         </PostButton>

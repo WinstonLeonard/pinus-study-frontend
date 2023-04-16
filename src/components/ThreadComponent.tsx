@@ -18,7 +18,6 @@ import { toggleSignup, toggleCreateAccount, toggleLogin } from '../redux/feature
 import CombinedAuthenticationPage from '../pages/CombinedAuthenticationPage';
 import { deserialize } from './editor/serializer';
 
-
 /** TODO: Add POST methods for likes (change functions in `<ThumbButton onClick={...}`) and upon submitting comment */ 
 
 type ThreadType = "MODULE_PAGE" | "QUESTION_PAGE";
