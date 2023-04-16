@@ -21,7 +21,9 @@ const ProfilePageWrapper = styled.div`
 const ThreadWrapper = styled.div`
     display: flex;
     flex-direction: column;
-`
+
+`;
+
 
 const ThreadComponentWrapper = styled.span`
     margin-top: 1em;

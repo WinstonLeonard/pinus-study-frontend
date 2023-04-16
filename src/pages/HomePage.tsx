@@ -6,6 +6,7 @@ import NavigationBar from "../components/Navbar";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectUser } from "../redux/features/users/userSlice";
+import { RightSide } from "./ModulePage";
 
 const HomePageWrapper = styled.div`
     display: grid;
@@ -28,7 +29,9 @@ const PopularModulesWrapper = styled.div`
     grid-row-gap: 1em;
     margin-top: 0.5em;
     margin-bottom: 2em;
-`
+    place-items: center; /* Added property to center items */
+`;
+
 
 const DisplayWrapper = styled.span`
     font-family: "Poppins", "sans-serif";
@@ -107,7 +110,9 @@ const HomePage = () => {
                             </WelcomeMessage>
                         </DisplayWrapper>
                     </div>
-                    <MyModules />
+                    <RightSide>
+                        <MyModules />
+                    </RightSide>
                 </HomePageWrapper>
             </Background>
         </div>

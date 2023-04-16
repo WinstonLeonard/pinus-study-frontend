@@ -85,6 +85,8 @@ const ModuleForumDiv = styled.div`
     display: grid;
     align-items: center;
     padding: 1.25em calc(2em + 20px);
+    padding-right: 0;
+    padding-top: 0;
 `
 
 const ModuleForum = ({ selectedModule } : { selectedModule : string }) => {

@@ -22,8 +22,8 @@ export const Colors = {
     yellow_accent: "#c2910e",
 }
 
-export const API_URL = 'http://localhost:8080';
-// export const API_URL = 'https://pinus-study-backend-deployment-production.up.railway.app';
+// export const API_URL = 'http://localhost:8080';
+export const API_URL = 'https://pinus-study-backend-deployment-production.up.railway.app';
 
 export const LOGIN_URL = `${API_URL}/login`;
 export const USER_URL = `${API_URL}/user`;

@@ -88,12 +88,12 @@ const SearchModulesPage = () => {
                                 ? null
                                 : searchResults.map(module => {
                                     return (
-                                        <Link to={`/module/${module.Id.toLocaleLowerCase()}`} style={{ textDecoration: 'none' }}>
+                                        <Link to={`/module/${module.Id.toLocaleLowerCase()}`} style={{ textDecoration: 'none',  fontSize: '1.5em'}}>
                                             <div key={module.Id}>
                                                 <ModuleComponent>{module.Id}</ModuleComponent>
-                                        </div>
+                                            </div>
                                         </Link>
-                                    )
+                                    );
                             })}
                         </ModuleGridWrapper>
                     </div>
