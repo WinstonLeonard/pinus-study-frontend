@@ -65,7 +65,7 @@ const ModulePage = () => {
 
     return (
         <div>
-            {openTextEditor ? <TextEditor moduleid={mod? mod.toString() : ""} closeTextEditor={closeTextEditor}/> : null}
+            {openTextEditor ? <TextEditor closeTextEditor={closeTextEditor}/> : null}
             <NavigationBar/>
             <Background>
                 <ModulePageWrapper>
