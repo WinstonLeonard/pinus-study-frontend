@@ -128,9 +128,11 @@ const ViewRepliesLink = styled.div`
 const CommentComponent = ({
   commentId,
   level,
+  threadId,
 }: {
   commentId: number;
   level: number;
+  threadId: number;
 }) => {
 
   const [comment, setComment] = useState<Comment>(CommentInitialState);
@@ -342,8 +344,8 @@ const CommentComponent = ({
           <MediumText>&#8196;</MediumText>
           <ReplyText onClick={() => openReplyInputField()}>Reply</ReplyText>
         </VerticalCenterAlignLayout>
-        {openReply ? <ReplyTextEditor id={commentId} /> : null}
-        {comment.Children && !viewReplies ? (
+        {openReply ? <ReplyTextEditor id={commentId} threadId={threadId} /> : null}
+        {comment.CommentChilds && comment.CommentChilds.length > 0 && !viewReplies ? (
           <ViewRepliesLink onClick={() => setViewReplies(true)}>
             <KeyboardArrowDownIcon style={{ fill: Colors.red }} />
             View More Replies
@@ -354,9 +356,9 @@ const CommentComponent = ({
             Hide Replies
           </ViewRepliesLink>
         ) : null}
-        {comment.Children && viewReplies ? (
+        {comment.CommentChilds && viewReplies ? (
           <>
-            <CommentList comments={comment.Children} level={level + 1} />
+            <CommentList comments={comment.CommentChilds} level={level + 1} threadId={threadId} />
           </>
         ) : null}
       </ThreadContainerDiv>
@@ -369,7 +371,7 @@ const CommentComponent = ({
         <PostedSince>{parseDuration(comment.Timestamp)}</PostedSince>
         <RegularText>Replied by @{comment.Username}</RegularText>
         <br />
-        <Content>{comment.Content}</Content>
+        <Content>{deserialize(comment.Content)}</Content>
         <br />
         <VerticalCenterAlignLayout>
           <ThumbButton onClick={handleLikeButton}>
@@ -385,8 +387,8 @@ const CommentComponent = ({
           <MediumText>&#8196;</MediumText>
           <ReplyText onClick={() => openReplyInputField()}>Reply</ReplyText>
         </VerticalCenterAlignLayout>
-        {openReply ? <ReplyTextEditor id={commentId} /> : null}
-        {comment.Children && !viewReplies ? (
+        {openReply ? <ReplyTextEditor id={commentId} threadId={threadId} /> : null}
+        {comment.CommentChilds && comment.CommentChilds.length > 0 && !viewReplies ? (
           <ViewRepliesLink onClick={() => setViewReplies(true)}>
             <KeyboardArrowDownIcon style={{ fill: Colors.red }} />
             View More Replies
@@ -397,9 +399,9 @@ const CommentComponent = ({
             Hide Replies
           </ViewRepliesLink>
         ) : null}
-        {comment.Children && viewReplies ? (
+        {comment.CommentChilds && viewReplies ? (
           <>
-            <CommentList comments={comment.Children} level={level + 1} />
+            <CommentList comments={comment.CommentChilds} level={level + 1} threadId={threadId} />
           </>
         ) : null}
       </LevelContainerDiv>

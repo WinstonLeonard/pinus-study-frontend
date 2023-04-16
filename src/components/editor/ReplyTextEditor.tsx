@@ -122,7 +122,7 @@ type ModulePostData = {
  * on the modules page of the forum website. Supports rich text formatting.
  * @returns A React component that represents the Text Editor.
  */
-const ReplyTextEditor = ({ id }: { id: number }) => {
+const ReplyTextEditor = ({ id, threadId }: { id: number, threadId: number }) => {
   const [textData, setTextData] = useState({});
   const token = useSelector(selectToken);
   const userID = useSelector(selectId);

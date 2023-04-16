@@ -95,13 +95,13 @@ const QuestionPage = () => {
             <SpacingEmptyDiv />
             <Heading>Replies</Heading>
             {thread.Comments && thread.Comments?.length > 0 ? (
-              <CommentList comments={thread.Comments} level={0} />
+              <CommentList comments={thread.Comments} level={0} threadId={thread.Id} />
             ) : (
               <ThreadContainerDiv>
                 <MediumText>
                   No replies yet. Be the first to reply!
                 </MediumText>
-                <ReplyTextEditor id={thread.Id} />
+                <ReplyTextEditor id={thread.Id} threadId={thread.Id} />
               </ThreadContainerDiv>
             )}
           </div>

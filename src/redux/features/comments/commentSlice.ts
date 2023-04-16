@@ -6,7 +6,7 @@ export interface Comment {
     Dislikes: number,
     IsDeleted: boolean,
     Timestamp: string,
-    Children?: number[],
+    CommentChilds?: number[],
 }
 
 export const CommentInitialState : Comment = {
@@ -17,5 +17,5 @@ export const CommentInitialState : Comment = {
     Dislikes: 0,
     IsDeleted: false,
     Timestamp: "",
-    Children: undefined
+    CommentChilds: undefined
 }
