@@ -127,6 +127,7 @@ const ReplyTextEditor = ({ id }: { id: number }) => {
   const token = useSelector(selectToken);
   const userID = useSelector(selectId);
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
+  const refresh = () => window.location.reload()
 
   const renderElement = useCallback(
     (props: RenderElementProps) => <Element {...props} />,
@@ -157,6 +158,7 @@ const ReplyTextEditor = ({ id }: { id: number }) => {
       }),
     })
       .then((response) => response.json())
+      .then(refresh)
       .catch((error) => console.log(error));
   };
 
