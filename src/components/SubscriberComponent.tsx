@@ -44,7 +44,7 @@ const NameDiv = styled.div`
     text-align: left;
 `
 
-const SubscriberComponent = ({ subscriberId }: { subscriberId: string }) => {
+const SubscriberComponent = ({ subscriberId, subscriberUsername }: { subscriberId: string, subscriberUsername: string }) => {
 
     const navigate = useNavigate();
 
@@ -58,7 +58,7 @@ const SubscriberComponent = ({ subscriberId }: { subscriberId: string }) => {
                 <TempProfilePic/>
             </ProfilePicDiv>
             <NameDiv onClick={navigateToProfilePage}>
-                @{subscriberId}
+                @{subscriberUsername}
             </NameDiv>
         </SubscriberComponentBackground>
     )

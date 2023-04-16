@@ -61,7 +61,7 @@ const SubscribersPage = () => {
     const { mod } = useParams();
     // const selectedModule = mod? mod.toString() : ""
 
-    const [subscribers, setSubcribers] = useState([]);
+    const [subscribers, setSubcribers] = useState([{"Id": "0", "Username": "Loading"}]);
 
     const fetchSubs = () => {
         fetch(API_URL + `/subscribes/${mod?.toUpperCase()}`)
@@ -97,7 +97,7 @@ const SubscribersPage = () => {
                         <SubscribersContainer>
                             {subscribers 
                                 ? subscribers.map((subscriber) => (
-                                    <SubscriberComponent subscriberId={subscriber}/>
+                                    <SubscriberComponent subscriberId={subscriber.Id} subscriberUsername={subscriber.Username}/>
                                 ))
                                 : null
                             }

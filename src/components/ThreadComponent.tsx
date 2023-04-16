@@ -17,7 +17,6 @@ import { isLoggedIn } from '../utils';
 import { toggleSignup, toggleCreateAccount, toggleLogin } from '../redux/features/modal/modal';
 import CombinedAuthenticationPage from '../pages/CombinedAuthenticationPage';
 
-
 /** TODO: Add POST methods for likes (change functions in `<ThumbButton onClick={...}`) and upon submitting comment */ 
 
 type ThreadType = "MODULE_PAGE" | "QUESTION_PAGE";
@@ -357,7 +356,7 @@ const ThreadComponent = ({threadId, type} : {threadId : number, type? : ThreadTy
                 <br/>
                 <RegularText>Posted by <div onClick={directToUserPage}>@{thread.Username}</div></RegularText>
                 <br/>
-                <Content>{thread.Content}</Content>
+                <Content>{(thread.Content)}</Content>
                 <br/>
                 <VerticalCenterAlignLayout>
                     <ThumbButton onClick={handleLikeButton}>
