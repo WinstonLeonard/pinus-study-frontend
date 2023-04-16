@@ -17,12 +17,20 @@ export const ModuleComponent = styled.div`
     color: ${Colors.white};
     font-family: 'Poppins', 'sans-serif';
     font-weight: 600;
-    font-size: 1.25em;
-    padding: 0.5vw 1vw 0.5vw 1vw;
+    // font-size: 1.25em;
+    font-size: 2.5vw;
+    // padding: 0.5vw 1vw 0.5vw 1vw;
+    padding: 7px 12px 7px 12px;
     :hover {
         background-color: ${Colors.yellow_accent};
         color: ${Colors.white_accent};
     }
+
+    @media (max-width: 1200px) {
+      width: 200px;
+      height: 108px;
+      font-size: 30px;
+  }
 `
 
 const MyModulesContainer = styled.div`
@@ -67,6 +75,7 @@ const MyModulesChildren = styled.div<{marginTop? : string}>`
     :hover {
         background-color: ${Colors.yellow_accent};
         color: ${Colors.white_accent};
+        transform: scale(1.05);
     }
 `
 
@@ -108,6 +117,15 @@ const MyModulesChildrenWrapper = ({ moduleCode }: { moduleCode: string }) => {
     );
   };
 
+const LoginText = styled.span`
+  color: ${Colors.blue};
+  cursor: pointer;
+
+  &:hover {
+    color: ${Colors.light_blue};
+  }
+`;
+
 const MyModulesGuest = () => {
   const dispatch = useDispatch();
 
@@ -116,9 +134,12 @@ const MyModulesGuest = () => {
       <MyModulesHeading>My Modules</MyModulesHeading>
       <MyModulesText>
         <div>
-          <span style={{color: `${Colors.blue}`, cursor: 'pointer'}} onClick={() => dispatch(toggleLogin(true))}>Log in</span> to access your subscribed modules.</div></MyModulesText>
+          <LoginText onClick={() => dispatch(toggleLogin(true))}>Log in</LoginText> to access your subscribed modules.
+        </div>
+      </MyModulesText>
     </MyModulesContainer>
   );
+
 }
 
 const MyModulesLoggedIn = () => {

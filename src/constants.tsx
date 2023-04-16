@@ -3,8 +3,10 @@
  * If opacity is not defined, then it is 100% by default.
  */
 export const Colors = {
+    black: "#000000",
     blue: "#1F2E6E",
     blue_accent: "#222638",
+    light_blue: "#748EFF",
     red: "#FF3A3A",
     red_accent: "#CD3838",
     dark_grey: "#2D2D2F",
