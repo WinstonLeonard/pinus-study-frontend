@@ -16,7 +16,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { isLoggedIn } from '../utils';
 import { toggleSignup, toggleCreateAccount, toggleLogin } from '../redux/features/modal/modal';
 import CombinedAuthenticationPage from '../pages/CombinedAuthenticationPage';
-import { deserialize } from './editor/serializer';
 
 /** TODO: Add POST methods for likes (change functions in `<ThumbButton onClick={...}`) and upon submitting comment */ 
 
@@ -285,21 +284,6 @@ const ThreadComponent = ({threadId, type} : {threadId : number, type? : ThreadTy
     }
 
     /**
-     * Strips the HTML tags from the provided content string, and shortens
-     * the content to max. 150 characters by using the above `shortenLongPosts`
-     * function.
-     * 
-     * @param content The full content of the thread
-     * @returns The HTML-stripped, shortened content of the thread
-     */
-    const shortenRemoveHtml = (content : string) : string => {
-        const div = document.createElement("div");
-        div.innerHTML = content;
-        const text = div.textContent || div.innerText || "";
-        return shortenLongPosts(text);
-    }
-
-    /**
      * Parses the timestamp to produce the duration since the
      * thread was made.
      * 
@@ -344,7 +328,7 @@ const ThreadComponent = ({threadId, type} : {threadId : number, type? : ThreadTy
                     <br/>
                     <RegularText>Posted by @{thread.Username} in {thread.ModuleId}</RegularText>
                     <br/>
-                    <Content>{shortenRemoveHtml(thread.Content)}</Content>
+                    <Content>{shortenLongPosts(thread.Content)}</Content>
                     <br/>
                     <VerticalCenterAlignLayout>
                         <CommentOutlinedIcon sx={{fontSize: "1.375em"}}/>
@@ -372,7 +356,7 @@ const ThreadComponent = ({threadId, type} : {threadId : number, type? : ThreadTy
                 <br/>
                 <RegularText>Posted by <div onClick={directToUserPage}>@{thread.Username}</div></RegularText>
                 <br/>
-                <Content>{deserialize(thread.Content)}</Content>
+                <Content>{(thread.Content)}</Content>
                 <br/>
                 <VerticalCenterAlignLayout>
                     <ThumbButton onClick={handleLikeButton}>
@@ -388,7 +372,7 @@ const ThreadComponent = ({threadId, type} : {threadId : number, type? : ThreadTy
                     <MediumText>&#8196;</MediumText>
                     <ReplyText onClick={openReplyInputField}>Reply</ReplyText>
                 </VerticalCenterAlignLayout>
-                {openReply ? <ReplyTextEditor id={thread.Id} threadId={thread.Id} /> : null}
+                {openReply ? <ReplyTextEditor id={thread.Id} /> : null}
             </ThreadContainerDiv>
         )
     }

@@ -6,12 +6,12 @@ import CommentComponent from "./CommentComponent";
  * @param param0 an object with comments and level attributes, both number[] and number respectively
  * @returns a JSX component that represents a list of comments
  */
-const CommentList = ({ comments, level, threadId }: { comments: number[], level: number, threadId: number }) => {
+const CommentList = ({ comments, level }: { comments: number[], level: number }) => {
   return (
     <>
       {comments.map((comment: number) => (
         <div>
-          <CommentComponent commentId={comment} level={level} threadId={threadId} />
+          <CommentComponent commentId={comment} level={level} />
         </div>
       ))}
     </>

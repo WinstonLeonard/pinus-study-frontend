@@ -77,5 +77,5 @@ const serializeText = (node: any) => {
  * @returns a JSX component that represents the rendered HTML string
  */
 export const deserialize = (text: string) => {
-  return <div dangerouslySetInnerHTML={{ __html: text }} className="deserialised-content" />;
+  return <div dangerouslySetInnerHTML={{ __html: text }} />;
 };

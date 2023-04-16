@@ -29,10 +29,8 @@ import { TextAlignFormat } from "../../slate";
 import { API_URL, Colors } from "../../constants";
 import { BlurredBackground, CloseIconDiv } from "../authentication_modal/ModalComponents";
 import CloseIcon from '@mui/icons-material/Close';
-import { useParams } from 'react-router-dom';
-import { useSelector } from "react-redux";
 import { selectId, selectToken } from "../../redux/features/users/userSlice";
-
+import { useDispatch, useSelector } from "react-redux";
 
 // STYLED COMPONENTS
 
@@ -92,10 +90,6 @@ const UiButton = styled.button`
 
 const PostButton = styled(UiButton)`
     background: ${Colors.red};
-    cursor: pointer;
-    &:hover {
-        background: ${Colors.red + "80"};
-    }
 `;
 
 const TagButton = styled(UiButton)`
@@ -148,68 +142,54 @@ type ModulePostData = {
     token: string;
 };
 
-interface Params {
-    [key: string]: string | undefined;
-    mod: string;
-  }
-  
+// FUNCTIONS
 
 /**
  * TextEditor component for the web forum, used for creating a new thread
  * on the modules page of the forum website. Supports rich text formatting.
  * @returns A React component that represents the Text Editor.
  */
-
-const TextEditor = ({closeTextEditor} : {closeTextEditor: () => void}) => {
-
-
-    const [postTitle, setPostTitle] = useState({ text: "" });
-    const [textData, setTextData] = useState({});
-    const { mod } = useParams<Params>(); // Retrieve Module ID through dynamic routing
+const TextEditor = ({closeTextEditor, moduleid} : {closeTextEditor: () => void, moduleid: string}) => {
+    const userId = useSelector(selectId);
     const token = useSelector(selectToken);
-    const userID = useSelector(selectId);
-    const editor = useMemo(() => withHistory(withReact(createEditor())), []);
 
-    const refresh = () => window.location.reload();
-
-    const onChange = (e: React.FormEvent<HTMLInputElement>): void => {
-        setPostTitle({ text: e.currentTarget.value });
-    };
-
-    const postData = (data: any) => {
-        const stringified = serialize(data);
-        fetch(API_URL + `/module/` + mod, {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`
-          },
-          body: JSON.stringify({
-            authorid: userID,
-            content: stringified,
-            title: postTitle.text,
-            tags: null,
-            moduleid: mod,
-          }),
-        })
-          .then((response) => response.json())
-          .then(closeTextEditor)
-          .then(refresh)
-          .catch((error) => console.log(error));
-      };
-    
+    const postThread = () => {
+        fetch(API_URL + `/module/${moduleid}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+                authorid: userId,
+                title: serialize(postTitle),
+                content: serialize(textData),
+                tags: []
+            }),
+        }).then(response => response.json())
+        .then(data => {
+            console.log(data)
+        });
+    }
 
     const renderElement = useCallback(
         (props: RenderElementProps) => <Element {...props} />,
         []
     );
-
     const renderLeaf = useCallback(
         (props: RenderLeafProps) => <Leaf {...props} />,
         []
     );
-    
+    const editor = useMemo(() => withHistory(withReact(createEditor())), []);
+
+    const [postTitle, setPostTitle] = useState({ text: "" });
+
+    const [textData, setTextData] = useState({});
+
+    const onChange = (e: React.FormEvent<HTMLInputElement>): void => {
+        setPostTitle({ text: e.currentTarget.value });
+    };
+
     return (
         <>
             <GlobalStyle />
@@ -306,7 +286,7 @@ const TextEditor = ({closeTextEditor} : {closeTextEditor: () => void}) => {
                         </Slate>
                     </EditorBackground>
                     <Buttons>
-                        {/* <TagButtons>
+                        <TagButtons>
                             <TagButton
                                 onClick={() => {
                                     console.log("tag");
@@ -330,13 +310,14 @@ const TextEditor = ({closeTextEditor} : {closeTextEditor: () => void}) => {
                             >
                                 + Add Tags
                             </AddTagButton>
-                        </TagButtons> */}
-                        <div>
-                            {/* Dummy div */}
-                        </div>
+                        </TagButtons>
                         <PostButton
-                            onClick={() => postData(textData)}
-
+                            onClick={() => {
+                                console.log(textData);
+                                console.log(serialize(textData));
+                                postThread();
+                                closeTextEditor();
+                            }}
                         >
                             Post Question
                         </PostButton>
