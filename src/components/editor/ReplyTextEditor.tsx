@@ -22,8 +22,6 @@ import styled, { createGlobalStyle } from "styled-components";
 import { ReplyToolbarButton, Icon, ReplyToolbar } from "./index";
 import { TextAlignFormat } from "../../slate";
 import { API_URL, Colors } from "../../constants";
-import { useSelector } from "react-redux";
-import { selectId, selectToken } from "../../redux/features/users/userSlice";
 
 // STYLED COMPONENTS
 const Input = styled.input`
@@ -75,10 +73,6 @@ const UiButton = styled.button`
 
 const PostButton = styled(UiButton)`
   background: ${Colors.light_grey};
-  cursor: pointer;
-  &:hover {
-    background: ${Colors.light_grey_75};
-  }
 `;
 
 const Buttons = styled.div`
@@ -127,54 +121,38 @@ type ModulePostData = {
  * on the modules page of the forum website. Supports rich text formatting.
  * @returns A React component that represents the Text Editor.
  */
-const ReplyTextEditor = ({
-  id,
-  threadId,
-}: {
-  id: number;
-  threadId: number;
-}) => {
+const ReplyTextEditor = ({ id }: { id: number }) => {
   const renderElement = useCallback(
     (props: RenderElementProps) => <Element {...props} />,
     []
   );
-
   const renderLeaf = useCallback(
     (props: RenderLeafProps) => <Leaf {...props} />,
     []
   );
-
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
 
   const [textData, setTextData] = useState({});
-
-  const token = useSelector(selectToken);
-  const userID = useSelector(selectId);
 
   const postData = (data: any) => {
     const stringified = serialize(data);
     fetch(API_URL + `/thread/` + id.toString(), {
       method: "POST",
       headers: {
-        // Accept: "application/json",
-        // "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        authorid: userID,
+        authorid: "",
         content: stringified,
-        userId: userID,
-        token: token,
+        userId: 0,
+        token: "",
         parentid: id,
-        threadid: id,
       }),
     })
       .then((response) => response.json())
-      .then(refresh)
       .catch((error) => console.log(error));
   };
-
-  const refresh = () => window.location.reload();
 
   return (
     <>

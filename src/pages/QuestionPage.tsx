@@ -47,17 +47,6 @@ const ThreadContainerDiv = styled.div`
   margin: 1em 0;
 `;
 
-const EditorContainerDiv = styled.div`
-  background-color: ${Colors.white};
-  width: 50vw;
-  border-radius: 20px;
-  border: none;
-  padding: .5em 1.5em;
-  text-align: left;
-  font-size: 12px;
-  margin: 1.5em 0;
-`;
-
 const MediumText = styled.span`
   font-family: "Poppins", sans-serif;
   font-weight: 500;
@@ -106,18 +95,13 @@ const QuestionPage = () => {
             <SpacingEmptyDiv />
             <Heading>Replies</Heading>
             {thread.Comments && thread.Comments?.length > 0 ? (
-              <>
-              <CommentList comments={thread.Comments} threadId={thread.Id} level={0} />
-              <EditorContainerDiv>
-              <ReplyTextEditor id={thread.Id} threadId={thread.Id} />
-              </EditorContainerDiv>
-              </>
+              <CommentList comments={thread.Comments} level={0} />
             ) : (
               <ThreadContainerDiv>
                 <MediumText>
                   No replies yet. Be the first to reply!
                 </MediumText>
-                <ReplyTextEditor id={thread.Id} threadId={thread.Id} />
+                <ReplyTextEditor id={thread.Id} />
               </ThreadContainerDiv>
             )}
           </div>

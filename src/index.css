@@ -30,8 +30,3 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
-.deserialised-content p {
-  margin-block-start: .6em;
-  margin-block-end: .8em;
-}
