@@ -286,7 +286,7 @@ const TextEditor = ({closeTextEditor, moduleid} : {closeTextEditor: () => void, 
                         </Slate>
                     </EditorBackground>
                     <Buttons>
-                        <TagButtons>
+                        {/* <TagButtons>
                             <TagButton
                                 onClick={() => {
                                     console.log("tag");
@@ -310,7 +310,10 @@ const TextEditor = ({closeTextEditor, moduleid} : {closeTextEditor: () => void, 
                             >
                                 + Add Tags
                             </AddTagButton>
-                        </TagButtons>
+                        </TagButtons> */}
+                        <div>
+                            {/* Dummy Div */}
+                        </div>
                         <PostButton
                             onClick={() => {
                                 console.log(textData);
