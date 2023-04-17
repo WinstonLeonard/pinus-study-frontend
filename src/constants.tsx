@@ -3,8 +3,10 @@
  * If opacity is not defined, then it is 100% by default.
  */
 export const Colors = {
+    black: "#000000",
     blue: "#1F2E6E",
     blue_accent: "#222638",
+    light_blue: "#748EFF",
     red: "#FF3A3A",
     red_accent: "#CD3838",
     dark_grey: "#2D2D2F",
@@ -20,8 +22,8 @@ export const Colors = {
     yellow_accent: "#c2910e",
 }
 
-export const API_URL = 'http://localhost:8080';
-// export const API_URL = 'https://pinus-study-backend-deployment-production.up.railway.app';
+// export const API_URL = 'http://localhost:8080';
+export const API_URL = 'https://pinus-study-backend-deployment-production.up.railway.app';
 
 export const LOGIN_URL = `${API_URL}/login`;
 export const USER_URL = `${API_URL}/user`;
