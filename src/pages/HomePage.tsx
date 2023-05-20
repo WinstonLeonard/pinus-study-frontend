@@ -82,8 +82,8 @@ const HomePage = () => {
             }),
         }).then(response => response.json())
         .then(data => {
-            const sortedModules = [...data.module_list].sort((a, b) => b.SubscriberCount - a.SubscriberCount);
-            setModules(sortedModules);
+            const modules = [...data.module_list];
+            setModules(modules);
         });
     }, []);
 
