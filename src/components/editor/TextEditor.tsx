@@ -166,6 +166,7 @@ const TextEditor = ({ closeTextEditor }: { closeTextEditor: () => void }) => {
 
   const postThread = (data: any) => {
     const stringified = serialize(data);
+    console.log(stringified)
     fetch(API_URL + `/module/` + mod, {
       method: "POST",
       headers: {

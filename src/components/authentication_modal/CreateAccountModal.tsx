@@ -106,7 +106,7 @@ const CreateAccountModal = ({
         .then((data) => {
             console.log(data);
             if (data.status === "failure" || data.token === "") {
-                setBackendResponse(data.message);
+                setBackendResponse(data.cause);
                 setShowError(true);
             } else {
                 dispatch(login({
@@ -162,7 +162,7 @@ const CreateAccountModal = ({
                         value={confirmPassword}
                     />
                     {showError ? (
-                        <ErrorMessage> { backendResponse === "" ? backendResponse : "Invalid signup credentials!" }</ErrorMessage>
+                        <ErrorMessage> { backendResponse !== "" ? backendResponse : "Invalid signup credentials!" }</ErrorMessage>
                     ) : null}
                     {showPasswordMismatchError ? (
                         <ErrorMessage>Passwords do not match!</ErrorMessage>

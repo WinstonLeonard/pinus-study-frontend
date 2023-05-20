@@ -106,11 +106,13 @@ const LoginModal = ({cancel, showSignUpModal} : {cancel: () => void; showSignUpM
                         type="password"
                         onChange={handlePasswordChange}
                         value={password}/>
-                    { showError ? <ErrorMessage>Invalid login credentials!</ErrorMessage> : null }
+                    { showError ? <ErrorMessage>wrong username or password!</ErrorMessage> : null }
                 </ModalDiv>
+                {/*
                 <ModalDiv justifyContent="center">
                     <ForgetPassword onClick={forgetPassword}>Forget Password?</ForgetPassword>
                 </ModalDiv>
+                */}
                 <ModalDiv>
                     <AuthButton onClick={logIn}>Log In</AuthButton>
                 </ModalDiv>
