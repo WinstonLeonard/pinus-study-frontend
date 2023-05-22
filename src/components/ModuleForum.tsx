@@ -6,8 +6,13 @@ import {
   ModuleInitialState,
 } from "../redux/features/modules/moduleSlice";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
-import { useSelector } from "react-redux";
-import { selectId, selectToken } from "../redux/features/users/userSlice";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  selectId,
+  selectToken,
+  addSubscription,
+  deleteSubscription,
+} from "../redux/features/users/userSlice";
 
 export const RedButton = styled.div`
   font-family: "Poppins", "sans-serif";
@@ -97,6 +102,7 @@ const ModuleForum = ({ selectedModule }: { selectedModule: string }) => {
   const [isSubscribed, setIsSubscribed] = useState<boolean>(false);
   const userId = useSelector(selectId);
   const token = useSelector(selectToken);
+  const dispatch = useDispatch();
 
   const fetchMod = () => {
     fetch(API_URL + `/module/${selectedModule.toUpperCase()}`)
@@ -126,6 +132,11 @@ const ModuleForum = ({ selectedModule }: { selectedModule: string }) => {
       .then((response) => response.json())
       .then((data) => {
         fetchMod();
+        if (isSubscribed) {
+          dispatch(deleteSubscription(selectedModule));
+        } else {
+          dispatch(addSubscription(selectedModule));
+        }
         setIsSubscribed(!isSubscribed);
       })
       .catch((error) => console.log(error));
