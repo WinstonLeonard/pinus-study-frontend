@@ -25,6 +25,9 @@ import {
 import CombinedAuthenticationPage from "../pages/CombinedAuthenticationPage";
 import { deserialize } from "./editor/serializer";
 
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime';
+
 /** TODO: Add POST methods for likes (change functions in `<ThumbButton onClick={...}`) and upon submitting comment */
 
 type ThreadType = "MODULE_PAGE" | "QUESTION_PAGE";
@@ -237,6 +240,7 @@ const ThreadComponent = ({
     fetch(API_URL + `/thread/${threadId}`)
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         setThread(data.thread);
         setLikesCount(data.thread.LikesCount);
         setDislikesCount(data.thread.DislikesCount);
@@ -347,6 +351,11 @@ const ThreadComponent = ({
     return seconds + "s";
   };
 
+  const parseLastModified = (date: string) => {
+      dayjs.extend(relativeTime)
+      return dayjs(date).fromNow()
+  }
+
   /**
    * Renders the thread in the Module Page.
    */
@@ -354,7 +363,7 @@ const ThreadComponent = ({
     return (
       <div onClick={handleThreadClick}>
         <ThreadContainerButton>
-          <PostedSince>{parseDuration(thread.Timestamp)}</PostedSince>
+          <PostedSince>{parseLastModified(thread.Timestamp)}</PostedSince>
           <QuestionTitle>{thread.Title}</QuestionTitle>
           <br />
           <RegularText>
@@ -383,7 +392,7 @@ const ThreadComponent = ({
     return (
       <ThreadContainerDiv>
         <CombinedAuthenticationPage />
-        <PostedSince>{parseDuration(thread.Timestamp)}</PostedSince>
+        <PostedSince>{parseLastModified(thread.Timestamp)}</PostedSince>
         <QuestionTitle>{thread.Title}</QuestionTitle>
         <br />
         <RegularText>
@@ -410,8 +419,9 @@ const ThreadComponent = ({
           <MediumText>&#8196;</MediumText>
           <ReplyText onClick={openReplyInputField}>Reply</ReplyText>
         </VerticalCenterAlignLayout>
+        {/* Notes: parent id for thread component is set to 0, equivalent for null */}
         {openReply ? (
-          <ReplyTextEditor id={thread.Id} threadId={thread.Id} />
+          <ReplyTextEditor id={0} threadId={thread.Id} />
         ) : null}
       </ThreadContainerDiv>
     );
