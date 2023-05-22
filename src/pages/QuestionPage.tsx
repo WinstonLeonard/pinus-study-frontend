@@ -6,7 +6,10 @@ import { Colors } from "../constants";
 import MyModules from "../components/MyModules";
 import ModuleForum, { RedButton } from "../components/ModuleForum";
 import { API_URL } from "../constants";
-import { Thread, ThreadInitialState } from "../redux/features/threads/threadSlice";
+import {
+  Thread,
+  ThreadInitialState,
+} from "../redux/features/threads/threadSlice";
 import CommentList from "../components/comments/CommentList";
 import ReplyTextEditor from "../components/editor/ReplyTextEditor";
 
@@ -38,7 +41,7 @@ const RightSide = styled.div`
 /** THREAD-PAGE THREAD ONLY Å*/
 const ThreadContainerDiv = styled.div`
   background-color: ${Colors.white};
-  width: 50vw;
+  width: calc(100% - 2em);
   border-radius: 20px;
   border: none;
   padding: 1.5em;
@@ -49,10 +52,10 @@ const ThreadContainerDiv = styled.div`
 
 const EditorContainerDiv = styled.div`
   background-color: ${Colors.white};
-  width: 50vw;
+  width: calc(100% - 2em);
   border-radius: 20px;
   border: none;
-  padding: .5em 1.5em;
+  padding: 0.5em 1.5em;
   text-align: left;
   font-size: 12px;
   margin: 1.5em 0;
@@ -84,14 +87,14 @@ const QuestionPage = () => {
       });
   };
 
-    useEffect(() => {
-      fetchThreadData();
-    }, [])
+  useEffect(() => {
+    fetchThreadData();
+  }, []);
 
-    if (!threadId) {
-      return <div></div>; // Handle invalid question page here. Probly some 404 page or such
-    }
-    
+  if (!threadId) {
+    return <div></div>; // Handle invalid question page here. Probly some 404 page or such
+  }
+
   return (
     <>
       <Navbar />
@@ -105,24 +108,28 @@ const QuestionPage = () => {
             />
             <SpacingEmptyDiv />
             <Heading>Replies</Heading>
-            {thread.Comments && thread.Comments?.length > 0 ? (              
+            {thread.Comments && thread.Comments?.length > 0 ? (
               <>
-                <CommentList comments={thread.Comments} threadId={thread.Id} level={0} />
+                <CommentList
+                  comments={thread.Comments}
+                  threadId={thread.Id}
+                  level={0}
+                />
                 <EditorContainerDiv>
                   <ReplyTextEditor id={thread.Id} threadId={thread.Id} />
                 </EditorContainerDiv>
               </>
             ) : (
               <ThreadContainerDiv>
-                <MediumText>
-                  No replies yet. Be the first to reply!
-                </MediumText>
+                <MediumText>No replies yet. Be the first to reply!</MediumText>
                 <ReplyTextEditor id={thread.Id} threadId={thread.Id} />
               </ThreadContainerDiv>
             )}
           </div>
           <RightSide>
-            { thread !== ThreadInitialState ? <ModuleForum selectedModule={thread.ModuleId}/> : null}
+            {thread !== ThreadInitialState ? (
+              <ModuleForum selectedModule={thread.ModuleId} />
+            ) : null}
             <MyModules />
           </RightSide>
         </MainContainer>

@@ -82,7 +82,7 @@ const ThreadContainerButton = styled.button`
 /** THREAD-PAGE THREAD ONLY Å*/
 const ThreadContainerDiv = styled.div`
   background-color: ${Colors.white};
-  width: 50vw;
+  width: calc(100% - 2em);
   border-radius: 20px;
   border: none;
   padding: 1.5em;
