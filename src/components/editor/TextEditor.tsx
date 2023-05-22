@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState, MouseEvent } from "react";
+import React, { useCallback, useMemo, useState, MouseEvent, useEffect } from "react";
 import isHotkey from "is-hotkey";
 import {
   Editable,
@@ -25,6 +25,7 @@ import { API_URL, Colors } from "../../constants";
 import {
   BlurredBackground,
   CloseIconDiv,
+  ErrorMessage,
 } from "../authentication_modal/ModalComponents";
 import CloseIcon from "@mui/icons-material/Close";
 import { selectId, selectToken } from "../../redux/features/users/userSlice";
@@ -158,15 +159,36 @@ interface Params {
 const TextEditor = ({ closeTextEditor }: { closeTextEditor: () => void }) => {
   const [postTitle, setPostTitle] = useState({ text: "" });
   const [textData, setTextData] = useState({});
+  const [showError, setShowError] = useState(true )
   const userId = useSelector(selectId);
   const token = useSelector(selectToken);
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
   const { mod } = useParams<Params>(); // Retrieve Module ID through dynamic routing
   const refresh = () => window.location.reload();
 
+  const isInputInvalid = (data: any, postTitle: any): boolean => {
+    //Post can't be empty
+    if (data[0] === undefined || data[0].children[0].text === "") {
+      return true;
+    }
+
+    //Title can't be empty, do nothing if empty
+    if (postTitle.text === ""){
+      return true;
+    }
+
+    return false
+  }
+
   const postThread = (data: any) => {
+    //if Invalid Input Do Nothing
+    if (isInputInvalid(data, postTitle)) {
+      return;
+    }
+
     const stringified = serialize(data);
     console.log(stringified)
+
     fetch(API_URL + `/module/` + mod, {
       method: "POST",
       headers: {
@@ -201,6 +223,10 @@ const TextEditor = ({ closeTextEditor }: { closeTextEditor: () => void }) => {
   const onChange = (e: React.FormEvent<HTMLInputElement>): void => {
     setPostTitle({ text: e.currentTarget.value });
   };
+  
+  useEffect(() => {
+    setShowError(isInputInvalid(textData, postTitle))
+  }, [postTitle, textData])
 
   return (
     <>
@@ -271,31 +297,9 @@ const TextEditor = ({ closeTextEditor }: { closeTextEditor: () => void }) => {
             </Slate>
           </EditorBackground>
           <Buttons>
-            {/* <TagButtons>
-                            <TagButton
-                                onClick={() => {
-                                    console.log("tag");
-                                }}
-                            >
-                                {" "}
-                                Requesting for Help{" "}
-                            </TagButton>
-                            <TagButton
-                                onClick={() => {
-                                    console.log("tag");
-                                }}
-                            >
-                                {" "}
-                                Ask a Question{" "}
-                            </TagButton>
-                            <AddTagButton
-                                onClick={() => {
-                                    console.log("add tag");
-                                }}
-                            >
-                                + Add Tags
-                            </AddTagButton>
-                        </TagButtons> */}
+          {showError && (
+            <ErrorMessage>Title and Description Can't be Empty!</ErrorMessage>
+          )}
             <div>{/* Dummy Div */}</div>
             <PostButton onClick={() => postThread(textData)}>
               Post Question
@@ -407,7 +411,7 @@ const Element = (props: RenderElementProps) => {
   const attributes = props.attributes;
   const children = props.children;
 
-  console.log(props);
+  // console.log(props);
 
   let align: TextAlignFormat = "left";
 

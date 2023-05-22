@@ -44,7 +44,7 @@ const ThreadList = ({ selectedModule } : { selectedModule : string }) => {
             <ThreadWrapper>
                 {module === (ModuleInitialState) || curr_thread === null 
                     ? null
-                    : curr_thread.map(thread => {
+                    : curr_thread.sort((a, b) => b.Timestamp.localeCompare(a.Timestamp)).map(thread => {
                         return (
                             <ThreadComponentWrapper>
                                 <ThreadComponent threadId={thread.Id}/>
