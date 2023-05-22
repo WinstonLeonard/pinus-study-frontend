@@ -37,13 +37,6 @@ export const ModuleComponent = styled.div`
           color:${Colors.white};
         }
       `} 0.3s ease-in-out;
-  
-
-    @media (max-width: 1200px) {
-      width: 200px;
-      height: 108px;
-      font-size: 30px;
-    }
 `;
 
 const MyModulesContainer = styled.div`
@@ -128,7 +121,6 @@ const ScrollableItem = styled.div`
 export const MyModulesDiv = styled.div`
   display: grid;
   align-items: center;
-  padding: 1.25em calc(2em + 20px);
   padding-right: 0;
   padding-top: 0;
 `;

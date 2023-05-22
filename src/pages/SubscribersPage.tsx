@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 const SubscribersPageWrapper = styled.div`
     display: grid;
     grid-template-columns: 8.5fr 1.5fr;
-    grid-column-gap: 1em;
+    grid-column-gap: 2em;
     padding: 2em;
 `
 

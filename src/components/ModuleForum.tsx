@@ -92,7 +92,7 @@ const SubscriberDesc = styled.a`
 const ModuleForumDiv = styled.div`
   display: grid;
   align-items: center;
-  padding: 1.25em calc(2em + 20px);
+  padding-bottom: 2em;
   padding-right: 0;
   padding-top: 0;
 `;
