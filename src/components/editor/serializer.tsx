@@ -8,7 +8,7 @@ import { Text } from "slate";
  * @returns a HTML string
  */
 export const serialize = (node: any) => {
-  console.log(node);
+  // console.log(node);
   if (Text.isText(node[0])) {
     if (node.type === "list-item") {
       return (
