@@ -37,13 +37,6 @@ export const ModuleComponent = styled.div`
           color:${Colors.white};
         }
       `} 0.3s ease-in-out;
-  
-
-    @media (max-width: 1200px) {
-      width: 200px;
-      height: 108px;
-      font-size: 30px;
-    }
 `;
 
 const MyModulesContainer = styled.div`
