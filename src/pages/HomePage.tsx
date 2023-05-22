@@ -13,6 +13,21 @@ const HomePageWrapper = styled.div`
     grid-template-columns: 8.5fr 1.5fr;
     grid-column-gap: 1em;
     padding: 2em;
+
+    @media only screen and (max-width: 992px) {
+        grid-template-columns: 10fr;
+        grid-column-gap: 0.25em;
+    }
+
+    @media only screen and (min-width: 992px) {
+        grid-template-columns: 5fr 5fr;
+        grid-column-gap: 0.25em;
+    }
+
+    @media only screen and (min-width: 2000px) {
+        grid-template-columns: 7fr 3fr;
+        grid-column-gap: 1em;
+    }
 `
 
 const Heading = styled.span`
@@ -20,6 +35,21 @@ const Heading = styled.span`
     font-weight: 600
     font-size: 2.25em;
     color: ${Colors.white};
+    @media only screen and (max-width: 600px) {
+        font-size: 26px;
+    }
+  
+      @media only screen and (min-width: 600px) {
+        font-size: 28px;
+      }
+  
+      @media only screen and (min-width: 768px) {
+        font-size: 30px;
+      }
+  
+      @media only screen and (min-width: 992px) {
+        font-size: 1.15em;
+      }
 `
 
 const PopularModulesWrapper = styled.div`
@@ -30,6 +60,28 @@ const PopularModulesWrapper = styled.div`
     margin-top: 0.5em;
     margin-bottom: 2em;
     place-items: center; /* Added property to center items */
+
+    @media only screen and (max-width: 600px) {
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-column-gap: 0.25em;
+        grid-row-gap: 0.25em;
+    }
+  
+    @media only screen and (min-width: 600px) {
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-column-gap: 0.25em;
+        grid-row-gap: 0.25em;
+    }
+  
+      @media only screen and (min-width: 768px) {...}
+  
+      @media only screen and (min-width: 992px) {...}
+  
+      @media only screen and (min-width: 1500px) {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-column-gap: 0.5em;
+        grid-row-gap: 0.5em;
+      }
 `;
 
 
@@ -48,6 +100,26 @@ const WelcomeMessage = styled.div`
     font-size: 0.75em; 
     margin-top: 0.5em;
     margin-bottom: 0.5em;
+
+    @media only screen and (max-width: 600px) {
+        font-size: 0.5em; 
+    }
+  
+      @media only screen and (min-width: 600px) {
+        font-size: 0.625em; 
+      }
+  
+      @media only screen and (min-width: 768px) {
+        font-size: 0.625em; 
+      }
+  
+      @media only screen and (min-width: 992px) {
+        font-size: 0.625em; 
+      }
+  
+      @media only screen and (min-width: 1200px) {
+        font-size: 0.7em; 
+      }
 `
 
 const FeedbackLink = styled.a`
