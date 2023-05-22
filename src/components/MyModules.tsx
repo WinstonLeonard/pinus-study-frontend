@@ -27,6 +27,37 @@ export const ModuleComponent = styled.div`
     justify-content: center; /* Center text horizontally */
     align-items: center; /* Center text vertically */
     transition: background-color 0.3s ease, color 0.3s ease; /* Added transition property */
+    
+    @media only screen and (max-width: 600px) {
+      width: 100px;
+      height: 54px;
+      font-size: 18px;
+    }
+
+    @media only screen and (min-width: 600px) {
+      width: 125px;
+      height: 67.6px;
+      font-size: 24px;
+    }
+
+    @media only screen and (min-width: 768px) {
+      width: 150px;
+      height: 81px;
+      font-size: 24px;
+    }
+
+    @media only screen and (min-width: 992px) {
+      width: 175px;
+      height: 95px;
+      font-size: 24px;
+    }
+
+    @media only screen and (min-width: 1200px) {
+      width: 270px;
+      height: 108px;
+      font-size: 36px;
+    }
+
     &:hover {
       background-color: ${Colors.red};
       color:${Colors.white};
@@ -39,11 +70,11 @@ export const ModuleComponent = styled.div`
       `} 0.3s ease-in-out;
 `;
 
-const MyModulesContainer = styled.div`
+const MyModulesContainer = styled.div<{mobileDisplay?: string}>`
   background-color: ${Colors.white};
   border-radius: 20px;
-  width: 17.5vw;
-  max-width: 17.5vw;
+  // width: 17.5vw;
+  max-width: 16.5vw;
   min-height: 70vh;
   max-height: 70vh;
   padding: 1.5em;
@@ -51,6 +82,14 @@ const MyModulesContainer = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
+
+  @media only screen and (max-width: 992px) {
+    display: ${props => props.mobileDisplay? props.mobileDisplay : 'flex'};
+  }
+
+  @media only screen and (max-width: 1200px) {
+    width: 15vw;
+  }
 `;
 
 const MyModulesHeading = styled.span`
@@ -166,7 +205,7 @@ const MyModulesGuest = () => {
   const dispatch = useDispatch();
 
   return (
-    <MyModulesContainer>
+    <MyModulesContainer mobileDisplay="none">
       <MyModulesHeading>My Modules</MyModulesHeading>
       <MyModulesText>
         <div>
@@ -189,7 +228,7 @@ const MyModulesLoggedIn = () => {
   }, []);
 
   return (
-    <MyModulesContainer>
+    <MyModulesContainer mobileDisplay="none">
       <MyModulesHeading>My Modules</MyModulesHeading>
       <Scrollable>
         {user.Modules.map((moduleCode) => (
