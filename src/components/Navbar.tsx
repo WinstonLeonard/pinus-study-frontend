@@ -9,6 +9,7 @@ import { selectId, selectToken } from "../redux/features/users/userSlice";
 import {toggleCreateAccount, toggleLogin, toggleSignup } from "../redux/features/modal/modal";
 import { isLoggedIn } from "../utils";
 import CombinedAuthenticationPage from "../pages/CombinedAuthenticationPage";
+import { pfp } from "../assets";
 
 // STYLED COMPONENTS
 
@@ -134,8 +135,7 @@ const SearchBar = styled.input`
     }
 `;
 
-const ProfilePicture = styled.button`
-    background: ${Colors.red};
+const ProfilePicture = styled.img`
     width: 3em;
     height: 3em;
     border-radius: 50%;
@@ -212,7 +212,7 @@ const NavigationBar = () => {
             <Buttons>
                 {isLoggedIn(userToken, userId) ? (
                     <Link to={`/profile/${userId}`} style={{ textDecoration: "none" }}>
-                        <ProfilePicture/>
+                        <ProfilePicture src={pfp} />
                     </Link>
                 ) : (
                     <>
