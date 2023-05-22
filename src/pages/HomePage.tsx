@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectUser } from "../redux/features/users/userSlice";
 import { RightSide } from "./ModulePage";
+import { ScreenSizes } from "../constants";
 
 const HomePageWrapper = styled.div`
     display: grid;
@@ -14,19 +15,19 @@ const HomePageWrapper = styled.div`
     grid-column-gap: 2em;
     padding: 2em;
 
-    @media only screen and (max-width: 992px) {
+    ${ScreenSizes.medium_below} {
         grid-template-columns: 10fr;
         grid-column-gap: 0.25em;
     }
 
-    @media only screen and (min-width: 992px) {
+    ${ScreenSizes.large_up} {
         grid-template-columns: 5fr 5fr;
-        grid-column-gap: 0.25em;
+        grid-column-gap: 2em;
     }
 
-    @media only screen and (min-width: 2000px) {
+    ${ScreenSizes.extra_huge_up} {
         grid-template-columns: 7fr 3fr;
-        grid-column-gap: 1em;
+        grid-column-gap: 2em;
     }
 `
 
@@ -35,21 +36,21 @@ const Heading = styled.span`
     font-weight: 600
     font-size: 2.25em;
     color: ${Colors.white};
-    @media only screen and (max-width: 600px) {
+    ${ScreenSizes.extra_small} {
         font-size: 26px;
     }
   
-      @media only screen and (min-width: 600px) {
+    ${ScreenSizes.small_up} {
         font-size: 28px;
-      }
+    }
   
-      @media only screen and (min-width: 768px) {
+    ${ScreenSizes.medium_up} {
         font-size: 30px;
-      }
+    }
   
-      @media only screen and (min-width: 992px) {
+    ${ScreenSizes.large_up} {
         font-size: 1.15em;
-      }
+    }
 `
 
 const PopularModulesWrapper = styled.div`
@@ -61,27 +62,27 @@ const PopularModulesWrapper = styled.div`
     margin-bottom: 2em;
     place-items: center; /* Added property to center items */
 
-    @media only screen and (max-width: 600px) {
+    ${ScreenSizes.extra_small} {
         grid-template-columns: 1fr 1fr 1fr;
         grid-column-gap: 0.25em;
         grid-row-gap: 0.25em;
     }
   
-    @media only screen and (min-width: 600px) {
+    ${ScreenSizes.small_up} {
         grid-template-columns: 1fr 1fr 1fr;
         grid-column-gap: 0.25em;
         grid-row-gap: 0.25em;
     }
   
-      @media only screen and (min-width: 768px) {...}
+    ${ScreenSizes.medium_up} {...}
   
-      @media only screen and (min-width: 992px) {...}
+    ${ScreenSizes.large_up} {...}
   
-      @media only screen and (min-width: 1500px) {
+    ${ScreenSizes.huge_up} {
         grid-template-columns: 1fr 1fr 1fr 1fr;
         grid-column-gap: 0.5em;
         grid-row-gap: 0.5em;
-      }
+    }
 `;
 
 
@@ -101,25 +102,25 @@ const WelcomeMessage = styled.div`
     margin-top: 0.5em;
     margin-bottom: 0.5em;
 
-    @media only screen and (max-width: 600px) {
+    ${ScreenSizes.extra_small} {
         font-size: 0.5em; 
     }
   
-      @media only screen and (min-width: 600px) {
+    ${ScreenSizes.small_up} {
         font-size: 0.625em; 
-      }
+    }
   
-      @media only screen and (min-width: 768px) {
+    ${ScreenSizes.medium_up} {
         font-size: 0.625em; 
-      }
+    }
   
-      @media only screen and (min-width: 992px) {
+    ${ScreenSizes.large_up} {
         font-size: 0.625em; 
-      }
+    }
   
-      @media only screen and (min-width: 1200px) {
+    ${ScreenSizes.extra_large_up} {
         font-size: 0.7em; 
-      }
+    }
 `
 
 const FeedbackLink = styled.a`
