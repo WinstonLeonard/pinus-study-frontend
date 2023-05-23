@@ -213,7 +213,7 @@ const MyModulesGuest = () => {
           <LoginText onClick={() => dispatch(toggleLogin(true))}>
             Log in
           </LoginText>{" "}
-          to access your subscribed modules and post threads.
+          to post and reply to threads and access your subscribed modules.
         </div>
       </MyModulesText>
     </MyModulesContainer>
