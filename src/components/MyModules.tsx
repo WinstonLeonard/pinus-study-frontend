@@ -70,7 +70,7 @@ export const ModuleComponent = styled.div`
       `} 0.3s ease-in-out;
 `;
 
-const MyModulesContainer = styled.div<{mobileDisplay?: string}>`
+const MyModulesContainer = styled.div<{ mobileDisplay?: string }>`
   background-color: ${Colors.white};
   border-radius: 20px;
   // width: 17.5vw;
@@ -84,7 +84,7 @@ const MyModulesContainer = styled.div<{mobileDisplay?: string}>`
   align-items: flex-start;
 
   @media only screen and (max-width: 992px) {
-    display: ${props => props.mobileDisplay? props.mobileDisplay : 'flex'};
+    display: ${(props) => (props.mobileDisplay ? props.mobileDisplay : "flex")};
   }
 
   @media only screen and (max-width: 1200px) {
@@ -195,6 +195,7 @@ const MyModulesChildrenWrapper = ({ moduleCode }: { moduleCode: string }) => {
 const LoginText = styled.span`
   color: ${Colors.blue};
   cursor: pointer;
+  text-decoration: underline;
 
   &:hover {
     color: ${Colors.light_blue};
@@ -212,7 +213,7 @@ const MyModulesGuest = () => {
           <LoginText onClick={() => dispatch(toggleLogin(true))}>
             Log in
           </LoginText>{" "}
-          to access your subscribed modules.
+          to post and reply to threads and access your subscribed modules.
         </div>
       </MyModulesText>
     </MyModulesContainer>

@@ -12,6 +12,9 @@ import {
 } from "../redux/features/threads/threadSlice";
 import CommentList from "../components/comments/CommentList";
 import ReplyTextEditor from "../components/editor/ReplyTextEditor";
+import { selectId, selectToken } from "../redux/features/users/userSlice";
+import { isLoggedIn } from "../utils";
+import { useSelector } from "react-redux";
 
 // Uncomment display grid once my module component is done
 const MainContainer = styled.div`
@@ -69,8 +72,29 @@ const MediumText = styled.span`
   padding-left: 0.5em;
 `;
 
+const GuestBoxDiv = styled.div`
+  text-align: center;
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+`;
+
+const GuestBox = () => {
+  return (
+    <GuestBoxDiv>
+      <MediumText style={{ color: Colors.white, fontSize: "1.25em" }}>
+        Please log in to reply.
+      </MediumText>
+    </GuestBoxDiv>
+  );
+};
+
 const QuestionPage = () => {
   const { threadId } = useParams();
+  const token = useSelector(selectToken);
+  const userId = useSelector(selectId);
   const [thread, setThread] = useState<Thread>(ThreadInitialState);
 
   /**
@@ -115,15 +139,19 @@ const QuestionPage = () => {
                   threadId={thread.Id}
                   level={0}
                 />
+                (isLoggedIn(token, userId) ?{" "}
                 <EditorContainerDiv>
-                  <ReplyTextEditor id={thread.Id} threadId={thread.Id} />
-                </EditorContainerDiv>
+                  <ReplyTextEditor id={0} threadId={thread.Id} />
+                </EditorContainerDiv>{" "}
+                : <GuestBox />)
               </>
-            ) : (
+            ) : isLoggedIn(token, userId) ? (
               <ThreadContainerDiv>
                 <MediumText>No replies yet. Be the first to reply!</MediumText>
-                <ReplyTextEditor id={thread.Id} threadId={thread.Id} />
+                <ReplyTextEditor id={0} threadId={thread.Id} />
               </ThreadContainerDiv>
+            ) : (
+              <GuestBox />
             )}
           </div>
           <RightSide>

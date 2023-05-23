@@ -145,7 +145,9 @@ const ReplyTextEditor = ({ id, threadId }: { id: number, threadId: number }) => 
 
   const postData = (data: any) => {
     const stringified = serialize(data);
-    fetch(API_URL + `/thread/` + id.toString(), {
+    console.log("Thread ID:" + threadId);
+    console.log("Parent ID:" + id);
+    fetch(API_URL + `/thread/` + threadId.toString(), {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -158,7 +160,7 @@ const ReplyTextEditor = ({ id, threadId }: { id: number, threadId: number }) => 
         userId: userID,
         token: token,
         parentid: id,
-        threadid: id,
+        threadid: threadId,
       }),
     })
       .then((response) => response.json())

@@ -1,4 +1,10 @@
-import React, { useCallback, useMemo, useState, MouseEvent, useEffect } from "react";
+import React, {
+  useCallback,
+  useMemo,
+  useState,
+  MouseEvent,
+  useEffect,
+} from "react";
 import isHotkey from "is-hotkey";
 import {
   Editable,
@@ -90,7 +96,7 @@ const UiButton = styled.button`
 
 const PostButton = styled(UiButton)`
   background: ${Colors.red};
-  cursor: pointer,
+  cursor: pointer;
   &:hover {
     background: ${Colors.red + "80"};
   }
@@ -159,7 +165,7 @@ interface Params {
 const TextEditor = ({ closeTextEditor }: { closeTextEditor: () => void }) => {
   const [postTitle, setPostTitle] = useState({ text: "" });
   const [textData, setTextData] = useState({});
-  const [showError, setShowError] = useState(true )
+  const [showError, setShowError] = useState(true);
   const userId = useSelector(selectId);
   const token = useSelector(selectToken);
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
@@ -173,12 +179,12 @@ const TextEditor = ({ closeTextEditor }: { closeTextEditor: () => void }) => {
     }
 
     //Title can't be empty, do nothing if empty
-    if (postTitle.text === ""){
+    if (postTitle.text === "") {
       return true;
     }
 
-    return false
-  }
+    return false;
+  };
 
   const postThread = (data: any) => {
     //if Invalid Input Do Nothing
@@ -187,7 +193,7 @@ const TextEditor = ({ closeTextEditor }: { closeTextEditor: () => void }) => {
     }
 
     const stringified = serialize(data);
-    console.log(stringified)
+    console.log(stringified);
 
     fetch(API_URL + `/module/` + mod, {
       method: "POST",
@@ -223,10 +229,10 @@ const TextEditor = ({ closeTextEditor }: { closeTextEditor: () => void }) => {
   const onChange = (e: React.FormEvent<HTMLInputElement>): void => {
     setPostTitle({ text: e.currentTarget.value });
   };
-  
+
   useEffect(() => {
-    setShowError(isInputInvalid(textData, postTitle))
-  }, [postTitle, textData])
+    setShowError(isInputInvalid(textData, postTitle));
+  }, [postTitle, textData]);
 
   return (
     <>
@@ -297,9 +303,9 @@ const TextEditor = ({ closeTextEditor }: { closeTextEditor: () => void }) => {
             </Slate>
           </EditorBackground>
           <Buttons>
-          {showError && (
-            <ErrorMessage>Title and Description Can't be Empty!</ErrorMessage>
-          )}
+            {showError && (
+              <ErrorMessage>Title and Description Can't be Empty!</ErrorMessage>
+            )}
             <div>{/* Dummy Div */}</div>
             <PostButton onClick={() => postThread(textData)}>
               Post Question
