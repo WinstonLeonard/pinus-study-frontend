@@ -141,14 +141,14 @@ const QuestionPage = () => {
                 />
                 (isLoggedIn(token, userId) ?{" "}
                 <EditorContainerDiv>
-                  <ReplyTextEditor id={thread.Id} threadId={thread.Id} />
+                  <ReplyTextEditor id={0} threadId={thread.Id} />
                 </EditorContainerDiv>{" "}
                 : <GuestBox />)
               </>
             ) : isLoggedIn(token, userId) ? (
               <ThreadContainerDiv>
                 <MediumText>No replies yet. Be the first to reply!</MediumText>
-                <ReplyTextEditor id={thread.Id} threadId={thread.Id} />
+                <ReplyTextEditor id={0} threadId={thread.Id} />
               </ThreadContainerDiv>
             ) : (
               <GuestBox />
