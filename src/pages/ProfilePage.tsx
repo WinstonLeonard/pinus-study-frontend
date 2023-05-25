@@ -26,7 +26,6 @@ const ProfilePageWrapper = styled.div`
 const ThreadWrapper = styled.div`
     display: flex;
     flex-direction: column;
-
 `;
 
 
@@ -37,6 +36,8 @@ const ThreadComponentWrapper = styled.span`
 const MostRecentPosts = styled.span`
     font-family: "Poppins", "sans-serif";
     font-size: 2em;
+    font-weight: 600;
+    margin-top: 0.5em;
     color: ${Colors.white};
 `
 

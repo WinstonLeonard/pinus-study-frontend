@@ -33,7 +33,7 @@ const HomePageWrapper = styled.div`
 
 const Heading = styled.span`
     font-family: "Poppins", "sans-serif";
-    font-weight: 600
+    font-weight: 600;
     font-size: 2.25em;
     color: ${Colors.white};
     ${ScreenSizes.extra_small} {
