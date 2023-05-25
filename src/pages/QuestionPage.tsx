@@ -139,11 +139,11 @@ const QuestionPage = () => {
                   threadId={thread.Id}
                   level={0}
                 />
-                (isLoggedIn(token, userId) ?{" "}
+                {isLoggedIn(token, userId) ?
                 <EditorContainerDiv>
                   <ReplyTextEditor id={0} threadId={thread.Id} />
-                </EditorContainerDiv>{" "}
-                : <GuestBox />)
+                </EditorContainerDiv>
+                : <GuestBox />}
               </>
             ) : isLoggedIn(token, userId) ? (
               <ThreadContainerDiv>

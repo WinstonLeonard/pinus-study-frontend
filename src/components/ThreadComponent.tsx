@@ -417,7 +417,7 @@ const ThreadComponent = ({
           <MediumText>&#8196;{dislikesCount}&#8195;</MediumText>
           <ModeCommentOutlinedIcon />
           <MediumText>&#8196;</MediumText>
-          <ReplyText onClick={openReplyInputField}>Reply</ReplyText>
+          <ReplyText onClick={isLoggedIn(token, userId) ? openReplyInputField : showLogInModal}>Reply</ReplyText>
         </VerticalCenterAlignLayout>
         {/* Notes: parent id for thread component is set to 0, equivalent for null */}
         {openReply ? (
