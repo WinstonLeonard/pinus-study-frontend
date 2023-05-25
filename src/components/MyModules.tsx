@@ -10,6 +10,7 @@ import {
 } from "../redux/features/users/userSlice";
 import { getUserDetailsRequest } from "../requests";
 import { isLoggedIn } from "../utils";
+import { ScreenSizes } from "../constants";
 
 export const ModuleComponent = styled.div`
     cursor: pointer;
@@ -28,31 +29,31 @@ export const ModuleComponent = styled.div`
     align-items: center; /* Center text vertically */
     transition: background-color 0.3s ease, color 0.3s ease; /* Added transition property */
     
-    @media only screen and (max-width: 600px) {
-      width: 100px;
-      height: 54px;
-      font-size: 18px;
-    }
-
-    @media only screen and (min-width: 600px) {
+    ${ScreenSizes.extra_small} {
       width: 125px;
       height: 67.6px;
-      font-size: 24px;
+      font-size: 20px;
     }
 
-    @media only screen and (min-width: 768px) {
+    ${ScreenSizes.small_up} {
       width: 150px;
       height: 81px;
       font-size: 24px;
     }
 
-    @media only screen and (min-width: 992px) {
+    ${ScreenSizes.medium_up} {
+      width: 150px;
+      height: 81px;
+      font-size: 24px;
+    }
+
+    ${ScreenSizes.large_up} {
       width: 175px;
       height: 95px;
       font-size: 24px;
     }
 
-    @media only screen and (min-width: 1200px) {
+    ${ScreenSizes.extra_large_up} {
       width: 270px;
       height: 108px;
       font-size: 36px;
@@ -135,6 +136,26 @@ const MyModulesChildren = styled.div<{ marginTop?: string }>`
                 color:${Colors.white};
             }
         `} 0.3s ease-in-out;
+  }
+
+  ${ScreenSizes.extra_small} {
+    font-size: 18px;
+  }
+
+  ${ScreenSizes.small_up} {
+    font-size: 24px;
+  }
+
+  ${ScreenSizes.medium_up} {
+    font-size: 24px;
+  }
+
+  ${ScreenSizes.large_up} {
+    font-size: 24px;
+  }
+
+  ${ScreenSizes.extra_large_up} {
+    font-size: 36px;
   }
 `;
 
