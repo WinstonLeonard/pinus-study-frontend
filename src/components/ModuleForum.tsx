@@ -13,12 +13,14 @@ import {
   addSubscription,
   deleteSubscription,
 } from "../redux/features/users/userSlice";
+import { SubscribeLoader } from "./Loader";
 
-export const RedButton = styled.div`
+export const RedButton = styled.button`
   font-family: "Poppins", "sans-serif";
   color: ${Colors.white};
   background-color: ${Colors.red};
   width: inherit;
+  border: 0;
   border-radius: 20px;
   font-weight: 700;
   font-size: 1em;
@@ -100,6 +102,7 @@ const ModuleForumDiv = styled.div`
 const ModuleForum = ({ selectedModule }: { selectedModule: string }) => {
   const [module, setModule] = useState<Module>(ModuleInitialState);
   const [isSubscribed, setIsSubscribed] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const userId = useSelector(selectId);
   const token = useSelector(selectToken);
   const dispatch = useDispatch();
@@ -123,6 +126,7 @@ const ModuleForum = ({ selectedModule }: { selectedModule: string }) => {
   };
 
   const handleButtonClick = () => {
+    setIsLoading(true)
     fetch(API_URL + `/subscribes/${selectedModule.toUpperCase()}/${userId}`, {
       method: isSubscribed ? "DELETE" : "POST",
       headers: {
@@ -139,7 +143,8 @@ const ModuleForum = ({ selectedModule }: { selectedModule: string }) => {
         }
         setIsSubscribed(!isSubscribed);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.log(error))
+      .finally(() => setIsLoading(false));
   };
 
   // useEffect(() => {
@@ -168,8 +173,14 @@ const ModuleForum = ({ selectedModule }: { selectedModule: string }) => {
               {module.SubscriberCount} subscribers
             </SubscriberDesc>
           </SubscriberDiv>
-          <RedButton onClick={handleButtonClick}>
-            {isSubscribed ? <p>Unsubscribe</p> : <p>Subscribe</p>}
+          <RedButton onClick={handleButtonClick} disabled={isLoading}>
+            {
+              isLoading
+              ? <SubscribeLoader />
+              : isSubscribed 
+              ? <p>Unsubscribe</p> 
+              : <p>Subscribe</p>
+            }
           </RedButton>
         </Bottom>
       </ForumBackground>
