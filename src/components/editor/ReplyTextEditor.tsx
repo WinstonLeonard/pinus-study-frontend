@@ -73,10 +73,10 @@ const UiButton = styled.button`
 `;
 
 const PostButton = styled(UiButton)`
-  background: ${Colors.light_grey};
+  background: ${Colors.red};
   cursor: pointer;
   &:hover {
-    background: ${Colors.light_grey_75};
+    background: ${Colors.red_80};
   }
 `;
 

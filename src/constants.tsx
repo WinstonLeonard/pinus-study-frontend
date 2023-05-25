@@ -8,6 +8,7 @@ export const Colors = {
     blue_accent: "#222638",
     light_blue: "#748EFF",
     red: "#FF3A3A",
+    red_80: "#FF3A3A80",
     red_accent: "#CD3838",
     dark_grey: "#2D2D2F",
     dark_grey_75: "#2D2D2F75",
