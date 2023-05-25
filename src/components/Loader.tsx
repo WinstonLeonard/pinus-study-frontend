@@ -31,7 +31,7 @@ export const Loader = styled.span`
   }  
 `
 
-export const SubscribeLoader = styled.span`
+export const WhiteLoader = styled.span`
   {
     width: 1.5em;
     height: 1.5em;

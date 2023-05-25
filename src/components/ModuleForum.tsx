@@ -13,7 +13,7 @@ import {
   addSubscription,
   deleteSubscription,
 } from "../redux/features/users/userSlice";
-import { SubscribeLoader } from "./Loader";
+import { WhiteLoader } from "./Loader";
 
 export const RedButton = styled.button`
   font-family: "Poppins", "sans-serif";
@@ -176,7 +176,7 @@ const ModuleForum = ({ selectedModule }: { selectedModule: string }) => {
           <RedButton onClick={handleButtonClick} disabled={isLoading}>
             {
               isLoading
-              ? <SubscribeLoader />
+              ? <WhiteLoader />
               : isSubscribed 
               ? <p>Unsubscribe</p> 
               : <p>Subscribe</p>
