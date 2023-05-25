@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { Colors } from "../constants";
+import { Colors, ScreenSizes } from "../constants";
 import { User } from "../redux/features/users/userSlice";
 import { useDispatch } from "react-redux";
 import { logout } from "../redux/features/users/userSlice";
@@ -19,6 +19,10 @@ const ProfileContainer = styled.div`
   border-radius: 20px;
   flex-direction: column;
   max-height: 70vh;
+
+  ${ScreenSizes.medium_below} {
+    width: auto;
+  }
 `;
 
 const ProfilePicture = styled.div<{ notMyProfile?: boolean }>`

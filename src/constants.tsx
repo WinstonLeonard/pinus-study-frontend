@@ -22,6 +22,20 @@ export const Colors = {
     yellow_accent: "#c2910e",
 }
 
+export const ScreenSizes = {
+    extra_small: '@media only screen and (max-width: 600px)',
+    small_up: '@media only screen and (min-width: 600px)',
+    small_below: '@media only screen and (max-width: 768px)',
+    medium_up: '@media only screen and (min-width: 768px)',
+    medium_below: '@media only screen and (max-width: 992px)',
+    large_up: '@media only screen and (min-width: 992px)',
+    large_below: '@media only screen and (max-width: 1200px)',
+    extra_large_up: '@media only screen and (min-width: 1200px)',
+    extra_large_below: '@media only screen and (max-width: 2000px)',
+    huge_up:  '@media only screen and (min-width: 1500px)',
+    extra_huge_up: '@media only screen and (min-width: 2000px)'
+};
+
 // export const API_URL = 'http://localhost:8080';
 export const API_URL = 'https://pinus-study-backend-deployment-production.up.railway.app';
 

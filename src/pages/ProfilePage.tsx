@@ -4,7 +4,7 @@ import Background from "../components/Background";
 import NavigationBar from "../components/Navbar";
 import ProfileComponent from "../components/ProfileComponent";
 import ThreadComponent from "../components/ThreadComponent";
-import { Colors } from "../constants";
+import { Colors, ScreenSizes } from "../constants";
 import { selectUser } from "../redux/features/users/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserDetailsRequest } from "../requests";
@@ -16,6 +16,11 @@ const ProfilePageWrapper = styled.div`
     grid-template-columns: 1.5fr 8.5fr 1.5fr;
     grid-column-gap: 2em;
     padding: 2em;
+
+    ${ScreenSizes.medium_below} {
+        display: flex;
+        flex-direction: column;
+    }
 `
 
 const ThreadWrapper = styled.div`
