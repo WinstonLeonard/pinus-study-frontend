@@ -32,12 +32,32 @@ const ProfilePicture = styled.div<{ notMyProfile?: boolean }>`
     props.notMyProfile ? Colors.yellow : Colors.red};
   border: none;
   border-radius: 20vw;
+
+  ${ScreenSizes.medium_below} {
+    width: 20vw;
+    height: 20vw;
+  }
+
+  ${ScreenSizes.extra_small} {
+    width: 30vw;
+    height: 30vw;
+  }
 `;
 
 const ProfilePictureImage = styled.img`
   background-color: ${Colors.white};
   width: 11vw;
   height: 11vw;
+
+  ${ScreenSizes.medium_below} {
+    width: 20vw;
+    height: 20vw;
+  }
+
+  ${ScreenSizes.extra_small} {
+    width: 30vw;
+    height: 30vw;
+  }
 `;
 
 const NameDiv = styled.div<{ paddingTop?: string }>`
@@ -50,6 +70,10 @@ const Name = styled.span`
   font-family: "Poppins", "sans-serif";
   color: ${Colors.dark_grey};
   font-size: 1.75em;
+
+  ${ScreenSizes.extra_small} {
+    font-size: 1.5em;
+  }
 `;
 
 const Button = styled.div<{ marginTop?: string; red?: boolean }>`
@@ -69,6 +93,10 @@ const Button = styled.div<{ marginTop?: string; red?: boolean }>`
       props.red ? Colors.red_accent : Colors.blue_accent};
     color: ${Colors.white_accent};
   }
+
+  ${ScreenSizes.medium_below} {
+    width: 75%;
+  }
 `;
 
 const PostAndLikes = styled.div`
@@ -84,12 +112,20 @@ const NumberAndDescription = styled.div`
 const Number = styled.div`
   font-family: "Poppins", "sans-serif";
   font-size: 2em;
+
+  ${ScreenSizes.extra_small} {
+    font-size: 1.5em;
+  }
 `;
 
 const Description = styled.div`
   font-family: "Poppins", "sans-serif";
   font-size: 1em;
   text-align: center;
+
+  ${ScreenSizes.extra_small} {
+    font-size: 1em;
+  }
 `;
 
 const VerticalLine = styled.div`
