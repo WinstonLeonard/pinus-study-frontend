@@ -16,7 +16,7 @@ import { API_URL } from "../../constants";
 import CloseIcon from "@mui/icons-material/Close";
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/features/users/userSlice";
-import { Loader } from "../Loader"
+import { WhiteLoader } from "../Loader"
 import styled from "styled-components";
 
 const CreateAccountModal = ({
@@ -180,7 +180,7 @@ const CreateAccountModal = ({
                     <AuthButton onClick={signUp} disabled={isLoading}>
                         {
                             isLoading
-                            ? <Loader />
+                            ? <WhiteLoader />
                             : "Sign Up"
                         }
                     </AuthButton>

@@ -15,7 +15,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { login, selectToken } from '../../redux/features/users/userSlice';
 import { LOGIN_URL } from "../../constants";
 import CloseIcon from '@mui/icons-material/Close';
-import { Loader } from "../Loader";
+import { WhiteLoader } from "../Loader";
 import { getUserDetailsRequest } from "../../requests";
 
 const LoginModal = ({cancel, showSignUpModal} : {cancel: () => void; showSignUpModal: () => void}) => {
@@ -121,7 +121,7 @@ const LoginModal = ({cancel, showSignUpModal} : {cancel: () => void; showSignUpM
                 */}
                 <ModalDiv>
                     <AuthButton onClick={logIn} disabled={isLoading}>
-                        {isLoading ? <Loader /> : "Log In"}
+                        {isLoading ? <WhiteLoader /> : "Log In"}
                     </AuthButton>
                 </ModalDiv>
                 <ModalDiv/>
