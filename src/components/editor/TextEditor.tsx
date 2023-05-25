@@ -250,6 +250,7 @@ const TextEditor = ({ closeTextEditor }: { closeTextEditor: () => void }) => {
             value={postTitle.text}
             onChange={onChange}
             placeholder="Enter question title here ..."
+            disabled={isLoading}
           />
           <EditorBackground>
             <Slate
@@ -280,6 +281,7 @@ const TextEditor = ({ closeTextEditor }: { closeTextEditor: () => void }) => {
                     }
                   }
                 }}
+                readOnly={isLoading}
               />
 
               <Toolbar>
@@ -310,7 +312,7 @@ const TextEditor = ({ closeTextEditor }: { closeTextEditor: () => void }) => {
               <ErrorMessage>Title and Description Can't be Empty!</ErrorMessage>
             )}
             <div>{/* Dummy Div */}</div>
-            <PostButton onClick={() => postThread(textData)}>
+            <PostButton onClick={() => postThread(textData)} disabled={isLoading}>
               {
                 isLoading
                 ? <WhiteLoader />

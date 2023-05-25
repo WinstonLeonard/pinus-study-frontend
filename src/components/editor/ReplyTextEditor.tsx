@@ -23,6 +23,7 @@ import { TextAlignFormat } from "../../slate";
 import { API_URL, Colors } from "../../constants";
 import { useSelector } from "react-redux";
 import { selectId, selectToken } from "../../redux/features/users/userSlice";
+import { WhiteLoader } from "../Loader";
 
 // STYLED COMPONENTS
 const Input = styled.input`
@@ -128,6 +129,7 @@ type ModulePostData = {
  */
 const ReplyTextEditor = ({ id, threadId }: { id: number, threadId: number }) => {
   const [textData, setTextData] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
   const token = useSelector(selectToken);
   const userID = useSelector(selectId);
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
@@ -147,6 +149,7 @@ const ReplyTextEditor = ({ id, threadId }: { id: number, threadId: number }) => 
     const stringified = serialize(data);
     console.log("Thread ID:" + threadId);
     console.log("Parent ID:" + id);
+    setIsLoading(true)
     fetch(API_URL + `/thread/` + threadId.toString(), {
       method: "POST",
       headers: {
@@ -165,7 +168,8 @@ const ReplyTextEditor = ({ id, threadId }: { id: number, threadId: number }) => 
     })
       .then((response) => response.json())
       .then(refresh)
-      .catch((error) => console.log(error));
+      .catch((error) => console.log(error))
+      .finally(() => setIsLoading(false));
   };
 
   return (
@@ -200,6 +204,7 @@ const ReplyTextEditor = ({ id, threadId }: { id: number, threadId: number }) => 
                   }
                 }
               }}
+              readOnly={isLoading}
             />
 
             <EmptyDiv />
@@ -219,8 +224,13 @@ const ReplyTextEditor = ({ id, threadId }: { id: number, threadId: number }) => 
               onClick={() => {
                 postData(textData);
               }}
+              disabled={isLoading}
             >
-              Post
+              {
+                isLoading
+                ? <WhiteLoader />
+                : "Post"
+              }
             </PostButton>
           </Buttons>
         </Slate>
