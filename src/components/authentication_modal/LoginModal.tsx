@@ -15,12 +15,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { login, selectToken } from '../../redux/features/users/userSlice';
 import { LOGIN_URL } from "../../constants";
 import CloseIcon from '@mui/icons-material/Close';
+import { WhiteLoader } from "../Loader";
 import { getUserDetailsRequest } from "../../requests";
 
 const LoginModal = ({cancel, showSignUpModal} : {cancel: () => void; showSignUpModal: () => void}) => {
     const [emailOrUsername, setEmailOrUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [showError, setShowError] = useState<Boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const dispatch = useDispatch();
 
     /**
@@ -48,6 +50,7 @@ const LoginModal = ({cancel, showSignUpModal} : {cancel: () => void; showSignUpM
             setShowError(true);
             return;
         }
+        setIsLoading(true)
         fetch(LOGIN_URL, {
             method: "POST",
             headers: {
@@ -69,7 +72,8 @@ const LoginModal = ({cancel, showSignUpModal} : {cancel: () => void; showSignUpM
                 Token: data.token
             }));
         })
-        .catch(error => console.log(error));
+        .catch(error => console.log(error))
+        .finally(() => setIsLoading(false));
     }
 
     /**
@@ -100,12 +104,14 @@ const LoginModal = ({cancel, showSignUpModal} : {cancel: () => void; showSignUpM
                         marginBottom="1em"
                         placeholder="Email / Username"
                         onChange={handleEmailOrUsernameChange}
-                        value={emailOrUsername}/>
+                        value={emailOrUsername}
+                        disabled={isLoading}/>
                     <ModalInput 
                         placeholder = "Password"
                         type="password"
                         onChange={handlePasswordChange}
-                        value={password}/>
+                        value={password}
+                        disabled={isLoading}/>
                     { showError ? <ErrorMessage>wrong username or password!</ErrorMessage> : null }
                 </ModalDiv>
                 {/*
@@ -114,7 +120,9 @@ const LoginModal = ({cancel, showSignUpModal} : {cancel: () => void; showSignUpM
                 </ModalDiv>
                 */}
                 <ModalDiv>
-                    <AuthButton onClick={logIn}>Log In</AuthButton>
+                    <AuthButton onClick={logIn} disabled={isLoading}>
+                        {isLoading ? <WhiteLoader /> : "Log In"}
+                    </AuthButton>
                 </ModalDiv>
                 <ModalDiv/>
                 <ModalDiv/>

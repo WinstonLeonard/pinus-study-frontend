@@ -37,7 +37,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { selectId, selectToken } from "../../redux/features/users/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-
+import { WhiteLoader } from "../Loader";
 // STYLED COMPONENTS
 
 const GlobalStyle = createGlobalStyle`
@@ -96,6 +96,7 @@ const UiButton = styled.button`
 
 const PostButton = styled(UiButton)`
   background: ${Colors.red};
+  width: 10em;
   cursor: pointer;
   &:hover {
     background: ${Colors.red + "80"};
@@ -166,6 +167,7 @@ const TextEditor = ({ closeTextEditor }: { closeTextEditor: () => void }) => {
   const [postTitle, setPostTitle] = useState({ text: "" });
   const [textData, setTextData] = useState({});
   const [showError, setShowError] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const userId = useSelector(selectId);
   const token = useSelector(selectToken);
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
@@ -194,7 +196,7 @@ const TextEditor = ({ closeTextEditor }: { closeTextEditor: () => void }) => {
 
     const stringified = serialize(data);
     console.log(stringified);
-
+    setIsLoading(true)
     fetch(API_URL + `/module/` + mod, {
       method: "POST",
       headers: {
@@ -214,7 +216,8 @@ const TextEditor = ({ closeTextEditor }: { closeTextEditor: () => void }) => {
       .then((response) => response.json())
       .then(closeTextEditor)
       .then(refresh)
-      .catch((error) => console.log(error));
+      .catch((error) => console.log(error))
+      .finally(() => setIsLoading(false));
   };
 
   const renderElement = useCallback(
@@ -247,6 +250,7 @@ const TextEditor = ({ closeTextEditor }: { closeTextEditor: () => void }) => {
             value={postTitle.text}
             onChange={onChange}
             placeholder="Enter question title here ..."
+            disabled={isLoading}
           />
           <EditorBackground>
             <Slate
@@ -277,6 +281,7 @@ const TextEditor = ({ closeTextEditor }: { closeTextEditor: () => void }) => {
                     }
                   }
                 }}
+                readOnly={isLoading}
               />
 
               <Toolbar>
@@ -307,8 +312,12 @@ const TextEditor = ({ closeTextEditor }: { closeTextEditor: () => void }) => {
               <ErrorMessage>Title and Description Can't be Empty!</ErrorMessage>
             )}
             <div>{/* Dummy Div */}</div>
-            <PostButton onClick={() => postThread(textData)}>
-              Post Question
+            <PostButton onClick={() => postThread(textData)} disabled={isLoading}>
+              {
+                isLoading
+                ? <WhiteLoader />
+                : "Post Question"
+              }
             </PostButton>
           </Buttons>
         </ThreadContainer>

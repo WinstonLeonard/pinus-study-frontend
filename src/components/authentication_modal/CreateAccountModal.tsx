@@ -16,6 +16,8 @@ import { API_URL } from "../../constants";
 import CloseIcon from "@mui/icons-material/Close";
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/features/users/userSlice";
+import { WhiteLoader } from "../Loader"
+import styled from "styled-components";
 
 const CreateAccountModal = ({
     email,
@@ -26,6 +28,7 @@ const CreateAccountModal = ({
     cancel: () => void;
     showLogInModal: () => void;
 }) => {
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [confirmPassword, setConfirmPassword] = useState<string>("");
@@ -90,6 +93,7 @@ const CreateAccountModal = ({
             setShowError(true);
             return;
         }
+        setIsLoading(true)
         fetch(API_URL + `/signup`, {
             method: "POST",
             headers: {
@@ -115,7 +119,8 @@ const CreateAccountModal = ({
                 }));
             }
         })
-        .catch((error) => console.log(error));
+        .catch((error) => console.log(error))
+        .finally(() => setIsLoading(false));
     };
 
     // /**
@@ -147,6 +152,7 @@ const CreateAccountModal = ({
                         placeholder="Username"
                         onChange={handleUsernameChange}
                         value={username}
+                        disabled={isLoading}
                     />
                     <ModalInput
                         marginBottom="1em"
@@ -154,12 +160,14 @@ const CreateAccountModal = ({
                         type="password"
                         onChange={handlePasswordChange}
                         value={password}
+                        disabled={isLoading}
                     />
                     <ModalInput
                         placeholder="Confirm Password"
                         type="password"
                         onChange={handleConfirmPasswordChange}
                         value={confirmPassword}
+                        disabled={isLoading}
                     />
                     {showError ? (
                         <ErrorMessage> { backendResponse !== "" ? backendResponse : "Invalid signup credentials!" }</ErrorMessage>
@@ -169,7 +177,13 @@ const CreateAccountModal = ({
                     ) : null}
                 </ModalDiv>
                 <ModalDiv>
-                    <AuthButton onClick={signUp}>Sign Up</AuthButton>
+                    <AuthButton onClick={signUp} disabled={isLoading}>
+                        {
+                            isLoading
+                            ? <WhiteLoader />
+                            : "Sign Up"
+                        }
+                    </AuthButton>
                 </ModalDiv>
                 <ModalDiv />
                 <ModalDiv />
