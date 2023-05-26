@@ -3,13 +3,15 @@
  * If opacity is not defined, then it is 100% by default.
  */
 export const Colors = {
-    black: "#000000",
-    blue: "#1F2E6E",
+    black: "#141212",
+    black_10: "#14121210",
+    black_25: "#14121225",
+    blue: "#F4F4F4",
     blue_accent: "#222638",
     light_blue: "#748EFF",
     red: "#FF3A3A",
     red_accent: "#CD3838",
-    dark_grey: "#2D2D2F",
+    dark_grey: "#403B3B",
     dark_grey_75: "#2D2D2F75",
     light_grey: "#8F8F8F",
     light_grey_75: "#8F8F8F75",
@@ -20,6 +22,18 @@ export const Colors = {
     white_accent: "#BDBDBD", // for pressed module threads
     yellow: "#EFB61E",
     yellow_accent: "#c2910e",
+    purple: "#8C52FF",
+    light_new_red: '#FFDBDB',
+    new_red: "#F16F6F",
+    new_red_80: "#F16F6F80",
+    new_red_accent: "#892C2C",
+    new_blue: "#ABEAE2",
+    new_blue_accent: "#2C3B79",
+    new_blue_50: "#728DFF50",
+    new_blue_75: "#728DFF75",
+    very_light_blue: "#CAFAF4",
+    light_yellow: '#FEF0E9',
+    light_yellow_75: '#FEF0E975',
 }
 
 export const ScreenSizes = {

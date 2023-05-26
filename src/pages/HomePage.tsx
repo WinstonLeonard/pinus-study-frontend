@@ -35,7 +35,10 @@ const Heading = styled.span`
     font-family: "Poppins", "sans-serif";
     font-weight: 600;
     font-size: 2.25em;
-    color: ${Colors.white};
+    color: linear-gradient(${Colors.black}, ${Colors.dark_grey});
+    background: linear-gradient(to bottom, transparent 50%, ${Colors.new_blue_50} 50%);
+    padding: 2.5px 5px 2.5px 5px;
+
     ${ScreenSizes.extra_small} {
         font-size: 26px;
     }
@@ -61,17 +64,29 @@ const PopularModulesWrapper = styled.div`
     margin-top: 0.5em;
     margin-bottom: 2em;
     place-items: center; /* Added property to center items */
+    background: ${Colors.new_blue};
+    border: 2px solid;
+    border-color: ${Colors.dark_grey};
+    padding: 1vw;
+    border-radius: 20px;
+     
 
     ${ScreenSizes.extra_small} {
         grid-template-columns: 1fr 1fr 1fr;
         grid-column-gap: 0.25em;
         grid-row-gap: 0.25em;
+        border: 1px solid;
+        box-shadow: 3px 3px 0 ${Colors.light_yellow},
+            3px 3px 0 1px ${Colors.dark_grey};
     }
   
     ${ScreenSizes.small_up} {
         grid-template-columns: 1fr 1fr 1fr;
         grid-column-gap: 0.25em;
         grid-row-gap: 0.25em;
+        border: 2px solid ${Colors.dark_grey};
+        box-shadow: 7px 7px 0 ${Colors.light_yellow},
+            7px 7px 0 2px ${Colors.dark_grey};
     }
   
     ${ScreenSizes.medium_up} {...}
@@ -93,8 +108,10 @@ const DisplayWrapper = styled.span`
 `
 
 const WelcomeMessage = styled.div`
-    background-color: ${Colors.white};
+    background-color: ${Colors.light_yellow};
     border-radius: 20px;
+    border: 2px solid;
+    border-color: ${Colors.dark_grey};
     padding: 1.25em;
     font-family: 'Poppins', sans-serif;
     font-weight: 500;
@@ -104,10 +121,16 @@ const WelcomeMessage = styled.div`
 
     ${ScreenSizes.extra_small} {
         font-size: 0.5em; 
+        border: 1px solid;
+        box-shadow: 3px 3px 0 ${Colors.new_blue},
+            3px 3px 0 1px ${Colors.dark_grey};
     }
   
     ${ScreenSizes.small_up} {
         font-size: 0.625em; 
+        border: 2px solid;
+        box-shadow: 7px 7px 0 ${Colors.new_blue},
+            7px 7px 0 2px ${Colors.dark_grey};
     }
   
     ${ScreenSizes.medium_up} {
@@ -124,13 +147,13 @@ const WelcomeMessage = styled.div`
 `
 
 const FeedbackLink = styled.a`
-  color: ${Colors.blue};
+  color: ${Colors.new_blue};
   text-decoration: none;
   cursor: pointer;
   transition: color 0.2s ease-in-out;
 
   &:hover {
-    color: ${Colors.light_blue};
+    color: ${Colors.new_blue_accent};
   }
 `;
 

@@ -14,7 +14,7 @@ import { pfp } from "../assets";
 // STYLED COMPONENTS
 
 const NavbarContainer = styled.div`
-    background-color: ${Colors.dark_grey};
+    background: linear-gradient(${Colors.black}, ${Colors.dark_grey});
     color: white;
     width: calc(100% - 4rem);
     min-width: auto;
