@@ -91,8 +91,8 @@ const PopularModulesWrapper = styled.div`
 
     ${ScreenSizes.huge_up} {
         grid-template-columns: 1fr 1fr 1fr 1fr;
-        grid-column-gap: 1em;
-        grid-row-gap: 1em;
+        grid-column-gap: 0.75em;
+        grid-row-gap: 0.75em;
     }
 `;
 

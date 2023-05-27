@@ -64,7 +64,7 @@ const ProfilePictureImage = styled.img`
   background-color: ${Colors.white};
   width: 11vw;
   height: 11vw;
-  box-shadow: 0px 0px 0 5px ${Colors.blue_1},
+  box-shadow: 0px 0px 0 5px ${Colors.blue_2},
     0px 0px 0 7px ${Colors.dark_grey};
 
   ${ScreenSizes.medium_below} {

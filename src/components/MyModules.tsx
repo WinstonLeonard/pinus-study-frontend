@@ -122,6 +122,7 @@ const MyModulesContainer = styled.div<{ mobileDisplay?: string }>`
   align-items: flex-start;
   box-shadow: 7px 7px 0 ${Colors.blue_3},
             7px 7px 0 2px ${Colors.dark_grey};
+  margin-right: calc(2em);
 
   @media only screen and (max-width: 992px) {
     display: ${(props) => (props.mobileDisplay ? props.mobileDisplay : "flex")};
