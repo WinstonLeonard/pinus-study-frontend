@@ -1,5 +1,15 @@
-import styled from "styled-components";
-import { Colors } from "../../constants";
+import styled, { keyframes } from "styled-components";
+import { Colors, ScreenSizes } from "../../constants";
+
+const fadeIn = keyframes`
+    from {
+        opacity: 0;
+    } 
+    
+    to {
+        opacity: 1;
+    }
+`
 
 export const BlurredBackground = styled.div`
     align-items: center;
@@ -13,7 +23,9 @@ export const BlurredBackground = styled.div`
     width: 100vw;
     backdrop-filter: blur(5px);
     background-color: #2D2D2F80;
+    animation: ${fadeIn} 0.1s;
 `;
+
 
 export const CloseIconDiv = styled.button`
     background-color: transparent;
@@ -28,7 +40,12 @@ export const ModalBackground = styled.div`
     border-radius: 40px;
     min-height: 40vh;
     padding: 2em;
-    width: 20vw;
+    @media only screen and (max-width: 510px) {
+        width: 60%;
+    }
+    @media only screen and (min-width: 510px) {
+        width: 20rem;
+    }
     /* -webkit-box-shadow: 0 1px 4px ${Colors.light_grey};
     -moz-box-shadow: 0 1px 4px ${Colors.light_grey};
     box-shadow: 0 1px 4px ${Colors.light_grey}; */
