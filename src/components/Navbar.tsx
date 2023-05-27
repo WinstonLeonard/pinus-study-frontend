@@ -339,11 +339,11 @@ const NavigationBar = () => {
         </Buttons>
       </NavbarContainer>
       {menuOpen ? (
-        <BlurredBackground>
+        <BlurredBackground onClick={toggleMenu}>
           <DropdownContainer>
             <DropdownInsideContainer>
-              <DropdownItemLogin>Login</DropdownItemLogin>
-              <DropdownItemSignup>Signup</DropdownItemSignup>
+              <DropdownItemLogin onClick={showLogInModal}>Login</DropdownItemLogin>
+              <DropdownItemSignup onClick={showSignUpModal}>Signup</DropdownItemSignup>
             </DropdownInsideContainer>
           </DropdownContainer>
         </BlurredBackground>
