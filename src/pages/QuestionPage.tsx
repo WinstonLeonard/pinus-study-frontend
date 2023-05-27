@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { Navbar, Background, ThreadComponent } from "../components";
 import { Colors } from "../constants";
 import MyModules from "../components/MyModules";
-import ModuleForum, { Button } from "../components/ModuleForum";
+import ModuleForum from "../components/ModuleForum";
 import { API_URL } from "../constants";
 import {
   Thread,
@@ -24,14 +24,18 @@ const MainContainer = styled.div`
   padding: 2em;
 `;
 
-const Heading = styled.div`
-  font-family: "Poppins", "sans-serif";
-  font-weight: 600;
-  font-size: 2.25em;
-  color: ${Colors.white};
+const HeadingDiv = styled.div`
   padding-bottom: 0.5em;
 `;
 
+const Heading = styled.span`
+  color: ${Colors.dark_grey};
+  background: linear-gradient(to bottom, transparent 50%, ${Colors.blue_2_75} 50%);
+  font-family: "Poppins", "sans-serif";
+  font-weight: 600;
+  font-size: 2.25em;
+  padding: 2.5px 5px 2.5px 5px;
+`
 const SpacingEmptyDiv = styled.div`
   padding-top: 2em;
 `;
@@ -43,25 +47,29 @@ const RightSide = styled.div`
 
 /** THREAD-PAGE THREAD ONLY Å*/
 const ThreadContainerDiv = styled.div`
-  background-color: ${Colors.white};
+  background-color: ${Colors.white_1};
   width: calc(100% - 2em);
   border-radius: 20px;
-  border: none;
   padding: 1.5em;
   text-align: left;
   font-size: 12px;
   margin: 1em 0;
+  border: 2px solid ${Colors.dark_grey};
+  box-shadow: 4px 4px 0 ${Colors.green_2},
+          4px 4px 0 2px ${Colors.dark_grey};
 `;
 
 const EditorContainerDiv = styled.div`
-  background-color: ${Colors.white};
+  background-color: ${Colors.white_1};
   width: calc(100% - 2em);
   border-radius: 20px;
-  border: none;
+  border: 2px solid ${Colors.dark_grey};
   padding: 0.5em 1.5em;
   text-align: left;
   font-size: 12px;
   margin: 1.5em 0;
+  box-shadow: 4px 4px 0 ${Colors.green_2},
+          4px 4px 0 2px ${Colors.dark_grey};
 `;
 
 const MediumText = styled.span`
@@ -125,13 +133,17 @@ const QuestionPage = () => {
       <Background>
         <MainContainer>
           <div>
-            <Heading>Discussion Forum</Heading>
+            <HeadingDiv>
+              <Heading>Discussion Forum</Heading>
+            </HeadingDiv>
             <ThreadComponent
               threadId={parseInt(threadId)}
               type="QUESTION_PAGE"
             />
             <SpacingEmptyDiv />
-            <Heading>Replies</Heading>
+            <HeadingDiv>
+              <Heading>Replies</Heading>
+            </HeadingDiv>
             {thread.Comments && thread.Comments?.length > 0 ? (
               <>
                 <CommentList
