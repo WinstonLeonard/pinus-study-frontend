@@ -64,7 +64,7 @@ const ProfilePictureImage = styled.img`
   background-color: ${Colors.white};
   width: 11vw;
   height: 11vw;
-  box-shadow: 0px 0px 0 5px ${Colors.blue_1},
+  box-shadow: 0px 0px 0 5px ${Colors.blue_2},
     0px 0px 0 7px ${Colors.dark_grey};
 
   ${ScreenSizes.medium_below} {
@@ -92,6 +92,14 @@ const Name = styled.span`
   color: ${Colors.dark_grey};
   font-size: 1.75em;
 
+  ${ScreenSizes.large_below} {
+    font-size: 1em;
+  }
+
+  ${ScreenSizes.medium_below} {
+    font-size: 1.25em;
+  }
+
   ${ScreenSizes.extra_small} {
     font-size: 1.5em;
   }
@@ -110,17 +118,17 @@ const Button = styled.div<{ marginTop?: string }>`
   border: 2px solid ${Colors.dark_grey};
   padding-top: 0.375em;
   padding-bottom: 0.375em;
-  box-shadow: 3px 3px 0 ${Colors.blue_2},
-    3px 3px 0 2px ${Colors.dark_grey};
+  box-shadow: 0px 5px 0 -2.5px ${Colors.blue_2},
+    0px 5px 0 -0.5px ${Colors.dark_grey};
 
   :hover {
     background-color: ${Colors.blue_accent};
     color: ${Colors.black};
     position: relative;
-    top: 2px;
-    left: 2px;
-    box-shadow: 1px 1px 0 ${Colors.blue_2},
-        1px 1px 0 2px ${Colors.dark_grey};
+    top: 3px;
+    // left: 3px;
+    box-shadow: 0px 2px 0 -2.5px ${Colors.blue_2},
+        0px 2px 0 -0.5px ${Colors.dark_grey};
   }
 
   ${ScreenSizes.extra_small} {

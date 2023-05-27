@@ -35,6 +35,7 @@ export const Colors = {
     button_yellow: '#EFB61E',
     light_yellow: '#FEF0E9',
     light_yellow_75: '#FEF0E975',
+
     white_1: '#f4f4f4', // '#faebd7', #fffff3, #f4f4f4
     green_1: '#d6eadf',
     green_2: '#b8e0d2',
@@ -42,7 +43,7 @@ export const Colors = {
     green_3: '#e4f6df',
     blue_1: '#95b8d1',
     blue_2: '#809bce',
-    blue_accent: '#385792',
+    blue_accent: '#F1FBFF',
     blue_2_75: '#809bce75',
     blue_3: '#dcf3fc',
     blue_4: '#e9f7fd',

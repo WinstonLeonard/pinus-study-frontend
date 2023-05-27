@@ -20,7 +20,7 @@ import { serialize } from "./serializer";
 import styled, { createGlobalStyle } from "styled-components";
 import { ReplyToolbarButton, Icon, ReplyToolbar } from "./index";
 import { TextAlignFormat } from "../../slate";
-import { API_URL, Colors } from "../../constants";
+import { API_URL, Colors, ScreenSizes } from "../../constants";
 import { useSelector } from "react-redux";
 import { selectId, selectToken } from "../../redux/features/users/userSlice";
 import { WhiteLoader } from "../Loader";
@@ -74,10 +74,35 @@ const UiButton = styled.button`
 `;
 
 const PostButton = styled(UiButton)`
-  background: ${Colors.red};
+  background: ${Colors.blue_3};
+  color: ${Colors.dark_grey};
+  border: 2px solid ${Colors.dark_grey};
+  box-shadow: 0px 5px 0 -2.5px ${Colors.blue_2},
+    0px 5px 0 -0.5px ${Colors.dark_grey};
+
   cursor: pointer;
-  &:hover {
-    background: ${Colors.red_80};
+
+  :hover {
+    background-color: ${Colors.blue_accent};
+    color: ${Colors.black};
+    position: relative;
+    top: 3px;
+    // left: 3px;
+    box-shadow: 0px 2px 0 -2.5px ${Colors.blue_2},
+        0px 2px 0 -0.5px ${Colors.dark_grey};
+  }
+
+  ${ScreenSizes.extra_small} {
+    border: 1px solid;
+    box-shadow: 3px 3px 0 ${Colors.blue_2},
+        3px 3px 0 1px ${Colors.dark_grey};
+      
+    :hover {
+      top: 2px;
+      left: 2px;
+      box-shadow: 1px 1px 0 ${Colors.blue_2},
+        1px 1px 0 1px ${Colors.dark_grey};
+    }
   }
 `;
 

@@ -4,7 +4,7 @@ import Background from "../components/Background";
 import NavigationBar from "../components/Navbar";
 import { Colors } from "../constants";
 import MyModules from "../components/MyModules";
-import ModuleForum, { RedButton } from "../components/ModuleForum";
+import ModuleForum, { Button } from "../components/ModuleForum";
 import ThreadList from "../components/ThreadList";
 import { useSelector } from "react-redux";
 import { selectId, selectToken } from "../redux/features/users/userSlice";
@@ -32,12 +32,16 @@ const HeadingDiv = styled.div`
   width: 100%;
 `;
 
-const Heading = styled.span`
+const ForumHeadingDiv = styled.div`
   width: 50%;
+`
+const Heading = styled.span`
   font-family: "Poppins", "sans-serif";
   font-weight: 600;
   font-size: 2em;
   color: ${Colors.black};
+  background: linear-gradient(to bottom, transparent 50%, ${Colors.blue_2_75} 50%);
+  padding: 2.5px 5px 2.5px 5px;
 `;
 
 const ButtonDiv = styled.div`
@@ -72,10 +76,12 @@ const ModulePage = () => {
         <ModulePageWrapper>
           <div>
             <HeadingDiv>
-              <Heading>Discussion Forum</Heading>
+              <ForumHeadingDiv>
+                <Heading>Discussion Forum</Heading>
+              </ForumHeadingDiv>
               <ButtonDiv>
                 {isLoggedIn(token, userId) ? (
-                  <RedButton onClick={showTextEditor}>+ New Post</RedButton>
+                  <Button onClick={showTextEditor}>+ New Post</Button>
                 ) : (
                   <></>
                 )}

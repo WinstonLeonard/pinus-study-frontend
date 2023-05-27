@@ -55,6 +55,8 @@ const Content = styled.span`
   font-size: 1.5em;
   margin-top: 0.5em;
   margin-bottom: 0.5em;
+  width: 100%;
+  word-wrap: break-word;
 `;
 
 const PostedSince = styled(RegularText)`
@@ -98,8 +100,8 @@ const ThreadContainerButton = styled.button`
 
   ${ScreenSizes.small_up} {
       border: 2px solid ${Colors.dark_grey};
-      box-shadow: 7px 7px 0 ${Colors.blue_2},
-          7px 7px 0 2px ${Colors.dark_grey};
+      box-shadow: 6px 6px 0 ${Colors.blue_2},
+          6px 6px 0 2px ${Colors.dark_grey};
       :hover {
         position: relative;
         top: 4px;
@@ -112,13 +114,16 @@ const ThreadContainerButton = styled.button`
 
 /** THREAD-PAGE THREAD ONLY Å*/
 const ThreadContainerDiv = styled.div`
-  background-color: ${Colors.white};
+  background-color: ${Colors.blue_3};
   width: calc(100% - 2em);
+  max-width: 74vw;
   border-radius: 20px;
-  border: none;
+  border: 2px solid ${Colors.dark_grey};
   padding: 1.5em;
   text-align: left;
   font-size: 12px;
+  box-shadow: 4px 4px 0 ${Colors.green_2},
+          4px 4px 0 2px ${Colors.dark_grey};
 `;
 
 const MediumText = styled(Text)`
@@ -134,12 +139,18 @@ const ReplyText = styled(MediumText)`
 
 const ThumbButton = styled.button`
   border: none;
-
+  background-color: ${Colors.blue_3};
   :hover {
-    background-color: ${Colors.white_accent};
+    background-color: ${Colors.blue_accent};
   }
 `;
 
+const Username = styled.span`
+  cursor: pointer;
+  :hover {
+    text-decoration: underline;
+  }
+`
 /**
  * Thread component for the web forum.
  *
@@ -325,8 +336,8 @@ const ThreadComponent = ({
    * @returns The shortened content of the thread.
    */
   const shortenLongPosts = (content: string): string => {
-    if (content.length > 150) {
-      return content.substring(0, 150) + "...";
+    if (content.length > 100) {
+      return content.substring(0, 100) + "...";
     }
     return content;
   };
@@ -424,7 +435,7 @@ const ThreadComponent = ({
         <QuestionTitle>{thread.Title}</QuestionTitle>
         <br />
         <RegularText>
-          Posted by <div onClick={directToUserPage}>@{thread.Username}</div>
+          Posted by <Username onClick={directToUserPage}>@{thread.Username}</Username>
         </RegularText>
         <br />
         <Content>{deserialize(thread.Content)}</Content>

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { API_URL, Colors } from "../constants";
+import { API_URL, Colors, ScreenSizes } from "../constants";
 import MyModules, { ModuleComponent } from "../components/MyModules";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -21,6 +21,38 @@ const ModuleGridWrapper = styled.div`
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-column-gap: 1em;
     grid-row-gap: 1em;
+    margin-top: 0.5em;
+    margin-bottom: 2em;
+    place-items: center; /* Added property to center items */
+    background: ${Colors.green_2};
+    border: 2px solid;
+    border-color: ${Colors.dark_grey};
+    padding: 1vw;
+    border-radius: 20px;
+
+    ${ScreenSizes.extra_small} {
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-column-gap: 0.5em;
+        grid-row-gap: 0.5em;
+        border: 1px solid;
+        box-shadow: 3px 3px 0 ${Colors.blue_3},
+            3px 3px 0 1px ${Colors.dark_grey};
+    }
+  
+    ${ScreenSizes.small_up} {
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-column-gap: 0.75em;
+        grid-row-gap: 0.75em;
+        border: 2px solid ${Colors.dark_grey};
+        box-shadow: 7px 7px 0 ${Colors.blue_3},
+            7px 7px 0 2px ${Colors.dark_grey};
+    }
+
+    ${ScreenSizes.huge_up} {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-column-gap: 1em;
+        grid-row-gap: 1em;
+    }
 `
 
 const ResultsHeadingDiv = styled.div`
@@ -31,7 +63,9 @@ const ResultsHeading = styled.span`
     font-family: "Poppins", "sans-serif";
     font-weight: 600;
     font-size: 2.25em;
-    color: ${Colors.black};
+    color: ${Colors.dark_grey};
+    background: linear-gradient(to bottom, transparent 50%, ${Colors.blue_2_75} 50%);
+    padding: 2.5px 5px 2.5px 5px;
 `
 
 const ResultsHeadingItalic = styled(ResultsHeading)`

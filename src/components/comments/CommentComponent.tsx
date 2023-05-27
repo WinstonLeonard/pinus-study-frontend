@@ -63,7 +63,7 @@ const VerticalCenterAlignLayout = styled.div`
 
 /** THREAD-PAGE THREAD ONLY Å*/
 const ThreadContainerDiv = styled.div`
-  background-color: ${Colors.white};
+  background-color: ${Colors.blue_3};
   width: calc(100% - 2em);
   border-radius: 20px;
   border: none;
@@ -71,6 +71,9 @@ const ThreadContainerDiv = styled.div`
   text-align: left;
   font-size: 12px;
   margin: 1em 0;
+  border: 2px solid ${Colors.dark_grey};
+  box-shadow: 4px 4px 0 ${Colors.green_2},
+          4px 4px 0 2px ${Colors.dark_grey};
 `;
 
 const LevelContainerDiv = styled.div<MarginProps>`
@@ -105,6 +108,7 @@ const ReplyText = styled(MediumText)`
 
 const ThumbButton = styled.button`
   border: none;
+  background-color: ${Colors.blue_3};
 
   :hover {
     background-color: ${Colors.white_accent};
