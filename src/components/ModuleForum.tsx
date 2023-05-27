@@ -15,19 +15,24 @@ import {
 } from "../redux/features/users/userSlice";
 import { WhiteLoader } from "./Loader";
 
-export const RedButton = styled.button`
+export const Button = styled.button<{subscribed?: boolean}>`
+  border-radius: 50px;
+  border: 2px solid ${Colors.dark_grey};
   font-family: "Poppins", "sans-serif";
-  color: ${Colors.white};
-  background-color: ${Colors.red};
-  width: inherit;
-  border: 0;
-  border-radius: 20px;
-  font-weight: 700;
+  font-weight: 600;
   font-size: 1em;
-  padding: 8px 0px;
-  display: grid;
-  place-items: center;
-  cursor: pointer;
+  padding: 0px 40px;
+  color: ${Colors.dark_grey};
+  background-color: ${props => props.subscribed? Colors.white_1: Colors.blue_3};
+  box-shadow: 5px 5px 0 ${Colors.blue_2}, 5px 5px 0 2px ${Colors.dark_grey};
+
+  :hover {
+    background-color: ${props => props.subscribed? Colors.blue_3 : Colors.blue_accent};
+    position: relative; 
+    top: 3px;
+    left: 3px;
+    box-shadow: 2px 2px 0 ${Colors.blue_2}, 2px 2px 0 2px ${Colors.dark_grey};
+  }
 `;
 
 const ForumBackground = styled.div`
@@ -35,11 +40,13 @@ const ForumBackground = styled.div`
   width: 17.5vw;
   max-width: 17.5vw;
   padding: 1.5em;
-  border: none;
+  border: 2px solid ${Colors.dark_grey};
   border-radius: 20px;
   background-color: ${Colors.green_2};
   color: ${Colors.black};
   font-family: "Poppins", "sans-serif";
+  box-shadow: 7px 7px 0 ${Colors.blue_3},
+            7px 7px 0 2px ${Colors.dark_grey};
 `;
 
 const Top = styled.div`
@@ -170,10 +177,10 @@ const ModuleForum = ({ selectedModule }: { selectedModule: string }) => {
           <SubscriberDiv>
             <PeopleAltIcon />
             <SubscriberDesc href={`/subscribers/${selectedModule}`}>
-              {module.SubscriberCount} subscribers
+              {module.SubscriberCount === 1? "1 subscriber" : `${module.SubscriberCount} subscribers`}
             </SubscriberDesc>
           </SubscriberDiv>
-          <RedButton onClick={handleButtonClick} disabled={isLoading}>
+          <Button subscribed={isSubscribed} onClick={handleButtonClick} disabled={isLoading}>
             {
               isLoading
               ? <WhiteLoader />
@@ -181,7 +188,7 @@ const ModuleForum = ({ selectedModule }: { selectedModule: string }) => {
               ? <p>Unsubscribe</p> 
               : <p>Subscribe</p>
             }
-          </RedButton>
+          </Button>
         </Bottom>
       </ForumBackground>
     </ModuleForumDiv>

@@ -4,7 +4,7 @@ import Background from "../components/Background";
 import NavigationBar from "../components/Navbar";
 import { Colors } from "../constants";
 import MyModules from "../components/MyModules";
-import ModuleForum, { RedButton } from "../components/ModuleForum";
+import ModuleForum, { Button } from "../components/ModuleForum";
 import ThreadList from "../components/ThreadList";
 import { useSelector } from "react-redux";
 import { selectId, selectToken } from "../redux/features/users/userSlice";
@@ -75,7 +75,7 @@ const ModulePage = () => {
               <Heading>Discussion Forum</Heading>
               <ButtonDiv>
                 {isLoggedIn(token, userId) ? (
-                  <RedButton onClick={showTextEditor}>+ New Post</RedButton>
+                  <Button onClick={showTextEditor}>+ New Post</Button>
                 ) : (
                   <></>
                 )}

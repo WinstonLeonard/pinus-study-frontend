@@ -111,7 +111,7 @@ const MyModulesContainer = styled.div<{ mobileDisplay?: string }>`
   border: 2px solid;
   border-color: ${Colors.dark_grey};
   border-radius: 20px;
-  // width: 17.5vw;
+  width: 17.5vw;
   max-width: 16.5vw;
   min-height: 70vh;
   max-height: 70vh;

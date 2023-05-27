@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { Navbar, Background, ThreadComponent } from "../components";
 import { Colors } from "../constants";
 import MyModules from "../components/MyModules";
-import ModuleForum, { RedButton } from "../components/ModuleForum";
+import ModuleForum, { Button } from "../components/ModuleForum";
 import { API_URL } from "../constants";
 import {
   Thread,
