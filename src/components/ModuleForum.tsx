@@ -24,6 +24,7 @@ export const Button = styled.button<{subscribed?: boolean}>`
   font-family: "Poppins", "sans-serif";
   font-weight: 600;
   font-size: 1em;
+  height: 60px;
   padding: 0px 40px;
   color: ${Colors.dark_grey};
   background-color: ${props => props.subscribed? Colors.white_1: Colors.blue_3};

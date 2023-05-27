@@ -37,7 +37,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { selectId, selectToken } from "../../redux/features/users/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { Loader } from "../Loader";
+import { WhiteLoader, SmallWhiteLoader } from "../Loader";
 // STYLED COMPONENTS
 
 const GlobalStyle = createGlobalStyle`
@@ -344,7 +344,7 @@ const TextEditor = ({ closeTextEditor }: { closeTextEditor: () => void }) => {
             <PostButton onClick={() => postThread(textData)} disabled={isLoading}>
               {
                 isLoading
-                ? <Loader />
+                ? <SmallWhiteLoader />
                 : "Post Question"
               }
             </PostButton>

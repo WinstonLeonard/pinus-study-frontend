@@ -111,8 +111,8 @@ const MyModulesContainer = styled.div<{ mobileDisplay?: string }>`
   border: 2px solid;
   border-color: ${Colors.dark_grey};
   border-radius: 20px;
-  width: 17.5vw;
-  max-width: 16.5vw;
+  // width: 17.5vw;
+  max-width: 15.5vw;
   min-height: 70vh;
   max-height: 70vh;
   padding: 1.5em;
@@ -122,7 +122,6 @@ const MyModulesContainer = styled.div<{ mobileDisplay?: string }>`
   align-items: flex-start;
   box-shadow: 7px 7px 0 ${Colors.blue_3},
             7px 7px 0 2px ${Colors.dark_grey};
-  margin-right: calc(2em);
 
   @media only screen and (max-width: 992px) {
     display: ${(props) => (props.mobileDisplay ? props.mobileDisplay : "flex")};

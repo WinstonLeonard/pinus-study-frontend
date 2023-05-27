@@ -26,7 +26,7 @@ export const ModalBackground = styled.div`
     background-color: ${Colors.white_1};
     border: 2px solid ${Colors.dark_grey};
     border-radius: 40px;
-    min-height: 55vh;
+    min-height: 40vh;
     padding: 2em;
     width: 20vw;
     /* -webkit-box-shadow: 0 1px 4px ${Colors.light_grey};
@@ -99,6 +99,7 @@ export const AuthButton = styled.button`
     border-radius: 40px;
     color: ${Colors.dark_grey};
     cursor: pointer;
+    height: 60px;
     flex-grow: 1;
     font-family: "Poppins";
     font-weight: 700;

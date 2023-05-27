@@ -23,7 +23,7 @@ import { TextAlignFormat } from "../../slate";
 import { API_URL, Colors, ScreenSizes } from "../../constants";
 import { useSelector } from "react-redux";
 import { selectId, selectToken } from "../../redux/features/users/userSlice";
-import { WhiteLoader } from "../Loader";
+import { SmallWhiteLoader, WhiteLoader } from "../Loader";
 
 // STYLED COMPONENTS
 const Input = styled.input`
@@ -81,7 +81,7 @@ const PostButton = styled(UiButton)`
     0px 5px 0 -0.5px ${Colors.dark_grey};
 
   cursor: pointer;
-
+  width: 125px;
   :hover {
     background-color: ${Colors.blue_accent};
     color: ${Colors.black};
@@ -253,7 +253,7 @@ const ReplyTextEditor = ({ id, threadId }: { id: number, threadId: number }) => 
             >
               {
                 isLoading
-                ? <WhiteLoader />
+                ? <SmallWhiteLoader />
                 : "Post"
               }
             </PostButton>

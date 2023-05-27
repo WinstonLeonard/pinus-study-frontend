@@ -35,7 +35,6 @@ export const Colors = {
     button_yellow: '#EFB61E',
     light_yellow: '#FEF0E9',
     light_yellow_75: '#FEF0E975',
-
     white_1: '#f4f4f4', // '#faebd7', #fffff3, #f4f4f4
     green_1: '#d6eadf',
     green_2: '#b8e0d2',
