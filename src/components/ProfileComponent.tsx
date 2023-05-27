@@ -92,6 +92,14 @@ const Name = styled.span`
   color: ${Colors.dark_grey};
   font-size: 1.75em;
 
+  ${ScreenSizes.large_below} {
+    font-size: 1em;
+  }
+
+  ${ScreenSizes.medium_below} {
+    font-size: 1.25em;
+  }
+
   ${ScreenSizes.extra_small} {
     font-size: 1.5em;
   }
