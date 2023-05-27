@@ -168,7 +168,7 @@ const DropdownContainer = styled.div`
   z-index: 10;
   justify-content: center;
   align-content: center;
-  width: 60%;
+  width: 50%;
   top: 6.5rem;
   animation: ${keyframes`
   0% {
@@ -178,6 +178,12 @@ const DropdownContainer = styled.div`
     top: 6.5rem;
   }
 `} 0.3s ease-in-out;
+background-color: ${Colors.white};
+padding: 4rem 2rem;
+border-radius: 40px;
+border: 2px solid ${Colors.dark_grey};
+box-shadow: 5px 5px 0 ${Colors.green_2},
+5px 5px 0 2px ${Colors.dark_grey};
 `;
 
 const DropdownInsideContainer = styled.div`
@@ -189,37 +195,47 @@ const DropdownInsideContainer = styled.div`
 `;
 
 const DropdownItem = styled.button`
-  padding-top: 1.2rem;
-  padding-bottom: 1.2rem;
-  background-color: #ffffff;
-  transition-property: all;
-  drop-shadow: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1))
-    drop-shadow(0 1px 1px rgba(0, 0, 0, 0.06));
-  border: none;
-  font-size: 18px;
-  font-family: "Poppins", sans-serif;
-  font-weight: 600;
+  background-color: ${Colors.blue_3};
+  border: 2px solid ${Colors.dark_grey};
+  border-radius: 40px;
+  color: ${Colors.dark_grey};
+  cursor: pointer;
+  height: 60px;
+  flex-grow: 1;
+  font-family: "Poppins";
+  font-weight: 700;
+  font-size: 1.15em;
+  padding: 0.75em 1.5em 0.75em 1.5em;
+  box-shadow: 0px 5px 0 -2.5px ${Colors.blue_2},
+      0px 5px 0 -0.5px ${Colors.dark_grey};
 
   :hover {
-    z-index: 20;
-    --transform-scale-x: 1.05;
-    --transform-scale-y: 1.05;
-    cursor: pointer;
-    background-color: ${Colors.red};
-    color: ${Colors.white};
-    transition: color 0.3s;
-    transition: background-color 0.3s;
-  }
+      background-color: ${Colors.blue_accent};
+      color: ${Colors.black};
+      position: relative;
+      top: 3px;
+      // left: 3px;
+      box-shadow: 0px 2px 0 -2.5px ${Colors.blue_2},
+          0px 2px 0 -0.5px ${Colors.dark_grey};
+    }
 `;
 
 const DropdownItemLogin = styled(DropdownItem)`
-  border-top-left-radius: 0.75rem;
-  border-top-right-radius: 0.75rem;
-  border-bottom: 2px solid ${Colors.dark_grey + "30"};
 `
 const DropdownItemSignup = styled(DropdownItem)`
-  border-bottom-left-radius: 0.75rem;
-  border-bottom-right-radius: 0.75rem;
+    background-color: ${Colors.green_2};
+    margin-top: 0.75rem;
+    box-shadow: 0px 5px 0 -2.5px ${Colors.green_accent},
+    0px 5px 0 -0.5px ${Colors.dark_grey};
+    
+  :hover {
+    background-color: ${Colors.green_1};
+    color: ${Colors.black};
+    position: relative;
+    top: 3px;
+    box-shadow: 0px 2px 0 -2.5px ${Colors.green_accent},
+        0px 2px 0 -0.5px ${Colors.dark_grey};
+  }
 `
 
 /**
