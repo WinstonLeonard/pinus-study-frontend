@@ -117,19 +117,23 @@ const SearchModulesPage = () => {
                             <ResultsHeading>Results for </ResultsHeading>
                             <ResultsHeadingItalic>'{keyword}'</ResultsHeadingItalic>
                         </ResultsHeadingDiv>
-                        <ModuleGridWrapper>
-                            {noModulesFound
-                                ? null
-                                : searchResults.map(module => {
-                                    return (
-                                        <Link to={`/module/${module.Id.toLocaleLowerCase()}`} style={{ textDecoration: 'none',  fontSize: '1.5em'}}>
-                                            <div key={module.Id}>
-                                                <ModuleComponent>{module.Id}</ModuleComponent>
-                                            </div>
-                                        </Link>
-                                    );
-                            })}
-                        </ModuleGridWrapper>
+                        {noModulesFound
+                            ? null
+                            : 
+                            <ModuleGridWrapper>
+                                {
+                                searchResults.map(module => {
+                                return (
+                                    <Link to={`/module/${module.Id.toLocaleLowerCase()}`} style={{ textDecoration: 'none',  fontSize: '1.5em'}}>
+                                        <div key={module.Id}>
+                                            <ModuleComponent>{module.Id}</ModuleComponent>
+                                        </div>
+                                    </Link>
+                                );})
+                                }   
+                            </ModuleGridWrapper>
+                        }
+                        
                     </div>
                     <MyModules/>
                 </ModulePageWrapper>
