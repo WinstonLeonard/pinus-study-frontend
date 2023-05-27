@@ -72,7 +72,7 @@ const PopularModulesWrapper = styled.div`
      
 
     ${ScreenSizes.extra_small} {
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr;
         grid-column-gap: 0.25em;
         grid-row-gap: 0.25em;
         border: 1px solid;
@@ -82,8 +82,8 @@ const PopularModulesWrapper = styled.div`
   
     ${ScreenSizes.small_up} {
         grid-template-columns: 1fr 1fr 1fr;
-        grid-column-gap: 0.75em;
-        grid-row-gap: 0.75em;
+        grid-column-gap: 0.5em;
+        grid-row-gap: 0.5em;
         border: 2px solid ${Colors.dark_grey};
         box-shadow: 7px 7px 0 ${Colors.blue_3},
             7px 7px 0 2px ${Colors.dark_grey};
