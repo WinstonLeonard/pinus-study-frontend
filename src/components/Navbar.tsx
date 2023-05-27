@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { logo } from "../assets";
@@ -49,7 +49,12 @@ const Logo = styled.img`
 
 const SubDivision = styled.div`
   display: flex;
-  gap: 2rem;
+  ${ScreenSizes.medium_up} {
+    gap: 2rem;
+  }
+  ${ScreenSizes.medium_below} {
+    gap: 1.2rem;
+  }
   align-items: center;
 `;
 
@@ -146,7 +151,7 @@ const SearchBar = styled.input`
   }
 
   ${ScreenSizes.medium_below} {
-    width: 45vw;
+    width: 35vw;
     ::placeholder {
       content: "Search modules";
     }
@@ -257,6 +262,28 @@ const NavigationBar = () => {
   const navigate = useNavigate();
 
   const [menuOpen, setMenuOpen] = useState(false);
+  const [placeholder, setPlaceholder] = useState("");
+
+  const mediumSize = 992;
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < mediumSize && placeholder !== "Search modules") {
+        setPlaceholder("Search modules");
+      } else if (window.innerWidth >= mediumSize && placeholder !== "Search modules here...") {
+        setPlaceholder("Search modules here...");
+      }
+    };
+
+    handleResize()
+    // Add event listener for window resize
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [placeholder]);
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -309,7 +336,7 @@ const NavigationBar = () => {
               value={query}
               onChange={onChange}
               onKeyDown={handleKeyDown}
-              placeholder="Search modules here..."
+              placeholder={placeholder}
             />
           </SearchBarContainer>
         </SubDivision>
