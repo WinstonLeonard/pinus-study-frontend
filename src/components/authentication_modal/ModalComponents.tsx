@@ -1,5 +1,5 @@
 import styled, { keyframes } from "styled-components";
-import { Colors } from "../../constants";
+import { Colors, ScreenSizes } from "../../constants";
 
 const fadeIn = keyframes`
     from {
@@ -40,7 +40,12 @@ export const ModalBackground = styled.div`
     border-radius: 40px;
     min-height: 40vh;
     padding: 2em;
-    width: 20vw;
+    ${ScreenSizes.medium_below} {
+    width: 17rem;
+}
+    ${ScreenSizes.medium_up} {
+        width: 20rem;
+    }
     /* -webkit-box-shadow: 0 1px 4px ${Colors.light_grey};
     -moz-box-shadow: 0 1px 4px ${Colors.light_grey};
     box-shadow: 0 1px 4px ${Colors.light_grey}; */

@@ -147,7 +147,10 @@ const SearchBar = styled.input`
 
   ${ScreenSizes.medium_below} {
     width: 45vw;
-  }
+    ::placeholder {
+      content: "Search modules";
+    }
+  } 
 `;
 
 const ProfilePicture = styled.img`
