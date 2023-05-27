@@ -40,10 +40,10 @@ export const ModalBackground = styled.div`
     border-radius: 40px;
     min-height: 40vh;
     padding: 2em;
-    ${ScreenSizes.medium_below} {
-    width: 17rem;
-}
-    ${ScreenSizes.medium_up} {
+    @media only screen and (max-width: 510px) {
+        width: 60%;
+    }
+    @media only screen and (min-width: 510px) {
         width: 20rem;
     }
     /* -webkit-box-shadow: 0 1px 4px ${Colors.light_grey};
