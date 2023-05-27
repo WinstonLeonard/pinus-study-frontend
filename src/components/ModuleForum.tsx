@@ -14,6 +14,9 @@ import {
   deleteSubscription,
 } from "../redux/features/users/userSlice";
 import { WhiteLoader } from "./Loader";
+import { isLoggedIn } from "../utils";
+import CombinedAuthenticationPage from "../pages/CombinedAuthenticationPage";
+import { toggleLogin } from "../redux/features/modal/modal";
 
 export const Button = styled.button<{subscribed?: boolean}>`
   border-radius: 50px;
@@ -133,25 +136,29 @@ const ModuleForum = ({ selectedModule }: { selectedModule: string }) => {
   };
 
   const handleButtonClick = () => {
-    setIsLoading(true)
-    fetch(API_URL + `/subscribes/${selectedModule.toUpperCase()}/${userId}`, {
-      method: isSubscribed ? "DELETE" : "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        fetchMod();
-        if (isSubscribed) {
-          dispatch(deleteSubscription(selectedModule));
-        } else {
-          dispatch(addSubscription(selectedModule));
-        }
-        setIsSubscribed(!isSubscribed);
+    if (!isLoggedIn(token, userId)) {
+      dispatch(toggleLogin(true));
+    } else {
+      setIsLoading(true)
+      fetch(API_URL + `/subscribes/${selectedModule.toUpperCase()}/${userId}`, {
+        method: isSubscribed ? "DELETE" : "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       })
-      .catch((error) => console.log(error))
-      .finally(() => setIsLoading(false));
+        .then((response) => response.json())
+        .then((data) => {
+          fetchMod();
+          if (isSubscribed) {
+            dispatch(deleteSubscription(selectedModule));
+          } else {
+            dispatch(addSubscription(selectedModule));
+          }
+          setIsSubscribed(!isSubscribed);
+        })
+        .catch((error) => console.log(error))
+        .finally(() => setIsLoading(false));
+    }
   };
 
   // useEffect(() => {
@@ -181,8 +188,7 @@ const ModuleForum = ({ selectedModule }: { selectedModule: string }) => {
             </SubscriberDesc>
           </SubscriberDiv>
           <Button subscribed={isSubscribed} onClick={handleButtonClick} disabled={isLoading}>
-            {
-              isLoading
+            { isLoading
               ? <WhiteLoader />
               : isSubscribed 
               ? <p>Unsubscribe</p> 
