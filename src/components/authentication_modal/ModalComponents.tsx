@@ -103,7 +103,7 @@ export const ForgetPassword = styled.span`
  * Button for Log In, Sign Up, Create Account.
  */
 export const AuthButton = styled.button`
-    background-color: ${Colors.blue};
+    background-color: ${Colors.blue_2};
     border: none;
     border-radius: 40px;
     color: ${Colors.white};
