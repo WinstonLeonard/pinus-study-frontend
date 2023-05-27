@@ -7,7 +7,7 @@ export const Colors = {
     black_10: "#14121210",
     black_25: "#14121225",
     blue: "#F4F4F4",
-    blue_accent: "#222638",
+    // blue_accent: "#222638",
     light_blue: "#748EFF",
     red: "#FF3A3A",
     red_accent: "#CD3838",
@@ -20,9 +20,7 @@ export const Colors = {
     light_grey_two: "#D9D9D9", // input background color
     white: "#F5F5F5",
     white_accent: "#BDBDBD", // for pressed module threads
-    yellow: "#EFB61E",
     yellow_accent: "#c2910e",
-    purple: "#8C52FF",
     light_new_red: '#FFDBDB',
     new_red: "#F16F6F",
     new_red_80: "#F16F6F80",
@@ -31,9 +29,23 @@ export const Colors = {
     new_blue_accent: "#2C3B79",
     new_blue_50: "#728DFF50",
     new_blue_75: "#728DFF75",
-    very_light_blue: "#CAFAF4",
+    yellow: '#FEF0E9',
     light_yellow: '#FEF0E9',
     light_yellow_75: '#FEF0E975',
+
+    white_1: '#f4f4f4', // '#faebd7', #fffff3, #f4f4f4
+    green_1: '#d6eadf',
+    green_2: '#b8e0d2',
+    green_accent: '#95C6B5',
+    green_3: '#e4f6df',
+    blue_1: '#95b8d1',
+    blue_2: '#809bce',
+    blue_accent: '#385792',
+    blue_2_75: '#809bce75',
+    blue_3: '#dcf3fc',
+    blue_4: '#e9f7fd',
+    hyperlink: '#5681D4',
+    hyperlink_hover: '#1B3F82',
 }
 
 export const ScreenSizes = {
