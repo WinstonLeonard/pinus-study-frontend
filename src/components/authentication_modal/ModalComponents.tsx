@@ -23,7 +23,7 @@ export const CloseIconDiv = styled.button`
 `;
 
 export const ModalBackground = styled.div`
-    background-color: ${Colors.white};
+    background-color: ${Colors.white_1};
     border-radius: 40px;
     min-height: 55vh;
     padding: 2em;
@@ -91,7 +91,7 @@ export const ForgetPassword = styled.span`
  * Button for Log In, Sign Up, Create Account.
  */
 export const AuthButton = styled.button`
-    background-color: ${Colors.blue};
+    background-color: ${Colors.black};
     border: none;
     border-radius: 40px;
     color: ${Colors.white};

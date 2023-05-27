@@ -37,8 +37,8 @@ const ForumBackground = styled.div`
   padding: 1.5em;
   border: none;
   border-radius: 20px;
-  background-color: ${Colors.yellow};
-  color: ${Colors.white};
+  background-color: ${Colors.green_2};
+  color: ${Colors.black};
   font-family: "Poppins", "sans-serif";
 `;
 
@@ -57,7 +57,7 @@ const Bottom = styled.div`
 `;
 
 const ForumHeading = styled.div`
-  color: ${Colors.white};
+  color: ${Colors.black};
   font-weight: 700;
   font-size: 1.8em;
   text-decoration: underline;
@@ -66,7 +66,7 @@ const ForumHeading = styled.div`
 const ForumDesc = styled.span`
   display: inline;
   whitespace: nowrap;
-  color: ${Colors.white};
+  color: ${Colors.black};
   font-weight: 500;
   font-size: 1em;
 `;
@@ -84,7 +84,7 @@ const SubscriberDiv = styled.div`
 `;
 
 const SubscriberDesc = styled.a`
-  color: ${Colors.white};
+  color: ${Colors.black};
   font-weight: 500;
   font-size: 1em;
   text-decoration: underline;
