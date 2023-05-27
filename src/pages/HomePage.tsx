@@ -35,7 +35,7 @@ const Heading = styled.span`
     font-family: "Poppins", "sans-serif";
     font-weight: 600;
     font-size: 2.25em;
-    color: linear-gradient(${Colors.black}, ${Colors.dark_grey});
+    color: ${Colors.dark_grey};
     background: linear-gradient(to bottom, transparent 50%, ${Colors.blue_2_75} 50%);
     padding: 2.5px 5px 2.5px 5px;
 
@@ -76,7 +76,7 @@ const PopularModulesWrapper = styled.div`
         grid-column-gap: 0.25em;
         grid-row-gap: 0.25em;
         border: 1px solid;
-        box-shadow: 3px 3px 0 ${Colors.light_yellow},
+        box-shadow: 3px 3px 0 ${Colors.blue_3},
             3px 3px 0 1px ${Colors.dark_grey};
     }
   
@@ -88,11 +88,7 @@ const PopularModulesWrapper = styled.div`
         box-shadow: 7px 7px 0 ${Colors.blue_3},
             7px 7px 0 2px ${Colors.dark_grey};
     }
-  
-    ${ScreenSizes.medium_up} {...}
-  
-    ${ScreenSizes.large_up} {...}
-  
+
     ${ScreenSizes.huge_up} {
         grid-template-columns: 1fr 1fr 1fr 1fr;
         grid-column-gap: 0.5em;

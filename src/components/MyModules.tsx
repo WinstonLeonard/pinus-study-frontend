@@ -135,7 +135,7 @@ const MyModulesContainer = styled.div<{ mobileDisplay?: string }>`
 const MyModulesHeading = styled.span`
   font-family: "Poppins", "sans-serif";
   font-weight: 600;
-  color: linear-gradient(${Colors.black}, ${Colors.dark_grey});
+  color: ${Colors.dark_grey};
   padding: 1.5px 5px 1.5px 5px;
   font-size: 1.625em;
   display: flex; /* Added property to enable flexbox */

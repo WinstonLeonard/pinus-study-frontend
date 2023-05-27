@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { useState, useEffect } from "react";
 import styled from "styled-components";
-import { API_URL, Colors } from "../constants";
+import { API_URL, Colors, ScreenSizes } from "../constants";
 import {
   Thread,
   ThreadInitialState,
@@ -68,17 +68,45 @@ const VerticalCenterAlignLayout = styled.div`
 
 /** MODULE-PAGE THREAD ONLY */
 const ThreadContainerButton = styled.button`
-  background-color: ${Colors.white};
+  background-color: ${Colors.blue_3};
   width: 100%;
   border-radius: 20px;
-  border: none;
+  border: 2px solid ${Colors.dark_grey};
   padding: 1.5em;
   text-align: left;
   font-size: 12px;
   cursor: pointer;
 
   :hover {
-    background-color: ${Colors.white_accent};
+    background-color: ${Colors.blue_accent};
+  }
+
+  ${ScreenSizes.extra_small} {
+    border: 1px solid;
+    box-shadow: 3px 3px 0 ${Colors.blue_2},
+        3px 3px 0 1px ${Colors.dark_grey};
+
+    :hover {
+        position: relative;
+        top: 2px;
+        left: 2px;
+        box-shadow: 1px 1px 0 ${Colors.blue_2},
+            1px 1px 0 2px ${Colors.dark_grey};
+    }
+      
+}
+
+  ${ScreenSizes.small_up} {
+      border: 2px solid ${Colors.dark_grey};
+      box-shadow: 7px 7px 0 ${Colors.blue_2},
+          7px 7px 0 2px ${Colors.dark_grey};
+      :hover {
+        position: relative;
+        top: 4px;
+        left: 4px;
+        box-shadow: 3px 3px 0 ${Colors.blue_2},
+            3px 3px 0 2px ${Colors.dark_grey};
+      }
   }
 `;
 
