@@ -98,8 +98,8 @@ const ThreadContainerButton = styled.button`
 
   ${ScreenSizes.small_up} {
       border: 2px solid ${Colors.dark_grey};
-      box-shadow: 7px 7px 0 ${Colors.blue_2},
-          7px 7px 0 2px ${Colors.dark_grey};
+      box-shadow: 6px 6px 0 ${Colors.blue_2},
+          6px 6px 0 2px ${Colors.dark_grey};
       :hover {
         position: relative;
         top: 4px;
