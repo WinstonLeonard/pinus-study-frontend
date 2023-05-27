@@ -42,7 +42,7 @@ export const Colors = {
     green_3: '#e4f6df',
     blue_1: '#95b8d1',
     blue_2: '#809bce',
-    blue_accent: '#385792',
+    blue_accent: '#F1FBFF',
     blue_2_75: '#809bce75',
     blue_3: '#dcf3fc',
     blue_4: '#e9f7fd',
