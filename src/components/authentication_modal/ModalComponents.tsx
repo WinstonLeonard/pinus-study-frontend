@@ -35,9 +35,10 @@ export const CloseIconDiv = styled.button`
 `;
 
 export const ModalBackground = styled.div`
-    background-color: ${Colors.white};
+    background-color: ${Colors.white_1};
+    border: 2px solid ${Colors.dark_grey};
     border-radius: 40px;
-    min-height: 55vh;
+    min-height: 40vh;
     padding: 2em;
     width: 20vw;
     /* -webkit-box-shadow: 0 1px 4px ${Colors.light_grey};
@@ -46,6 +47,8 @@ export const ModalBackground = styled.div`
     -webkit-background-clip: padding-box;
     -moz-background-clip: padding-box;
     background-clip: padding-box;
+    box-shadow: 7px 7px 0 ${Colors.green_2},
+          7px 7px 0 2px ${Colors.dark_grey};
 `;
 
 export const ModalDiv = styled.div<{
@@ -103,16 +106,29 @@ export const ForgetPassword = styled.span`
  * Button for Log In, Sign Up, Create Account.
  */
 export const AuthButton = styled.button`
-    background-color: ${Colors.blue_2};
-    border: none;
+    background-color: ${Colors.blue_3};
+    border: 2px solid ${Colors.dark_grey};
     border-radius: 40px;
-    color: ${Colors.white};
+    color: ${Colors.dark_grey};
     cursor: pointer;
+    height: 60px;
     flex-grow: 1;
     font-family: "Poppins";
     font-weight: 700;
     font-size: 1.15em;
     padding: 0.75em 1.5em 0.75em 1.5em;
+    box-shadow: 0px 5px 0 -2.5px ${Colors.blue_2},
+        0px 5px 0 -0.5px ${Colors.dark_grey};
+
+    :hover {
+        background-color: ${Colors.blue_accent};
+        color: ${Colors.black};
+        position: relative;
+        top: 3px;
+        // left: 3px;
+        box-shadow: 0px 2px 0 -2.5px ${Colors.blue_2},
+            0px 2px 0 -0.5px ${Colors.dark_grey};
+      }
 `;
 
 /**

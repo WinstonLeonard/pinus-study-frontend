@@ -35,7 +35,7 @@ const Heading = styled.span`
     font-family: "Poppins", "sans-serif";
     font-weight: 600;
     font-size: 2.25em;
-    color: linear-gradient(${Colors.black}, ${Colors.dark_grey});
+    color: ${Colors.dark_grey};
     background: linear-gradient(to bottom, transparent 50%, ${Colors.blue_2_75} 50%);
     padding: 2.5px 5px 2.5px 5px;
 
@@ -76,27 +76,23 @@ const PopularModulesWrapper = styled.div`
         grid-column-gap: 0.25em;
         grid-row-gap: 0.25em;
         border: 1px solid;
-        box-shadow: 3px 3px 0 ${Colors.light_yellow},
+        box-shadow: 3px 3px 0 ${Colors.blue_3},
             3px 3px 0 1px ${Colors.dark_grey};
     }
   
     ${ScreenSizes.small_up} {
         grid-template-columns: 1fr 1fr 1fr;
-        grid-column-gap: 0.25em;
-        grid-row-gap: 0.25em;
+        grid-column-gap: 0.75em;
+        grid-row-gap: 0.75em;
         border: 2px solid ${Colors.dark_grey};
         box-shadow: 7px 7px 0 ${Colors.blue_3},
             7px 7px 0 2px ${Colors.dark_grey};
     }
-  
-    ${ScreenSizes.medium_up} {...}
-  
-    ${ScreenSizes.large_up} {...}
-  
+
     ${ScreenSizes.huge_up} {
         grid-template-columns: 1fr 1fr 1fr 1fr;
-        grid-column-gap: 0.5em;
-        grid-row-gap: 0.5em;
+        grid-column-gap: 0.75em;
+        grid-row-gap: 0.75em;
     }
 `;
 
@@ -201,7 +197,7 @@ const HomePage = () => {
                             <WelcomeMessage>
                                 PINUS Study is a platform built for PINUSians where they can interact and open a discussion thread for modules.
                                 <br /><br />
-                                Have something you want to improve? Fill in this <FeedbackLink href="https://forms.gle/ye8m37mFog1bQ167A">feedback form</FeedbackLink>.
+                                Have something you want to improve? Fill in this <FeedbackLink href="https://pinusonline.org/contact">feedback form</FeedbackLink>.
                                 <br /><br />
                                 Have fun studying!
                             </WelcomeMessage>

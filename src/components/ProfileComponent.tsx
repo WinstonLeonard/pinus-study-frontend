@@ -7,7 +7,8 @@ import { logout } from "../redux/features/users/userSlice";
 import { pfp } from "../assets";
 
 const ProfileContainer = styled.div`
-  background-color: ${Colors.white};
+  background-color: ${Colors.green_2};
+  border: 2px solid ${Colors.dark_grey};
   width: 12.5vw;
   padding-top: 4vw;
   padding-bottom: 4vw;
@@ -19,6 +20,19 @@ const ProfileContainer = styled.div`
   border-radius: 20px;
   flex-direction: column;
   max-height: 70vh;
+
+
+  ${ScreenSizes.extra_small} {
+    border: 1px solid;
+    box-shadow: 3px 3px 0 ${Colors.blue_3},
+        3px 3px 0 1px ${Colors.dark_grey};
+  }
+
+  ${ScreenSizes.small_up} {
+      border: 2px solid ${Colors.dark_grey};
+      box-shadow: 7px 7px 0 ${Colors.blue_3},
+          7px 7px 0 2px ${Colors.dark_grey};
+  }
 
   ${ScreenSizes.medium_below} {
     width: auto;
@@ -45,16 +59,22 @@ const ProfilePicture = styled.div<{ notMyProfile?: boolean }>`
 `;
 
 const ProfilePictureImage = styled.img`
+  border: 2px solid ${Colors.dark_grey};
+  border-radius: calc(11vw / 2);
   background-color: ${Colors.white};
   width: 11vw;
   height: 11vw;
+  box-shadow: 0px 0px 0 5px ${Colors.blue_2},
+    0px 0px 0 7px ${Colors.dark_grey};
 
   ${ScreenSizes.medium_below} {
+    border-radius: calc(20vw / 2);
     width: 20vw;
     height: 20vw;
   }
 
   ${ScreenSizes.extra_small} {
+    border-radius: calc(30vw / 2);
     width: 30vw;
     height: 30vw;
   }
@@ -68,30 +88,60 @@ const NameDiv = styled.div<{ paddingTop?: string }>`
 
 const Name = styled.span`
   font-family: "Poppins", "sans-serif";
+  font-weight: 600;
   color: ${Colors.dark_grey};
   font-size: 1.75em;
+
+  ${ScreenSizes.large_below} {
+    font-size: 1em;
+  }
+
+  ${ScreenSizes.medium_below} {
+    font-size: 1.25em;
+  }
 
   ${ScreenSizes.extra_small} {
     font-size: 1.5em;
   }
 `;
 
-const Button = styled.div<{ marginTop?: string; red?: boolean }>`
+const Button = styled.div<{ marginTop?: string }>`
   margin-top: ${(props) => (props.marginTop ? props.marginTop : "0em")};
-  background-color: ${(props) => (props.red ? Colors.red : Colors.blue)};
+  background-color: ${Colors.blue_3};
   font-family: "Poppins", "sans-serif";
-  color: ${Colors.white};
+  font-weight: 600;
+  color: ${Colors.dark_grey};
   cursor: pointer;
   width: 100%;
   text-align: center;
   border-radius: 50px;
+  border: 2px solid ${Colors.dark_grey};
   padding-top: 0.375em;
   padding-bottom: 0.375em;
+  box-shadow: 0px 5px 0 -2.5px ${Colors.blue_2},
+    0px 5px 0 -0.5px ${Colors.dark_grey};
 
   :hover {
-    background-color: ${(props) =>
-      props.red ? Colors.red_accent : Colors.blue_accent};
-    color: ${Colors.white_accent};
+    background-color: ${Colors.blue_accent};
+    color: ${Colors.black};
+    position: relative;
+    top: 3px;
+    // left: 3px;
+    box-shadow: 0px 2px 0 -2.5px ${Colors.blue_2},
+        0px 2px 0 -0.5px ${Colors.dark_grey};
+  }
+
+  ${ScreenSizes.extra_small} {
+    border: 1px solid;
+    box-shadow: 3px 3px 0 ${Colors.blue_2},
+        3px 3px 0 1px ${Colors.dark_grey};
+      
+    :hover {
+      top: 2px;
+      left: 2px;
+      box-shadow: 1px 1px 0 ${Colors.blue_2},
+        1px 1px 0 1px ${Colors.dark_grey};
+    }
   }
 
   ${ScreenSizes.medium_below} {
@@ -112,8 +162,9 @@ const NumberAndDescription = styled.div`
 const Number = styled.div`
   font-family: "Poppins", "sans-serif";
   font-size: 2em;
+  font-weight: 500;
 
-  ${ScreenSizes.extra_small} {
+  ${ScreenSizes.medium_below} {
     font-size: 1.5em;
   }
 `;
@@ -121,9 +172,10 @@ const Number = styled.div`
 const Description = styled.div`
   font-family: "Poppins", "sans-serif";
   font-size: 1em;
+  font-weight: 500;
   text-align: center;
 
-  ${ScreenSizes.extra_small} {
+  ${ScreenSizes.medium_below} {
     font-size: 1em;
   }
 `;
@@ -162,7 +214,7 @@ const ProfileComponent = ({
       </NameDiv>
       {/* <Button marginTop='1em'>View My Modules</Button> */}
       {/* <Button marginTop='0.5em'>Edit My Profile</Button> */}
-      <Button red marginTop="0.5em" onClick={logOut}>
+      <Button marginTop="0.5em" onClick={logOut}>
         Log Out
       </Button>
       <PostAndLikes>

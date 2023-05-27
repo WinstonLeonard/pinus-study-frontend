@@ -27,7 +27,7 @@ import { serialize } from "./serializer";
 import styled, { createGlobalStyle } from "styled-components";
 import { Button, Icon, Toolbar } from "./index";
 import { TextAlignFormat } from "../../slate";
-import { API_URL, Colors } from "../../constants";
+import { API_URL, Colors, ScreenSizes } from "../../constants";
 import {
   BlurredBackground,
   CloseIconDiv,
@@ -37,7 +37,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { selectId, selectToken } from "../../redux/features/users/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { WhiteLoader } from "../Loader";
+import { WhiteLoader, SmallWhiteLoader } from "../Loader";
 // STYLED COMPONENTS
 
 const GlobalStyle = createGlobalStyle`
@@ -79,9 +79,12 @@ const EditorBackground = styled.div`
 const ThreadContainer = styled.div`
   width: 80%;
   margin: 0 auto;
-  background: ${Colors.white};
+  background: ${Colors.white_1};
+  border: 2px solid ${Colors.dark_grey};
   padding: 1em;
   border-radius: 20px;
+  box-shadow: 7px 7px 0 ${Colors.green_2},
+          7px 7px 0 2px ${Colors.dark_grey};
 `;
 
 const UiButton = styled.button`
@@ -92,14 +95,40 @@ const UiButton = styled.button`
   font-weight: 600;
   font-size: 1.1em;
   color: white;
+  white-space: nowrap;
+
 `;
 
 const PostButton = styled(UiButton)`
-  background: ${Colors.red};
+  background: ${Colors.blue_3};
+  border: 2px solid ${Colors.dark_grey};
+  color: ${Colors.dark_grey};
   width: 10em;
   cursor: pointer;
-  &:hover {
-    background: ${Colors.red + "80"};
+  box-shadow: 0px 5px 0 -2.5px ${Colors.blue_2},
+    0px 5px 0 -0.5px ${Colors.dark_grey};
+
+  :hover {
+    background-color: ${Colors.blue_accent};
+    color: ${Colors.black};
+    position: relative;
+    top: 3px;
+    // left: 3px;
+    box-shadow: 0px 2px 0 -2.5px ${Colors.blue_2},
+        0px 2px 0 -0.5px ${Colors.dark_grey};
+  }
+
+  ${ScreenSizes.extra_small} {
+    border: 1px solid;
+    box-shadow: 3px 3px 0 ${Colors.blue_2},
+        3px 3px 0 1px ${Colors.dark_grey};
+      
+    :hover {
+      top: 2px;
+      left: 2px;
+      box-shadow: 1px 1px 0 ${Colors.blue_2},
+        1px 1px 0 1px ${Colors.dark_grey};
+    }
   }
 `;
 
@@ -309,13 +338,13 @@ const TextEditor = ({ closeTextEditor }: { closeTextEditor: () => void }) => {
           </EditorBackground>
           <Buttons>
             {showError && (
-              <ErrorMessage>Title and Description Can't be Empty!</ErrorMessage>
+              <ErrorMessage>Title and description cannot be empty.</ErrorMessage>
             )}
             <div>{/* Dummy Div */}</div>
             <PostButton onClick={() => postThread(textData)} disabled={isLoading}>
               {
                 isLoading
-                ? <WhiteLoader />
+                ? <SmallWhiteLoader />
                 : "Post Question"
               }
             </PostButton>

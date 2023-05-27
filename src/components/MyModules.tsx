@@ -112,7 +112,7 @@ const MyModulesContainer = styled.div<{ mobileDisplay?: string }>`
   border-color: ${Colors.dark_grey};
   border-radius: 20px;
   // width: 17.5vw;
-  max-width: 16.5vw;
+  max-width: 15.5vw;
   min-height: 70vh;
   max-height: 70vh;
   padding: 1.5em;
@@ -135,7 +135,7 @@ const MyModulesContainer = styled.div<{ mobileDisplay?: string }>`
 const MyModulesHeading = styled.span`
   font-family: "Poppins", "sans-serif";
   font-weight: 600;
-  color: linear-gradient(${Colors.black}, ${Colors.dark_grey});
+  color: ${Colors.dark_grey};
   padding: 1.5px 5px 1.5px 5px;
   font-size: 1.625em;
   display: flex; /* Added property to enable flexbox */

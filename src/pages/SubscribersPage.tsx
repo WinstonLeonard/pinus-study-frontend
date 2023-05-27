@@ -34,6 +34,7 @@ const IconDiv = styled.div`
     font-size: 2.25em;
     display: flex;
     place-items: center;
+    color: ${Colors.black};
 `
 
 const SubscribersCountDiv = styled.div`
@@ -41,13 +42,14 @@ const SubscribersCountDiv = styled.div`
     margin-left: 8px;
     display: flex;
     place-items: center;
+    color: ${Colors.black};
 `
 
 const Heading = styled.span`
     font-family: "Poppins", "sans-serif";
     font-weight: 600;
     font-size: 2.25em;
-    color: ${Colors.white};
+    color: ${Colors.black};
 `
 
 const SubscribersContainer = styled.div`

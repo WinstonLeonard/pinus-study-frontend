@@ -69,15 +69,15 @@ const LoginButton = styled.span`
   transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
 
   &:hover {
-    background-color: ${Colors.blue_2};
-    color: ${Colors.white};
+    background-color: ${Colors.button_yellow};
+    color:${Colors.white};
     animation: ${keyframes`
       0% {
         background-color: ${Colors.white_accent};
         color: ${Colors.black};
       }
       100% {
-        background-color: ${Colors.blue_2};
+        background-color: ${Colors.button_yellow};
         color:${Colors.white};
       }
     `} 0.3s ease-in-out;
@@ -99,18 +99,18 @@ const SignUpButton = styled.span`
   cursor: pointer;
   width: 60px;
 
-  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
-
-  &:hover {
-    background-color: ${Colors.blue_2};
-    color: ${Colors.white};
-    animation: ${keyframes`
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  
+    &:hover {
+      background-color: ${Colors.button_yellow};
+      color:${Colors.white};
+      animation: ${keyframes`
         0% {
           background-color: ${Colors.red};
           color: ${Colors.black};
         }
         100% {
-          background-color: ${Colors.blue_2};
+          background-color: ${Colors.button_yellow};
           color:${Colors.white};
         }
       `} 0.3s ease-in-out;

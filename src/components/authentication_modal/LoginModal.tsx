@@ -15,7 +15,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { login, selectToken } from '../../redux/features/users/userSlice';
 import { LOGIN_URL } from "../../constants";
 import CloseIcon from '@mui/icons-material/Close';
-import { WhiteLoader } from "../Loader";
+import { Loader, WhiteLoader } from "../Loader";
 import { getUserDetailsRequest } from "../../requests";
 
 const LoginModal = ({cancel, showSignUpModal} : {cancel: () => void; showSignUpModal: () => void}) => {

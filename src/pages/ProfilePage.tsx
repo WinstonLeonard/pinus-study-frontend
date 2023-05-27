@@ -33,12 +33,25 @@ const ThreadComponentWrapper = styled.span`
     margin-top: 1em;
 `
 
+const TextContainer = styled.div`
+    margin-top: 0.5em;
+
+    ${ScreenSizes.medium_below} {
+        margin-top: 1em;
+    }
+`
+
 const MostRecentPosts = styled.span`
     font-family: "Poppins", "sans-serif";
     font-size: 2em;
     font-weight: 600;
-    margin-top: 0.5em;
-    color: ${Colors.white};
+    color: ${Colors.dark_grey};
+    background: linear-gradient(to bottom, transparent 50%, ${Colors.blue_2_75} 50%);
+    padding: 2.5px 5px 2.5px 5px;
+
+    ${ScreenSizes.medium_below} {
+       font-size: 1.75em;
+    }
 `
 
 const ProfilePage = () => {
@@ -56,7 +69,9 @@ const ProfilePage = () => {
                 <ProfilePageWrapper>
                     <ProfileComponent user={user} userId={user.Id}/>
                     <ThreadWrapper>
-                        <MostRecentPosts>Most Recent Posts</MostRecentPosts>
+                        <TextContainer>
+                            <MostRecentPosts>Most Recent Posts</MostRecentPosts>
+                        </TextContainer>
                         {user.RecentThreads.map(thread => {
                             return (
                             <ThreadComponentWrapper>
