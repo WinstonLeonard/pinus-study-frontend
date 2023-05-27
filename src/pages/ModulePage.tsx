@@ -37,7 +37,7 @@ const Heading = styled.span`
   font-family: "Poppins", "sans-serif";
   font-weight: 600;
   font-size: 2em;
-  color: ${Colors.white};
+  color: ${Colors.black};
 `;
 
 const ButtonDiv = styled.div`

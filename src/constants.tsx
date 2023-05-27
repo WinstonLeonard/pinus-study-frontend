@@ -7,6 +7,7 @@ export const Colors = {
     black_10: "#14121210",
     black_25: "#14121225",
     blue: "#F4F4F4",
+    auth_button_blue: "#1F2E6E",
     // blue_accent: "#222638",
     light_blue: "#748EFF",
     red: "#FF3A3A",
@@ -31,9 +32,9 @@ export const Colors = {
     new_blue_50: "#728DFF50",
     new_blue_75: "#728DFF75",
     yellow: '#FEF0E9',
+    button_yellow: '#EFB61E',
     light_yellow: '#FEF0E9',
     light_yellow_75: '#FEF0E975',
-
     white_1: '#f4f4f4', // '#faebd7', #fffff3, #f4f4f4
     green_1: '#d6eadf',
     green_2: '#b8e0d2',

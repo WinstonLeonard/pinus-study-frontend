@@ -31,7 +31,7 @@ const ResultsHeading = styled.span`
     font-family: "Poppins", "sans-serif";
     font-weight: 600;
     font-size: 2.25em;
-    color: ${Colors.white};
+    color: ${Colors.black};
 `
 
 const ResultsHeadingItalic = styled(ResultsHeading)`

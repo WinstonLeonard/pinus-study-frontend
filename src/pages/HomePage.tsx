@@ -201,7 +201,7 @@ const HomePage = () => {
                             <WelcomeMessage>
                                 PINUS Study is a platform built for PINUSians where they can interact and open a discussion thread for modules.
                                 <br /><br />
-                                Have something you want to improve? Fill in this <FeedbackLink href="https://forms.gle/ye8m37mFog1bQ167A">feedback form</FeedbackLink>.
+                                Have something you want to improve? Fill in this <FeedbackLink href="https://pinusonline.org/contact">feedback form</FeedbackLink>.
                                 <br /><br />
                                 Have fun studying!
                             </WelcomeMessage>
