@@ -1,5 +1,15 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { Colors } from "../../constants";
+
+const fadeIn = keyframes`
+    from {
+        opacity: 0;
+    } 
+    
+    to {
+        opacity: 1;
+    }
+`
 
 export const BlurredBackground = styled.div`
     align-items: center;
@@ -13,7 +23,9 @@ export const BlurredBackground = styled.div`
     width: 100vw;
     backdrop-filter: blur(5px);
     background-color: #2D2D2F80;
+    animation: ${fadeIn} 0.1s;
 `;
+
 
 export const CloseIconDiv = styled.button`
     background-color: transparent;
