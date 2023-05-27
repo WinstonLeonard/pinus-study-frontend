@@ -31,7 +31,7 @@ const ModuleGridWrapper = styled.div`
     border-radius: 20px;
 
     ${ScreenSizes.extra_small} {
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr;
         grid-column-gap: 0.5em;
         grid-row-gap: 0.5em;
         border: 1px solid;
@@ -41,8 +41,8 @@ const ModuleGridWrapper = styled.div`
   
     ${ScreenSizes.small_up} {
         grid-template-columns: 1fr 1fr 1fr;
-        grid-column-gap: 0.75em;
-        grid-row-gap: 0.75em;
+        grid-column-gap: 0.5em;
+        grid-row-gap: 0.5em;
         border: 2px solid ${Colors.dark_grey};
         box-shadow: 7px 7px 0 ${Colors.blue_3},
             7px 7px 0 2px ${Colors.dark_grey};
@@ -66,6 +66,10 @@ const ResultsHeading = styled.span`
     color: ${Colors.dark_grey};
     background: linear-gradient(to bottom, transparent 50%, ${Colors.blue_2_75} 50%);
     padding: 2.5px 5px 2.5px 5px;
+
+    ${ScreenSizes.extra_small} {
+        font-size: 1.5em;
+    }
 `
 
 const ResultsHeadingItalic = styled(ResultsHeading)`
