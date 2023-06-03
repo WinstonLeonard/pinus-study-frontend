@@ -15,7 +15,7 @@ import { isLoggedIn } from "../utils";
 
 const ModulePageWrapper = styled.div`
   display: grid;
-  grid-template-columns: 8.5fr 1.5fr;
+  grid-template-columns: 8fr 2fr;
   grid-column-gap: 2em;
   padding: 2em;
 
