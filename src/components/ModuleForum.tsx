@@ -65,6 +65,12 @@ const ForumBackground = styled.div`
   font-family: "Poppins", "sans-serif";
   box-shadow: 7px 7px 0 ${Colors.blue_3},
             7px 7px 0 2px ${Colors.dark_grey};
+
+  ${ScreenSizes.medium_below} {
+    border: 1px solid ${Colors.dark_grey};
+    box-shadow: 7px 7px 0 ${Colors.blue_3},
+            7px 7px 0 1px ${Colors.dark_grey};
+  }
 `;
 
 const Top = styled.div`

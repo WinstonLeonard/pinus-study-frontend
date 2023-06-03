@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import { Navbar, Background, ThreadComponent } from "../components";
-import { Colors } from "../constants";
+import { Colors, ScreenSizes } from "../constants";
 import MyModules from "../components/MyModules";
 import ModuleForum from "../components/ModuleForum";
 import { API_URL } from "../constants";
@@ -19,9 +19,14 @@ import { useSelector } from "react-redux";
 // Uncomment display grid once my module component is done
 const MainContainer = styled.div`
   display: grid;
-  grid-template-columns: 8.5fr 1.5fr;
+  grid-template-columns: 8fr 2fr;
   grid-column-gap: 2em;
   padding: 2em;
+
+  ${ScreenSizes.medium_below} {
+    display: flex;
+    flex-direction: column-reverse;
+  }
 `;
 
 const HeadingDiv = styled.div`
@@ -35,6 +40,10 @@ const Heading = styled.span`
   font-weight: 600;
   font-size: 2.25em;
   padding: 2.5px 5px 2.5px 5px;
+
+  ${ScreenSizes.medium_below} {
+    font-size: 1.5em;
+  }
 `
 const SpacingEmptyDiv = styled.div`
   padding-top: 2em;
@@ -78,6 +87,10 @@ const MediumText = styled.span`
   color: ${Colors.light_grey};
   font-size: 1.6em;
   padding-left: 0.5em;
+
+  ${ScreenSizes.medium_below} {
+    font-size: 1.2em;
+  }
 `;
 
 const GuestBoxDiv = styled.div`
