@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { API_URL, Colors } from "../constants";
+import { API_URL, Colors, ScreenSizes } from "../constants";
 import {
   Module,
   ModuleInitialState,
@@ -18,13 +18,12 @@ import { isLoggedIn } from "../utils";
 import { toggleLogin } from "../redux/features/modal/modal";
 import { useNavigate } from "react-router-dom";
 
-export const Button = styled.button<{subscribed?: boolean}>`
+export const Button = styled.button<{subscribed?: boolean, mobilePadding?: string}>`
   border-radius: 50px;
   border: 2px solid ${Colors.dark_grey};
   font-family: "Poppins", "sans-serif";
   font-weight: 600;
   font-size: 1em;
-  height: 60px;
   padding: 0px 40px;
   color: ${Colors.dark_grey};
   background-color: ${props => props.subscribed? Colors.white_1: Colors.blue_3};
@@ -37,6 +36,22 @@ export const Button = styled.button<{subscribed?: boolean}>`
     top: 3px;
     box-shadow: 0px 2px 0 -2.5px ${Colors.blue_2},
         0px 2px 0 -0.5px ${Colors.dark_grey};
+  }
+
+  ${ScreenSizes.medium_below} {
+    padding: ${props => props.mobilePadding? props.mobilePadding : '0px 20px'};
+    font-size: 0.875em;
+    border: 1px solid ${Colors.dark_grey};
+    box-shadow: 0px 5px 0 -2.5px ${Colors.blue_2},
+    0px 5px 0 -1.5px ${Colors.dark_grey};
+
+    :hover {
+      background-color: ${props => props.subscribed? Colors.blue_3 : Colors.blue_accent};
+      position: relative; 
+      top: 3px;
+      box-shadow: 0px 2px 0 -2.5px ${Colors.blue_2},
+          0px 2px 0 -1.5px ${Colors.dark_grey};
+    }
   }
 `;
 
@@ -72,6 +87,10 @@ const ForumHeading = styled.div`
   font-size: 1.8em;
   text-decoration: underline;
   cursor: pointer;
+  
+  ${ScreenSizes.medium_below} {
+    font-size: 1.5em;
+  }
 `;
 
 const ForumDesc = styled.span`
@@ -80,6 +99,10 @@ const ForumDesc = styled.span`
   color: ${Colors.black};
   font-weight: 500;
   font-size: 1em;
+
+  ${ScreenSizes.medium_below} {
+    font-size: 0.875em;
+  }
 `;
 
 const SubscriberDiv = styled.div`
@@ -92,6 +115,9 @@ const SubscriberDesc = styled.a`
   font-size: 1em;
   text-decoration: underline;
   margin-left: 0.5em;
+  ${ScreenSizes.medium_below} {
+    font-size: 0.875em;
+  }
 `;
 
 const ModuleForumDiv = styled.div`
