@@ -15,8 +15,8 @@ import {
 } from "../redux/features/users/userSlice";
 import { WhiteLoader } from "./Loader";
 import { isLoggedIn } from "../utils";
-import CombinedAuthenticationPage from "../pages/CombinedAuthenticationPage";
 import { toggleLogin } from "../redux/features/modal/modal";
+import { useNavigate } from "react-router-dom";
 
 export const Button = styled.button<{subscribed?: boolean}>`
   border-radius: 50px;
@@ -28,14 +28,15 @@ export const Button = styled.button<{subscribed?: boolean}>`
   padding: 0px 40px;
   color: ${Colors.dark_grey};
   background-color: ${props => props.subscribed? Colors.white_1: Colors.blue_3};
-  box-shadow: 5px 5px 0 ${Colors.blue_2}, 5px 5px 0 2px ${Colors.dark_grey};
+  box-shadow: 0px 5px 0 -2.5px ${Colors.blue_2},
+    0px 5px 0 -0.5px ${Colors.dark_grey};
 
   :hover {
     background-color: ${props => props.subscribed? Colors.blue_3 : Colors.blue_accent};
     position: relative; 
     top: 3px;
-    left: 3px;
-    box-shadow: 2px 2px 0 ${Colors.blue_2}, 2px 2px 0 2px ${Colors.dark_grey};
+    box-shadow: 0px 2px 0 -2.5px ${Colors.blue_2},
+        0px 2px 0 -0.5px ${Colors.dark_grey};
   }
 `;
 
@@ -72,6 +73,7 @@ const ForumHeading = styled.div`
   font-weight: 700;
   font-size: 1.8em;
   text-decoration: underline;
+  cursor: pointer;
 `;
 
 const ForumDesc = styled.span`
@@ -80,14 +82,6 @@ const ForumDesc = styled.span`
   color: ${Colors.black};
   font-weight: 500;
   font-size: 1em;
-`;
-
-const RedLink = styled.a`
-  width: 20px;
-  color: ${Colors.red};
-  font-weight: 500;
-  font-size: 1em;
-  text-decoration: underline;
 `;
 
 const SubscriberDiv = styled.div`
@@ -117,6 +111,7 @@ const ModuleForum = ({ selectedModule }: { selectedModule: string }) => {
   const userId = useSelector(selectId);
   const token = useSelector(selectToken);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const fetchMod = () => {
     fetch(API_URL + `/module/${selectedModule.toUpperCase()}`)
@@ -162,6 +157,10 @@ const ModuleForum = ({ selectedModule }: { selectedModule: string }) => {
     }
   };
 
+  const navigateToModulePage = () => {
+    navigate(`/module/${module.Id}`);
+  }
+
   // useEffect(() => {
   //     fetchMod();
   //     fetchIsSubscribed();
@@ -176,7 +175,7 @@ const ModuleForum = ({ selectedModule }: { selectedModule: string }) => {
     <ModuleForumDiv>
       <ForumBackground>
         <Top>
-          <ForumHeading>{module.Id} Forum</ForumHeading>
+          <ForumHeading onClick={navigateToModulePage}>{module.Id} Forum</ForumHeading>
           <div>
             <ForumDesc>{module.Name}</ForumDesc>
           </div>
