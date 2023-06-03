@@ -141,7 +141,7 @@ export const ThreadContainerDiv = styled.div<{margin?: string}>`
     box-shadow: 4px 4px 0 ${Colors.green_2},
           4px 4px 0 1px ${Colors.dark_grey};
     max-width: 100%;
-    width: calc(100% - 3em);
+    width: calc(100% - 3em); // ini klo diuncomment, aligns with qn page, but if commented, aligns with the text editor (MOBILE VIEW)
     margin-right: 2em;
   }
 
