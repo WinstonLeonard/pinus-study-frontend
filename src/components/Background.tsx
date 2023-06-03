@@ -6,6 +6,7 @@ const Background = styled.div`
     min-height: 100vh;
     margin-top: 79px;
     overflow: auto;
+    flex-wrap: wrap; 
 `
 
 export default Background;

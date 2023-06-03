@@ -61,7 +61,7 @@ const ProfilePicture = styled.div<{ notMyProfile?: boolean }>`
 const ProfilePictureImage = styled.img`
   border: 2px solid ${Colors.dark_grey};
   border-radius: calc(11vw / 2);
-  background-color: ${Colors.white};
+  background-color: ${Colors.white_1};
   width: 11vw;
   height: 11vw;
   box-shadow: 0px 0px 0 5px ${Colors.blue_2},

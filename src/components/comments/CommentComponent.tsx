@@ -77,7 +77,7 @@ const ThreadContainerDiv = styled.div`
 `;
 
 const LevelContainerDiv = styled.div<MarginProps>`
-  background-color: ${Colors.white};
+  background-color: ${Colors.blue_3};
   width: ${100 % -`2em`};
   border-radius: 20px;
   border: none;
@@ -116,13 +116,17 @@ const ThumbButton = styled.button`
 `;
 
 const ViewRepliesLink = styled.div`
-  color: ${Colors.red};
+  color: ${Colors.hyperlink};
   font-family: "Poppins", sans-serif;
   font-weight: 500;
   font-size: 1.25em;
-
+  cursor: pointer;
   display: flex;
   align-items: center;
+
+  :hover {
+    text-decoration: underline;
+  }
 `;
 
 /**
@@ -359,12 +363,12 @@ const CommentComponent = ({
         comment.CommentChilds.length > 0 &&
         !viewReplies ? (
           <ViewRepliesLink onClick={() => setViewReplies(true)}>
-            <KeyboardArrowDownIcon style={{ fill: Colors.red }} />
+            <KeyboardArrowDownIcon style={{ fill: Colors.hyperlink }} />
             View More Replies
           </ViewRepliesLink>
         ) : viewReplies ? (
           <ViewRepliesLink onClick={() => setViewReplies(false)}>
-            <KeyboardArrowUpIcon style={{ fill: Colors.red }} />
+            <KeyboardArrowUpIcon style={{ fill: Colors.hyperlink }} />
             Hide Replies
           </ViewRepliesLink>
         ) : null}
@@ -414,12 +418,12 @@ const CommentComponent = ({
         comment.CommentChilds.length > 0 &&
         !viewReplies ? (
           <ViewRepliesLink onClick={() => setViewReplies(true)}>
-            <KeyboardArrowDownIcon style={{ fill: Colors.red }} />
+            <KeyboardArrowDownIcon style={{ fill: Colors.hyperlink }} />
             View More Replies
           </ViewRepliesLink>
         ) : viewReplies ? (
           <ViewRepliesLink onClick={() => setViewReplies(false)}>
-            <KeyboardArrowUpIcon style={{ fill: Colors.red }} />
+            <KeyboardArrowUpIcon style={{ fill: Colors.hyperlink }} />
             Hide Replies
           </ViewRepliesLink>
         ) : null}

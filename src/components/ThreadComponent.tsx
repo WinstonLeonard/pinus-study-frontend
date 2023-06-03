@@ -38,10 +38,17 @@ const QuestionTitle = styled.span`
   font-family: "Poppins", sans-serif;
   font-weight: 500;
   font-size: 1.875em;
+
+  ${ScreenSizes.medium_below} {
+    font-size: 1.375em;
+  }
 `;
 
 const Text = styled.span`
   font-size: 1.25em;
+  ${ScreenSizes.medium_below} {
+    font-size: 1em;
+  }
 `;
 
 const RegularText = styled(Text)`
@@ -57,6 +64,10 @@ const Content = styled.span`
   margin-bottom: 0.5em;
   width: 100%;
   word-wrap: break-word;
+
+  ${ScreenSizes.medium_below} {
+    font-size: 1em;
+  }
 `;
 
 const PostedSince = styled(RegularText)`
@@ -124,6 +135,7 @@ const ThreadContainerDiv = styled.div`
   font-size: 12px;
   box-shadow: 4px 4px 0 ${Colors.green_2},
           4px 4px 0 2px ${Colors.dark_grey};
+
 `;
 
 const MediumText = styled(Text)`

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { API_URL, Colors } from "../constants";
+import { API_URL, Colors, ScreenSizes } from "../constants";
 import {
   Module,
   ModuleInitialState,
@@ -15,34 +15,48 @@ import {
 } from "../redux/features/users/userSlice";
 import { WhiteLoader } from "./Loader";
 import { isLoggedIn } from "../utils";
-import CombinedAuthenticationPage from "../pages/CombinedAuthenticationPage";
 import { toggleLogin } from "../redux/features/modal/modal";
+import { useNavigate } from "react-router-dom";
 
-export const Button = styled.button<{subscribed?: boolean}>`
+export const Button = styled.button<{subscribed?: boolean, mobilePadding?: string}>`
   border-radius: 50px;
   border: 2px solid ${Colors.dark_grey};
   font-family: "Poppins", "sans-serif";
   font-weight: 600;
   font-size: 1em;
-  height: 60px;
   padding: 0px 40px;
   color: ${Colors.dark_grey};
   background-color: ${props => props.subscribed? Colors.white_1: Colors.blue_3};
-  box-shadow: 5px 5px 0 ${Colors.blue_2}, 5px 5px 0 2px ${Colors.dark_grey};
+  box-shadow: 0px 5px 0 -2.5px ${Colors.blue_2},
+    0px 5px 0 -0.5px ${Colors.dark_grey};
 
   :hover {
     background-color: ${props => props.subscribed? Colors.blue_3 : Colors.blue_accent};
     position: relative; 
     top: 3px;
-    left: 3px;
-    box-shadow: 2px 2px 0 ${Colors.blue_2}, 2px 2px 0 2px ${Colors.dark_grey};
+    box-shadow: 0px 2px 0 -2.5px ${Colors.blue_2},
+        0px 2px 0 -0.5px ${Colors.dark_grey};
+  }
+
+  ${ScreenSizes.medium_below} {
+    padding: ${props => props.mobilePadding? props.mobilePadding : '0px 20px'};
+    font-size: 0.875em;
+    border: 1px solid ${Colors.dark_grey};
+    box-shadow: 0px 5px 0 -2.5px ${Colors.blue_2},
+    0px 5px 0 -1.5px ${Colors.dark_grey};
+
+    :hover {
+      background-color: ${props => props.subscribed? Colors.blue_3 : Colors.blue_accent};
+      position: relative; 
+      top: 3px;
+      box-shadow: 0px 2px 0 -2.5px ${Colors.blue_2},
+          0px 2px 0 -1.5px ${Colors.dark_grey};
+    }
   }
 `;
 
 const ForumBackground = styled.div`
   border-radius: 20px;
-  width: 17.5vw;
-  max-width: 17.5vw;
   padding: 1.5em;
   border: 2px solid ${Colors.dark_grey};
   border-radius: 20px;
@@ -72,6 +86,11 @@ const ForumHeading = styled.div`
   font-weight: 700;
   font-size: 1.8em;
   text-decoration: underline;
+  cursor: pointer;
+  
+  ${ScreenSizes.medium_below} {
+    font-size: 1.5em;
+  }
 `;
 
 const ForumDesc = styled.span`
@@ -80,14 +99,10 @@ const ForumDesc = styled.span`
   color: ${Colors.black};
   font-weight: 500;
   font-size: 1em;
-`;
 
-const RedLink = styled.a`
-  width: 20px;
-  color: ${Colors.red};
-  font-weight: 500;
-  font-size: 1em;
-  text-decoration: underline;
+  ${ScreenSizes.medium_below} {
+    font-size: 0.875em;
+  }
 `;
 
 const SubscriberDiv = styled.div`
@@ -100,6 +115,9 @@ const SubscriberDesc = styled.a`
   font-size: 1em;
   text-decoration: underline;
   margin-left: 0.5em;
+  ${ScreenSizes.medium_below} {
+    font-size: 0.875em;
+  }
 `;
 
 const ModuleForumDiv = styled.div`
@@ -117,6 +135,7 @@ const ModuleForum = ({ selectedModule }: { selectedModule: string }) => {
   const userId = useSelector(selectId);
   const token = useSelector(selectToken);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const fetchMod = () => {
     fetch(API_URL + `/module/${selectedModule.toUpperCase()}`)
@@ -162,6 +181,10 @@ const ModuleForum = ({ selectedModule }: { selectedModule: string }) => {
     }
   };
 
+  const navigateToModulePage = () => {
+    navigate(`/module/${module.Id}`);
+  }
+
   // useEffect(() => {
   //     fetchMod();
   //     fetchIsSubscribed();
@@ -176,7 +199,7 @@ const ModuleForum = ({ selectedModule }: { selectedModule: string }) => {
     <ModuleForumDiv>
       <ForumBackground>
         <Top>
-          <ForumHeading>{module.Id} Forum</ForumHeading>
+          <ForumHeading onClick={navigateToModulePage}>{module.Id} Forum</ForumHeading>
           <div>
             <ForumDesc>{module.Name}</ForumDesc>
           </div>

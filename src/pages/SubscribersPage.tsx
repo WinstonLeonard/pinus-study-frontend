@@ -49,7 +49,9 @@ const Heading = styled.span`
     font-family: "Poppins", "sans-serif";
     font-weight: 600;
     font-size: 2.25em;
-    color: ${Colors.black};
+    color: ${Colors.dark_grey};
+    background: linear-gradient(to bottom, transparent 50%, ${Colors.blue_2_75} 50%);
+    padding: 2.5px 5px 2.5px 5px;
 `
 
 const SubscribersContainer = styled.div`
