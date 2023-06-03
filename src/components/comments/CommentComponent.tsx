@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
-import { API_URL, Colors } from "../../constants";
+import { API_URL, Colors, ScreenSizes } from "../../constants";
 import {
   Comment,
   CommentInitialState,
@@ -24,6 +24,7 @@ import { selectId, selectToken } from "../../redux/features/users/userSlice";
 import CombinedAuthenticationPage from "../../pages/CombinedAuthenticationPage";
 import { isLoggedIn } from "../../utils";
 import { deserialize } from "../editor/serializer";
+import { PostedSince, RegularText, ThreadContainerDiv } from "../ThreadComponent";
 
 /** TODO: Add POST methods for likes (change functions in `<ThumbButton onClick={...}`) and upon submitting comment */
 
@@ -35,10 +36,9 @@ interface MarginProps {
 /** SHARED COMPONENTS */
 const Text = styled.span`
   font-size: 1.25em;
-`;
-
-const RegularText = styled(Text)`
-  font-family: "Poppins", sans-serif;
+  ${ScreenSizes.medium_below} {
+    font-size: 1em;
+  }
 `;
 
 const Content = styled.span`
@@ -50,10 +50,10 @@ const Content = styled.span`
   margin-bottom: 0.5em;
   margin-block-start: 0;
   margin-block-end: 0;
-`;
 
-const PostedSince = styled(RegularText)`
-  float: right;
+  ${ScreenSizes.medium_below} {
+    font-size: 1em;
+  }
 `;
 
 const VerticalCenterAlignLayout = styled.div`
@@ -61,24 +61,8 @@ const VerticalCenterAlignLayout = styled.div`
   align-items: center;
 `;
 
-/** THREAD-PAGE THREAD ONLY Å*/
-const ThreadContainerDiv = styled.div`
-  background-color: ${Colors.blue_3};
-  width: calc(100% - 2em);
-  border-radius: 20px;
-  border: none;
-  padding: 1.5em;
-  text-align: left;
-  font-size: 12px;
-  margin: 1em 0;
-  border: 2px solid ${Colors.dark_grey};
-  box-shadow: 4px 4px 0 ${Colors.green_2},
-          4px 4px 0 2px ${Colors.dark_grey};
-`;
-
 const LevelContainerDiv = styled.div<MarginProps>`
   background-color: ${Colors.blue_3};
-  width: ${100 % -`2em`};
   border-radius: 20px;
   border: none;
   padding: 1em 0;
@@ -126,6 +110,10 @@ const ViewRepliesLink = styled.div`
 
   :hover {
     text-decoration: underline;
+  }
+
+  ${ScreenSizes.medium_below} {
+    font-size: 1em;
   }
 `;
 
@@ -331,7 +319,7 @@ const CommentComponent = ({
 
   if (level === 0) {
     return (
-      <ThreadContainerDiv>
+      <ThreadContainerDiv margin="1em 0em">
         <CombinedAuthenticationPage />
         <PostedSince>{parseDuration(comment.Timestamp)}</PostedSince>
         <RegularText>Replied by @{comment.Username}</RegularText>

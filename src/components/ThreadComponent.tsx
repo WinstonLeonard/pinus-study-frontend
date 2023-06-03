@@ -51,7 +51,7 @@ const Text = styled.span`
   }
 `;
 
-const RegularText = styled(Text)`
+export const RegularText = styled(Text)`
   font-family: "Poppins", sans-serif;
 `;
 
@@ -70,7 +70,7 @@ const Content = styled.span`
   }
 `;
 
-const PostedSince = styled(RegularText)`
+export const PostedSince = styled(RegularText)`
   float: right;
 `;
 
@@ -124,10 +124,9 @@ const ThreadContainerButton = styled.button`
 `;
 
 /** THREAD-PAGE THREAD ONLY Å*/
-const ThreadContainerDiv = styled.div`
+export const ThreadContainerDiv = styled.div<{margin?: string}>`
   background-color: ${Colors.blue_3};
   width: calc(100% - 2em);
-  max-width: 74vw;
   border-radius: 20px;
   border: 2px solid ${Colors.dark_grey};
   padding: 1.5em;
@@ -135,6 +134,16 @@ const ThreadContainerDiv = styled.div`
   font-size: 12px;
   box-shadow: 4px 4px 0 ${Colors.green_2},
           4px 4px 0 2px ${Colors.dark_grey};
+  margin: ${props => props.margin? props.margin : "0"};
+
+  ${ScreenSizes.medium_below} {
+    border: 1px solid ${Colors.dark_grey};
+    box-shadow: 4px 4px 0 ${Colors.green_2},
+          4px 4px 0 1px ${Colors.dark_grey};
+    max-width: 100%;
+    width: calc(100% - 3em); // ini klo diuncomment, aligns with qn page, but if commented, aligns with the text editor (MOBILE VIEW)
+    margin-right: 2em;
+  }
 
 `;
 

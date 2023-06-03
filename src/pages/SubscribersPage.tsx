@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import Background from "../components/Background";
 import NavigationBar from "../components/Navbar";
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
-import { API_URL, Colors } from "../constants";
+import { API_URL, Colors, ScreenSizes } from "../constants";
 import MyModules from "../components/MyModules";
 import ModuleForum from "../components/ModuleForum";
 import SubscriberComponent from "../components/SubscriberComponent";
@@ -14,6 +14,11 @@ const SubscribersPageWrapper = styled.div`
     grid-template-columns: 8.5fr 1.5fr;
     grid-column-gap: 2em;
     padding: 2em;
+
+    ${ScreenSizes.medium_below} {
+        display: flex;
+        flex-direction: column-reverse;
+    }
 `
 
 const RightSide = styled.div`
@@ -52,6 +57,10 @@ const Heading = styled.span`
     color: ${Colors.dark_grey};
     background: linear-gradient(to bottom, transparent 50%, ${Colors.blue_2_75} 50%);
     padding: 2.5px 5px 2.5px 5px;
+
+    ${ScreenSizes.medium_below} {
+        font-size: 1.75em;
+    }
 `
 
 const SubscribersContainer = styled.div`
@@ -59,6 +68,11 @@ const SubscribersContainer = styled.div`
     grid-template-columns: 1fr 1fr 1fr;
     grid-column-gap: 1em;
     grid-row-gap: 1em;
+
+    ${ScreenSizes.medium_below} {
+        display: flex;
+        flex-direction: column;
+    }
 `
 
 const SubscribersPage = () => {
