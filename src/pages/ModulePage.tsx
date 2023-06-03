@@ -23,6 +23,7 @@ const ModulePageWrapper = styled.div`
 export const RightSide = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
 `;
 
 const HeadingDiv = styled.div`

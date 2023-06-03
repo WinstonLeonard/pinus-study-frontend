@@ -111,8 +111,6 @@ const MyModulesContainer = styled.div<{ mobileDisplay?: string }>`
   border: 2px solid;
   border-color: ${Colors.dark_grey};
   border-radius: 20px;
-  // width: 17.5vw;
-  max-width: 15.5vw;
   min-height: 70vh;
   max-height: 70vh;
   padding: 1.5em;
@@ -125,10 +123,6 @@ const MyModulesContainer = styled.div<{ mobileDisplay?: string }>`
 
   @media only screen and (max-width: 992px) {
     display: ${(props) => (props.mobileDisplay ? props.mobileDisplay : "flex")};
-  }
-
-  @media only screen and (max-width: 1200px) {
-    width: 15vw;
   }
 `;
 

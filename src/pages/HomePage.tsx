@@ -21,7 +21,7 @@ const HomePageWrapper = styled.div`
     }
 
     ${ScreenSizes.large_up} {
-        grid-template-columns: 5fr 5fr;
+        grid-template-columns: 7fr 3fr;
         grid-column-gap: 2em;
     }
 
@@ -203,9 +203,9 @@ const HomePage = () => {
                             </WelcomeMessage>
                         </DisplayWrapper>
                     </div>
-                    <RightSide>
+                    <div>
                         <MyModules />
-                    </RightSide>
+                    </div>
                 </HomePageWrapper>
             </Background>
         </div>

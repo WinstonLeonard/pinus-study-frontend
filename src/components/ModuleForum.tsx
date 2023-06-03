@@ -42,8 +42,6 @@ export const Button = styled.button<{subscribed?: boolean}>`
 
 const ForumBackground = styled.div`
   border-radius: 20px;
-  width: 17.5vw;
-  max-width: 17.5vw;
   padding: 1.5em;
   border: 2px solid ${Colors.dark_grey};
   border-radius: 20px;
