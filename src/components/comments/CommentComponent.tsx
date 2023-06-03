@@ -64,7 +64,6 @@ const VerticalCenterAlignLayout = styled.div`
 /** THREAD-PAGE THREAD ONLY Å*/
 const ThreadContainerDiv = styled.div`
   background-color: ${Colors.blue_3};
-  width: calc(100% - 2em);
   border-radius: 20px;
   border: none;
   padding: 1.5em;
@@ -78,7 +77,6 @@ const ThreadContainerDiv = styled.div`
 
 const LevelContainerDiv = styled.div<MarginProps>`
   background-color: ${Colors.blue_3};
-  width: ${100 % -`2em`};
   border-radius: 20px;
   border: none;
   padding: 1em 0;
