@@ -126,7 +126,7 @@ const ThreadContainerButton = styled.button`
 /** THREAD-PAGE THREAD ONLY Å*/
 export const ThreadContainerDiv = styled.div<{margin?: string}>`
   background-color: ${Colors.blue_3};
-  max-width: 74vw;
+  width: calc(100% - 2em);
   border-radius: 20px;
   border: 2px solid ${Colors.dark_grey};
   padding: 1.5em;
@@ -140,6 +140,9 @@ export const ThreadContainerDiv = styled.div<{margin?: string}>`
     border: 1px solid ${Colors.dark_grey};
     box-shadow: 4px 4px 0 ${Colors.green_2},
           4px 4px 0 1px ${Colors.dark_grey};
+    max-width: 100%;
+    width: calc(100% - 3em);
+    margin-right: 2em;
   }
 
 `;
