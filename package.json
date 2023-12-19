@@ -25,6 +25,7 @@
     "@types/styled-components": "^5.1.26",
     "dayjs": "^1.11.7",
     "keyframe": "^2.1.0",
+    "query-string": "^8.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-jwt": "^1.1.8",

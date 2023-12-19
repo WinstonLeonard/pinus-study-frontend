@@ -308,7 +308,7 @@ const NavigationBar = () => {
   };
 
   const navigateToSearchPage = () => {
-    navigate(`/search/${query}`);
+    navigate(`/search/${encodeURIComponent(query)}`);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {

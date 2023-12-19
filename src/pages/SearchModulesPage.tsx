@@ -78,11 +78,10 @@ const ResultsHeadingItalic = styled(ResultsHeading)`
 
 const SearchModulesPage = () => {
     const { keyword } = useParams();
-
     const [searchResults, setSearchResults] = useState<Module[]>([]);
     const [noModulesFound, setNoModulesFound] = useState<Boolean>(true);
-
-    console.log("Keyword: ", keyword)
+    
+    console.log("Keyword: ", keyword ? decodeURIComponent(keyword) : "");
 
     const queryDatabase = (page?: number) => {
         fetch(API_URL + `/module`, {
@@ -92,7 +91,7 @@ const SearchModulesPage = () => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                keyword: keyword? keyword.toUpperCase() : "",
+                keyword: keyword? decodeURIComponent(keyword).toUpperCase() : "",
                 page: page? page : 1,
             }),
         }).then(response => response.json())
@@ -109,6 +108,7 @@ const SearchModulesPage = () => {
 
     useEffect(() => {
         queryDatabase(1);
+
     }, [keyword])
 
     return (
@@ -119,7 +119,7 @@ const SearchModulesPage = () => {
                     <div>
                         <ResultsHeadingDiv>
                             <ResultsHeading>Results for </ResultsHeading>
-                            <ResultsHeadingItalic>'{keyword}'</ResultsHeadingItalic>
+                            <ResultsHeadingItalic>'{decodeURIComponent(keyword? keyword : "")}'</ResultsHeadingItalic>
                         </ResultsHeadingDiv>
                         {noModulesFound
                             ? null
