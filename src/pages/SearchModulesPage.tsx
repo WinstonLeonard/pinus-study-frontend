@@ -8,7 +8,6 @@ import { Link } from "react-router-dom";
 import { Background } from "../components";
 import NavigationBar from "../components/Navbar";
 
-
 const ModulePageWrapper = styled.div`
     display: grid;
     grid-template-columns: 8.5fr 1.5fr;
@@ -81,7 +80,7 @@ const SearchModulesPage = () => {
     const [searchResults, setSearchResults] = useState<Module[]>([]);
     const [noModulesFound, setNoModulesFound] = useState<Boolean>(true);
     
-    console.log("Keyword: ", keyword ? decodeURIComponent(keyword) : "");
+    console.log("Keyword: ", keyword ? keyword : "");
 
     const queryDatabase = (page?: number) => {
         fetch(API_URL + `/module`, {
@@ -91,7 +90,7 @@ const SearchModulesPage = () => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                keyword: keyword? decodeURIComponent(keyword).toUpperCase() : "",
+                keyword: keyword? keyword : "",
                 page: page? page : 1,
             }),
         }).then(response => response.json())
@@ -108,7 +107,6 @@ const SearchModulesPage = () => {
 
     useEffect(() => {
         queryDatabase(1);
-
     }, [keyword])
 
     return (
@@ -119,7 +117,7 @@ const SearchModulesPage = () => {
                     <div>
                         <ResultsHeadingDiv>
                             <ResultsHeading>Results for </ResultsHeading>
-                            <ResultsHeadingItalic>'{decodeURIComponent(keyword? keyword : "")}'</ResultsHeadingItalic>
+                            <ResultsHeadingItalic>'{keyword ? keyword : ""}'</ResultsHeadingItalic>
                         </ResultsHeadingDiv>
                         {noModulesFound
                             ? null
@@ -137,7 +135,6 @@ const SearchModulesPage = () => {
                                 }   
                             </ModuleGridWrapper>
                         }
-                        
                     </div>
                     <MyModules/>
                 </ModulePageWrapper>
