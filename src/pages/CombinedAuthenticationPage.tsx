@@ -2,18 +2,15 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectLoginModal,
-  selectSignupModal,
   selectCreateAccountModal,
   toggleCreateAccount,
   toggleLogin,
-  toggleSignup,
 } from "../redux/features/modal/modal";
 import { selectToken, selectId } from "../redux/features/users/userSlice";
 import { isLoggedIn } from "../utils";
 import { useLocation } from "react-router-dom";
 import {
   LoginModal,
-  SignUpModal,
   CreateAccountModal,
 } from "../components/authentication_modal";
 
@@ -22,9 +19,8 @@ export const CombinedAuthenticationPage = () => {
 
   const location = useLocation();
 
-  // States for login / signup / create account modals
+  // States for login / create account modals
   const showLogin = useSelector(selectLoginModal);
-  const showSignup = useSelector(selectSignupModal);
   const showCreateAccount = useSelector(selectCreateAccountModal);
 
   const userToken = useSelector(selectToken);
@@ -33,26 +29,17 @@ export const CombinedAuthenticationPage = () => {
 
   const hideAllModals = () => {
     dispatch(toggleLogin(false));
-    dispatch(toggleSignup(false));
-    dispatch(toggleCreateAccount(false));
-  };
-
-  const showSignUpModal = () => {
-    dispatch(toggleLogin(false));
-    dispatch(toggleSignup(true));
     dispatch(toggleCreateAccount(false));
   };
 
   const showLogInModal = () => {
     dispatch(toggleLogin(true));
-    dispatch(toggleSignup(false));
     dispatch(toggleCreateAccount(false));
   };
 
   const authoriseCreateAccountModal = (email: string) => {
     setSignUpEmail(email);
     dispatch(toggleLogin(false));
-    dispatch(toggleSignup(false));
     dispatch(toggleCreateAccount(true));
   };
 
@@ -70,14 +57,7 @@ export const CombinedAuthenticationPage = () => {
   return (
     <>
       {showLogin ? (
-        <LoginModal cancel={hideAllModals} showSignUpModal={showSignUpModal} />
-      ) : null}
-      {showSignup ? (
-        <SignUpModal
-          cancel={hideAllModals}
-          showLogInModal={showLogInModal}
-          authoriseCreateAccountModal={authoriseCreateAccountModal}
-        />
+        <LoginModal cancel={hideAllModals} showSignUpModal={authoriseCreateAccountModal} />
       ) : null}
       {showCreateAccount ? (
         <CreateAccountModal

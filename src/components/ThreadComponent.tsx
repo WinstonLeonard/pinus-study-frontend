@@ -18,7 +18,6 @@ import { selectId, selectToken } from "../redux/features/users/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { isLoggedIn } from "../utils";
 import {
-  toggleSignup,
   toggleCreateAccount,
   toggleLogin,
 } from "../redux/features/modal/modal";
@@ -212,7 +211,6 @@ const ThreadComponent = ({
 
   const showLogInModal = () => {
     dispatch(toggleLogin(true));
-    dispatch(toggleSignup(false));
     dispatch(toggleCreateAccount(false));
   };
 

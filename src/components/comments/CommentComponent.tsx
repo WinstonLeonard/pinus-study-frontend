@@ -7,7 +7,6 @@ import {
 } from "../../redux/features/comments/commentSlice";
 import {
   toggleLogin,
-  toggleSignup,
   toggleCreateAccount,
 } from "../../redux/features/modal/modal";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
@@ -152,7 +151,6 @@ const CommentComponent = ({
 
   const showLogInModal = () => {
     dispatch(toggleLogin(true));
-    dispatch(toggleSignup(false));
     dispatch(toggleCreateAccount(false));
   };
 
