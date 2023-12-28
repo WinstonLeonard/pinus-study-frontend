@@ -5,6 +5,7 @@ export interface Module {
     Name: string;
     Desc: string;
     SubscriberCount: number; 
+    ReviewCount: number;
     Threads: Thread[];
 }
 
@@ -13,5 +14,6 @@ export const ModuleInitialState : Module = {
 	Name: "",
     Desc: "",
     SubscriberCount: 0,
+    ReviewCount: 0,
     Threads: []
 }

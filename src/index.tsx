@@ -10,6 +10,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import ModulePage from "./pages/ModulePage";
 import SubscribersPage from "./pages/SubscribersPage";
+import ReviewsPage from "./pages/ReviewsPage";
 import ProfilePage from "./pages/ProfilePage";
 import { PersistGate } from "redux-persist/integration/react";
 import SearchModulesPage from "./pages/SearchModulesPage";
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
     {
         path: "/subscribers/:mod",
         element: <SubscribersPage />
+    },
+    {
+        path: "/reviews/:mod",
+        element: <ReviewsPage />,
     },
     {
         path: "/thread/:threadId",

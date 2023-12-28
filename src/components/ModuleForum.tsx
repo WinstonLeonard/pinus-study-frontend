@@ -115,7 +115,22 @@ const SubscriberDiv = styled.div`
   display: flex;
 `;
 
+const ReviewDiv = styled.div`
+  display: flex;
+`;
+
 const SubscriberDesc = styled.a`
+  color: ${Colors.black};
+  font-weight: 500;
+  font-size: 1em;
+  text-decoration: underline;
+  margin-left: 0.5em;
+  ${ScreenSizes.medium_below} {
+    font-size: 0.875em;
+  }
+`;
+
+const ReviewDesc = styled.a`
   color: ${Colors.black};
   font-weight: 500;
   font-size: 1em;
@@ -210,6 +225,16 @@ const ModuleForum = ({ selectedModule }: { selectedModule: string }) => {
             <ForumDesc>{module.Name}</ForumDesc>
           </div>
         </Top>
+
+        <Bottom>
+        <ReviewDiv>
+            <PeopleAltIcon />
+            <ReviewDesc href={`/reviews/${selectedModule}`}>
+              {module.ReviewCount === 1? "1 review" : `${module.ReviewCount} reviews`}
+            </ReviewDesc>
+          </ReviewDiv>
+        </Bottom>
+
         <Bottom>
           <SubscriberDiv>
             <PeopleAltIcon />
