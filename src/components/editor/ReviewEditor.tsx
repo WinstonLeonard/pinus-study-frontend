@@ -60,6 +60,22 @@ import React, {
       font-style: italic;
     }
   `;
+
+    const SlidingScale = styled.input`
+    width: 100%;
+    padding: 10px 16px;
+    background: ${Colors.light_grey_50};
+    border: none;
+    border-radius: 15px;
+    `;
+
+    const SemesterSelect = styled.select`
+  width: 100%;
+  padding: 10px 16px;
+  background: ${Colors.light_grey_50};
+  border: none;
+  border-radius: 15px;
+`;
   
   const CodeBackground = styled.span`
     padding: 0px 5px;
@@ -201,6 +217,13 @@ import React, {
    */
   const TextEditor = ({ closeTextEditor }: { closeTextEditor: () => void }) => {
     const [postTitle, setPostTitle] = useState({ text: "" });
+    const [workload, setWorkload] = useState(0);
+    const [difficulty, setDifficulty] = useState(0);
+    const [expectedGrade, setExpectedGrade] = useState("");
+    const [actualGrade, setActualGrade] = useState("");
+    const [semesterYear, setSemesterYear] = useState("");
+    const [semesterType, setSemesterType] = useState("");
+    const [lecturerName, setLecturerName] = useState("");
     const [textData, setTextData] = useState({});
     const [showError, setShowError] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
@@ -281,54 +304,113 @@ import React, {
             <CloseIconDiv onClick={closeTextEditor}>
               <CloseIcon />
             </CloseIconDiv>
-            <InputLabel>Workload</InputLabel>
-            <Input
-              type="text"
-              value={postTitle.text}
-              onChange={onChange}
-              placeholder="Enter question title here ..."
-              disabled={isLoading}
-            />
-            <InputLabel>Expected Grade</InputLabel>
-            <Input
-              type="text"
-              value={postTitle.text}
-              onChange={onChange}
-              placeholder="Enter question title here ..."
-              disabled={isLoading}
-            />
-            <InputLabel>Actual Grade</InputLabel>
-            <Input
-              type="text"
-              value={postTitle.text}
-              onChange={onChange}
-              placeholder="Enter question title here ..."
-              disabled={isLoading}
-            />
-            <InputLabel>Difficulty</InputLabel>
-            <Input
-              type="text"
-              value={postTitle.text}
-              onChange={onChange}
-              placeholder="Enter question title here ..."
-              disabled={isLoading}
-            />
-            <InputLabel>Semester Taken</InputLabel>
-            <Input
-              type="text"
-              value={postTitle.text}
-              onChange={onChange}
-              placeholder="Enter question title here ..."
-              disabled={isLoading}
-            />
+
+            <div>
+                <InputLabel>Semester Taken </InputLabel>
+                        <select
+                        value={semesterYear}
+                        onChange={(e) => setSemesterYear(e.target.value)}
+                        >
+                        <option value="2015/2016">2015/2016</option>
+                        <option value="2016/2017">2016/2017</option>
+                        <option value="2017/2018">2017/2019</option>
+                        <option value="2018/2019">2018/2019</option>
+                        <option value="2019/2020">2019/2020</option>
+                        <option value="2020/2021">2020/2021</option>
+                        <option value="2021/2022">2021/2022</option>
+                        <option value="2022/2023">2022/2023</option>
+                        <option value="2023/2024">2023/2024</option>
+                        </select>
+                        <select
+                        value={semesterType}
+                        onChange={(e) => setSemesterType(e.target.value)}
+                        >
+                        <option value="1">Semester 1</option>
+                        <option value="2">Semester 2</option>
+                        </select>
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+                <div style={{ marginRight: '0px' }}>
+                    <InputLabel style = {{marginRight: '10px'}}>Difficulty</InputLabel>
+                    <SlidingScale
+                    type="range"
+                    min="0"
+                    max="5"
+                    value={difficulty}
+                    onChange={(e) => setDifficulty(Number(e.target.value))}
+                    />
+                </div>
+                <div>{difficulty}</div>
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+                <div style={{ marginRight: '10px' }}>
+                    <InputLabel style={{marginRight: '10px'}}>Workload</InputLabel>
+                    <SlidingScale
+                    type="range"
+                    min="0"
+                    max="5"
+                    value={workload}
+                    onChange={(e) => setWorkload(Number(e.target.value))}
+                    />
+                </div>
+                <div>{workload}</div>
+            </div>
+
+            <div>
+            <InputLabel>Expected Grade </InputLabel>
+                <select
+                    value={expectedGrade}
+                    onChange={(e) => setExpectedGrade(e.target.value)}
+                >
+                    <option value="">Select Grade</option>
+                    <option value ="CS/CU">CS/CU</option>
+                    <option value="F">F</option>
+                    <option value="D">D</option>
+                    <option value="C">C</option>
+                    <option value="C+">C+</option>
+                    <option value="B-">B-</option>
+                    <option value="B">B</option>
+                    <option value="B+">B+</option>
+                    <option value="A-">A-</option>
+                    <option value="A">A</option>
+                    <option value="A+">A+</option>
+                </select>
+            </div>
+
+            <div>
+                <InputLabel>Actual Grade </InputLabel>
+                    <select
+                        value={actualGrade}
+                        onChange={(e) => setActualGrade(e.target.value)}
+                    >
+                        <option value="">Select Grade</option>
+                        <option value ="CS/CU">CS/CU</option>
+                        <option value="F">F</option>
+                        <option value="D">D</option>
+                        <option value="C">C</option>
+                        <option value="C+">C+</option>
+                        <option value="B-">B-</option>
+                        <option value="B">B</option>
+                        <option value="B+">B+</option>
+                        <option value="A-">A-</option>
+                        <option value="A">A</option>
+                        <option value="A+">A+</option>
+                    </select>
+            </div>
+
+            <div>
             <InputLabel>Name of Lecturer</InputLabel>
             <Input
               type="text"
-              value={postTitle.text}
-              onChange={onChange}
-              placeholder="Enter question title here ..."
+              value={lecturerName}
+              onChange={(e) => setLecturerName(e.target.value)}
+              placeholder="Enter lecturer name here ..."
               disabled={isLoading}
             />
+            </div>
+
             <EditorBackground>
               <Slate
                 editor={editor}
@@ -345,22 +427,41 @@ import React, {
               >
                 
                 <Editable
-                  renderElement={renderElement}
-                  renderLeaf={renderLeaf}
-                  placeholder="Description"
-                  spellCheck
-                  autoFocus
-                  onKeyDown={(event) => {
-                    for (const hotkey in HOTKEYS) {
-                      if (isHotkey(hotkey, event as any)) {
-                        event.preventDefault();
-                        const mark = HOTKEYS[hotkey as keyof typeof HOTKEYS];
-                        toggleMark(editor, mark);
-                      }
-                    }
-                  }}
-                  readOnly={isLoading}
+                    renderElement={renderElement}
+                    renderLeaf={renderLeaf}
+                    placeholder="General Comments"
+                    spellCheck
+                    autoFocus
+                    onKeyDown={(event) => {
+                        for (const hotkey in HOTKEYS) {
+                        if (isHotkey(hotkey, event as any)) {
+                            event.preventDefault();
+                            const mark = HOTKEYS[hotkey as keyof typeof HOTKEYS];
+                            toggleMark(editor, mark);
+                        }
+                        }
+                    }}
+                    readOnly={isLoading}
                 />
+
+                <Editable
+                    renderElement={renderElement}
+                    renderLeaf={renderLeaf}
+                    placeholder="Suggestions"
+                    spellCheck
+                    autoFocus
+                    onKeyDown={(event) => {
+                        for (const hotkey in HOTKEYS) {
+                        if (isHotkey(hotkey, event as any)) {
+                            event.preventDefault();
+                            const mark = HOTKEYS[hotkey as keyof typeof HOTKEYS];
+                            toggleMark(editor, mark);
+                        }
+                        }
+                    }}
+                    readOnly={isLoading}
+                />
+
   
                 <Toolbar>
                   <MarkButton format="bold" icon="format_bold" />
