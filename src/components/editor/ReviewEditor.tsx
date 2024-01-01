@@ -88,7 +88,7 @@ const SelectOption = styled.option`
     padding-left: 1em;
     padding-right: 1em;
     padding-top: 0.25em;
-    margin-top: 1em;
+    margin-bottom: 1em;
     border-radius: 15px;
   `;
 
@@ -335,7 +335,7 @@ const SelectOption = styled.option`
             </CloseIconDiv>
 
             <div style={{marginBottom:'10px'}}>
-                <InputLabel>Semester Taken </InputLabel>
+                <InputLabel>Semester Taken<InputLabel style={{color:'red'}}> *</InputLabel> </InputLabel>
                         <SelectList
                         value={semesterYear}
                         onChange={(e) => setSemesterYear(e.target.value)}
@@ -361,7 +361,7 @@ const SelectOption = styled.option`
             </div>
 
             <div style={{marginBottom:'10px'}}>
-                <InputLabel>Difficulty </InputLabel>
+                <InputLabel>Difficulty<InputLabel style={{color:'red'}}> *</InputLabel> </InputLabel>
                 <input
                     type="range"
                     min="0"
@@ -373,7 +373,7 @@ const SelectOption = styled.option`
             </div>
 
             <div style={{marginBottom:'10px'}}>
-                <InputLabel>Workload </InputLabel>
+                <InputLabel>Workload<InputLabel style={{color:'red'}}> *</InputLabel> </InputLabel>
                 <input
                     type="range"
                     min="0"
@@ -438,6 +438,7 @@ const SelectOption = styled.option`
             />
             </div>
 
+            <InputLabel>General Comments<InputLabel style={{color:'red'}}> *</InputLabel> </InputLabel>
             <EditorBackground>
               <Slate
                 editor={generalCommentsEditor}
@@ -453,7 +454,6 @@ const SelectOption = styled.option`
                 }}
               >
                 <div>
-                    <InputLabel>General Comments</InputLabel>
                     <Editable
                         renderElement={renderElement}
                         renderLeaf={renderLeaf}
@@ -471,7 +471,7 @@ const SelectOption = styled.option`
                         }}
                         readOnly={isLoading}/>
                 </div>
-                <Toolbar>
+                <Toolbar style={{backgroundColor: Colors.light_grey_50}}>
                   <MarkButton format="bold" icon="format_bold" />
                   <MarkButton format="italic" icon="format_italic" />
                   <MarkButton format="underline" icon="format_underlined" />
@@ -495,6 +495,7 @@ const SelectOption = styled.option`
               </Slate>
             </EditorBackground>
             
+            <InputLabel>Suggestions</InputLabel>
             <EditorBackground>
               <Slate
                 editor={suggestionsEditor}
@@ -510,7 +511,6 @@ const SelectOption = styled.option`
                 }}
               >
                 <div>
-                    <InputLabel>Suggestions</InputLabel>
                     <Editable
                         renderElement={renderElement}
                         renderLeaf={renderLeaf}
@@ -530,7 +530,7 @@ const SelectOption = styled.option`
                     />
                 </div>
 
-                <Toolbar>
+                <Toolbar style={{backgroundColor: Colors.light_grey_25}}>
                   <MarkButton format="bold" icon="format_bold" />
                   <MarkButton format="italic" icon="format_italic" />
                   <MarkButton format="underline" icon="format_underlined" />
@@ -555,14 +555,14 @@ const SelectOption = styled.option`
             </EditorBackground>
             <Buttons>
               {showError && (
-                <ErrorMessage>Title and description cannot be empty.</ErrorMessage>
+                <ErrorMessage>Semester Taken, Difficulty, Workload and General Comments cannot be empty.</ErrorMessage>
               )}
               <div>{/* Dummy Div */}</div>
               <PostButton onClick={() => postThread(generalCommentsData)} disabled={isLoading}>
                 {
                   isLoading
                   ? <SmallWhiteLoader />
-                  : "Post Question"
+                  : "Post Review"
                 }
               </PostButton>
             </Buttons>

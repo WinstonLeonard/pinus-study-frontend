@@ -6,6 +6,7 @@ import NavigationBar from "../components/Navbar";
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import { API_URL, Colors, ScreenSizes } from "../constants";
 import ModuleForum, { Button } from "../components/ModuleForum";
+import ReviewList from "../components/ThreadList";
 import { useSelector } from "react-redux";
 import { selectId, selectToken } from "../redux/features/users/userSlice";
 import ReviewEditor from "../components/editor/ReviewEditor";
@@ -145,15 +146,7 @@ const ReviewsPage = () => {
                             </ButtonDiv>
                         </HeadingDiv>
                         <ReviewsContainer>
-                            {reviews
-                                ? reviews.map((review) => (
-                                    <div key={review.Id}>
-                                        <p>{review.Content}</p>
-                                        {/* Add more details or components for each review */}
-                                    </div>
-                                ))
-                                : null
-                            }
+                            <ReviewList selectedModule={mod ? mod.toString() : ""} />
                         </ReviewsContainer>
                     </div>
                     <RightSide>
