@@ -61,20 +61,20 @@ import React, {
     }
   `;
 
-    const SlidingScale = styled.input`
-    width: 100%;
-    padding: 10px 16px;
-    background: ${Colors.light_grey_50};
-    border: none;
-    border-radius: 15px;
-    `;
-
-    const SemesterSelect = styled.select`
-  width: 100%;
+  const SelectList = styled.select`
+  font-family: "Poppins", sans-serif;
+  font-size: 18px;
+  width: 20%;
   padding: 10px 16px;
   background: ${Colors.light_grey_50};
   border: none;
   border-radius: 15px;
+  appearance: none; /* Remove default arrow icon in some browsers */
+`;
+
+const SelectOption = styled.option`
+  background-color: ${Colors.light_grey_50};
+  color: ${Colors.dark_grey};
 `;
   
   const CodeBackground = styled.span`
@@ -91,6 +91,11 @@ import React, {
     margin-top: 1em;
     border-radius: 15px;
   `;
+
+//   const ScrollableContainer = styled.div`
+//   max-height: 200px;
+//   overflow: auto;
+// `;
   
   const ThreadContainer = styled.div`
     width: 80%;
@@ -99,6 +104,7 @@ import React, {
     border: 2px solid ${Colors.dark_grey};
     padding: 1em;
     border-radius: 20px;
+    overflow-y: auto;
     box-shadow: 7px 7px 0 ${Colors.green_2},
             7px 7px 0 2px ${Colors.dark_grey};
   `;
@@ -165,6 +171,7 @@ import React, {
 
   const InputLabel = styled.label`
   font-family: "Poppins", sans-serif;
+  font-weight: 600;
   font-size: 18px;
   color: ${Colors.dark_grey};
   margin-bottom: 0.5em;
@@ -224,12 +231,14 @@ import React, {
     const [semesterYear, setSemesterYear] = useState("");
     const [semesterType, setSemesterType] = useState("");
     const [lecturerName, setLecturerName] = useState("");
-    const [textData, setTextData] = useState({});
+    const [generalCommentsData, setGeneralCommentsData] = useState({});
+    const [suggestionsData, setSuggestionsData] = useState({});
     const [showError, setShowError] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const userId = useSelector(selectId);
     const token = useSelector(selectToken);
-    const editor = useMemo(() => withHistory(withReact(createEditor())), []);
+    const generalCommentsEditor = useMemo(() => withHistory(withReact(createEditor())), []);
+    const suggestionsEditor = useMemo(() => withHistory(withReact(createEditor())), []);
     const { mod } = useParams<Params>(); // Retrieve Module ID through dynamic routing
     const refresh = () => window.location.reload();
   
@@ -293,8 +302,8 @@ import React, {
     };
   
     useEffect(() => {
-      setShowError(isInputInvalid(textData, postTitle));
-    }, [postTitle, textData]);
+      setShowError(isInputInvalid(generalCommentsData, postTitle));
+    }, [postTitle, generalCommentsData]);
   
     return (
       <>
@@ -305,102 +314,99 @@ import React, {
               <CloseIcon />
             </CloseIconDiv>
 
-            <div>
+            <div style={{marginBottom:'10px'}}>
                 <InputLabel>Semester Taken </InputLabel>
-                        <select
+                        <SelectList
                         value={semesterYear}
                         onChange={(e) => setSemesterYear(e.target.value)}
+                        style={{marginRight: '3px'}}
                         >
-                        <option value="2015/2016">2015/2016</option>
-                        <option value="2016/2017">2016/2017</option>
-                        <option value="2017/2018">2017/2019</option>
-                        <option value="2018/2019">2018/2019</option>
-                        <option value="2019/2020">2019/2020</option>
-                        <option value="2020/2021">2020/2021</option>
-                        <option value="2021/2022">2021/2022</option>
-                        <option value="2022/2023">2022/2023</option>
-                        <option value="2023/2024">2023/2024</option>
-                        </select>
-                        <select
+                        <SelectOption value="2015/2016">2015/2016</SelectOption>
+                        <SelectOption value="2016/2017">2016/2017</SelectOption>
+                        <SelectOption value="2017/2018">2017/2019</SelectOption>
+                        <SelectOption value="2018/2019">2018/2019</SelectOption>
+                        <SelectOption value="2019/2020">2019/2020</SelectOption>
+                        <SelectOption value="2020/2021">2020/2021</SelectOption>
+                        <SelectOption value="2021/2022">2021/2022</SelectOption>
+                        <SelectOption value="2022/2023">2022/2023</SelectOption>
+                        <SelectOption value="2023/2024">2023/2024</SelectOption>
+                        </SelectList>
+                        <SelectList
                         value={semesterType}
                         onChange={(e) => setSemesterType(e.target.value)}
                         >
-                        <option value="1">Semester 1</option>
-                        <option value="2">Semester 2</option>
-                        </select>
+                        <SelectOption value="1">Semester 1</SelectOption>
+                        <SelectOption value="2">Semester 2</SelectOption>
+                        </SelectList>
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-                <div style={{ marginRight: '0px' }}>
-                    <InputLabel style = {{marginRight: '10px'}}>Difficulty</InputLabel>
-                    <SlidingScale
+            <div style={{marginBottom:'10px'}}>
+                <InputLabel>Difficulty </InputLabel>
+                <input
                     type="range"
                     min="0"
                     max="5"
                     value={difficulty}
                     onChange={(e) => setDifficulty(Number(e.target.value))}
-                    />
-                </div>
-                <div>{difficulty}</div>
+                />
+                <span>{difficulty}</span>
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-                <div style={{ marginRight: '10px' }}>
-                    <InputLabel style={{marginRight: '10px'}}>Workload</InputLabel>
-                    <SlidingScale
+            <div style={{marginBottom:'10px'}}>
+                <InputLabel>Workload </InputLabel>
+                <input
                     type="range"
                     min="0"
                     max="5"
                     value={workload}
                     onChange={(e) => setWorkload(Number(e.target.value))}
-                    />
-                </div>
-                <div>{workload}</div>
+                />
+                <span>{workload}</span>
             </div>
 
-            <div>
+            <div style={{marginBottom:'10px'}}>
             <InputLabel>Expected Grade </InputLabel>
-                <select
+                <SelectList
                     value={expectedGrade}
                     onChange={(e) => setExpectedGrade(e.target.value)}
                 >
-                    <option value="">Select Grade</option>
-                    <option value ="CS/CU">CS/CU</option>
-                    <option value="F">F</option>
-                    <option value="D">D</option>
-                    <option value="C">C</option>
-                    <option value="C+">C+</option>
-                    <option value="B-">B-</option>
-                    <option value="B">B</option>
-                    <option value="B+">B+</option>
-                    <option value="A-">A-</option>
-                    <option value="A">A</option>
-                    <option value="A+">A+</option>
-                </select>
+                    <SelectOption value="">Select Grade</SelectOption>
+                    <SelectOption value ="CS/CU">CS/CU</SelectOption>
+                    <SelectOption value="F">F</SelectOption>
+                    <SelectOption value="D">D</SelectOption>
+                    <SelectOption value="C">C</SelectOption>
+                    <SelectOption value="C+">C+</SelectOption>
+                    <SelectOption value="B-">B-</SelectOption>
+                    <SelectOption value="B">B</SelectOption>
+                    <SelectOption value="B+">B+</SelectOption>
+                    <SelectOption value="A-">A-</SelectOption>
+                    <SelectOption value="A">A</SelectOption>
+                    <SelectOption value="A+">A+</SelectOption>
+                </SelectList>
             </div>
 
-            <div>
+            <div style={{marginBottom:'10px'}}>
                 <InputLabel>Actual Grade </InputLabel>
-                    <select
+                    <SelectList
                         value={actualGrade}
                         onChange={(e) => setActualGrade(e.target.value)}
                     >
-                        <option value="">Select Grade</option>
-                        <option value ="CS/CU">CS/CU</option>
-                        <option value="F">F</option>
-                        <option value="D">D</option>
-                        <option value="C">C</option>
-                        <option value="C+">C+</option>
-                        <option value="B-">B-</option>
-                        <option value="B">B</option>
-                        <option value="B+">B+</option>
-                        <option value="A-">A-</option>
-                        <option value="A">A</option>
-                        <option value="A+">A+</option>
-                    </select>
+                    <SelectOption value="">Select Grade</SelectOption>
+                    <SelectOption value ="CS/CU">CS/CU</SelectOption>
+                    <SelectOption value="F">F</SelectOption>
+                    <SelectOption value="D">D</SelectOption>
+                    <SelectOption value="C">C</SelectOption>
+                    <SelectOption value="C+">C+</SelectOption>
+                    <SelectOption value="B-">B-</SelectOption>
+                    <SelectOption value="B">B</SelectOption>
+                    <SelectOption value="B+">B+</SelectOption>
+                    <SelectOption value="A-">A-</SelectOption>
+                    <SelectOption value="A">A</SelectOption>
+                    <SelectOption value="A+">A+</SelectOption>
+                    </SelectList>
             </div>
 
-            <div>
+            <div style={{marginBottom:'10px'}}>
             <InputLabel>Name of Lecturer</InputLabel>
             <Input
               type="text"
@@ -413,56 +419,96 @@ import React, {
 
             <EditorBackground>
               <Slate
-                editor={editor}
+                editor={generalCommentsEditor}
                 value={initialValue}
                 onChange={(value) => {
-                  const isAstChange = editor.operations.some(
+                  const isAstChange = generalCommentsEditor.operations.some(
                     (op) => "set_selection" !== op.type
                   );
                   if (isAstChange) {
                     // Save the value to Local Storage.
-                    setTextData(value);
+                    setGeneralCommentsData(value);
                   }
                 }}
               >
-                
-                <Editable
-                    renderElement={renderElement}
-                    renderLeaf={renderLeaf}
-                    placeholder="General Comments"
-                    spellCheck
-                    autoFocus
-                    onKeyDown={(event) => {
-                        for (const hotkey in HOTKEYS) {
-                        if (isHotkey(hotkey, event as any)) {
-                            event.preventDefault();
-                            const mark = HOTKEYS[hotkey as keyof typeof HOTKEYS];
-                            toggleMark(editor, mark);
-                        }
-                        }
-                    }}
-                    readOnly={isLoading}
-                />
+                <div>
+                    <InputLabel>General Comments</InputLabel>
+                    <Editable
+                        renderElement={renderElement}
+                        renderLeaf={renderLeaf}
+                        placeholder="General Comments"
+                        spellCheck
+                        autoFocus
+                        onKeyDown={(event) => {
+                            for (const hotkey in HOTKEYS) {
+                            if (isHotkey(hotkey, event as any)) {
+                                event.preventDefault();
+                                const mark = HOTKEYS[hotkey as keyof typeof HOTKEYS];
+                                toggleMark(generalCommentsEditor, mark);
+                            }
+                            }
+                        }}
+                        readOnly={isLoading}/>
+                </div>
+                <Toolbar>
+                  <MarkButton format="bold" icon="format_bold" />
+                  <MarkButton format="italic" icon="format_italic" />
+                  <MarkButton format="underline" icon="format_underlined" />
+                  <MarkButton format="code" icon="code" />
+                  <BlockButton format="heading-one" icon="looks_one" />
+                  <BlockButton format="heading-two" icon="looks_two" />
+                  <BlockButton format="block-quote" icon="format_quote" />
+                  <BlockButton
+                    format="numbered-list"
+                    icon="format_list_numbered"
+                  />
+                  <BlockButton
+                    format="bulleted-list"
+                    icon="format_list_bulleted"
+                  />
+                  <BlockButton format="left" icon="format_align_left" />
+                  <BlockButton format="center" icon="format_align_center" />
+                  <BlockButton format="right" icon="format_align_right" />
+                  <BlockButton format="justify" icon="format_align_justify" />
+                </Toolbar>
+              </Slate>
+            </EditorBackground>
+            
+            <EditorBackground>
+              <Slate
+                editor={suggestionsEditor}
+                value={initialValue}
+                onChange={(value) => {
+                  const isAstChange = suggestionsEditor.operations.some(
+                    (op) => "set_selection" !== op.type
+                  );
+                  if (isAstChange) {
+                    // Save the value to Local Storage.
+                    setSuggestionsData(value);
+                  }
+                }}
+              >
+                <div>
+                    <InputLabel>Suggestions</InputLabel>
+                    <Editable
+                        renderElement={renderElement}
+                        renderLeaf={renderLeaf}
+                        placeholder="Suggestions"
+                        spellCheck
+                        autoFocus
+                        onKeyDown={(event) => {
+                            for (const hotkey in HOTKEYS) {
+                            if (isHotkey(hotkey, event as any)) {
+                                event.preventDefault();
+                                const mark = HOTKEYS[hotkey as keyof typeof HOTKEYS];
+                                toggleMark(suggestionsEditor, mark);
+                            }
+                            }
+                        }}
+                        readOnly={isLoading}
+                    />
+                </div>
 
-                <Editable
-                    renderElement={renderElement}
-                    renderLeaf={renderLeaf}
-                    placeholder="Suggestions"
-                    spellCheck
-                    autoFocus
-                    onKeyDown={(event) => {
-                        for (const hotkey in HOTKEYS) {
-                        if (isHotkey(hotkey, event as any)) {
-                            event.preventDefault();
-                            const mark = HOTKEYS[hotkey as keyof typeof HOTKEYS];
-                            toggleMark(editor, mark);
-                        }
-                        }
-                    }}
-                    readOnly={isLoading}
-                />
-
-  
                 <Toolbar>
                   <MarkButton format="bold" icon="format_bold" />
                   <MarkButton format="italic" icon="format_italic" />
@@ -491,7 +537,7 @@ import React, {
                 <ErrorMessage>Title and description cannot be empty.</ErrorMessage>
               )}
               <div>{/* Dummy Div */}</div>
-              <PostButton onClick={() => postThread(textData)} disabled={isLoading}>
+              <PostButton onClick={() => postThread(generalCommentsData)} disabled={isLoading}>
                 {
                   isLoading
                   ? <SmallWhiteLoader />
