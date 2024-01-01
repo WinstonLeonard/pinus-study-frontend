@@ -64,7 +64,7 @@ import React, {
   const SelectList = styled.select`
   font-family: "Poppins", sans-serif;
   font-size: 18px;
-  width: 20%;
+  width: 15%;
   padding: 10px 16px;
   background: ${Colors.light_grey_50};
   border: none;
@@ -105,8 +105,28 @@ const SelectOption = styled.option`
     padding: 1em;
     border-radius: 20px;
     overflow-y: auto;
+    max-height: 600px;
     box-shadow: 7px 7px 0 ${Colors.green_2},
             7px 7px 0 2px ${Colors.dark_grey};
+
+    // Hide scrollbar for Chrome, Safari, and Edge
+    ::-webkit-scrollbar {
+        display: none;
+    }
+    
+    // Hide scrollbar for Firefox
+    * {
+        scrollbar-width: thin;
+        scrollbar-color: transparent transparent;
+    }
+    
+    *::-webkit-scrollbar {
+        width: 0.5em;
+    }
+    
+    *::-webkit-scrollbar-thumb {
+        background-color: transparent;
+    }
   `;
   
   const UiButton = styled.button`
@@ -222,7 +242,7 @@ const SelectOption = styled.option`
    * on the modules page of the forum website. Supports rich text formatting.
    * @returns A React component that represents the Text Editor.
    */
-  const TextEditor = ({ closeTextEditor }: { closeTextEditor: () => void }) => {
+  const ReviewEditor = ({ closeTextEditor }: { closeTextEditor: () => void }) => {
     const [postTitle, setPostTitle] = useState({ text: "" });
     const [workload, setWorkload] = useState(0);
     const [difficulty, setDifficulty] = useState(0);
@@ -323,7 +343,7 @@ const SelectOption = styled.option`
                         >
                         <SelectOption value="2015/2016">2015/2016</SelectOption>
                         <SelectOption value="2016/2017">2016/2017</SelectOption>
-                        <SelectOption value="2017/2018">2017/2019</SelectOption>
+                        <SelectOption value="2017/2018">2017/2018</SelectOption>
                         <SelectOption value="2018/2019">2018/2019</SelectOption>
                         <SelectOption value="2019/2020">2019/2020</SelectOption>
                         <SelectOption value="2020/2021">2020/2021</SelectOption>
@@ -349,7 +369,7 @@ const SelectOption = styled.option`
                     value={difficulty}
                     onChange={(e) => setDifficulty(Number(e.target.value))}
                 />
-                <span>{difficulty}</span>
+                <span style={{ marginLeft: '5px', fontWeight: 600}}>{difficulty}</span>
             </div>
 
             <div style={{marginBottom:'10px'}}>
@@ -361,7 +381,7 @@ const SelectOption = styled.option`
                     value={workload}
                     onChange={(e) => setWorkload(Number(e.target.value))}
                 />
-                <span>{workload}</span>
+                <span style={{ marginLeft: '5px', fontWeight: 600}}>{workload}</span>
             </div>
 
             <div style={{marginBottom:'10px'}}>
@@ -369,6 +389,7 @@ const SelectOption = styled.option`
                 <SelectList
                     value={expectedGrade}
                     onChange={(e) => setExpectedGrade(e.target.value)}
+                    style={{alignItems:''}}
                 >
                     <SelectOption value="">Select Grade</SelectOption>
                     <SelectOption value ="CS/CU">CS/CU</SelectOption>
@@ -786,5 +807,5 @@ const SelectOption = styled.option`
     },
   ];
   
-  export default TextEditor;
+  export default ReviewEditor;
   
