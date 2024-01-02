@@ -193,7 +193,6 @@ interface Params {
  * @returns A React component that represents the Text Editor.
  */
 const TextEditor = ({ closeTextEditor }: { closeTextEditor: () => void }) => {
-  
   const [postTitle, setPostTitle] = useState({ text: "" });
   const [textData, setTextData] = useState({});
   const [showError, setShowError] = useState(true);

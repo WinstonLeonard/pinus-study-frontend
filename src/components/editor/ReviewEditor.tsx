@@ -64,7 +64,7 @@ import React, {
   const SelectList = styled.select`
   font-family: "Poppins", sans-serif;
   font-size: 18px;
-  width: 15%;
+  width: 16%;
   padding: 10px 16px;
   background: ${Colors.light_grey_50};
   border: none;
@@ -242,14 +242,13 @@ const SelectOption = styled.option`
    * on the modules page of the forum website. Supports rich text formatting.
    * @returns A React component that represents the Text Editor.
    */
-  const ReviewEditor = ({ closeTextEditor }: { closeTextEditor: () => void }) => {
-    const [postTitle, setPostTitle] = useState({ text: "" });
-    const [workload, setWorkload] = useState(0);
-    const [difficulty, setDifficulty] = useState(0);
+    const ReviewEditor = ({ closeTextEditor }: { closeTextEditor: () => void }) => {
+    const [workload, setWorkload] = useState("");
+    const [difficulty, setDifficulty] = useState("");
     const [expectedGrade, setExpectedGrade] = useState("");
     const [actualGrade, setActualGrade] = useState("");
     const [semesterYear, setSemesterYear] = useState("");
-    const [semesterType, setSemesterType] = useState("");
+    const [semesterNum, setSemesterNum] = useState("");
     const [lecturerName, setLecturerName] = useState("");
     const [generalCommentsData, setGeneralCommentsData] = useState({});
     const [suggestionsData, setSuggestionsData] = useState({});
@@ -262,44 +261,64 @@ const SelectOption = styled.option`
     const { mod } = useParams<Params>(); // Retrieve Module ID through dynamic routing
     const refresh = () => window.location.reload();
   
-    const isInputInvalid = (data: any, postTitle: any): boolean => {
-      //Post can't be empty
-      if (data[0] === undefined || data[0].children[0].text === "") {
+    const isInputInvalid = (
+      workload: string,
+      difficulty: string,
+      semesterYear: string,
+      semesterNum: string,
+      generalCommentsData: any
+    ): boolean => {
+      // Workload and Difficulty must be provided
+      if (workload === "" || difficulty === "") {
         return true;
       }
-  
-      //Title can't be empty, do nothing if empty
-      if (postTitle.text === "") {
+    
+      // Semester Taken can't be empty
+      if (semesterYear === "" || semesterNum === "") {
         return true;
       }
-  
+    
+      // General Comments can't be empty
+      if (generalCommentsData[0] === undefined || generalCommentsData[0].children[0].text === "") {
+        return true;
+      }
+    
       return false;
     };
   
-    const postThread = (data: any) => {
-      //if Invalid Input Do Nothing
-      if (isInputInvalid(data, postTitle)) {
+    const postReview = (
+      workload: string,
+      difficulty: string,
+      semesterYear: string,
+      semesterNum: string,
+      generalCommentsData: any
+    ) => {
+      // if Invalid Input Do Nothing
+      if (isInputInvalid(workload, difficulty, semesterYear, semesterNum, generalCommentsData)) {
         return;
       }
-  
-      const stringified = serialize(data);
+    
+      const stringified = serialize(generalCommentsData);
       console.log(stringified);
-      setIsLoading(true)
+      setIsLoading(true);
       fetch(API_URL + `/module/` + mod, {
         method: "POST",
         headers: {
-          // Accept: "application/json",
-          // "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
+          /*"Content-Type": "application/json",*/
         },
         body: JSON.stringify({
-          authorid: userId,
+          userId: userId,
+          moduleId: mod,
           content: stringified,
-          title: postTitle.text,
-          tags: [],
-          moduleid: mod,
-          token: token,
+          workload: workload,
+          expectedGrade: expectedGrade,
+          actualGrade: actualGrade,
+          difficulty: difficulty,
+          semesterTaken: semesterYear + semesterNum,
+          lecturers: lecturerName,
         }),
+
       })
         .then((response) => response.json())
         .then(closeTextEditor)
@@ -307,6 +326,7 @@ const SelectOption = styled.option`
         .catch((error) => console.log(error))
         .finally(() => setIsLoading(false));
     };
+    
   
     const renderElement = useCallback(
       (props: RenderElementProps) => <Element {...props} />,
@@ -318,12 +338,12 @@ const SelectOption = styled.option`
     );
   
     const onChange = (e: React.FormEvent<HTMLInputElement>): void => {
-      setPostTitle({ text: e.currentTarget.value });
+      setGeneralCommentsData({ text: e.currentTarget.value });
     };
   
     useEffect(() => {
-      setShowError(isInputInvalid(generalCommentsData, postTitle));
-    }, [postTitle, generalCommentsData]);
+      setShowError(isInputInvalid(workload, difficulty, semesterYear, semesterNum, generalCommentsData));
+    }, [workload, difficulty, semesterYear, semesterNum, generalCommentsData]);
   
     return (
       <>
@@ -341,6 +361,7 @@ const SelectOption = styled.option`
                         onChange={(e) => setSemesterYear(e.target.value)}
                         style={{marginRight: '3px'}}
                         >
+                        <SelectOption value="">Select Year</SelectOption>
                         <SelectOption value="2015/2016">2015/2016</SelectOption>
                         <SelectOption value="2016/2017">2016/2017</SelectOption>
                         <SelectOption value="2017/2018">2017/2018</SelectOption>
@@ -352,11 +373,12 @@ const SelectOption = styled.option`
                         <SelectOption value="2023/2024">2023/2024</SelectOption>
                         </SelectList>
                         <SelectList
-                        value={semesterType}
-                        onChange={(e) => setSemesterType(e.target.value)}
+                        value={semesterNum}
+                        onChange={(e) => setSemesterNum(e.target.value)}
                         >
-                        <SelectOption value="1">Semester 1</SelectOption>
-                        <SelectOption value="2">Semester 2</SelectOption>
+                        <SelectOption value="">Select Semester</SelectOption>
+                        <SelectOption value="S1">Semester 1</SelectOption>
+                        <SelectOption value="S2">Semester 2</SelectOption>
                         </SelectList>
             </div>
 
@@ -366,8 +388,8 @@ const SelectOption = styled.option`
                     type="range"
                     min="0"
                     max="5"
-                    value={difficulty}
-                    onChange={(e) => setDifficulty(Number(e.target.value))}
+                    value={difficulty === "" ? "0" : difficulty}
+                    onChange={(e) => setDifficulty(e.target.value)}
                 />
                 <span style={{ marginLeft: '5px', fontWeight: 600}}>{difficulty}</span>
             </div>
@@ -378,8 +400,8 @@ const SelectOption = styled.option`
                     type="range"
                     min="0"
                     max="5"
-                    value={workload}
-                    onChange={(e) => setWorkload(Number(e.target.value))}
+                    value={workload === "" ? "0" : workload}
+                    onChange={(e) => setWorkload(e.target.value)}
                 />
                 <span style={{ marginLeft: '5px', fontWeight: 600}}>{workload}</span>
             </div>
@@ -389,7 +411,6 @@ const SelectOption = styled.option`
                 <SelectList
                     value={expectedGrade}
                     onChange={(e) => setExpectedGrade(e.target.value)}
-                    style={{alignItems:''}}
                 >
                     <SelectOption value="">Select Grade</SelectOption>
                     <SelectOption value ="CS/CU">CS/CU</SelectOption>
@@ -558,7 +579,7 @@ const SelectOption = styled.option`
                 <ErrorMessage>Semester Taken, Difficulty, Workload and General Comments cannot be empty.</ErrorMessage>
               )}
               <div>{/* Dummy Div */}</div>
-              <PostButton onClick={() => postThread(generalCommentsData)} disabled={isLoading}>
+              <PostButton onClick={() => postReview(workload, difficulty, semesterYear, semesterNum, generalCommentsData)} disabled={isLoading}>
                 {
                   isLoading
                   ? <SmallWhiteLoader />

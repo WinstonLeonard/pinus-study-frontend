@@ -12,7 +12,6 @@ import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import ThumbDownOutlinedIcon from "@mui/icons-material/ThumbDownOutlined";
 import ModeCommentOutlinedIcon from "@mui/icons-material/ModeCommentOutlined";
-import ReplyReviewEditor from "./editor/ReplyReviewEditor";
 import { useNavigate } from "react-router-dom";
 import { selectId, selectToken } from "../redux/features/users/userSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -477,10 +476,6 @@ const ReviewComponent = ({
           <MediumText>&#8196;</MediumText>
           <ReplyText onClick={isLoggedIn(token, userId) ? openReplyInputField : showLogInModal}>Reply</ReplyText>
         </VerticalCenterAlignLayout>
-        {/* Notes: parent id for review component is set to 0, equivalent for null */}
-        {openReply ? (
-          <ReplyReviewEditor id={0} reviewId={review.Id}/>
-        ) : null}
       </ReviewContainerDiv>
     );
   };

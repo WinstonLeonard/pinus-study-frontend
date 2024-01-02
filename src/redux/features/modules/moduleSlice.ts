@@ -18,5 +18,5 @@ export const ModuleInitialState : Module = {
     SubscriberCount: 0,
     ReviewCount: 0,
     Threads: [],
-    Reviews: []
+    Reviews: [],
 }
