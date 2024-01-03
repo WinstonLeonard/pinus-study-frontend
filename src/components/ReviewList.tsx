@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { API_URL } from '../constants';
-import { Module, ModuleInitialState } from '../redux/features/modules/moduleSlice';
+import { Review, ReviewInitialState } from '../redux/features/reviews/reviewSlice';
 import ReviewComponent from './ReviewComponent';
 
 const ReviewWrapper = styled.span`
@@ -10,54 +10,44 @@ const ReviewWrapper = styled.span`
 `
 
 const ReviewComponentWrapper = styled.span`
-    margin-top:1em;
+    margin-top: 1em;
 `
-// const ReviewWrapper = styled.span`
-//     display: flex;
-//     flex-direction: column;
-//     margin-top: 1rem; 
-// `
 
 const ReviewList = ({ selectedModule } : { selectedModule : string }) => {
-    const [module, setModule] = useState<Module>(ModuleInitialState);
-    // const [noReviewsFound, setNoReviewsFound] = useState<Boolean>(true);
+    const [reviews, setReviews] = useState<Review[]>([ReviewInitialState]);
 
-    const fetchMod = () => {
-        fetch(API_URL + `/module/${selectedModule.toUpperCase()}`)
+    const fetchReviews = () => {
+        fetch(API_URL + `/review/${selectedModule.toUpperCase()}`)
             .then(response => response.json())
             .then(data => {
                 console.log(data)
-                setModule(data.module)
+                setReviews(data.reviews)
             })
             .catch(error => console.log(error))
     }
 
     useEffect(() => {
-        fetchMod();
-    }, [])
+        fetchReviews();
+    }, [selectedModule])  // Trigger the fetch when selectedModule changes
 
     const renderReviewList = () => {
-        const curr_review = module.Reviews;
-        console.log(curr_review);
+        console.log(reviews);
 
         return (
             <ReviewWrapper>
-                {module === (ModuleInitialState) || curr_review === null 
+                {reviews.length === 1 && reviews[0] === ReviewInitialState || reviews.length === 0
                     ? null
-                    : curr_review.sort((a, b) => b.Timestamp.localeCompare(a.Timestamp)).map(review => {
-                        return (
-                            <ReviewComponentWrapper>
-                                <ReviewComponent reviewId={review.Id}/>
-                            </ReviewComponentWrapper>
-                        )
-                    })
+                    : reviews.sort((a, b) => b.Timestamp.localeCompare(a.Timestamp)).map(review => (
+                        <ReviewComponentWrapper key={review.Id}>
+                            <ReviewComponent reviewId={review.Id}/>
+                        </ReviewComponentWrapper>
+                    ))
                 }
             </ReviewWrapper>
         )
     }
 
     return renderReviewList();
-
 }
 
 export default ReviewList;

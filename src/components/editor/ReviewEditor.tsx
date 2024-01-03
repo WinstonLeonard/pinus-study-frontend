@@ -315,7 +315,7 @@ const SelectOption = styled.option`
           expectedGrade: expectedGrade,
           actualGrade: actualGrade,
           difficulty: difficulty,
-          semesterTaken: semesterYear + semesterNum,
+          semesterTaken: semesterYear + " " + semesterNum,
           lecturers: lecturerName,
         }),
 
@@ -362,15 +362,15 @@ const SelectOption = styled.option`
                         style={{marginRight: '3px'}}
                         >
                         <SelectOption value="">Select Year</SelectOption>
-                        <SelectOption value="2015/2016">2015/2016</SelectOption>
-                        <SelectOption value="2016/2017">2016/2017</SelectOption>
-                        <SelectOption value="2017/2018">2017/2018</SelectOption>
-                        <SelectOption value="2018/2019">2018/2019</SelectOption>
-                        <SelectOption value="2019/2020">2019/2020</SelectOption>
-                        <SelectOption value="2020/2021">2020/2021</SelectOption>
-                        <SelectOption value="2021/2022">2021/2022</SelectOption>
-                        <SelectOption value="2022/2023">2022/2023</SelectOption>
-                        <SelectOption value="2023/2024">2023/2024</SelectOption>
+                        <SelectOption value="AY2015/2016">AY2015/2016</SelectOption>
+                        <SelectOption value="AY2016/2017">AY2016/2017</SelectOption>
+                        <SelectOption value="AY2017/2018">AY2017/2018</SelectOption>
+                        <SelectOption value="AY2018/2019">AY2018/2019</SelectOption>
+                        <SelectOption value="AY2019/2020">AY2019/2020</SelectOption>
+                        <SelectOption value="AY2020/2021">AY2020/2021</SelectOption>
+                        <SelectOption value="AY2021/2022">AY2021/2022</SelectOption>
+                        <SelectOption value="AY2022/2023">AY2022/2023</SelectOption>
+                        <SelectOption value="AY2023/2024">AY2023/2024</SelectOption>
                         </SelectList>
                         <SelectList
                         value={semesterNum}
@@ -413,9 +413,17 @@ const SelectOption = styled.option`
                     onChange={(e) => setExpectedGrade(e.target.value)}
                 >
                     <SelectOption value="">Select Grade</SelectOption>
-                    <SelectOption value ="CS/CU">CS/CU</SelectOption>
+                    <SelectOption value ="W">W</SelectOption>
+                    <SelectOption value ="IC">IC</SelectOption>
+                    <SelectOption value ="IP">IP</SelectOption>
+                    <SelectOption value ="EXE">EXE</SelectOption>
+                    <SelectOption value ="CS">CS</SelectOption>
+                    <SelectOption value ="CU">CU</SelectOption>
+                    <SelectOption value ="S">S</SelectOption>
+                    <SelectOption value ="U">U</SelectOption>
                     <SelectOption value="F">F</SelectOption>
                     <SelectOption value="D">D</SelectOption>
+                    <SelectOption value ="D+">D+</SelectOption>
                     <SelectOption value="C">C</SelectOption>
                     <SelectOption value="C+">C+</SelectOption>
                     <SelectOption value="B-">B-</SelectOption>
@@ -434,9 +442,17 @@ const SelectOption = styled.option`
                         onChange={(e) => setActualGrade(e.target.value)}
                     >
                     <SelectOption value="">Select Grade</SelectOption>
-                    <SelectOption value ="CS/CU">CS/CU</SelectOption>
+                    <SelectOption value ="W">W</SelectOption>
+                    <SelectOption value ="IC">IC</SelectOption>
+                    <SelectOption value ="IP">IP</SelectOption>
+                    <SelectOption value ="EXE">EXE</SelectOption>
+                    <SelectOption value ="CS">CS</SelectOption>
+                    <SelectOption value ="CU">CU</SelectOption>
+                    <SelectOption value ="S">S</SelectOption>
+                    <SelectOption value ="U">U</SelectOption>
                     <SelectOption value="F">F</SelectOption>
                     <SelectOption value="D">D</SelectOption>
+                    <SelectOption value ="D+">D+</SelectOption>
                     <SelectOption value="C">C</SelectOption>
                     <SelectOption value="C+">C+</SelectOption>
                     <SelectOption value="B-">B-</SelectOption>

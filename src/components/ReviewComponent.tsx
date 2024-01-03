@@ -291,21 +291,20 @@ const ReviewComponent = ({
   };
 
   /**
-   * Fetches review data from the backend.
-   */
-  const fetchReviewData = () => {
-    fetch(API_URL + `/review/${reviewId}`)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        setReview(data.review);
-        setLikesCount(data.review.LikesCount);
-        setDislikesCount(data.review.DislikesCount);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+ * Fetches review data from the backend for a specific module.
+ */
+const fetchReviewData = () => {
+  fetch(API_URL + `/review/${review.ModuleId}`)
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      setReview(data.review);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
 
   /**
    * Fetches liked status from the backend.
