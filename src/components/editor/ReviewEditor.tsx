@@ -238,11 +238,11 @@ const SelectOption = styled.option`
   }
   
   /**
-   * TextEditor component for the web forum, used for creating a new thread
+   * ReviewEditor component for the web forum, used for creating a new thread
    * on the modules page of the forum website. Supports rich text formatting.
    * @returns A React component that represents the Text Editor.
    */
-    const ReviewEditor = ({ closeTextEditor }: { closeTextEditor: () => void }) => {
+    const ReviewEditor = ({ closeReviewEditor }: { closeReviewEditor: () => void }) => {
     const [workload, setWorkload] = useState("");
     const [difficulty, setDifficulty] = useState("");
     const [expectedGrade, setExpectedGrade] = useState("");
@@ -301,27 +301,26 @@ const SelectOption = styled.option`
       const stringified = serialize(generalCommentsData);
       console.log(stringified);
       setIsLoading(true);
-      fetch(API_URL + `/module/` + mod, {
+      fetch(API_URL + `/review/` + mod, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
-          /*"Content-Type": "application/json",*/
         },
         body: JSON.stringify({
-          userId: userId,
-          moduleId: mod,
-          content: stringified,
+          user_id: userId,
           workload: workload,
-          expectedGrade: expectedGrade,
-          actualGrade: actualGrade,
+          expected_grade: expectedGrade,
+          actual_grade: actualGrade,
           difficulty: difficulty,
-          semesterTaken: semesterYear + " " + semesterNum,
-          lecturers: lecturerName,
+          semester_taken: semesterYear + " " + semesterNum,
+          lecturer: lecturerName,
+          content: stringified,
+          suggestion: serialize(suggestionsData),
         }),
 
       })
         .then((response) => response.json())
-        .then(closeTextEditor)
+        .then(closeReviewEditor)
         .then(refresh)
         .catch((error) => console.log(error))
         .finally(() => setIsLoading(false));
@@ -350,7 +349,7 @@ const SelectOption = styled.option`
         <GlobalStyle />
         <BlurredBackground>
           <ThreadContainer>
-            <CloseIconDiv onClick={closeTextEditor}>
+            <CloseIconDiv onClick={closeReviewEditor}>
               <CloseIcon />
             </CloseIconDiv>
 

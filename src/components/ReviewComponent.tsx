@@ -186,9 +186,7 @@ const ReviewComponent = ({
 }) => {
   const [review, setReview] = useState<Review>(ReviewInitialState);
   const [likesCount, setLikesCount] = useState<number>(review.LikesCount);
-  const [dislikesCount, setDislikesCount] = useState<number>(
-    review.DislikesCount
-  );
+  const [dislikesCount, setDislikesCount] = useState<number>(review.DislikesCount);
   const [openReply, setOpenReply] = useState<boolean>(false);
   const [status, setStatus] = useState<LikedStatus>("NEUTRAL");
   const [loading, setLoading] = useState<boolean>(false);
@@ -291,19 +289,19 @@ const ReviewComponent = ({
   };
 
   /**
- * Fetches review data from the backend for a specific module.
- */
-const fetchReviewData = () => {
-  fetch(API_URL + `/review/${review.ModuleId}`)
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data);
-      setReview(data.review);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
+   * Fetches review data from the backend for a specific module.
+   */
+  const fetchReviewData = () => {
+    fetch(API_URL + `/review/${review.ModuleId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setReview(data.review);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
 
   /**
