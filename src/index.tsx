@@ -13,6 +13,7 @@ import SubscribersPage from "./pages/SubscribersPage";
 import ProfilePage from "./pages/ProfilePage";
 import { PersistGate } from "redux-persist/integration/react";
 import SearchModulesPage from "./pages/SearchModulesPage";
+import BookmarkPage from "./pages/BookmarkPage";
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);
@@ -45,7 +46,11 @@ const router = createBrowserRouter([
     {
         path: "/profile/:userId",
         element: <ProfilePage />
-    }
+    },
+    {
+        path: "/bookmarked",
+        element: <BookmarkPage/>
+    },
 ]);
 
 root.render(

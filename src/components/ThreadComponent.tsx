@@ -12,6 +12,8 @@ import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import ThumbDownOutlinedIcon from "@mui/icons-material/ThumbDownOutlined";
 import ModeCommentOutlinedIcon from "@mui/icons-material/ModeCommentOutlined";
+import BookMarkAddIcon from "@mui/icons-material/BookmarkAdd";
+import BookMarkAddedIcon from "@mui/icons-material/BookmarkAdded"
 import ReplyTextEditor from "./editor/ReplyTextEditor";
 import { useNavigate } from "react-router-dom";
 import { selectId, selectToken } from "../redux/features/users/userSlice";
@@ -171,6 +173,18 @@ const Username = styled.span`
     text-decoration: underline;
   }
 `
+
+const BookmarkButton = styled.button`
+  border: none;
+  background-color: ${Colors.blue_3};
+  float: right;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  :hover {
+    background-color: ${Colors.blue_accent};
+  }
+`;
+
 /**
  * Thread component for the web forum.
  *
@@ -193,6 +207,7 @@ const ThreadComponent = ({
   const [openReply, setOpenReply] = useState<boolean>(false);
   const [status, setStatus] = useState<LikedStatus>("NEUTRAL");
   const [loading, setLoading] = useState<boolean>(false);
+  const [bookmarked, setBookmarked] = useState<boolean>(true);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -205,9 +220,10 @@ const ThreadComponent = ({
     setOpenReply(!openReply);
   };
 
-  const handleThreadClick = () => {
+  const handleThreadClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
     navigate(`/thread/${threadId}`);
-  };
+};
 
   const showLogInModal = () => {
     dispatch(toggleLogin(true));
@@ -271,6 +287,10 @@ const ThreadComponent = ({
       setLoading(false);
     }
   };
+
+  const handleBookmarkButton = () => {
+    setBookmarked(!bookmarked);
+  }
 
   const handleLikesCount = () => {
     console.log("likeStatus: " + likeStatus);
@@ -423,6 +443,9 @@ const ThreadComponent = ({
         <ThreadContainerButton>
           <PostedSince>{parseLastModified(thread.Timestamp)}</PostedSince>
           <QuestionTitle>{thread.Title}</QuestionTitle>
+          <BookmarkButton onClick={handleBookmarkButton}>
+              {bookmarked === true ? <BookMarkAddedIcon/> : <BookMarkAddIcon/>}
+          </BookmarkButton>
           <br />
           <RegularText>
             Posted by @{thread.Username} in {thread.ModuleId}
@@ -452,6 +475,9 @@ const ThreadComponent = ({
         <CombinedAuthenticationPage />
         <PostedSince>{parseLastModified(thread.Timestamp)}</PostedSince>
         <QuestionTitle>{thread.Title}</QuestionTitle>
+        <BookmarkButton onClick={handleBookmarkButton}>
+              {bookmarked === true ? <BookMarkAddedIcon/> : <BookMarkAddIcon/>}
+        </BookmarkButton>
         <br />
         <RegularText>
           Posted by <Username onClick={directToUserPage}>@{thread.Username}</Username>

@@ -203,6 +203,10 @@ const ProfileComponent = ({
     navigate("/");
   };
 
+  const bookmarkButtonHandler = () => {
+    navigate("/bookmarked");
+  }
+
   return (
     <ProfileContainer>
       <ProfilePicture>
@@ -236,6 +240,9 @@ const ProfileComponent = ({
           </Description>
         </NumberAndDescription>
       </PostAndLikes>
+      <Button marginTop="1em" onClick={bookmarkButtonHandler}>
+        Bookmarked
+      </Button>
     </ProfileContainer>
   );
 };
