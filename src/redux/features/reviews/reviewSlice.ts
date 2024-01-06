@@ -21,5 +21,5 @@ export const ReviewInitialState : Review = {
 	ModuleId: "",
 	LikesCount: 0,
 	DislikesCount: 0,
-	Comments: undefined
+	Comments: [],
 }

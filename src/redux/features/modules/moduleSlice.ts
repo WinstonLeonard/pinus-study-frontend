@@ -1,5 +1,4 @@
 import { Thread } from "../threads/threadSlice";
-import { Review } from "../reviews/reviewSlice";
 
 export interface Module {
     Id: string;
@@ -8,7 +7,6 @@ export interface Module {
     SubscriberCount: number; 
     ReviewCount: number;
     Threads: Thread[];
-    Reviews: Review[];
 }
 
 export const ModuleInitialState : Module = {
@@ -18,5 +16,4 @@ export const ModuleInitialState : Module = {
     SubscriberCount: 0,
     ReviewCount: 0,
     Threads: [],
-    Reviews: [],
 }

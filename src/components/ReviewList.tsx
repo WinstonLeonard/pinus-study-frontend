@@ -21,7 +21,10 @@ const ReviewList = ({ selectedModule } : { selectedModule : string }) => {
             .then(response => response.json())
             .then(data => {
                 console.log(data)
-                setReviews(data.reviews)
+                setReviews(data.review.map((r: any) => ({
+                    ...r,
+                    Comments: []
+                })))
             })
             .catch(error => console.log(error))
     }
