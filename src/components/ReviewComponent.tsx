@@ -77,7 +77,7 @@ const VerticalCenterAlignLayout = styled.div`
   align-items: center;
 `;
 
-/** MODULE-PAGE THREAD ONLY */
+/** MODULE-PAGE REVIEW ONLY */
 const ReviewContainerButton = styled.button`
   background-color: ${Colors.blue_3};
   width: 100%;
@@ -173,15 +173,15 @@ const Username = styled.span`
 /**
  * Review component for the web forum.
  *
- * @param reviewId The thread id to fetch the data.
- * @param type The type of thread to be rendered. The only valid values are "QUESTION_PAGE" or "MODULE_PAGE",
+ * @param moduleId The review id to fetch the data.
+ * @param type The type of review to be rendered. The only valid values are "QUESTION_PAGE" or "MODULE_PAGE",
  *             or it can be omitted.
  */
 const ReviewComponent = ({
-  reviewId,
+  moduleId,
   type,
 }: {
-  reviewId: number;
+  moduleId: string;
   type?: ReviewType;
 }) => {
   const [review, setReview] = useState<Review>(ReviewInitialState);
@@ -203,7 +203,7 @@ const ReviewComponent = ({
   };
 
   const handleReviewClick = () => {
-    navigate(`/review/${reviewId}`);
+    navigate(`/review/${moduleId}`);
   };
 
   const showLogInModal = () => {
@@ -273,7 +273,7 @@ const ReviewComponent = ({
     console.log("likeStatus: " + likeStatus);
     if (review !== ReviewInitialState) {
       console.log();
-      fetch(API_URL + `/likes/review/${reviewId}/${userId}/${likeStatus}`, {
+      fetch(API_URL + `/likes/review/${moduleId}/${userId}/${likeStatus}`, {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -292,7 +292,7 @@ const ReviewComponent = ({
    * Fetches review data from the backend for a specific module.
    */
   const fetchReviewData = () => {
-    fetch(API_URL + `/review/${review.ModuleId}`)
+    fetch(API_URL + `/review/${moduleId}`)
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
@@ -302,13 +302,14 @@ const ReviewComponent = ({
         console.log(error);
       });
   };
+  
 
 
   /**
    * Fetches liked status from the backend.
    */
   const fetchLikeStatus = () => {
-    fetch(API_URL + `/likes/review/${reviewId}/${userId}`)
+    fetch(API_URL + `/likes/review/${moduleId}/${userId}`)
       .then((response) => response.json())
       .then((data) => {
         console.log(data.state);
