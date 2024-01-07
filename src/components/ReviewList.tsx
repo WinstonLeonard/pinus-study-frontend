@@ -42,7 +42,7 @@ const ReviewList = ({ selectedModule } : { selectedModule : string }) => {
                     ? null
                     : reviews.sort((a, b) => b.Timestamp.localeCompare(a.Timestamp)).map(review => (
                         <ReviewComponentWrapper>
-                            <ReviewComponent moduleId={review.ModuleId}/>
+                            <ReviewComponent review={review}/>
                         </ReviewComponentWrapper>
                     ))
                 }

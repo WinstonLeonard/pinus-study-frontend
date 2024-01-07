@@ -1,25 +1,29 @@
 export interface Review {
-    Id: number;
-	Title: string;
-	Content: string;
-	AuthorId: number;
+	ModuleId: string;
+	UserId: number;
 	Username: string;
 	Timestamp: string;
-	ModuleId: string;
-	LikesCount: number;
-	DislikesCount: number;
-	Comments?: number[];
+	Workload: number;
+	ExpectedGrade: string;
+    ActualGrade: string;
+    Difficulty: number;
+    SemesterTaken: string;
+    Lecturer: string;
+    Content: string;
+    Suggestion: string;
 }
 
 export const ReviewInitialState : Review = {
-    Id: 0,
-	Title: "",
-	Content: "",
-	AuthorId: 0,
-	Username: "",
-	Timestamp: "",
 	ModuleId: "",
-	LikesCount: 0,
-	DislikesCount: 0,
-	Comments: [],
+    UserId: 0,
+    Username: "",
+    Timestamp: "",
+    Workload: 0,
+    ExpectedGrade: "A+",
+    ActualGrade: "A+",
+    Difficulty: 0,
+    SemesterTaken: "AY2023/2024 S2      ",
+    Lecturer: "",
+    Content: "",
+    Suggestion: "",
 }

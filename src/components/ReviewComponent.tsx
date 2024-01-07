@@ -178,15 +178,14 @@ const Username = styled.span`
  *             or it can be omitted.
  */
 const ReviewComponent = ({
-  moduleId,
+  review,
   type,
 }: {
-  moduleId: string;
+  review: Review;
   type?: ReviewType;
 }) => {
-  const [review, setReview] = useState<Review>(ReviewInitialState);
-  const [likesCount, setLikesCount] = useState<number>(review.LikesCount);
-  const [dislikesCount, setDislikesCount] = useState<number>(review.DislikesCount);
+  // const [likesCount, setLikesCount] = useState<number>(review.LikesCount);
+  // const [dislikesCount, setDislikesCount] = useState<number>(review.DislikesCount);
   const [openReply, setOpenReply] = useState<boolean>(false);
   const [status, setStatus] = useState<LikedStatus>("NEUTRAL");
   const [loading, setLoading] = useState<boolean>(false);
@@ -203,7 +202,7 @@ const ReviewComponent = ({
   };
 
   const handleReviewClick = () => {
-    navigate(`/review/${moduleId}`);
+    navigate(`/reviews/${review.ModuleId}`);
   };
 
   const showLogInModal = () => {
@@ -211,138 +210,120 @@ const ReviewComponent = ({
     dispatch(toggleCreateAccount(false));
   };
 
-  const handleLikeButton = () => {
-    if (!isLoggedIn(token, userId)) {
-      showLogInModal();
-    } else if (review !== ReviewInitialState && !loading) {
-      setLoading(true);
-      switch (status) {
-        case "LIKED":
-          setLikesCount(likesCount - 1);
-          setStatus("NEUTRAL");
-          likeStatus = 0;
-          break;
-        case "DISLIKED":
-          setLikesCount(likesCount + 1);
-          setDislikesCount(dislikesCount - 1);
-          setStatus("LIKED");
-          likeStatus = 1;
-          break;
-        case "NEUTRAL":
-          setLikesCount(likesCount + 1);
-          setStatus("LIKED");
-          likeStatus = 1;
-          break;
-      }
+  // const handleLikeButton = () => {
+  //   if (!isLoggedIn(token, userId)) {
+  //     showLogInModal();
+  //   } else if (review !== ReviewInitialState && !loading) {
+  //     setLoading(true);
+  //     switch (status) {
+  //       case "LIKED":
+  //         setLikesCount(likesCount - 1);
+  //         setStatus("NEUTRAL");
+  //         likeStatus = 0;
+  //         break;
+  //       case "DISLIKED":
+  //         setLikesCount(likesCount + 1);
+  //         setDislikesCount(dislikesCount - 1);
+  //         setStatus("LIKED");
+  //         likeStatus = 1;
+  //         break;
+  //       case "NEUTRAL":
+  //         setLikesCount(likesCount + 1);
+  //         setStatus("LIKED");
+  //         likeStatus = 1;
+  //         break;
+  //     }
 
-      handleLikesCount();
-      setLoading(false);
-    }
-  };
+  //     handleLikesCount();
+  //     setLoading(false);
+  //   }
+  // };
 
-  const handleDislikeButton = () => {
-    if (!isLoggedIn(token, userId)) {
-      showLogInModal();
-    } else if (review !== ReviewInitialState && !loading) {
-      setLoading(true);
-      switch (status) {
-        case "LIKED":
-          setLikesCount(likesCount - 1);
-          setDislikesCount(dislikesCount + 1);
-          setStatus("DISLIKED");
-          likeStatus = -1;
-          break;
-        case "DISLIKED":
-          setDislikesCount(dislikesCount - 1);
-          setStatus("NEUTRAL");
-          likeStatus = 0;
-          break;
-        case "NEUTRAL":
-          setDislikesCount(dislikesCount + 1);
-          setStatus("DISLIKED");
-          likeStatus = -1;
-          break;
-      }
+  // const handleDislikeButton = () => {
+  //   if (!isLoggedIn(token, userId)) {
+  //     showLogInModal();
+  //   } else if (review !== ReviewInitialState && !loading) {
+  //     setLoading(true);
+  //     switch (status) {
+  //       case "LIKED":
+  //         setLikesCount(likesCount - 1);
+  //         setDislikesCount(dislikesCount + 1);
+  //         setStatus("DISLIKED");
+  //         likeStatus = -1;
+  //         break;
+  //       case "DISLIKED":
+  //         setDislikesCount(dislikesCount - 1);
+  //         setStatus("NEUTRAL");
+  //         likeStatus = 0;
+  //         break;
+  //       case "NEUTRAL":
+  //         setDislikesCount(dislikesCount + 1);
+  //         setStatus("DISLIKED");
+  //         likeStatus = -1;
+  //         break;
+  //     }
 
-      handleLikesCount();
-      setLoading(false);
-    }
-  };
+  //     handleLikesCount();
+  //     setLoading(false);
+  //   }
+  // };
 
-  const handleLikesCount = () => {
-    console.log("likeStatus: " + likeStatus);
-    if (review !== ReviewInitialState) {
-      console.log();
-      fetch(API_URL + `/likes/review/${moduleId}/${userId}/${likeStatus}`, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          token: token,
-          state: likeStatus,
-        }),
-      }).then((response) => console.log("success!"));
-    }
-  };
-
-  /**
-   * Fetches review data from the backend for a specific module.
-   */
-  const fetchReviewData = () => {
-    fetch(API_URL + `/review/${moduleId}`)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        setReview(data.review);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-  
-
+  // const handleLikesCount = () => {
+  //   console.log("likeStatus: " + likeStatus);
+  //   if (review !== ReviewInitialState) {
+  //     console.log();
+  //     fetch(API_URL + `/likes/review/${moduleId}/${userId}/${likeStatus}`, {
+  //       method: "POST",
+  //       headers: {
+  //         Accept: "application/json",
+  //         "Content-Type": "application/json",
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //       body: JSON.stringify({
+  //         token: token,
+  //         state: likeStatus,
+  //       }),
+  //     }).then((response) => console.log("success!"));
+  //   }
+  // };
 
   /**
    * Fetches liked status from the backend.
    */
-  const fetchLikeStatus = () => {
-    fetch(API_URL + `/likes/review/${moduleId}/${userId}`)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data.state);
-        likeStatus = data.state;
-        switch (data.state) {
-          case 1:
-            setStatus("LIKED");
-            break;
-          case -1:
-            setStatus("DISLIKED");
-            break;
-          case 0:
-            setStatus("NEUTRAL");
-            break;
-        }
-      })
-      .catch((error) => console.log(error));
-  };
+  // const fetchLikeStatus = () => {
+  //   fetch(API_URL + `/likes/review/${moduleId}/${userId}`)
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       console.log(data.state);
+  //       likeStatus = data.state;
+  //       switch (data.state) {
+  //         case 1:
+  //           setStatus("LIKED");
+  //           break;
+  //         case -1:
+  //           setStatus("DISLIKED");
+  //           break;
+  //         case 0:
+  //           setStatus("NEUTRAL");
+  //           break;
+  //       }
+  //     })
+  //     .catch((error) => console.log(error));
+  // };
 
   /**
    * Hook to fetch data.
    */
   useEffect(() => {
     setLoading(true);
-    fetchReviewData();
   }, []);
 
-  useEffect(() => {
-    if (type === "QUESTION_PAGE" && review !== ReviewInitialState) {
-      fetchLikeStatus();
-    }
-    setLoading(false);
-  }, [review]);
+  // useEffect(() => {
+  //   if (type === "QUESTION_PAGE" && review !== ReviewInitialState) {
+  //     fetchLikeStatus();
+  //   }
+  //   setLoading(false);
+  // }, [review]);
 
   /**
    * Shortens the content to max. 150 characters to prevent the
@@ -415,11 +396,12 @@ const ReviewComponent = ({
    * Renders the review in the Module Page.
    */
   const renderModulePageReview = () => {
+    console.log(review);
     return (
       <div onClick={handleReviewClick}>
         <ReviewContainerButton>
           <PostedSince>{parseLastModified(review.Timestamp)}</PostedSince>
-          <QuestionTitle>{review.Title}</QuestionTitle>
+          {/* <QuestionTitle>{review.Title}</QuestionTitle> */}
           <br />
           <RegularText>
             Posted by @{review.Username} in {review.ModuleId}
@@ -427,17 +409,17 @@ const ReviewComponent = ({
           <br />
           <Content>{shortenRemoveHtml(review.Content)}</Content>
           <br />
-          <VerticalCenterAlignLayout>
+          {/* <VerticalCenterAlignLayout>
             <CommentOutlinedIcon sx={{ fontSize: "1.375em" }} />
             <RegularText>&#8196;{review.Comments?.length || 0}</RegularText>
-          </VerticalCenterAlignLayout>
+          </VerticalCenterAlignLayout> */}
         </ReviewContainerButton>
       </div>
     );
   };
 
   const directToUserPage = () => {
-    navigate(`/profile/${review.AuthorId}`);
+    navigate(`/profile/${review.UserId}`);
   };
 
   /**
@@ -448,7 +430,7 @@ const ReviewComponent = ({
       <ReviewContainerDiv>
         <CombinedAuthenticationPage />
         <PostedSince>{parseLastModified(review.Timestamp)}</PostedSince>
-        <QuestionTitle>{review.Title}</QuestionTitle>
+        {/* <QuestionTitle>{review.Title}</QuestionTitle> */}
         <br />
         <RegularText>
           Posted by <Username onClick={directToUserPage}>@{review.Username}</Username>
@@ -456,11 +438,10 @@ const ReviewComponent = ({
         <br />
         <Content>{deserialize(review.Content)}</Content>
         <br />
-        <VerticalCenterAlignLayout>
+        {/* <VerticalCenterAlignLayout>
           <ThumbButton onClick={handleLikeButton}>
             {status === "LIKED" ? <ThumbUpIcon /> : <ThumbUpOutlinedIcon />}
           </ThumbButton>
-          {/* &#8195; (Em Space) and &#8196; (Three-Per-Em Space) are Unicode spaces. */}
           <MediumText>&#8196;{likesCount}&#8195;</MediumText>
           <ThumbButton onClick={handleDislikeButton}>
             {status === "DISLIKED" ? (
@@ -473,7 +454,7 @@ const ReviewComponent = ({
           <ModeCommentOutlinedIcon />
           <MediumText>&#8196;</MediumText>
           <ReplyText onClick={isLoggedIn(token, userId) ? openReplyInputField : showLogInModal}>Reply</ReplyText>
-        </VerticalCenterAlignLayout>
+        </VerticalCenterAlignLayout> */}
       </ReviewContainerDiv>
     );
   };
