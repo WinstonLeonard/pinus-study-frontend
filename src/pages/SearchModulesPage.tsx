@@ -8,7 +8,6 @@ import { Link } from "react-router-dom";
 import { Background } from "../components";
 import NavigationBar from "../components/Navbar";
 
-
 const ModulePageWrapper = styled.div`
     display: grid;
     grid-template-columns: 8.5fr 1.5fr;
@@ -78,11 +77,10 @@ const ResultsHeadingItalic = styled(ResultsHeading)`
 
 const SearchModulesPage = () => {
     const { keyword } = useParams();
-
     const [searchResults, setSearchResults] = useState<Module[]>([]);
     const [noModulesFound, setNoModulesFound] = useState<Boolean>(true);
-
-    console.log("Keyword: ", keyword)
+    
+    console.log("Keyword: ", keyword ? keyword : "");
 
     const queryDatabase = (page?: number) => {
         fetch(API_URL + `/module`, {
@@ -92,7 +90,7 @@ const SearchModulesPage = () => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                keyword: keyword? keyword.toUpperCase() : "",
+                keyword: keyword? keyword : "",
                 page: page? page : 1,
             }),
         }).then(response => response.json())
@@ -119,7 +117,7 @@ const SearchModulesPage = () => {
                     <div>
                         <ResultsHeadingDiv>
                             <ResultsHeading>Results for </ResultsHeading>
-                            <ResultsHeadingItalic>'{keyword}'</ResultsHeadingItalic>
+                            <ResultsHeadingItalic>'{keyword ? keyword : ""}'</ResultsHeadingItalic>
                         </ResultsHeadingDiv>
                         {noModulesFound
                             ? null
@@ -137,7 +135,6 @@ const SearchModulesPage = () => {
                                 }   
                             </ModuleGridWrapper>
                         }
-                        
                     </div>
                     <MyModules/>
                 </ModulePageWrapper>

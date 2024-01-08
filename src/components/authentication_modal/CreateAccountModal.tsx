@@ -20,7 +20,6 @@ import { WhiteLoader } from "../Loader"
 import styled from "styled-components";
 
 const CreateAccountModal = ({
-    email,
     cancel,
     showLogInModal,
     showVerificationModal,
@@ -31,6 +30,7 @@ const CreateAccountModal = ({
     showVerificationModal: () => void;
 }) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [email, setEmail] = useState<string>("");
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [confirmPassword, setConfirmPassword] = useState<string>("");
@@ -40,6 +40,14 @@ const CreateAccountModal = ({
         useState<Boolean>(false);
 
     const dispatch = useDispatch();
+
+    /**
+     * Detects change in the email input element.
+     * @param event The change taking place
+     */
+    const handleEmailChange = (event: any) => {
+        setEmail(event.target.value);
+    } 
 
     /**
      * Detects changes on the Username input element.
@@ -149,6 +157,12 @@ const CreateAccountModal = ({
                     <ModalTitle>Create Account</ModalTitle>
                 </ModalDiv>
                 <ModalDiv direction="column">
+                    <ModalInput
+                        marginBottom="1em"
+                        placeholder="Email"
+                        value={email}
+                        onChange={handleEmailChange}
+                    />
                     <ModalInput
                         marginBottom="1em"
                         placeholder="Username"

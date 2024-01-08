@@ -3,14 +3,12 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export interface ModalState {
   showLogin: boolean;
-  showSignup: boolean;
   showCreateAccount: boolean;
   showVerifyAccount: boolean;
 }
 
 const ModalInitialState : ModalState = {
   showLogin: false,
-  showSignup: false,
   showCreateAccount: false,
   showVerifyAccount: true
 }
@@ -23,14 +21,6 @@ export const modalSlice = createSlice({
       const newState = {
         ...state,
         showLogin: action.payload
-      };
-      return newState;
-    },
-
-    toggleSignup: (state, action) => {
-      const newState = {
-        ...state,
-        showSignup: action.payload
       };
       return newState;
     },
@@ -53,11 +43,9 @@ export const modalSlice = createSlice({
   },
 });
 
-export const { toggleLogin, toggleSignup, toggleCreateAccount, toggleVerifyAccount } = modalSlice.actions;
+export const { toggleLogin, toggleCreateAccount, toggleVerifyAccount } = modalSlice.actions;
 
 export const selectLoginModal = (state: RootState) => state.modal.showLogin;
-
-export const selectSignupModal = (state: RootState) => state.modal.showSignup;
 
 export const selectCreateAccountModal = (state: RootState) => state.modal.showCreateAccount;
 

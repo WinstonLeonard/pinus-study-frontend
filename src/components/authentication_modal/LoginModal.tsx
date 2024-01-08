@@ -18,7 +18,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Loader, WhiteLoader } from "../Loader";
 import { getUserDetailsRequest } from "../../requests";
 
-const LoginModal = ({cancel, showSignUpModal} : {cancel: () => void; showSignUpModal: () => void}) => {
+const LoginModal = ({cancel, showSignUpModal} : {cancel: () => void; showSignUpModal: (email: string) => void}) => {
+    const [email, setEmail] = useState<string>("");
     const [emailOrUsername, setEmailOrUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [showError, setShowError] = useState<Boolean>(false);
@@ -131,7 +132,7 @@ const LoginModal = ({cancel, showSignUpModal} : {cancel: () => void; showSignUpM
                     <SwitchModalPrompt>Don't have an account?&nbsp;</SwitchModalPrompt>
                     <SwitchModalPrompt 
                         textDecoration="underline" 
-                        onClick={showSignUpModal}
+                        onClick={() => showSignUpModal(email)}
                         cursor="pointer">Sign Up here.</SwitchModalPrompt>
                 </ModalDiv>
             </ModalBackground>

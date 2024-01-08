@@ -2,12 +2,10 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectLoginModal,
-  selectSignupModal,
   selectCreateAccountModal,
   selectVerifyAccountModal,
   toggleCreateAccount,
   toggleLogin,
-  toggleSignup,
   toggleVerifyAccount
 } from "../redux/features/modal/modal";
 import { selectToken, selectId } from "../redux/features/users/userSlice";
@@ -15,7 +13,6 @@ import { isLoggedIn } from "../utils";
 import { useLocation } from "react-router-dom";
 import {
   LoginModal,
-  SignUpModal,
   CreateAccountModal,
 } from "../components/authentication_modal";
 import VerifyAccountModal from "../components/authentication_modal/VerifyAccountModal";
@@ -25,9 +22,8 @@ export const CombinedAuthenticationPage = () => {
 
   const location = useLocation();
 
-  // States for login / signup / create account modals
+  // States for login / create account modals
   const showLogin = useSelector(selectLoginModal);
-  const showSignup = useSelector(selectSignupModal);
   const showCreateAccount = useSelector(selectCreateAccountModal);
   const showVerifyAccount = useSelector(selectVerifyAccountModal);
 
@@ -37,21 +33,12 @@ export const CombinedAuthenticationPage = () => {
 
   const hideAllModals = () => {
     dispatch(toggleLogin(false));
-    dispatch(toggleSignup(false));
-    dispatch(toggleCreateAccount(false));
-    dispatch(toggleVerifyAccount(false));
-  };
-
-  const showSignUpModal = () => {
-    dispatch(toggleLogin(false));
-    dispatch(toggleSignup(true));
     dispatch(toggleCreateAccount(false));
     dispatch(toggleVerifyAccount(false));
   };
 
   const showLogInModal = () => {
     dispatch(toggleLogin(true));
-    dispatch(toggleSignup(false));
     dispatch(toggleCreateAccount(false));
     dispatch(toggleVerifyAccount(false));
   };
@@ -59,14 +46,12 @@ export const CombinedAuthenticationPage = () => {
   const authoriseCreateAccountModal = (email: string) => {
     setSignUpEmail(email);
     dispatch(toggleLogin(false));
-    dispatch(toggleSignup(false));
     dispatch(toggleCreateAccount(true));
     dispatch(toggleVerifyAccount(false));
   };
 
   const showVerificationModal = () => {
     dispatch(toggleLogin(false));
-    dispatch(toggleSignup(false));
     dispatch(toggleCreateAccount(false));
     dispatch(toggleVerifyAccount(true));
   }
@@ -85,14 +70,7 @@ export const CombinedAuthenticationPage = () => {
   return (
     <>
       {showLogin ? (
-        <LoginModal cancel={hideAllModals} showSignUpModal={showSignUpModal} />
-      ) : null}
-      {showSignup ? (
-        <SignUpModal
-          cancel={hideAllModals}
-          showLogInModal={showLogInModal}
-          authoriseCreateAccountModal={authoriseCreateAccountModal}
-        />
+        <LoginModal cancel={hideAllModals} showSignUpModal={authoriseCreateAccountModal} />
       ) : null}
       {showCreateAccount ? (
         <CreateAccountModal
