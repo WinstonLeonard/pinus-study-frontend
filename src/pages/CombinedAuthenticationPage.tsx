@@ -43,14 +43,14 @@ export const CombinedAuthenticationPage = () => {
     dispatch(toggleVerifyAccount(false));
   };
 
-  const authoriseCreateAccountModal = (email: string) => {
-    setSignUpEmail(email);
+  const authoriseCreateAccountModal = () => {
     dispatch(toggleLogin(false));
     dispatch(toggleCreateAccount(true));
     dispatch(toggleVerifyAccount(false));
   };
 
-  const showVerificationModal = () => {
+  const showVerificationModal = (email: string) => {
+    setSignUpEmail(email);
     dispatch(toggleLogin(false));
     dispatch(toggleCreateAccount(false));
     dispatch(toggleVerifyAccount(true));
