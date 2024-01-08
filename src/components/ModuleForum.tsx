@@ -6,6 +6,7 @@ import {
   ModuleInitialState,
 } from "../redux/features/modules/moduleSlice";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+import RateReviewIcon from '@mui/icons-material/RateReview';
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectId,
@@ -228,7 +229,7 @@ const ModuleForum = ({ selectedModule }: { selectedModule: string }) => {
 
         <Bottom>
         <ReviewDiv>
-            <PeopleAltIcon />
+            <RateReviewIcon />
             <ReviewDesc href={`/reviews/${selectedModule}`}>
               {module.ReviewCount === 1? "1 review" : `${module.ReviewCount} reviews`}
             </ReviewDesc>
