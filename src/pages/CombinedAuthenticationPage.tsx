@@ -4,9 +4,11 @@ import {
   selectLoginModal,
   selectSignupModal,
   selectCreateAccountModal,
+  selectVerifyAccountModal,
   toggleCreateAccount,
   toggleLogin,
   toggleSignup,
+  toggleVerifyAccount
 } from "../redux/features/modal/modal";
 import { selectToken, selectId } from "../redux/features/users/userSlice";
 import { isLoggedIn } from "../utils";
@@ -16,6 +18,7 @@ import {
   SignUpModal,
   CreateAccountModal,
 } from "../components/authentication_modal";
+import VerifyAccountModal from "../components/authentication_modal/VerifyAccountModal";
 
 export const CombinedAuthenticationPage = () => {
   const [signUpEmail, setSignUpEmail] = useState<string>("");
@@ -26,6 +29,7 @@ export const CombinedAuthenticationPage = () => {
   const showLogin = useSelector(selectLoginModal);
   const showSignup = useSelector(selectSignupModal);
   const showCreateAccount = useSelector(selectCreateAccountModal);
+  const showVerifyAccount = useSelector(selectVerifyAccountModal);
 
   const userToken = useSelector(selectToken);
   const userId = useSelector(selectId);
@@ -35,18 +39,21 @@ export const CombinedAuthenticationPage = () => {
     dispatch(toggleLogin(false));
     dispatch(toggleSignup(false));
     dispatch(toggleCreateAccount(false));
+    dispatch(toggleVerifyAccount(false));
   };
 
   const showSignUpModal = () => {
     dispatch(toggleLogin(false));
     dispatch(toggleSignup(true));
     dispatch(toggleCreateAccount(false));
+    dispatch(toggleVerifyAccount(false));
   };
 
   const showLogInModal = () => {
     dispatch(toggleLogin(true));
     dispatch(toggleSignup(false));
     dispatch(toggleCreateAccount(false));
+    dispatch(toggleVerifyAccount(false));
   };
 
   const authoriseCreateAccountModal = (email: string) => {
@@ -54,7 +61,15 @@ export const CombinedAuthenticationPage = () => {
     dispatch(toggleLogin(false));
     dispatch(toggleSignup(false));
     dispatch(toggleCreateAccount(true));
+    dispatch(toggleVerifyAccount(false));
   };
+
+  const showVerificationModal = () => {
+    dispatch(toggleLogin(false));
+    dispatch(toggleSignup(false));
+    dispatch(toggleCreateAccount(false));
+    dispatch(toggleVerifyAccount(true));
+  }
 
   useEffect(() => {
     if (isLoggedIn(userToken, userId)) {
@@ -81,6 +96,14 @@ export const CombinedAuthenticationPage = () => {
       ) : null}
       {showCreateAccount ? (
         <CreateAccountModal
+          cancel={hideAllModals}
+          email={signUpEmail}
+          showLogInModal={showLogInModal}
+          showVerificationModal={showVerificationModal}
+        />
+      ) : null}
+      {showVerifyAccount ? (
+        <VerifyAccountModal
           cancel={hideAllModals}
           email={signUpEmail}
           showLogInModal={showLogInModal}

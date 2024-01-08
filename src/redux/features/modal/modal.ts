@@ -5,12 +5,14 @@ export interface ModalState {
   showLogin: boolean;
   showSignup: boolean;
   showCreateAccount: boolean;
+  showVerifyAccount: boolean;
 }
 
 const ModalInitialState : ModalState = {
   showLogin: false,
   showSignup: false,
-  showCreateAccount: false
+  showCreateAccount: false,
+  showVerifyAccount: true
 }
 
 export const modalSlice = createSlice({
@@ -39,16 +41,26 @@ export const modalSlice = createSlice({
         showCreateAccount: action.payload
       };
       return newState;
+    },
+
+    toggleVerifyAccount: (state, action) => {
+      const newState = {
+        ...state,
+        showVerifyAccount: action.payload
+      };
+      return newState;
     }
   },
 });
 
-export const { toggleLogin, toggleSignup, toggleCreateAccount } = modalSlice.actions;
+export const { toggleLogin, toggleSignup, toggleCreateAccount, toggleVerifyAccount } = modalSlice.actions;
 
 export const selectLoginModal = (state: RootState) => state.modal.showLogin;
 
 export const selectSignupModal = (state: RootState) => state.modal.showSignup;
 
 export const selectCreateAccountModal = (state: RootState) => state.modal.showCreateAccount;
+
+export const selectVerifyAccountModal = (state: RootState) => state.modal.showVerifyAccount;
 
 export default modalSlice.reducer;
