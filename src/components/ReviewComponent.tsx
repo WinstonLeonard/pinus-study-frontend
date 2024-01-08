@@ -444,11 +444,11 @@ const ReviewComponent = ({
    * Renders the review in the Specific Review Page.
    */
   const renderSpecificReviewPageReview = () => {
+    console.log(review)
     return (
       <ReviewContainerDiv>
         <CombinedAuthenticationPage />
         <PostedSince>{parseLastModified(review.Timestamp)}</PostedSince>
-        {/* <QuestionTitle>{review.Title}</QuestionTitle> */}
         <br />
         <div><ContentTitle>Semester Taken: </ContentTitle><Content>{(review.SemesterTaken)}</Content></div>
         <div><ContentTitle>Difficulty: </ContentTitle><Content>{(review.Difficulty)}</Content></div>
