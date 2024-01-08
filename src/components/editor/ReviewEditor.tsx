@@ -91,11 +91,6 @@ const SelectOption = styled.option`
     margin-bottom: 1em;
     border-radius: 15px;
   `;
-
-//   const ScrollableContainer = styled.div`
-//   max-height: 200px;
-//   overflow: auto;
-// `;
   
   const ThreadContainer = styled.div`
     width: 80%;
@@ -105,7 +100,7 @@ const SelectOption = styled.option`
     padding: 1em;
     border-radius: 20px;
     overflow-y: auto;
-    max-height: 600px;
+    max-height: 400px;
     box-shadow: 7px 7px 0 ${Colors.green_2},
             7px 7px 0 2px ${Colors.dark_grey};
 

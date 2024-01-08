@@ -28,14 +28,14 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 
 /** TODO: Add POST methods for likes (change functions in `<ThumbButton onClick={...}`) and upon submitting comment */
 
-type ReviewType = "MODULE_PAGE" | "QUESTION_PAGE";
-type LikedStatus = "NEUTRAL" | "LIKED" | "DISLIKED";
+type ReviewType = "REVIEW_PAGE" | "SPECIFIC_REVIEW_PAGE";
+//type LikedStatus = "NEUTRAL" | "LIKED" | "DISLIKED";
 
 /** SHARED COMPONENTS */
-const QuestionTitle = styled.span`
+const ReviewTitle = styled.span`
   font-family: "Poppins", sans-serif;
   font-weight: 500;
-  font-size: 1.875em;
+  font-size: 1.7em;
 
   ${ScreenSizes.medium_below} {
     font-size: 1.375em;
@@ -54,9 +54,24 @@ export const RegularText = styled(Text)`
 `;
 
 const Content = styled.span`
-  display: inline-block;
-  font-family: "Poppins", sans-serif;
+  //display: inline-block;
+  font-family: "Poppins", sans-serif
   font-weight: 500;
+  font-size: 1.5em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  width: 100%;
+  word-wrap: break-word;
+
+  ${ScreenSizes.medium_below} {
+    font-size: 1em;
+  }
+`;
+
+const ContentTitle = styled.span`
+  //display: inline-block;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
   font-size: 1.5em;
   margin-top: 0.5em;
   margin-bottom: 0.5em;
@@ -77,7 +92,14 @@ const VerticalCenterAlignLayout = styled.div`
   align-items: center;
 `;
 
-/** MODULE-PAGE REVIEW ONLY */
+const SeparatorLine = styled.div`
+  width: 100%;
+  height: 5px;
+  background-color: #502060;
+  margin: 10px 0;
+`;
+
+/** REVIEW-PAGE REVIEW ONLY */
 const ReviewContainerButton = styled.button`
   background-color: ${Colors.blue_3};
   width: 100%;
@@ -173,8 +195,8 @@ const Username = styled.span`
 /**
  * Review component for the web forum.
  *
- * @param moduleId The review id to fetch the data.
- * @param type The type of review to be rendered. The only valid values are "QUESTION_PAGE" or "MODULE_PAGE",
+ * @param review The review of type Review to fetch the data.
+ * @param type The type of review to be rendered. The only valid values are "SPECIFIC_REVIEW_PAGE" or "REVIEW_PAGE",
  *             or it can be omitted.
  */
 const ReviewComponent = ({
@@ -187,7 +209,7 @@ const ReviewComponent = ({
   // const [likesCount, setLikesCount] = useState<number>(review.LikesCount);
   // const [dislikesCount, setDislikesCount] = useState<number>(review.DislikesCount);
   const [openReply, setOpenReply] = useState<boolean>(false);
-  const [status, setStatus] = useState<LikedStatus>("NEUTRAL");
+  //const [status, setStatus] = useState<LikedStatus>("NEUTRAL");
   const [loading, setLoading] = useState<boolean>(false);
 
   const dispatch = useDispatch();
@@ -202,7 +224,7 @@ const ReviewComponent = ({
   };
 
   const handleReviewClick = () => {
-    navigate(`/reviews/${review.ModuleId}`);
+    navigate(`/reviews/${review.ModuleId}/${review.UserId}`);
   };
 
   const showLogInModal = () => {
@@ -319,7 +341,7 @@ const ReviewComponent = ({
   }, []);
 
   // useEffect(() => {
-  //   if (type === "QUESTION_PAGE" && review !== ReviewInitialState) {
+  //   if (type === "SPECIFIC_REVIEW_PAGE" && review !== ReviewInitialState) {
   //     fetchLikeStatus();
   //   }
   //   setLoading(false);
@@ -333,8 +355,8 @@ const ReviewComponent = ({
    * @returns The shortened content of the review.
    */
   const shortenLongPosts = (content: string): string => {
-    if (content.length > 100) {
-      return content.substring(0, 100) + "...";
+    if (content.length > 125) {
+      return content.substring(0, 125) + "...";
     }
     return content;
   };
@@ -393,26 +415,22 @@ const ReviewComponent = ({
   }
 
   /**
-   * Renders the review in the Module Page.
+   * Renders the review in the Review Page.
    */
-  const renderModulePageReview = () => {
+  const renderReviewPageReview = () => {
     console.log(review);
     return (
       <div onClick={handleReviewClick}>
         <ReviewContainerButton>
           <PostedSince>{parseLastModified(review.Timestamp)}</PostedSince>
-          {/* <QuestionTitle>{review.Title}</QuestionTitle> */}
+          <div><ContentTitle>Semester Taken: </ContentTitle><Content>{(review.SemesterTaken)}</Content></div>
+          <div><ContentTitle>Difficulty: </ContentTitle><Content>{(review.Difficulty)}</Content></div>
+          <div><ContentTitle>Workload: </ContentTitle><Content>{(review.Workload)}</Content></div>
           <br />
-          <RegularText>
-            Posted by @{review.Username} in {review.ModuleId}
-          </RegularText>
+          <div><Content>{shortenRemoveHtml(review.Content)}</Content></div>
           <br />
-          <Content>{shortenRemoveHtml(review.Content)}</Content>
+          <div style={{float: 'right'}}><RegularText>Posted by @{review.Username} in {review.ModuleId}</RegularText></div>
           <br />
-          {/* <VerticalCenterAlignLayout>
-            <CommentOutlinedIcon sx={{ fontSize: "1.375em" }} />
-            <RegularText>&#8196;{review.Comments?.length || 0}</RegularText>
-          </VerticalCenterAlignLayout> */}
         </ReviewContainerButton>
       </div>
     );
@@ -423,21 +441,29 @@ const ReviewComponent = ({
   };
 
   /**
-   * Renders the review in the Question Page.
+   * Renders the review in the Specific Review Page.
    */
-  const renderQuestionPageReview = () => {
+  const renderSpecificReviewPageReview = () => {
     return (
       <ReviewContainerDiv>
         <CombinedAuthenticationPage />
         <PostedSince>{parseLastModified(review.Timestamp)}</PostedSince>
         {/* <QuestionTitle>{review.Title}</QuestionTitle> */}
         <br />
-        <RegularText>
-          Posted by <Username onClick={directToUserPage}>@{review.Username}</Username>
-        </RegularText>
+        <div><ContentTitle>Semester Taken: </ContentTitle><Content>{(review.SemesterTaken)}</Content></div>
+        <div><ContentTitle>Difficulty: </ContentTitle><Content>{(review.Difficulty)}</Content></div>
+        <div><ContentTitle>Workload: </ContentTitle><Content>{(review.Workload)}</Content></div>
+        <div><ContentTitle>Expected Grade: </ContentTitle><Content>{(review.ExpectedGrade)}</Content></div>
+        <div><ContentTitle>Actual Grade: </ContentTitle><Content>{(review.ActualGrade)}</Content></div>
+        <div><ContentTitle>Lecturer Name: </ContentTitle><Content>{(review.Lecturer)}</Content></div>
+        <div><ContentTitle>General Comments: </ContentTitle><Content>{deserialize(review.Content)}</Content></div>
+        <div><ContentTitle>Suggestions: </ContentTitle><Content>{deserialize(review.Suggestion)}</Content></div>
         <br />
-        <Content>{deserialize(review.Content)}</Content>
-        <br />
+        <div style={{textAlign: 'right'}}>
+          <RegularText>
+            Posted by <Username onClick={directToUserPage}>@{review.Username}</Username>
+          </RegularText>
+        </div>
         {/* <VerticalCenterAlignLayout>
           <ThumbButton onClick={handleLikeButton}>
             {status === "LIKED" ? <ThumbUpIcon /> : <ThumbUpOutlinedIcon />}
@@ -460,12 +486,12 @@ const ReviewComponent = ({
   };
 
   switch (type) {
-    case "QUESTION_PAGE":
-      return renderQuestionPageReview();
-    case "MODULE_PAGE":
-      return renderModulePageReview();
+    case "SPECIFIC_REVIEW_PAGE":
+      return renderSpecificReviewPageReview();
+    case "REVIEW_PAGE":
+      return renderReviewPageReview();
     default:
-      return renderModulePageReview();
+      return renderReviewPageReview();
   }
 };
 
