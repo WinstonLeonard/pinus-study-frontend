@@ -207,7 +207,7 @@ const ThreadComponent = ({
   const [openReply, setOpenReply] = useState<boolean>(false);
   const [status, setStatus] = useState<LikedStatus>("NEUTRAL");
   const [loading, setLoading] = useState<boolean>(false);
-  const [bookmarked, setBookmarked] = useState<boolean>(true);
+  const [bookmarked, setBookmarked] = useState<boolean>(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -289,8 +289,38 @@ const ThreadComponent = ({
   };
 
   const handleBookmarkButton = () => {
+    if (bookmarked === false) {
+      fetch(API_URL + `/bookmark/${threadId}/${userId}`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          token: token,
+          bookmarked: !bookmarked,
+        }),
+      }).then((response) => console.log("success!"));
+    } else {
+      fetch(`${API_URL}/bookmark/${threadId}/${userId}`, {
+        method: "DELETE",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Failed to delete bookmark");
+          }
+          console.log("Bookmark deleted successfully!");
+        })
+        .catch((error) => console.error(error));
+    }
     setBookmarked(!bookmarked);
-  }
+  };
 
   const handleLikesCount = () => {
     console.log("likeStatus: " + likeStatus);
@@ -353,11 +383,30 @@ const ThreadComponent = ({
   };
 
   /**
+   * Fetches bookmarked data
+   */
+
+  const fetchBookmarkStatus = () => {
+    fetch(API_URL + `/bookmark/${threadId}/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data.bookmarked);
+        setBookmarked(data.bookmarked)
+      })
+      .catch((error) => console.log("error fethcing: " + error));
+  };
+
+  /**
    * Hook to fetch data.
    */
   useEffect(() => {
     setLoading(true);
     fetchThreadData();
+    fetchBookmarkStatus();
   }, []);
 
   useEffect(() => {
