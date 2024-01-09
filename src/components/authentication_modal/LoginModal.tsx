@@ -23,6 +23,7 @@ const LoginModal = ({cancel, showSignUpModal} : {cancel: () => void; showSignUpM
     const [password, setPassword] = useState<string>("");
     const [showError, setShowError] = useState<Boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [statusMessage, setStatusMessage] = useState<string>("");
     const dispatch = useDispatch();
 
     /**
@@ -63,14 +64,16 @@ const LoginModal = ({cancel, showSignUpModal} : {cancel: () => void; showSignUpM
             }),
         }).then(response => response.json())
         .then(data => {
-            if (data.status === "failure" || data.token === '') {
+            if (data.token === "") {
                 setShowError(true);
+                setStatusMessage(data.status);
                 return;
             }
             dispatch(login({
                 Id: data.userid,
                 Token: data.token
             }));
+            
         })
         .catch(error => console.log(error))
         .finally(() => setIsLoading(false));
@@ -112,7 +115,7 @@ const LoginModal = ({cancel, showSignUpModal} : {cancel: () => void; showSignUpM
                         onChange={handlePasswordChange}
                         value={password}
                         disabled={isLoading}/>
-                    { showError ? <ErrorMessage>wrong username or password!</ErrorMessage> : null }
+                    { showError ? <ErrorMessage>{statusMessage}</ErrorMessage> : null }
                 </ModalDiv>
                 {/*
                 <ModalDiv justifyContent="center">

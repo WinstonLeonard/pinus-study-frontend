@@ -79,14 +79,12 @@ const VerifiedPage = () => {
             } else {
                 setError(false);
             }
-
-            setIsLoading(false);
         })
         .catch((err) => {
             console.log(err);
             setError(true);
-            setIsLoading(false);
-        });
+        })
+        .finally(() => setIsLoading(false));
     }
     
 
