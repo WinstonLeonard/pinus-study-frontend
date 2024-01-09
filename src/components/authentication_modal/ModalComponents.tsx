@@ -167,3 +167,23 @@ export const VerificationSentMessage = styled.span`
     font-size: 1em;
     margin-top: 0.5em;
 `;
+
+export const VerificationResendSuccess = styled.span`
+    color: ${Colors.green_accent};
+    font-family: "Poppins";
+    font-weight: 400;
+    font-size: 1em;
+    margin-top: 0.5em;
+    display: flex;
+    justify-content: center;
+`;
+
+export const VerificationResendError = styled.span`
+    color: ${Colors.red};
+    font-family: "Poppins";
+    font-weight: 400;
+    font-size: 1em;
+    margin-top: 0.5em;
+    display: flex;
+    justify-content: center;
+`;

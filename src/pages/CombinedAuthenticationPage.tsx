@@ -19,6 +19,7 @@ import VerifyAccountModal from "../components/authentication_modal/VerifyAccount
 
 export const CombinedAuthenticationPage = () => {
   const [signUpEmail, setSignUpEmail] = useState<string>("");
+  const [signUpUserId, setSignUpUserId] = useState<number>(-1);
 
   const location = useLocation();
 
@@ -49,8 +50,9 @@ export const CombinedAuthenticationPage = () => {
     dispatch(toggleVerifyAccount(false));
   };
 
-  const showVerificationModal = (email: string) => {
+  const showVerificationModal = (email: string, userId: number) => {
     setSignUpEmail(email);
+    setSignUpUserId(userId);
     dispatch(toggleLogin(false));
     dispatch(toggleCreateAccount(false));
     dispatch(toggleVerifyAccount(true));
@@ -84,7 +86,7 @@ export const CombinedAuthenticationPage = () => {
         <VerifyAccountModal
           cancel={hideAllModals}
           email={signUpEmail}
-          showLogInModal={showLogInModal}
+          userId={signUpUserId}
         />
       ) : null}
     </>

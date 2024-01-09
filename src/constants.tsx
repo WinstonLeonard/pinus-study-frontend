@@ -68,3 +68,4 @@ export const API_URL = process.env.REACT_APP_API_URL || 'https://pinus-study-bac
 
 export const LOGIN_URL = `${API_URL}/login`;
 export const USER_URL = `${API_URL}/user`;
+export const VERIFICATION_URL = `${API_URL}/verify_email`;

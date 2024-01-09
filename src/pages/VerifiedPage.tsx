@@ -1,11 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Background from "../components/Background";
 import NavigationBar from "../components/Navbar";
 import { Colors, ScreenSizes } from "../constants";
-import { selectUser } from "../redux/features/users/userSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { getUserDetailsRequest } from "../requests";
+import { VERIFICATION_URL } from "../constants";
 
 const VerifiedPageWrapper = styled.div`
     padding: 2em;
@@ -50,22 +48,65 @@ const MessageText = styled.p`
 `
 
 const VerifiedPage = () => {
-    const user = useSelector(selectUser);
-    const dispatch = useDispatch();
-
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(false);
+    
     useEffect(() => {
-        getUserDetailsRequest(user.Id, dispatch);
+        const urlParams = window.location.search.substring(1);
+        const emailId = parseInt(urlParams.split("&")[0].split("=")[1]);
+        const secretCode = urlParams.split("&")[1].split("=")[1];
+
+        verifyEmail(emailId, secretCode);
     }, [])
+
+    const verifyEmail = (emailId: number, token: string) => {
+        setIsLoading(true);
+        
+        fetch(`${VERIFICATION_URL}/${emailId}`, {
+            method: "PUT",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                secretcode: token
+            }),
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.status === 'failure') {
+                setError(true);
+            } else {
+                setError(false);
+            }
+
+            setIsLoading(false);
+        })
+        .catch((err) => {
+            console.log(err);
+            setError(true);
+            setIsLoading(false);
+        });
+    }
+    
 
     return (
         <div>
             <NavigationBar/>
             <Background>
                 <VerifiedPageWrapper>
-                    <TextContainer >
-                        <HeaderText>Your Account Has Been Verified!</HeaderText>
-                        <MessageText onClick={() => console.log(user)}>Congratulations!</MessageText>
-                    </TextContainer>
+                    { !isLoading ? <TextContainer >
+                        {!error ? (
+                            <HeaderText>Your Account Has Been Verified!</HeaderText>
+                        ) : (
+                            <HeaderText>Something Went Wrong!</HeaderText>
+                        )}
+                        {!error ? (
+                            <MessageText> Congratulations! You have verified your account.</MessageText>
+                        ) : (
+                            <MessageText> This verification link is either expired or doesn't exist </MessageText>
+                        )}
+                    </TextContainer> : null }
                 </VerifiedPageWrapper>
             </Background>
         </div>

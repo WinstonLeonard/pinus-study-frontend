@@ -11,6 +11,7 @@ import HomePage from "./pages/HomePage";
 import ModulePage from "./pages/ModulePage";
 import SubscribersPage from "./pages/SubscribersPage";
 import ProfilePage from "./pages/ProfilePage";
+import VerifiedPage from "./pages/VerifiedPage";
 import { PersistGate } from "redux-persist/integration/react";
 import SearchModulesPage from "./pages/SearchModulesPage";
 
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
     {
         path: "/profile/:userId",
         element: <ProfilePage />
+    },
+    {
+        path: "/verify_email",
+        element: <VerifiedPage />
     }
 ]);
 

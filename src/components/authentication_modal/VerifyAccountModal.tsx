@@ -7,16 +7,51 @@ import {
     VerificationSentMessage, 
     ModalBackground, 
     ModalDiv, 
-    ModalInput, 
     ModalTitle, 
-    SwitchModalPrompt 
+    VerificationResendSuccess,
+    VerificationResendError
 } from "./ModalComponents";
+import { VERIFICATION_URL } from "../../constants";
+import { WhiteLoader } from "../Loader";
 
 const VerifyAccountModal = ({
     cancel,
     email,
-    showLogInModal,
-} : {cancel: () => void; email: string; showLogInModal: () => void}) => {
+    userId,
+} : {cancel: () => void; email: string; userId: number}) => {
+
+    const [isResending, setIsResending] = useState<boolean>(false);
+    const [resendError, setResendError] = useState<boolean>(false);
+    const [resendSuccess, setResendSuccess] = useState<boolean>(false);
+
+    const resendVerification = () => {
+        setIsResending(true);
+
+        fetch(`${VERIFICATION_URL}/${userId}`, {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.status === 'failure') {
+                setResendError(true);
+                setResendSuccess(false);
+            } else {
+                setResendError(false);
+                setResendSuccess(true);
+            }
+
+            setIsResending(false);
+        })
+        .catch((err) => {
+            console.log(err);
+            setResendError(true);
+            setResendSuccess(false);
+        });
+    }
 
     return (
         <BlurredBackground>
@@ -38,12 +73,27 @@ const VerifyAccountModal = ({
                 <ModalDiv/>
                 <ModalDiv/>
                 <ModalDiv/>
-                <ModalDiv justifyContent="center">
-                    <SwitchModalPrompt>Didn't get the email?&nbsp;</SwitchModalPrompt>
-                    <SwitchModalPrompt 
-                        textDecoration="underline" 
-                        onClick={() => console.log("RESEND")}
-                        cursor="pointer">Resend.</SwitchModalPrompt>
+                <ModalDiv justifyContent="center" direction="column">
+                    <VerificationSentMessage>Didn't get the email?</VerificationSentMessage>
+                    <ModalDiv>
+                        <AuthButton onClick={resendVerification} disabled={isResending}>
+                            {
+                                isResending
+                                ? <WhiteLoader />
+                                : "Resend"
+                            }
+                        </AuthButton>
+                    </ModalDiv>
+                    {resendSuccess ? (
+                        <VerificationResendSuccess>Resend success!</VerificationResendSuccess>
+                    ) : (
+                        null
+                    )}
+                    {resendError ? (
+                        <VerificationResendError>Resend error</VerificationResendError>
+                    ) : (
+                        null
+                    )}
                 </ModalDiv>
             </ModalBackground>
         </BlurredBackground>

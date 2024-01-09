@@ -27,7 +27,7 @@ const CreateAccountModal = ({
     email: string;
     cancel: () => void;
     showLogInModal: () => void;
-    showVerificationModal: (email: string) => void;
+    showVerificationModal: (email: string, userid: number) => void;
 }) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [email, setEmail] = useState<string>("");
@@ -123,13 +123,12 @@ const CreateAccountModal = ({
                 setBackendResponse(data.cause);
                 setShowError(true);
             } else {
-                showVerificationModal(email);
+                showVerificationModal(email, data.userid);
             }
         })
         .catch((error) => console.log(error))
         .finally(() => {
             setIsLoading(false);
-            //showVerificationModal();
         });
     };
 
