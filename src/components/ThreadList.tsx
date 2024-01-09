@@ -63,7 +63,7 @@ const ThreadList = ({ selectedModule, sortType } : { selectedModule : string, so
     const [filteredList, setFilteredList] = useState<Thread[]>([]);
     const onChange = (e: React.FormEvent<HTMLInputElement>): void => {
         setQuery(e.currentTarget.value);
-        setFilteredList(module.Threads.filter(a => a.Title.includes(e.currentTarget.value)));
+        setFilteredList(module.Threads.filter(a => a.Title.toLowerCase().includes(e.currentTarget.value.toLowerCase())));
         console.log(filteredList);
     };
     const fetchMod = () => {
@@ -72,7 +72,7 @@ const ThreadList = ({ selectedModule, sortType } : { selectedModule : string, so
             .then(data => {
               console.log(data);
               setModule(data.module);
-              setFilteredList(sortList(sortType, data.module.Threads));
+              setFilteredList(sortList(sortType, data.module.Threads?data.module.Threads:[]));
             })
         .catch(error => console.log(error))
     }
@@ -91,7 +91,7 @@ const ThreadList = ({ selectedModule, sortType } : { selectedModule : string, so
         fetchMod();
     }, [])
     
-    const check = sortList(sortType, module.Threads).filter(a => a.Title.includes(query));
+    const check = sortList(sortType, module.Threads?module.Threads:[]).filter(a => a.Title.toLowerCase().includes(query.toLowerCase()));
     if (check.length !== filteredList.length) {
         setFilteredList(check);
     } else {
@@ -102,7 +102,7 @@ const ThreadList = ({ selectedModule, sortType } : { selectedModule : string, so
         }
     }
     const renderThreadList = () => {
-        if (module === (ModuleInitialState)) {
+        if (module === (ModuleInitialState) || filteredList.length === 0) {
             return <ThreadWrapper />;
         }
         return (
