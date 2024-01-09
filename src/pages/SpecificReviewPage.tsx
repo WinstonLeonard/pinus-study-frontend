@@ -113,26 +113,27 @@ const MediumText = styled.span`
 // };
 
 const SpecificReviewPage = () => {
-  const token = useSelector(selectToken);
-  const userId = useSelector(selectId);
+  const {mod, userId} = useParams();
+  console.log(mod);
+  console.log(userId);
+  // const token = useSelector(selectToken);
+  // const userId = useSelector(selectId);
   const [review, setReview] = useState<Review>(ReviewInitialState);
 
   const fetchReviewData = () => {
-    fetch(API_URL + `/review/${review.ModuleId}/${review.UserId}`)
+    fetch(API_URL + `/review/${mod}/${userId}`)
       .then((response) => response.json())
       .then(data => {
         console.log(data);
-        setReview(data.review.map((r: any) => ({
-            ...r,
-            Comments: []
-        })))
+        setReview(data.review);
     })
     .catch(error => console.log(error))
 }
 
   useEffect(() => {
     fetchReviewData();
-  }, []);
+    console.log(review);
+  },[]);
 
 //   if (!review.ModuleId) {
 //     return <div></div>; // Handle invalid question page here. Probly some 404 page or such
