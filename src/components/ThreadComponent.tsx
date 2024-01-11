@@ -492,9 +492,12 @@ const ThreadComponent = ({
         <ThreadContainerButton>
           <PostedSince>{parseLastModified(thread.Timestamp)}</PostedSince>
           <QuestionTitle>{thread.Title}</QuestionTitle>
-          <BookmarkButton onClick={handleBookmarkButton}>
+          {
+            isLoggedIn(token, userId) &&
+            <BookmarkButton onClick={handleBookmarkButton}>
               {bookmarked === true ? <BookMarkAddedIcon/> : <BookMarkAddIcon/>}
-          </BookmarkButton>
+            </BookmarkButton>
+          }
           <br />
           <RegularText>
             Posted by @{thread.Username} in {thread.ModuleId}
@@ -524,9 +527,12 @@ const ThreadComponent = ({
         <CombinedAuthenticationPage />
         <PostedSince>{parseLastModified(thread.Timestamp)}</PostedSince>
         <QuestionTitle>{thread.Title}</QuestionTitle>
-        <BookmarkButton onClick={handleBookmarkButton}>
-              {bookmarked === true ? <BookMarkAddedIcon/> : <BookMarkAddIcon/>}
-        </BookmarkButton>
+        {
+          isLoggedIn(token, userId) &&
+          <BookmarkButton onClick={handleBookmarkButton}>
+            {bookmarked === true ? <BookMarkAddedIcon/> : <BookMarkAddIcon/>}
+          </BookmarkButton>
+        }
         <br />
         <RegularText>
           Posted by <Username onClick={directToUserPage}>@{thread.Username}</Username>
