@@ -102,7 +102,7 @@ const ThreadList = ({ selectedModule, sortType } : { selectedModule : string, so
         }
     }
     const renderThreadList = () => {
-        if (module === (ModuleInitialState) || filteredList.length === 0) {
+        if (module === (ModuleInitialState) || !module.Threads || module.Threads.length === 0) {
             return <ThreadWrapper />;
         }
         return (
