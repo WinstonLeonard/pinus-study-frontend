@@ -238,8 +238,8 @@ const SelectOption = styled.option`
    * @returns A React component that represents the Text Editor.
    */
     const ReviewEditor = ({ closeReviewEditor }: { closeReviewEditor: () => void }) => {
-    const [workload, setWorkload] = useState("");
-    const [difficulty, setDifficulty] = useState("");
+    const [workload, setWorkload] = useState("1");
+    const [difficulty, setDifficulty] = useState("1");
     const [expectedGrade, setExpectedGrade] = useState("");
     const [actualGrade, setActualGrade] = useState("");
     const [semesterYear, setSemesterYear] = useState("");
@@ -380,7 +380,7 @@ const SelectOption = styled.option`
                 <InputLabel>Difficulty<InputLabel style={{color:'red'}}> *</InputLabel> </InputLabel>
                 <input
                     type="range"
-                    min="0"
+                    min="1"
                     max="5"
                     value={difficulty === "" ? "0" : difficulty}
                     onChange={(e) => setDifficulty(e.target.value)}
@@ -392,7 +392,7 @@ const SelectOption = styled.option`
                 <InputLabel>Workload<InputLabel style={{color:'red'}}> *</InputLabel> </InputLabel>
                 <input
                     type="range"
-                    min="0"
+                    min="1"
                     max="5"
                     value={workload === "" ? "0" : workload}
                     onChange={(e) => setWorkload(e.target.value)}
