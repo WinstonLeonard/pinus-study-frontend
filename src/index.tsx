@@ -58,12 +58,10 @@ const router = createBrowserRouter([
         path: "/profile/:userId",
         element: <ProfilePage />
     },
-
     {
         path: "/verify_email",
         element: <VerifiedPage />
-    }
-
+    },
     {
         path: "/bookmarked",
         element: <BookmarkPage/>
