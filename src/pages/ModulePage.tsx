@@ -4,13 +4,12 @@ import Background from "../components/Background";
 import NavigationBar from "../components/Navbar";
 import { Colors, ScreenSizes } from "../constants";
 import MyModules from "../components/MyModules";
-import ModuleForum, { Button } from "../components/ModuleForum";
+import ModuleForum, { Button, SelectBox } from "../components/ModuleForum";
 import ThreadList from "../components/ThreadList";
 import { useSelector } from "react-redux";
 import { selectId, selectToken } from "../redux/features/users/userSlice";
 import TextEditor from "../components/editor/TextEditor";
 import { useState } from "react";
-
 import { isLoggedIn } from "../utils";
 
 const ModulePageWrapper = styled.div`
@@ -71,6 +70,14 @@ const Heading = styled.span`
   }
 `;
 
+const SortByFont = styled.div`
+  font-family: "Poppins", "sans-serif";
+  font-weight: 600;
+  font-size: 1.5em;
+  color: ${Colors.dark_grey};
+  padding: 5px 5px;
+`;
+
 const ButtonDiv = styled.div`
   width: 50%;
   display: flex;
@@ -92,6 +99,8 @@ const ModulePage = () => {
   const userId = useSelector(selectId);
   const token = useSelector(selectToken);
   const [openTextEditor, setOpenTextEditor] = useState(false);
+  const sortedType = ["Newest", "Latest", "Replies", "Likes", "Dislikes"];
+  const [sortType, setSortType] = useState(sortedType[0]);
 
   const showTextEditor = () => {
     setOpenTextEditor(true);
@@ -100,7 +109,10 @@ const ModulePage = () => {
   const closeTextEditor = () => {
     setOpenTextEditor(false);
   };
-
+  const onChange = (e: React.FormEvent<HTMLSelectElement>): void => {
+    setSortType(e.currentTarget.value);
+    console.log(e.currentTarget.value);
+  };
   return (
     <div>
       {openTextEditor ? <TextEditor closeTextEditor={closeTextEditor} /> : null}
@@ -113,6 +125,12 @@ const ModulePage = () => {
                 <Heading>Discussion Forum</Heading>
               </ForumHeadingDiv>
               <ButtonDiv>
+                <SortByFont>Sort By:</SortByFont>
+                <SelectBox onChange={onChange}>
+                  {sortedType.map((label) => {
+                    return <option value={label}>{label}</option>
+                  })}
+                </SelectBox>
                 {isLoggedIn(token, userId) ? (
                   <Button onClick={showTextEditor} mobilePadding="10px 20px">+ New Post</Button>
                 ) : (
@@ -121,7 +139,7 @@ const ModulePage = () => {
               </ButtonDiv>
             </HeadingDiv>
             <ThreadListContainer>
-              <ThreadList selectedModule={mod ? mod.toString() : ""} />
+              <ThreadList selectedModule={mod ? mod.toString() : ""} sortType={sortType}/>
             </ThreadListContainer>
           </div>
           <RightSide>
