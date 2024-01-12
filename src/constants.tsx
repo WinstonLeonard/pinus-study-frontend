@@ -70,3 +70,4 @@ export const API_URL = 'http://localhost:8080';
 
 export const LOGIN_URL = `${API_URL}/login`;
 export const USER_URL = `${API_URL}/user`;
+export const VERIFICATION_URL = `${API_URL}/verify_email`;

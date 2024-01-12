@@ -22,10 +22,12 @@ import styled from "styled-components";
 const CreateAccountModal = ({
     cancel,
     showLogInModal,
+    showVerificationModal,
 }: {
     email: string;
     cancel: () => void;
     showLogInModal: () => void;
+    showVerificationModal: (email: string, userid: number) => void;
 }) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [email, setEmail] = useState<string>("");
@@ -117,18 +119,17 @@ const CreateAccountModal = ({
         .then((response) => response.json())
         .then((data) => {
             console.log(data);
-            if (data.status === "failure" || data.token === "") {
+            if (data.status === "failure") {
                 setBackendResponse(data.cause);
                 setShowError(true);
             } else {
-                dispatch(login({
-                    Id: data.userid,
-                    Token: data.token
-                }));
+                showVerificationModal(email, data.userid);
             }
         })
         .catch((error) => console.log(error))
-        .finally(() => setIsLoading(false));
+        .finally(() => {
+            setIsLoading(false);
+        });
     };
 
     // /**
