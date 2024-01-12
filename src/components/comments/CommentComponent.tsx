@@ -25,6 +25,9 @@ import { isLoggedIn } from "../../utils";
 import { deserialize } from "../editor/serializer";
 import { PostedSince, RegularText, ThreadContainerDiv } from "../ThreadComponent";
 
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime';
+
 /** TODO: Add POST methods for likes (change functions in `<ThumbButton onClick={...}`) and upon submitting comment */
 
 type LikedStatus = "NEUTRAL" | "LIKED" | "DISLIKED";
@@ -315,11 +318,16 @@ const CommentComponent = ({
     return seconds + "s";
   };
 
+  const parseLastModified = (date: string) => {
+    dayjs.extend(relativeTime)
+    return dayjs(date).fromNow()
+}
+
   if (level === 0) {
     return (
       <ThreadContainerDiv margin="1em 0em">
         <CombinedAuthenticationPage />
-        <PostedSince>{(comment.Timestamp)}</PostedSince>
+        <PostedSince>{parseLastModified(comment.Timestamp)}</PostedSince>
         <RegularText>Replied by @{comment.Username}</RegularText>
         <br />
         <Content>{deserialize(comment.Content)}</Content>
@@ -374,7 +382,7 @@ const CommentComponent = ({
       <LevelContainerDiv level={level}>
         <CombinedAuthenticationPage />
         <Line />
-        <PostedSince>{parseDuration(comment.Timestamp)}</PostedSince>
+        <PostedSince>{parseLastModified(comment.Timestamp)}</PostedSince>
         <RegularText>Replied by @{comment.Username}</RegularText>
         <br />
         <Content>{deserialize(comment.Content)}</Content>
