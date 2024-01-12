@@ -319,7 +319,7 @@ const CommentComponent = ({
     return (
       <ThreadContainerDiv margin="1em 0em">
         <CombinedAuthenticationPage />
-        <PostedSince>{parseDuration(comment.Timestamp)}</PostedSince>
+        <PostedSince>{(comment.Timestamp)}</PostedSince>
         <RegularText>Replied by @{comment.Username}</RegularText>
         <br />
         <Content>{deserialize(comment.Content)}</Content>

@@ -14,6 +14,7 @@ import ReviewsPage from "./pages/ReviewsPage";
 import ProfilePage from "./pages/ProfilePage";
 import { PersistGate } from "redux-persist/integration/react";
 import SearchModulesPage from "./pages/SearchModulesPage";
+import BookmarkPage from "./pages/BookmarkPage";
 import SpecificReviewPage from "./pages/SpecificReviewPage";
 
 const container = document.getElementById("root")!;
@@ -56,6 +57,12 @@ const router = createBrowserRouter([
         path: "/profile/:userId",
         element: <ProfilePage />
     },
+
+    {
+        path: "/bookmarked",
+        element: <BookmarkPage/>
+    },
+
 ]);
 
 root.render(
