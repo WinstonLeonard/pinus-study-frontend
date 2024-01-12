@@ -2,14 +2,16 @@ import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import Background from "../components/Background";
 import NavigationBar from "../components/Navbar";
-import { Colors, ScreenSizes } from "../constants";
+import { API_URL, Colors, ScreenSizes } from "../constants";
 import MyModules from "../components/MyModules";
-import ModuleForum, { Button, SelectBox } from "../components/ModuleForum";
-import ThreadList from "../components/ThreadList";
+import ModuleForum, { Button } from "../components/ModuleForum";
+import ReviewList from "../components/ReviewList";
 import { useSelector } from "react-redux";
 import { selectId, selectToken } from "../redux/features/users/userSlice";
-import TextEditor from "../components/editor/TextEditor";
+import ReviewEditor from "../components/editor/ReviewEditor";
 import { useState } from "react";
+import { ErrorMessage } from "../components/authentication_modal/ModalComponents"
+
 import { isLoggedIn } from "../utils";
 
 const ModulePageWrapper = styled.div`
@@ -70,14 +72,6 @@ const Heading = styled.span`
   }
 `;
 
-const SortByFont = styled.div`
-  font-family: "Poppins", "sans-serif";
-  font-weight: 600;
-  font-size: 1.5em;
-  color: ${Colors.dark_grey};
-  padding: 5px 5px;
-`;
-
 const ButtonDiv = styled.div`
   width: 50%;
   display: flex;
@@ -90,57 +84,71 @@ const ButtonDiv = styled.div`
   }
 `;
 
-const ThreadListContainer = styled.div`
+const ReviewListContainer = styled.div`
   margin-left: 8px;
 `;
 
-const ModulePage = () => {
+const ReviewsPage = () => {
   const { mod } = useParams();
   const userId = useSelector(selectId);
   const token = useSelector(selectToken);
-  const [openTextEditor, setOpenTextEditor] = useState(false);
-  const sortedType = ["Newest", "Latest", "Replies", "Likes", "Dislikes"];
-  const [sortType, setSortType] = useState(sortedType[0]);
+  const [openReviewEditor, setOpenReviewEditor] = useState(false);
+  // Assuming you have a state variable named `setError`
+const [setError, setErrorMessage] = useState<string | null>(null);
 
-  const showTextEditor = () => {
-    setOpenTextEditor(true);
+// ...
+
+const showReviewEditor = () => {
+  // Open the review editor only if the user has not reviewed the module
+  fetch(API_URL + `/review/${mod}/${userId}`)
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.review === null) {
+        setOpenReviewEditor(true);
+        setErrorMessage(null);
+      } else {
+        setErrorMessage('You have already reviewed this module.');
+        setOpenReviewEditor(false);
+      }
+    })
+    .catch((error) => {
+      setErrorMessage('Error during fetch. Please try again.');
+      console.error(error);
+    });
+};
+
+  
+  const closeReviewEditor = () => {
+    setOpenReviewEditor(false);
   };
 
-  const closeTextEditor = () => {
-    setOpenTextEditor(false);
-  };
-  const onChange = (e: React.FormEvent<HTMLSelectElement>): void => {
-    setSortType(e.currentTarget.value);
-    console.log(e.currentTarget.value);
-  };
   return (
     <div>
-      {openTextEditor ? <TextEditor closeTextEditor={closeTextEditor} /> : null}
+      {openReviewEditor ? <ReviewEditor closeReviewEditor={closeReviewEditor} /> : null}
       <NavigationBar />
       <Background>
         <ModulePageWrapper>
           <div>
             <HeadingDiv>
               <ForumHeadingDiv>
-                <Heading>Discussion Forum</Heading>
+                <Heading>Reviews</Heading>
               </ForumHeadingDiv>
+              <div style={{display:'flex', alignItems:'center'}}>
+                <ErrorMessage style={{whiteSpace:'nowrap'}}>
+                  {setError}
+                </ErrorMessage>
+              </div>
               <ButtonDiv>
-                <SortByFont>Sort By:</SortByFont>
-                <SelectBox onChange={onChange}>
-                  {sortedType.map((label) => {
-                    return <option value={label}>{label}</option>
-                  })}
-                </SelectBox>
                 {isLoggedIn(token, userId) ? (
-                  <Button onClick={showTextEditor} mobilePadding="10px 20px">+ New Post</Button>
+                  <Button onClick={showReviewEditor} mobilePadding="10px 20px">Add Review</Button>
                 ) : (
                   <></>
                 )}
               </ButtonDiv>
             </HeadingDiv>
-            <ThreadListContainer>
-              <ThreadList selectedModule={mod ? mod.toString() : ""} sortType={sortType}/>
-            </ThreadListContainer>
+            <ReviewListContainer>
+              <ReviewList selectedModule={mod ? mod.toString() : ""} />
+            </ReviewListContainer>
           </div>
           <RightSide>
             <ModuleForum selectedModule={mod ? mod.toString() : ""} />
@@ -152,4 +160,4 @@ const ModulePage = () => {
   );
 };
 
-export default ModulePage;
+export default ReviewsPage;
