@@ -195,9 +195,11 @@ const BookmarkButton = styled.button`
 const ThreadComponent = ({
   threadId,
   type,
+  threadComponent
 }: {
   threadId: number;
   type?: ThreadType;
+  threadComponent?: Thread;
 }) => {
   const [thread, setThread] = useState<Thread>(ThreadInitialState);
   const [likesCount, setLikesCount] = useState<number>(thread.LikesCount);
@@ -404,10 +406,16 @@ const ThreadComponent = ({
    * Hook to fetch data.
    */
   useEffect(() => {
-    setLoading(true);
-    fetchThreadData();
     fetchBookmarkStatus();
   }, []);
+
+  switch (type) {
+    case "QUESTION_PAGE":
+      useEffect(() => {
+        setLoading(true);
+        fetchThreadData();
+      }, []);
+  }
 
   useEffect(() => {
     if (type === "QUESTION_PAGE" && thread !== ThreadInitialState) {
@@ -490,8 +498,8 @@ const ThreadComponent = ({
     return (
       <div onClick={handleThreadClick}>
         <ThreadContainerButton>
-          <PostedSince>{parseLastModified(thread.Timestamp)}</PostedSince>
-          <QuestionTitle>{thread.Title}</QuestionTitle>
+          <PostedSince>{parseLastModified(threadComponent?.Timestamp?threadComponent.Timestamp:"")}</PostedSince>
+          <QuestionTitle>{threadComponent?.Title}</QuestionTitle>
           {
             isLoggedIn(token, userId) &&
             <BookmarkButton onClick={handleBookmarkButton}>
@@ -500,14 +508,14 @@ const ThreadComponent = ({
           }
           <br />
           <RegularText>
-            Posted by @{thread.Username} in {thread.ModuleId}
+            Posted by @{threadComponent?.Username} in {threadComponent?.ModuleId}
           </RegularText>
           <br />
-          <Content>{shortenRemoveHtml(thread.Content)}</Content>
+          <Content>{shortenRemoveHtml(threadComponent?.Content?threadComponent.Content:"")}</Content>
           <br />
           <VerticalCenterAlignLayout>
             <CommentOutlinedIcon sx={{ fontSize: "1.375em" }} />
-            <RegularText>&#8196;{thread.Comments?.length || 0}</RegularText>
+            <RegularText>&#8196;{threadComponent?.CommentsCount}</RegularText>
           </VerticalCenterAlignLayout>
         </ThreadContainerButton>
       </div>
