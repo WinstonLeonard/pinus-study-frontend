@@ -8,6 +8,7 @@ export interface Thread {
 	ModuleId: string;
 	LikesCount: number;
 	DislikesCount: number;
+	CommentsCount: number;
 	Comments?: number[];
 }
 
@@ -21,5 +22,6 @@ export const ThreadInitialState : Thread = {
 	ModuleId: "",
 	LikesCount: 0,
 	DislikesCount: 0,
+	CommentsCount: 0,
 	Comments: undefined
 }
