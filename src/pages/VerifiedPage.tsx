@@ -102,7 +102,7 @@ const VerifiedPage = () => {
                         {!error ? (
                             <MessageText> Congratulations! You have verified your account.</MessageText>
                         ) : (
-                            <MessageText> This verification link is either expired or doesn't exist </MessageText>
+                            <MessageText> This verification link has expired or doesn't exist </MessageText>
                         )}
                     </TextContainer> : null }
                 </VerifiedPageWrapper>
