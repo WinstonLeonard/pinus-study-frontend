@@ -47,11 +47,15 @@ const LoginModal = ({cancel, showSignUpModal} : {cancel: () => void; showSignUpM
      * credentials, an error message will be shown.
      */
     const logIn = () => {
-        if (emailOrUsername.trim() === "" || password === "") {
+        if (emailOrUsername.trim() === "" || password.trim() === "") {
             setShowError(true);
+            setStatusMessage("Fields cannot be empty!")
             return;
         }
+
         setIsLoading(true)
+        setStatusMessage("")
+
         fetch(LOGIN_URL, {
             method: "POST",
             headers: {
@@ -64,11 +68,12 @@ const LoginModal = ({cancel, showSignUpModal} : {cancel: () => void; showSignUpM
             }),
         }).then(response => response.json())
         .then(data => {
-            if (data.token === "") {
+            if (data.status === "failure") {
                 setShowError(true);
-                setStatusMessage(data.status);
+                setStatusMessage(data.cause);
                 return;
             }
+
             dispatch(login({
                 Id: data.userid,
                 Token: data.token
