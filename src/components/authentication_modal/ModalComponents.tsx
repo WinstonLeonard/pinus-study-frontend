@@ -168,6 +168,28 @@ export const VerificationSentMessage = styled.span`
     margin-top: 0.5em;
 `;
 
+export const VerificationResendText = styled.span`
+    color: ${Colors.red};
+    cursor: pointer;
+    font-family: "Poppins";
+    font-weight: 400;
+    font-style: italic;
+    font-size: 1em;
+    text-align: center;
+    text-decoration: underline;
+    margin-left: 0.4em;
+`
+
+export const VerificationResendTextDisabled = styled.span`
+    color: ${Colors.light_grey};
+    font-family: "Poppins";
+    font-weight: 400;
+    font-style: italic;
+    font-size: 1em;
+    text-align: center;
+    margin-left: 0.4em;
+`
+
 export const VerificationResendSuccess = styled.span`
     color: ${Colors.green_accent};
     font-family: "Poppins";
