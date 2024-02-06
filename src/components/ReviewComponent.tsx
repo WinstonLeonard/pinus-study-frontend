@@ -12,7 +12,9 @@ import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import ThumbDownOutlinedIcon from "@mui/icons-material/ThumbDownOutlined";
 import ModeCommentOutlinedIcon from "@mui/icons-material/ModeCommentOutlined";
+import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from "react-router-dom";
+import { Button } from "../components/ModuleForum";
 import { selectId, selectToken } from "../redux/features/users/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { isLoggedIn } from "../utils";
@@ -80,6 +82,17 @@ const ContentTitle = styled.span`
 
   ${ScreenSizes.medium_below} {
     font-size: 1em;
+  }
+`;
+
+const DeleteButton = styled.button`
+  border: none;
+  background-color: ${Colors.blue_3};
+  float: right;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  :hover {
+    background-color: ${Colors.blue_accent};
   }
 `;
 
@@ -211,6 +224,7 @@ const ReviewComponent = ({
   const [openReply, setOpenReply] = useState<boolean>(false);
   //const [status, setStatus] = useState<LikedStatus>("NEUTRAL");
   const [loading, setLoading] = useState<boolean>(false);
+  const [isDeleted, setIsDelete] = useState<boolean>(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -226,6 +240,25 @@ const ReviewComponent = ({
   const handleReviewClick = () => {
     navigate(`/reviews/${review.ModuleId}/${review.UserId}`);
   };
+
+  const handleDeleteButton = () => {
+    const moduleId = review.ModuleId
+    fetch(API_URL + `/review/${review.ModuleId}/${userId}`, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }).then(response => {
+      if (response.ok) {
+        setIsDelete(true);
+      } else {
+        throw new Error("Failed to delete review");
+      }
+    })
+    navigate(`/reviews/${moduleId}`)
+  }
 
   const showLogInModal = () => {
     dispatch(toggleLogin(true));
@@ -419,10 +452,20 @@ const ReviewComponent = ({
    */
   const renderReviewPageReview = () => {
     console.log(review);
+    if (isDeleted) {
+      return null;
+    }
     return (
       <div onClick={handleReviewClick}>
         <ReviewContainerButton>
           <PostedSince>{parseLastModified(review.Timestamp)}</PostedSince>
+          {
+            isLoggedIn(token, userId) && review.UserId === userId &&
+            <DeleteButton onClick={handleDeleteButton}>
+              <DeleteIcon sx={{ fontSize: 'large'}}/>
+            </DeleteButton>
+          }
+          {/* <Button>hello</Button> */}
           <div><ContentTitle>Semester Taken: </ContentTitle><Content>{(review.SemesterTaken)}</Content></div>
           <div><ContentTitle>Difficulty: </ContentTitle><Content>{(review.Difficulty)}</Content></div>
           <div><ContentTitle>Workload: </ContentTitle><Content>{(review.Workload)}</Content></div>
