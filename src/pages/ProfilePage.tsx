@@ -88,7 +88,7 @@ const ProfilePage = () => {
             {threads.map((thread) => {
               return (
                 <ThreadComponentWrapper>
-                  <ThreadComponent threadId={thread.Id} type="MODULE_PAGE" />
+                  <ThreadComponent threadId={thread.Id} type="MODULE_PAGE" threadComponent = {thread} />
                 </ThreadComponentWrapper>
               );
             })}

@@ -6,6 +6,7 @@ import {
   ModuleInitialState,
 } from "../redux/features/modules/moduleSlice";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+import RateReviewIcon from '@mui/icons-material/RateReview';
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectId,
@@ -54,6 +55,42 @@ export const Button = styled.button<{subscribed?: boolean, mobilePadding?: strin
     }
   }
 `;
+
+export const SelectBox = styled.select<{onChange: (e: React.FormEvent<HTMLSelectElement>) => void}>`
+  border-radius: 50px;
+  border: 2px solid ${Colors.dark_grey};
+  font-family: "Poppins", "sans-serif";
+  font-weight: 600;
+  font-size: 1em;
+  padding: 0px 40px;
+  color: ${Colors.dark_grey};
+  background-color: ${Colors.blue_3};
+  box-shadow: 0px 5px 0 -2.5px ${Colors.blue_2},
+    0px 5px 0 -0.5px ${Colors.dark_grey};
+  margin-right: 10px;
+  :hover {
+    background-color: ${Colors.blue_accent};
+    position: relative; 
+    top: 3px;
+    box-shadow: 0px 2px 0 -2.5px ${Colors.blue_2},
+        0px 2px 0 -0.5px ${Colors.dark_grey};
+  }
+
+  ${ScreenSizes.medium_below} {
+    font-size: 0.875em;
+    border: 1px solid ${Colors.dark_grey};
+    box-shadow: 0px 5px 0 -2.5px ${Colors.blue_2},
+    0px 5px 0 -1.5px ${Colors.dark_grey};
+
+    :hover {
+      background-color: ${Colors.blue_3};
+      position: relative; 
+      top: 3px;
+      box-shadow: 0px 2px 0 -2.5px ${Colors.blue_2},
+          0px 2px 0 -1.5px ${Colors.dark_grey};
+    }
+  }
+`
 
 const ForumBackground = styled.div`
   border-radius: 20px;
@@ -115,7 +152,22 @@ const SubscriberDiv = styled.div`
   display: flex;
 `;
 
+const ReviewDiv = styled.div`
+  display: flex;
+`;
+
 const SubscriberDesc = styled.a`
+  color: ${Colors.black};
+  font-weight: 500;
+  font-size: 1em;
+  text-decoration: underline;
+  margin-left: 0.5em;
+  ${ScreenSizes.medium_below} {
+    font-size: 0.875em;
+  }
+`;
+
+const ReviewDesc = styled.a`
   color: ${Colors.black};
   font-weight: 500;
   font-size: 1em;
@@ -210,6 +262,16 @@ const ModuleForum = ({ selectedModule }: { selectedModule: string }) => {
             <ForumDesc>{module.Name}</ForumDesc>
           </div>
         </Top>
+
+        <Bottom>
+        <ReviewDiv>
+            <RateReviewIcon />
+            <ReviewDesc href={`/reviews/${selectedModule}`}>
+              {module.ReviewCount === 1? "1 review" : `${module.ReviewCount} reviews`}
+            </ReviewDesc>
+          </ReviewDiv>
+        </Bottom>
+
         <Bottom>
           <SubscriberDiv>
             <PeopleAltIcon />

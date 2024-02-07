@@ -18,12 +18,12 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Loader, WhiteLoader } from "../Loader";
 import { getUserDetailsRequest } from "../../requests";
 
-const LoginModal = ({cancel, showSignUpModal} : {cancel: () => void; showSignUpModal: (email: string) => void}) => {
-    const [email, setEmail] = useState<string>("");
+const LoginModal = ({cancel, showSignUpModal} : {cancel: () => void; showSignUpModal: () => void}) => {
     const [emailOrUsername, setEmailOrUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [showError, setShowError] = useState<Boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [statusMessage, setStatusMessage] = useState<string>("");
     const dispatch = useDispatch();
 
     /**
@@ -47,11 +47,15 @@ const LoginModal = ({cancel, showSignUpModal} : {cancel: () => void; showSignUpM
      * credentials, an error message will be shown.
      */
     const logIn = () => {
-        if (emailOrUsername.trim() === "" || password === "") {
+        if (emailOrUsername.trim() === "" || password.trim() === "") {
             setShowError(true);
+            setStatusMessage("Fields cannot be empty!")
             return;
         }
+
         setIsLoading(true)
+        setStatusMessage("")
+
         fetch(LOGIN_URL, {
             method: "POST",
             headers: {
@@ -64,14 +68,17 @@ const LoginModal = ({cancel, showSignUpModal} : {cancel: () => void; showSignUpM
             }),
         }).then(response => response.json())
         .then(data => {
-            if (data.status === "failure" || data.token === '') {
+            if (data.status === "failure") {
                 setShowError(true);
+                setStatusMessage(data.cause);
                 return;
             }
+
             dispatch(login({
                 Id: data.userid,
                 Token: data.token
             }));
+            
         })
         .catch(error => console.log(error))
         .finally(() => setIsLoading(false));
@@ -113,7 +120,7 @@ const LoginModal = ({cancel, showSignUpModal} : {cancel: () => void; showSignUpM
                         onChange={handlePasswordChange}
                         value={password}
                         disabled={isLoading}/>
-                    { showError ? <ErrorMessage>wrong username or password!</ErrorMessage> : null }
+                    { showError ? <ErrorMessage>{statusMessage}</ErrorMessage> : null }
                 </ModalDiv>
                 {/*
                 <ModalDiv justifyContent="center">
@@ -132,7 +139,7 @@ const LoginModal = ({cancel, showSignUpModal} : {cancel: () => void; showSignUpM
                     <SwitchModalPrompt>Don't have an account?&nbsp;</SwitchModalPrompt>
                     <SwitchModalPrompt 
                         textDecoration="underline" 
-                        onClick={() => showSignUpModal(email)}
+                        onClick={() => showSignUpModal()}
                         cursor="pointer">Sign Up here.</SwitchModalPrompt>
                 </ModalDiv>
             </ModalBackground>

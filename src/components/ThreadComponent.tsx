@@ -12,6 +12,8 @@ import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import ThumbDownOutlinedIcon from "@mui/icons-material/ThumbDownOutlined";
 import ModeCommentOutlinedIcon from "@mui/icons-material/ModeCommentOutlined";
+import BookMarkAddIcon from "@mui/icons-material/BookmarkAdd";
+import BookMarkAddedIcon from "@mui/icons-material/BookmarkAdded"
 import ReplyTextEditor from "./editor/ReplyTextEditor";
 import { useNavigate } from "react-router-dom";
 import { selectId, selectToken } from "../redux/features/users/userSlice";
@@ -171,6 +173,18 @@ const Username = styled.span`
     text-decoration: underline;
   }
 `
+
+const BookmarkButton = styled.button`
+  border: none;
+  background-color: ${Colors.blue_3};
+  float: right;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  :hover {
+    background-color: ${Colors.blue_accent};
+  }
+`;
+
 /**
  * Thread component for the web forum.
  *
@@ -181,9 +195,11 @@ const Username = styled.span`
 const ThreadComponent = ({
   threadId,
   type,
+  threadComponent
 }: {
   threadId: number;
   type?: ThreadType;
+  threadComponent?: Thread;
 }) => {
   const [thread, setThread] = useState<Thread>(ThreadInitialState);
   const [likesCount, setLikesCount] = useState<number>(thread.LikesCount);
@@ -193,6 +209,7 @@ const ThreadComponent = ({
   const [openReply, setOpenReply] = useState<boolean>(false);
   const [status, setStatus] = useState<LikedStatus>("NEUTRAL");
   const [loading, setLoading] = useState<boolean>(false);
+  const [bookmarked, setBookmarked] = useState<boolean>(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -205,9 +222,10 @@ const ThreadComponent = ({
     setOpenReply(!openReply);
   };
 
-  const handleThreadClick = () => {
+  const handleThreadClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
     navigate(`/thread/${threadId}`);
-  };
+};
 
   const showLogInModal = () => {
     dispatch(toggleLogin(true));
@@ -272,6 +290,40 @@ const ThreadComponent = ({
     }
   };
 
+  const handleBookmarkButton = () => {
+    if (bookmarked === false) {
+      fetch(API_URL + `/bookmark/${threadId}/${userId}`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          token: token,
+          bookmarked: !bookmarked,
+        }),
+      }).then((response) => console.log("success!"));
+    } else {
+      fetch(`${API_URL}/bookmark/${threadId}/${userId}`, {
+        method: "DELETE",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Failed to delete bookmark");
+          }
+          console.log("Bookmark deleted successfully!");
+        })
+        .catch((error) => console.error(error));
+    }
+    setBookmarked(!bookmarked);
+  };
+
   const handleLikesCount = () => {
     console.log("likeStatus: " + likeStatus);
     if (thread !== ThreadInitialState) {
@@ -333,12 +385,40 @@ const ThreadComponent = ({
   };
 
   /**
+   * Fetches bookmarked data
+   */
+
+  const fetchBookmarkStatus = () => {
+    fetch(API_URL + `/bookmark/${threadId}/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data.bookmarked);
+        setBookmarked(data.bookmarked)
+      })
+      .catch((error) => console.log("error fethcing: " + error));
+  };
+
+  /**
    * Hook to fetch data.
    */
   useEffect(() => {
     setLoading(true);
     fetchThreadData();
   }, [threadId]);
+    fetchBookmarkStatus();
+  }, []);
+
+  switch (type) {
+    case "QUESTION_PAGE":
+      useEffect(() => {
+        setLoading(true);
+        fetchThreadData();
+      }, []);
+  }
 
   useEffect(() => {
     if (type === "QUESTION_PAGE" && thread !== ThreadInitialState) {
@@ -421,18 +501,24 @@ const ThreadComponent = ({
     return (
       <div onClick={handleThreadClick}>
         <ThreadContainerButton>
-          <PostedSince>{parseLastModified(thread.Timestamp)}</PostedSince>
-          <QuestionTitle>{thread.Title}</QuestionTitle>
+          <PostedSince>{parseLastModified(threadComponent?.Timestamp?threadComponent.Timestamp:"")}</PostedSince>
+          <QuestionTitle>{threadComponent?.Title}</QuestionTitle>
+          {
+            isLoggedIn(token, userId) &&
+            <BookmarkButton onClick={handleBookmarkButton}>
+              {bookmarked === true ? <BookMarkAddedIcon/> : <BookMarkAddIcon/>}
+            </BookmarkButton>
+          }
           <br />
           <RegularText>
-            Posted by @{thread.Username} in {thread.ModuleId}
+            Posted by @{threadComponent?.Username} in {threadComponent?.ModuleId}
           </RegularText>
           <br />
-          <Content>{shortenRemoveHtml(thread.Content)}</Content>
+          <Content>{shortenRemoveHtml(threadComponent?.Content?threadComponent.Content:"")}</Content>
           <br />
           <VerticalCenterAlignLayout>
             <CommentOutlinedIcon sx={{ fontSize: "1.375em" }} />
-            <RegularText>&#8196;{thread.Comments?.length || 0}</RegularText>
+            <RegularText>&#8196;{threadComponent?.CommentsCount}</RegularText>
           </VerticalCenterAlignLayout>
         </ThreadContainerButton>
       </div>
@@ -452,6 +538,12 @@ const ThreadComponent = ({
         <CombinedAuthenticationPage />
         <PostedSince>{parseLastModified(thread.Timestamp)}</PostedSince>
         <QuestionTitle>{thread.Title}</QuestionTitle>
+        {
+          isLoggedIn(token, userId) &&
+          <BookmarkButton onClick={handleBookmarkButton}>
+            {bookmarked === true ? <BookMarkAddedIcon/> : <BookMarkAddIcon/>}
+          </BookmarkButton>
+        }
         <br />
         <RegularText>
           Posted by <Username onClick={directToUserPage}>@{thread.Username}</Username>
