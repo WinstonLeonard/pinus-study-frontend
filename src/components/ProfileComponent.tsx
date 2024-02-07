@@ -205,7 +205,6 @@ const ProfileComponent = ({
     dispatch(logout());
     navigate("/");
   };
-  console.log(currUserId, userId);
   return (
     <ProfileContainer>
       <ProfilePicture>
