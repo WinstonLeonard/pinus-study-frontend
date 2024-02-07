@@ -5,6 +5,7 @@ import { User } from "../redux/features/users/userSlice";
 import { useDispatch } from "react-redux";
 import { logout } from "../redux/features/users/userSlice";
 import { pfp } from "../assets";
+import { isLoggedIn } from "../utils";
 
 const ProfileContainer = styled.div`
   background-color: ${Colors.green_2};
@@ -214,9 +215,13 @@ const ProfileComponent = ({
       </NameDiv>
       {/* <Button marginTop='1em'>View My Modules</Button> */}
       {/* <Button marginTop='0.5em'>Edit My Profile</Button> */}
-      <Button marginTop="0.5em" onClick={logOut}>
-        Log Out
-      </Button>
+      {
+        isLoggedIn() && userId === 
+        ? (<Button marginTop="0.5em" onClick={logOut}>
+            Log Out
+          </Button>)
+        : <></>
+      }
       <PostAndLikes>
         <NumberAndDescription>
           <Number>{user.NumberOfQuestionsAsked}</Number>
