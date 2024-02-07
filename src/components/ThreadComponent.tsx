@@ -408,9 +408,8 @@ const ThreadComponent = ({
   useEffect(() => {
     setLoading(true);
     fetchThreadData();
-  }, [threadId]);
     fetchBookmarkStatus();
-  }, []);
+  }, [threadId]);
 
   switch (type) {
     case "QUESTION_PAGE":
