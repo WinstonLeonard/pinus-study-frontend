@@ -80,7 +80,7 @@ const ProfilePage = () => {
       <NavigationBar />
       <Background>
         <ProfilePageWrapper>
-          <ProfileComponent user={user} userId={user.Id} />
+          <ProfileComponent user={user} userId={userId?+userId:0} />
           <ThreadWrapper>
             <TextContainer>
               <MostRecentPosts>Most Recent Posts</MostRecentPosts>

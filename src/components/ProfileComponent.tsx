@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Colors, ScreenSizes } from "../constants";
-import { User } from "../redux/features/users/userSlice";
-import { useDispatch } from "react-redux";
+import { User, selectId, selectToken } from "../redux/features/users/userSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../redux/features/users/userSlice";
 import { pfp } from "../assets";
 import { isLoggedIn } from "../utils";
@@ -198,12 +198,14 @@ const ProfileComponent = ({
 }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const token = useSelector(selectToken);
+  const currUserId = useSelector(selectId);
+  console.log(token);
   const logOut = () => {
     dispatch(logout());
     navigate("/");
   };
-
+  console.log(currUserId, userId);
   return (
     <ProfileContainer>
       <ProfilePicture>
@@ -216,11 +218,10 @@ const ProfileComponent = ({
       {/* <Button marginTop='1em'>View My Modules</Button> */}
       {/* <Button marginTop='0.5em'>Edit My Profile</Button> */}
       {
-        isLoggedIn(, user.Id) &&
-        ? (<Button marginTop="0.5em" onClick={logOut}>
+        isLoggedIn(token, user.Id) && currUserId === userId &&
+         (<Button marginTop="0.5em" onClick={logOut}>
             Log Out
           </Button>)
-        : <></>
       }
       <PostAndLikes>
         <NumberAndDescription>
