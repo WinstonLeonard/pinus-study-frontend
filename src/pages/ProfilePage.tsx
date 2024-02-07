@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Background from "../components/Background";
 import NavigationBar from "../components/Navbar";
@@ -62,13 +62,18 @@ const ProfilePage = () => {
   const { userId } = useParams<{ userId: string }>();
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
+  const [threads, setThreads] = useState(user.RecentThreads);
 
   useEffect(() => {
     const userIdNum = userId ? parseInt(userId, 10) : null;
     if (userIdNum && !isNaN(userIdNum)) {
       getUserDetailsRequest(userIdNum, dispatch);
     }
-  }, [userId, dispatch]);
+  }, []);
+
+  useEffect(() => {
+    setThreads(user.RecentThreads);
+  }, [user])
 
   return (
     <div>
@@ -80,7 +85,7 @@ const ProfilePage = () => {
             <TextContainer>
               <MostRecentPosts>Most Recent Posts</MostRecentPosts>
             </TextContainer>
-            {user.RecentThreads.map((thread) => {
+            {threads.map((thread) => {
               return (
                 <ThreadComponentWrapper>
                   <ThreadComponent threadId={thread.Id} type="MODULE_PAGE" />

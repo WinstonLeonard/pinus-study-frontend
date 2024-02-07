@@ -338,14 +338,14 @@ const ThreadComponent = ({
   useEffect(() => {
     setLoading(true);
     fetchThreadData();
-  }, []);
+  }, [threadId]);
 
   useEffect(() => {
     if (type === "QUESTION_PAGE" && thread !== ThreadInitialState) {
       fetchLikeStatus();
     }
     setLoading(false);
-  }, [thread]);
+  }, []);
 
   /**
    * Shortens the content to max. 150 characters to prevent the
