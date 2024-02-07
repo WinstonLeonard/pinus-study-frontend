@@ -216,7 +216,7 @@ const ProfileComponent = ({
       {/* <Button marginTop='1em'>View My Modules</Button> */}
       {/* <Button marginTop='0.5em'>Edit My Profile</Button> */}
       {
-        isLoggedIn() && userId === 
+        isLoggedIn(, user.Id) &&
         ? (<Button marginTop="0.5em" onClick={logOut}>
             Log Out
           </Button>)
