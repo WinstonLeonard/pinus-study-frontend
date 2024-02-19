@@ -89,11 +89,10 @@ const ReviewListContainer = styled.div`
 `;
 
 const ReviewsPage = () => {
-  const { mod } = useParams();
-  const userId = useSelector(selectId);
-  const token = useSelector(selectToken);
-  const [openReviewEditor, setOpenReviewEditor] = useState(false);
-  // Assuming you have a state variable named `setError`
+const { mod } = useParams();
+const userId = useSelector(selectId);
+const token = useSelector(selectToken);
+const [openReviewEditor, setOpenReviewEditor] = useState(false);
 const [setError, setErrorMessage] = useState<string | null>(null);
 
 // ...
