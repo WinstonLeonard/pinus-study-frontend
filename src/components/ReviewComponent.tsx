@@ -492,6 +492,12 @@ const ReviewComponent = ({
       <ReviewContainerDiv>
         <CombinedAuthenticationPage />
         <PostedSince>{parseLastModified(review.Timestamp)}</PostedSince>
+        {
+            isLoggedIn(token, userId) && review.UserId === userId &&
+            <DeleteButton onClick={handleDeleteButton}>
+              <DeleteIcon sx={{ fontSize: 'large'}}/>
+            </DeleteButton>
+          }
         <br />
         <div><ContentTitle>Semester Taken: </ContentTitle><Content>{(review.SemesterTaken)}</Content></div>
         <div><ContentTitle>Difficulty: </ContentTitle><Content>{(review.Difficulty)}</Content></div>
