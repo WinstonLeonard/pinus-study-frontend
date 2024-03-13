@@ -259,6 +259,14 @@ const VerticalLine = styled.div`
   height: 10vh;
 `;
 
+export const ErrorMessage = styled.p`
+    color: ${Colors.red};
+    font-family: "Poppins";
+    font-weight: 400;
+    font-size: 0.9em;
+    margin-top: 0.5em;
+`;
+
 const ProfileComponent = ({
   user,
   userId,
@@ -270,6 +278,7 @@ const ProfileComponent = ({
 }) => {
   const [isChangingUsername, setIsChangingUsername] = useState<Boolean>(false);
   const [isLoading, setIsLoading] = useState<Boolean>(false);
+  const [error, setError] = useState<string>("");
   const [username, setUsername] = useState<string>(user.Username);
 
   const navigate = useNavigate();
@@ -296,6 +305,7 @@ const ProfileComponent = ({
    */
   const changeUsername = (newUsername: string): string => {
     setIsLoading(true);
+    setError("");
 
     fetch(USER_URL + '/change_username/' + userId, {
       method: "PUT",
@@ -310,10 +320,14 @@ const ProfileComponent = ({
     }).then(response => response.json())
     .then(data => {
         if (data.status === "failure") {
+            setError(data.cause);
+            console.log(data.cause);
             return "fail";
         }
 
         fetchUser(userId ? userId:0);
+        setError("");
+        setIsChangingUsername(false);
         return "success";
     })
     .catch(error => console.log(error))
@@ -344,7 +358,6 @@ const ProfileComponent = ({
           <>
             <IconButton onClick={() => {
               changeUsername(username);
-              setIsChangingUsername(false);
             }}>
               <CheckIcon></CheckIcon>
             </IconButton>
@@ -358,6 +371,9 @@ const ProfileComponent = ({
         )}
         
       </NameDiv>
+
+      {error ? <ErrorMessage>{error}</ErrorMessage> : <></>}
+
       {/* <Button marginTop='1em'>View My Modules</Button> */}
       {/* <Button marginTop='0.5em'>Edit My Profile</Button> */}
       {
