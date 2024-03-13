@@ -4,10 +4,8 @@ import Background from "../components/Background";
 import NavigationBar from "../components/Navbar";
 import ProfileComponent from "../components/ProfileComponent";
 import ThreadComponent from "../components/ThreadComponent";
-import { Colors, ScreenSizes } from "../constants";
-import { selectUser } from "../redux/features/users/userSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { getUserDetailsRequest } from "../requests";
+import { API_URL, Colors, ScreenSizes } from "../constants";
+import { UserInitialState } from "../redux/features/users/userSlice";
 import { RightSide } from "./ModulePage";
 import MyModules from "../components/MyModules";
 import { useParams } from "react-router-dom";
@@ -60,21 +58,35 @@ const MostRecentPosts = styled.span`
 
 const ProfilePage = () => {
   const { userId } = useParams<{ userId: string }>();
-  const dispatch = useDispatch();
-  const user = useSelector(selectUser);
+  const [user, setUser] = useState(UserInitialState);
   const [threads, setThreads] = useState(user.RecentThreads);
 
   useEffect(() => {
     const userIdNum = userId ? parseInt(userId, 10) : null;
-    if (userIdNum && !isNaN(userIdNum)) {
-      getUserDetailsRequest(userIdNum, dispatch);
+    if (userIdNum) {
+      fetchUser(userIdNum);
     }
   }, []);
-
+  const fetchUser = (userId: Number) => {
+    fetch(API_URL + `/user/${userId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setUser(data)
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   useEffect(() => {
     setThreads(user.RecentThreads);
   }, [user])
-
+  if (user == UserInitialState) {
+    return (
+      <div>
+        <NavigationBar />
+      </div>
+    )
+  }
   return (
     <div>
       <NavigationBar />
