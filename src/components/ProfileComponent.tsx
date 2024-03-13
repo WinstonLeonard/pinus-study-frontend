@@ -2,9 +2,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Colors, ScreenSizes } from "../constants";
-import { User } from "../redux/features/users/userSlice";
+import { User, selectId, logout, updateUser, selectToken } from "../redux/features/users/userSlice";
+import { isLoggedIn } from "../utils";
 import { useDispatch, useSelector } from "react-redux";
-import { logout, updateUser, selectToken } from "../redux/features/users/userSlice";
 import { pfp } from "../assets";
 import EditIcon from '@mui/icons-material/Edit';
 import CheckIcon from '@mui/icons-material/Check';
@@ -279,6 +279,8 @@ const ProfileComponent = ({
   const dispatch = useDispatch();
 
   const token = useSelector(selectToken);
+  const currUserId = useSelector(selectId);
+  console.log(token);
 
   const logOut = () => {
     dispatch(logout());
@@ -365,9 +367,12 @@ const ProfileComponent = ({
       </NameDiv>
       {/* <Button marginTop='1em'>View My Modules</Button> */}
       {/* <Button marginTop='0.5em'>Edit My Profile</Button> */}
-      <Button marginTop="0.5em" onClick={logOut}>
-        Log Out
-      </Button>
+      {
+        isLoggedIn(token, user.Id) && currUserId === userId &&
+         (<Button marginTop="0.5em" onClick={logOut}>
+            Log Out
+          </Button>)
+      }
       <PostAndLikes>
         <NumberAndDescription>
           <Number>{user.NumberOfQuestionsAsked}</Number>

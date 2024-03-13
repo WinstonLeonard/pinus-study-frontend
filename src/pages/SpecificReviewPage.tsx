@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Navbar, Background} from "../components";
 import { Colors, ScreenSizes } from "../constants";
 import MyModules from "../components/MyModules";
@@ -114,6 +114,7 @@ const MediumText = styled.span`
 
 const SpecificReviewPage = () => {
   const {mod, userId} = useParams();
+  const navigate = useNavigate();
   console.log(mod);
   console.log(userId);
   // const token = useSelector(selectToken);
@@ -126,8 +127,13 @@ const SpecificReviewPage = () => {
       .then(data => {
         console.log(data);
         setReview(data.review);
+        if(data.review === null) {
+          navigate(`/reviews/${mod}`)
+        }
     })
-    .catch(error => console.log(error))
+    .catch(error => {
+      console.log(error)
+    })
 }
 
   useEffect(() => {

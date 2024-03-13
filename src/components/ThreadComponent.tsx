@@ -406,8 +406,10 @@ const ThreadComponent = ({
    * Hook to fetch data.
    */
   useEffect(() => {
+    setLoading(true);
+    fetchThreadData();
     fetchBookmarkStatus();
-  }, []);
+  }, [threadId]);
 
   switch (type) {
     case "QUESTION_PAGE":
@@ -422,7 +424,7 @@ const ThreadComponent = ({
       fetchLikeStatus();
     }
     setLoading(false);
-  }, [thread]);
+  }, []);
 
   /**
    * Shortens the content to max. 150 characters to prevent the

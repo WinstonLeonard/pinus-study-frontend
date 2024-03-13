@@ -4,7 +4,7 @@ import Background from "../components/Background";
 import NavigationBar from "../components/Navbar";
 import { API_URL, Colors, ScreenSizes } from "../constants";
 import MyModules from "../components/MyModules";
-import ModuleForum, { Button } from "../components/ModuleForum";
+import ModuleForum, { Button, SelectBox } from "../components/ModuleForum";
 import ReviewList from "../components/ReviewList";
 import { useSelector } from "react-redux";
 import { selectId, selectToken } from "../redux/features/users/userSlice";
@@ -49,6 +49,14 @@ const HeadingDiv = styled.div`
   }
 `;
 
+const SortByFont = styled.div`
+  font-family: "Poppins", "sans-serif";
+  font-weight: 600;
+  font-size: 1.5em;
+  color: ${Colors.dark_grey};
+  padding: 5px 5px;
+`;
+
 const ForumHeadingDiv = styled.div`
   width: 50%;
 
@@ -89,13 +97,17 @@ const ReviewListContainer = styled.div`
 `;
 
 const ReviewsPage = () => {
-  const { mod } = useParams();
-  const userId = useSelector(selectId);
-  const token = useSelector(selectToken);
-  const [openReviewEditor, setOpenReviewEditor] = useState(false);
-  // Assuming you have a state variable named `setError`
+const { mod } = useParams();
+const userId = useSelector(selectId);
+const token = useSelector(selectToken);
+const [openReviewEditor, setOpenReviewEditor] = useState(false);
 const [setError, setErrorMessage] = useState<string | null>(null);
-
+const sortedType = ["Newest", "Latest", "Difficulty ⇊", "Difficulty ⇈", "Workload ⇊", "Workload ⇈", "Semester Taken ⇊", "Semester Taken ⇈"];
+const [sortType, setSortType] = useState(sortedType[0]);
+const onChange = (e: React.FormEvent<HTMLSelectElement>): void => {
+  setSortType(e.currentTarget.value);
+  console.log(e.currentTarget.value);
+};
 // ...
 
 const showReviewEditor = () => {
@@ -139,6 +151,12 @@ const showReviewEditor = () => {
                 </ErrorMessage>
               </div>
               <ButtonDiv>
+                <SortByFont>Sort By:</SortByFont>
+                <SelectBox onChange={onChange}>
+                  {sortedType.map((label) => {
+                    return <option value={label}>{label}</option>
+                  })}
+                </SelectBox>
                 {isLoggedIn(token, userId) ? (
                   <Button onClick={showReviewEditor} mobilePadding="10px 20px">Add Review</Button>
                 ) : (
@@ -147,7 +165,7 @@ const showReviewEditor = () => {
               </ButtonDiv>
             </HeadingDiv>
             <ReviewListContainer>
-              <ReviewList selectedModule={mod ? mod.toString() : ""} />
+              <ReviewList selectedModule={mod ? mod.toString() : ""} sortType={sortType}/>
             </ReviewListContainer>
           </div>
           <RightSide>

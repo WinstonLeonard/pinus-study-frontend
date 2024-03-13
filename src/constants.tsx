@@ -65,8 +65,8 @@ export const ScreenSizes = {
 };
 
 
-//export const API_URL = process.env.REACT_APP_API_URL || 'https://pinus-study-backend-deployment-production.up.railway.app';
-export const API_URL = 'http://localhost:8080';
+export const API_URL = process.env.REACT_APP_API_URL || 'https://pinus-study-backend-deployment-production.up.railway.app';
+//export const API_URL = 'http://localhost:8080';
 
 export const LOGIN_URL = `${API_URL}/login`;
 export const USER_URL = `${API_URL}/user`;
