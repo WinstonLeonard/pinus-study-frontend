@@ -335,6 +335,12 @@ const ProfileComponent = ({
     return "success";
   };
 
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      changeUsername(username);
+    }
+  };
+
   return (
     <ProfileContainer>
       <ProfilePicture>
@@ -346,7 +352,7 @@ const ProfileComponent = ({
           <Name>@{user.Username}</Name>
         ) : (
           <ChangeUsernameInputBar>
-            <ChangeUsernameInput onChange={(e) => setUsername(e.target.value)} placeholder="Change Username?" value={username}></ChangeUsernameInput>
+            <ChangeUsernameInput onChange={(e) => setUsername(e.target.value)} placeholder="Change Username?" value={username} onKeyDown={handleKeyPress}></ChangeUsernameInput>
           </ChangeUsernameInputBar>
         )}
         {!isChangingUsername ? isLoggedIn(token, user.Id) && currUserId === userId && (
