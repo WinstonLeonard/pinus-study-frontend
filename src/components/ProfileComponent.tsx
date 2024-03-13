@@ -364,6 +364,7 @@ const ProfileComponent = ({
             <IconButton onClick={() => {
               setUsername(user.Username);
               setIsChangingUsername(false);
+              setError("");
             }}>
               <CloseIcon></CloseIcon>
             </IconButton>
