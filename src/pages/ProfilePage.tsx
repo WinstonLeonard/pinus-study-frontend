@@ -66,7 +66,7 @@ const ProfilePage = () => {
     if (userIdNum) {
       fetchUser(userIdNum);
     }
-  }, []);
+  }, [userId]);
   const fetchUser = (userId: Number) => {
     fetch(API_URL + `/user/${userId}`)
       .then((response) => response.json())
