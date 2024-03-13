@@ -1,10 +1,15 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Colors, ScreenSizes } from "../constants";
 import { User } from "../redux/features/users/userSlice";
-import { useDispatch } from "react-redux";
-import { logout } from "../redux/features/users/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { logout, updateUser, selectToken } from "../redux/features/users/userSlice";
 import { pfp } from "../assets";
+import EditIcon from '@mui/icons-material/Edit';
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
+import { USER_URL } from "../constants";
 
 const ProfileContainer = styled.div`
   background-color: ${Colors.green_2};
@@ -84,6 +89,7 @@ const NameDiv = styled.div<{ paddingTop?: string }>`
   padding-top: ${(props) => (props.paddingTop ? props.paddingTop : "0em")};
   display: flex;
   justify-content: center;
+  align-items: center;
 `;
 
 const Name = styled.span`
@@ -104,6 +110,76 @@ const Name = styled.span`
     font-size: 1.5em;
   }
 `;
+
+const ChangeUsernameInputBar = styled.span`
+  padding: 0.5rem 1rem;
+  background: ${Colors.white};
+  border-radius: 25px;
+  border: 2px solid ${Colors.dark_grey};
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+`;
+
+const ChangeUsernameInput = styled.input`
+font-family: "Poppins", sans-serif;
+border: none;
+background: ${Colors.white};
+color: ${Colors.dark_grey};
+:focus {
+  outline: none;
+}
+::placeholder {
+  color: ${Colors.light_grey};
+  font-style: italic;
+}
+
+${ScreenSizes.medium_below} {
+  ::placeholder {
+    content: "Search modules";
+  }
+} 
+`;
+
+const IconButton = styled.div`
+  background-color: ${Colors.blue_3};
+  color: ${Colors.dark_grey};
+  cursor: pointer;
+  width: 100%;
+  border-radius: 50px;
+  border: 2px solid ${Colors.dark_grey};
+  padding: 0.2em;
+  margin: 0 0.2em;
+  box-shadow: 0px 5px 0 -2.5px ${Colors.blue_2},
+    0px 5px 0 -0.5px ${Colors.dark_grey};
+
+  :hover {
+    background-color: ${Colors.blue_accent};
+    color: ${Colors.black};
+    position: relative;
+    top: 3px;
+    // left: 3px;
+    box-shadow: 0px 2px 0 -2.5px ${Colors.blue_2},
+        0px 2px 0 -0.5px ${Colors.dark_grey};
+  }
+
+  ${ScreenSizes.extra_small} {
+    border: 1px solid;
+    box-shadow: 3px 3px 0 ${Colors.blue_2},
+        3px 3px 0 1px ${Colors.dark_grey};
+      
+    :hover {
+      top: 2px;
+      left: 2px;
+      box-shadow: 1px 1px 0 ${Colors.blue_2},
+        1px 1px 0 1px ${Colors.dark_grey};
+    }
+  }
+
+  ${ScreenSizes.medium_below} {
+    width: 75%;
+  }
+`
 
 const Button = styled.div<{ marginTop?: string }>`
   margin-top: ${(props) => (props.marginTop ? props.marginTop : "0em")};
@@ -195,8 +271,14 @@ const ProfileComponent = ({
   user: User;
   userId?: number;
 }) => {
+  const [isChangingUsername, setIsChangingUsername] = useState<Boolean>(false);
+  const [isLoading, setIsLoading] = useState<Boolean>(false);
+  const [username, setUsername] = useState<string>(user.Username);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const token = useSelector(selectToken);
 
   const logOut = () => {
     dispatch(logout());
@@ -207,6 +289,44 @@ const ProfileComponent = ({
     navigate("/bookmarked");
   }
 
+  /**
+   * Shortens the content to max. 150 characters to prevent the
+   * post preview from being too long.
+   *
+   * @param newUsername The new username
+   * @returns The status of the request
+   */
+  const changeUsername = (newUsername: string): string => {
+    setIsLoading(true);
+
+    fetch(USER_URL + '/change_username/' + userId, {
+      method: "PUT",
+      headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+          username: username
+      }),
+    }).then(response => response.json())
+    .then(data => {
+        if (data.status === "failure") {
+            return "fail";
+        }
+
+        updateUser({
+          Username: username
+        })
+        console.log(user.Username);
+        return "success";
+    })
+    .catch(error => console.log(error))
+    .finally(() => setIsLoading(false));
+
+    return "success";
+  };
+
   return (
     <ProfileContainer>
       <ProfilePicture>
@@ -214,7 +334,34 @@ const ProfileComponent = ({
       </ProfilePicture>
 
       <NameDiv paddingTop="1em">
-        <Name>@{user.Username}</Name>
+        {!isChangingUsername && !isLoading ? (
+          <Name>@{user.Username}</Name>
+        ) : (
+          <ChangeUsernameInputBar>
+            <ChangeUsernameInput onChange={(e) => setUsername(e.target.value)} placeholder="Change Username?" value={username}></ChangeUsernameInput>
+          </ChangeUsernameInputBar>
+        )}
+        {!isChangingUsername ? (
+          <IconButton onClick={() => setIsChangingUsername(true)}>
+            <EditIcon></EditIcon>
+          </IconButton>
+        ) : (
+          <>
+            <IconButton onClick={() => {
+              changeUsername(username);
+              setIsChangingUsername(false);
+            }}>
+              <CheckIcon></CheckIcon>
+            </IconButton>
+            <IconButton onClick={() => {
+              setUsername(user.Username);
+              setIsChangingUsername(false);
+            }}>
+              <CloseIcon></CloseIcon>
+            </IconButton>
+          </>
+        )}
+        
       </NameDiv>
       {/* <Button marginTop='1em'>View My Modules</Button> */}
       {/* <Button marginTop='0.5em'>Edit My Profile</Button> */}
