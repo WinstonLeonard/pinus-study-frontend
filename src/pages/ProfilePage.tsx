@@ -92,7 +92,7 @@ const ProfilePage = () => {
       <NavigationBar />
       <Background>
         <ProfilePageWrapper>
-          <ProfileComponent user={user} userId={userId?+userId:0} />
+          <ProfileComponent user={user} userId={userId?+userId:0} fetchUser={fetchUser}/>
           <ThreadWrapper>
             <TextContainer>
               <MostRecentPosts>Most Recent Posts</MostRecentPosts>

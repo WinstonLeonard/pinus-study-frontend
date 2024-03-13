@@ -85,7 +85,7 @@ const ProfilePictureImage = styled.img`
   }
 `;
 
-const NameDiv = styled.div<{ paddingTop?: string }>`
+const NameDiv = styled.div<{ paddingTop?: string, isChanging?: Boolean }>`
   padding-top: ${(props) => (props.paddingTop ? props.paddingTop : "0em")};
   display: flex;
   justify-content: center;
@@ -116,36 +116,35 @@ const ChangeUsernameInputBar = styled.span`
   background: ${Colors.white};
   border-radius: 25px;
   border: 2px solid ${Colors.dark_grey};
+  width: 100%;
   align-items: center;
   display: flex;
   gap: 0.5rem;
 `;
 
 const ChangeUsernameInput = styled.input`
-font-family: "Poppins", sans-serif;
-border: none;
-background: ${Colors.white};
-color: ${Colors.dark_grey};
-:focus {
-  outline: none;
-}
-::placeholder {
-  color: ${Colors.light_grey};
-  font-style: italic;
-}
-
-${ScreenSizes.medium_below} {
-  ::placeholder {
-    content: "Search modules";
+  font-family: "Poppins", sans-serif;
+  border: none;
+  width: 100%;
+  background: ${Colors.white};
+  color: ${Colors.dark_grey};
+  :focus {
+    outline: none;
   }
-} 
+  ::placeholder {
+    color: ${Colors.light_grey};
+    font-style: italic;
+  }
+
+  ${ScreenSizes.medium_below} {
+    width: 100%;
+  } 
 `;
 
 const IconButton = styled.div`
   background-color: ${Colors.blue_3};
   color: ${Colors.dark_grey};
   cursor: pointer;
-  width: 100%;
   border-radius: 50px;
   border: 2px solid ${Colors.dark_grey};
   padding: 0.2em;
@@ -174,10 +173,6 @@ const IconButton = styled.div`
       box-shadow: 1px 1px 0 ${Colors.blue_2},
         1px 1px 0 1px ${Colors.dark_grey};
     }
-  }
-
-  ${ScreenSizes.medium_below} {
-    width: 75%;
   }
 `
 
@@ -267,9 +262,11 @@ const VerticalLine = styled.div`
 const ProfileComponent = ({
   user,
   userId,
+  fetchUser,
 }: {
   user: User;
   userId?: number;
+  fetchUser: (userId: Number) => void;
 }) => {
   const [isChangingUsername, setIsChangingUsername] = useState<Boolean>(false);
   const [isLoading, setIsLoading] = useState<Boolean>(false);
@@ -280,7 +277,6 @@ const ProfileComponent = ({
 
   const token = useSelector(selectToken);
   const currUserId = useSelector(selectId);
-  console.log(token);
 
   const logOut = () => {
     dispatch(logout());
@@ -317,10 +313,7 @@ const ProfileComponent = ({
             return "fail";
         }
 
-        updateUser({
-          Username: username
-        })
-        console.log(user.Username);
+        fetchUser(userId ? userId:0);
         return "success";
     })
     .catch(error => console.log(error))
@@ -335,7 +328,7 @@ const ProfileComponent = ({
         <ProfilePictureImage src={pfp} />
       </ProfilePicture>
 
-      <NameDiv paddingTop="1em">
+      <NameDiv paddingTop="1em" isChanging={isChangingUsername}>
         {!isChangingUsername && !isLoading ? (
           <Name>@{user.Username}</Name>
         ) : (
