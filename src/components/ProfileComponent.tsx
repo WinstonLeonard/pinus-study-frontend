@@ -297,8 +297,7 @@ const ProfileComponent = ({
   }
 
   /**
-   * Shortens the content to max. 150 characters to prevent the
-   * post preview from being too long.
+   * Change the username of the user.
    *
    * @param newUsername The new username
    * @returns The status of the request
@@ -350,7 +349,7 @@ const ProfileComponent = ({
             <ChangeUsernameInput onChange={(e) => setUsername(e.target.value)} placeholder="Change Username?" value={username}></ChangeUsernameInput>
           </ChangeUsernameInputBar>
         )}
-        {!isChangingUsername ? (
+        {!isChangingUsername ? isLoggedIn(token, user.Id) && currUserId === userId && (
           <IconButton onClick={() => setIsChangingUsername(true)}>
             <EditIcon></EditIcon>
           </IconButton>
