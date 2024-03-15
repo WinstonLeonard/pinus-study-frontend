@@ -246,9 +246,12 @@ const ProfileComponent = ({
           </Description>
         </NumberAndDescription>
       </PostAndLikes>
-      <Button marginTop="1em" onClick={bookmarkButtonHandler}>
-        Bookmarked
-      </Button>
+      {
+        isLoggedIn(token, user.Id) && currUserId === userId &&
+        <Button marginTop="1em" onClick={bookmarkButtonHandler}>
+          Bookmarked
+        </Button>
+      }
     </ProfileContainer>
   );
 };
