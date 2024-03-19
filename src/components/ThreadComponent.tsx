@@ -545,7 +545,7 @@ const ThreadComponent = ({
         }
         <br />
         <RegularText>
-          Posted by <Username onClick={directToUserPage}>@{thread.Username}</Username>
+          Posted by <Username onClick={directToUserPage}>@{thread?.Username} in {thread?.ModuleId}</Username>
         </RegularText>
         <br />
         <Content>{deserialize(thread.Content)}</Content>

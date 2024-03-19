@@ -8,7 +8,7 @@ import { API_URL, Colors, ScreenSizes } from "../constants";
 import { UserInitialState } from "../redux/features/users/userSlice";
 import { RightSide } from "./ModulePage";
 import MyModules from "../components/MyModules";
-import { useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 
 const ProfilePageWrapper = styled.div`
   display: grid;
@@ -57,6 +57,7 @@ const MostRecentPosts = styled.span`
 `;
 
 const ProfilePage = () => {
+  const navigate = useNavigate();
   const { userId } = useParams<{ userId: string }>();
   const [user, setUser] = useState(UserInitialState);
   const [threads, setThreads] = useState(user.RecentThreads);
@@ -66,15 +67,20 @@ const ProfilePage = () => {
     if (userIdNum) {
       fetchUser(userIdNum);
     }
-  }, []);
+  }, [userId]);
   const fetchUser = (userId: Number) => {
     fetch(API_URL + `/user/${userId}`)
       .then((response) => response.json())
       .then((data) => {
         setUser(data)
+        if (data.Username === '') {
+          navigate('/PageNotFound');
+        }
+        console.log(data);
       })
       .catch((error) => {
         console.log(error);
+        navigate('/PageNotFound');
       });
   };
   useEffect(() => {
