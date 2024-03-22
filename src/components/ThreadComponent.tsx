@@ -587,6 +587,7 @@ const ThreadComponent = ({
         <Modal
           show={showLikersModal}
           onClose={handleCloseLikersModal}
+          triggerRef={likeCountButtonRef}
         // Pass any necessary props to your likers modal component
       >
         <text>list of likers</text>
