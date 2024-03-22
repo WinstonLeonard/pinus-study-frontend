@@ -15,6 +15,9 @@ const ModalOverlay = styled.div`
 
 const ModalContent = styled.div`
   position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   background-color: white;
   padding: 20px;
 `;
@@ -23,13 +26,14 @@ interface ModalProps {
   show: boolean;
   onClose: () => void;
   children: React.ReactNode
-  triggerRef: React.RefObject<HTMLButtonElement>; // Reference to the trigger button
 }
 
-const Modal: React.FC<ModalProps> = ({ show, onClose, children, triggerRef }) => {
+const Modal: React.FC<ModalProps> = ({ show, onClose, children }) => {
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
-      if (!triggerRef.current?.contains(event.target as Node)) {
+      const modalNode = document.getElementById("modal-content");
+
+      if (modalNode && !modalNode.contains(event.target as Node)) {
         onClose();
       }
     };
@@ -41,24 +45,13 @@ const Modal: React.FC<ModalProps> = ({ show, onClose, children, triggerRef }) =>
     return () => {
       document.removeEventListener("mousedown", handleOutsideClick);
     };
-  }, [show, onClose, triggerRef]);
+  }, [show, onClose]);
 
   if (!show) return null;
 
-  const triggerRect = triggerRef.current?.getBoundingClientRect();
-
-  if (!triggerRect) return null;
-
-  const modalStyle: React.CSSProperties = {
-    top: `${triggerRect.bottom}px`,
-    left: `${triggerRect.left}px`,
-  };
-
   return (
     <ModalOverlay>
-      <ModalContent style={modalStyle}>
-        {/* Close button */}
-        <button onClick={onClose}>Close</button>
+      <ModalContent id="modal-content">
         {/* Modal content */}
         {children}
       </ModalContent>
