@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { API_URL, Colors, ScreenSizes } from "../constants";
 import {
@@ -28,8 +28,6 @@ import { deserialize } from "./editor/serializer";
 
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime';
-
-import Modal from "./LikersModal"; // Import your modal component here
 
 /** TODO: Add POST methods for likes (change functions in `<ThumbButton onClick={...}`) and upon submitting comment */
 
@@ -187,17 +185,6 @@ const BookmarkButton = styled.button`
   }
 `;
 
-const LikeCountButton = styled.button`
-  border: none;
-  background-color: ${Colors.blue_3};
-  :hover {
-    background-color: ${Colors.blue_accent};
-  }
-`;
-
-const likeCountButtonRef = useRef<HTMLButtonElement>(null);
-
-
 /**
  * Thread component for the web forum.
  *
@@ -223,7 +210,6 @@ const ThreadComponent = ({
   const [status, setStatus] = useState<LikedStatus>("NEUTRAL");
   const [loading, setLoading] = useState<boolean>(false);
   const [bookmarked, setBookmarked] = useState<boolean>(false);
-  const [showLikersModal, setShowLikersModal] = useState<boolean>(false); 
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -356,17 +342,6 @@ const ThreadComponent = ({
       }).then((response) => console.log("success!"));
     }
   };
-
-  const handleShowLikers = () => {
-    console.log("Show Likers");
-    setShowLikersModal(true);
-  };
-
-  // Function to close the likers modal
-  const handleCloseLikersModal = () => {
-    setShowLikersModal(false);
-  };
-
 
   /**
    * Fetches thread data from the backend.
@@ -570,7 +545,7 @@ const ThreadComponent = ({
         }
         <br />
         <RegularText>
-          Postedd by <Username onClick={directToUserPage}>@{thread?.Username} in {thread?.ModuleId}</Username>
+          Posted by <Username onClick={directToUserPage}>@{thread?.Username} in {thread?.ModuleId}</Username>
         </RegularText>
         <br />
         <Content>{deserialize(thread.Content)}</Content>
@@ -580,18 +555,7 @@ const ThreadComponent = ({
             {status === "LIKED" ? <ThumbUpIcon /> : <ThumbUpOutlinedIcon />}
           </ThumbButton>
           {/* &#8195; (Em Space) and &#8196; (Three-Per-Em Space) are Unicode spaces. */}
-          <LikeCountButton onClick = {handleShowLikers} >
-            <MediumText>&#8196;{likesCount}&#8195;</MediumText>
-          </LikeCountButton>
-          {/* Likers Modal */}
-        <Modal
-          show={showLikersModal}
-          onClose={handleCloseLikersModal}
-          triggerRef={likeCountButtonRef}
-        // Pass any necessary props to your likers modal component
-      >
-        <text>list of likers</text>
-      </Modal>
+          <MediumText>&#8196;{likesCount}&#8195;</MediumText>
           <ThumbButton onClick={handleDislikeButton}>
             {status === "DISLIKED" ? (
               <ThumbDownIcon />
