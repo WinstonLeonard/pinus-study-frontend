@@ -16,7 +16,7 @@ import BookMarkAddIcon from "@mui/icons-material/BookmarkAdd";
 import BookMarkAddedIcon from "@mui/icons-material/BookmarkAdded"
 import ReplyTextEditor from "./editor/ReplyTextEditor";
 import { useNavigate } from "react-router-dom";
-import { selectId, selectToken } from "../redux/features/users/userSlice";
+import { selectId, selectToken, selectUsername } from "../redux/features/users/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { isLoggedIn } from "../utils";
 import {
@@ -80,6 +80,7 @@ export const PostedSince = styled(RegularText)`
 const VerticalCenterAlignLayout = styled.div`
   display: flex;
   align-items: center;
+  margin-bottom: 15px;
 `;
 
 /** MODULE-PAGE THREAD ONLY */
@@ -221,12 +222,22 @@ const ThreadComponent = ({
   const [status, setStatus] = useState<LikedStatus>("NEUTRAL");
   const [loading, setLoading] = useState<boolean>(false);
   const [bookmarked, setBookmarked] = useState<boolean>(false);
-  const [showLikersModal, setShowLikersModal] = useState<boolean>(false); 
-
+  const [showLikersModal, setShowLikersModal] = useState<boolean>(false);
+  type LikersType = {
+    Id: string;
+    Username: string;
+  };
+  
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const token = useSelector(selectToken);
   const userId = useSelector(selectId);
+  const userIdString = userId.toString();
+  const userName = useSelector(selectUsername);
+  // const [likers, setLikers] = useState<LikersType[]>([
+  //   { Id: userIdString, Username: userName },
+  // ]);
+  const [likers, setLikers] = useState<LikersType[]>([]);
 
   let likeStatus = 0;
 
@@ -251,17 +262,20 @@ const ThreadComponent = ({
       setLoading(true);
       switch (status) {
         case "LIKED":
+          setLikers(prevLikers => prevLikers.filter(item => item.Id !== userIdString && item.Username !== userName));
           setLikesCount(likesCount - 1);
           setStatus("NEUTRAL");
           likeStatus = 0;
           break;
         case "DISLIKED":
+          setLikers(prevLikers => [...prevLikers, {"Id": userIdString, "Username": userName}]);
           setLikesCount(likesCount + 1);
           setDislikesCount(dislikesCount - 1);
           setStatus("LIKED");
           likeStatus = 1;
           break;
         case "NEUTRAL":
+          setLikers(prevLikers => [...prevLikers, {"Id": userIdString, "Username": userName}]);
           setLikesCount(likesCount + 1);
           setStatus("LIKED");
           likeStatus = 1;
@@ -280,6 +294,7 @@ const ThreadComponent = ({
       setLoading(true);
       switch (status) {
         case "LIKED":
+          setLikers(prevLikers => prevLikers.filter(item => item.Id !== userIdString && item.Username !== userName));
           setLikesCount(likesCount - 1);
           setDislikesCount(dislikesCount + 1);
           setStatus("DISLIKED");
@@ -355,8 +370,7 @@ const ThreadComponent = ({
     }
   };
 
-  const handleShowLikers = () => {
-    console.log("Show Likers");
+  const handleShowLikers = (event: React.MouseEvent<HTMLButtonElement>) => {
     setShowLikersModal(true);
   };
 
@@ -578,17 +592,16 @@ const ThreadComponent = ({
             {status === "LIKED" ? <ThumbUpIcon /> : <ThumbUpOutlinedIcon />}
           </ThumbButton>
           {/* &#8195; (Em Space) and &#8196; (Three-Per-Em Space) are Unicode spaces. */}
-          <LikeCountButton onClick = {handleShowLikers} >
             <MediumText>&#8196;{likesCount}&#8195;</MediumText>
-          </LikeCountButton>
 
           {/* Likers Modal */}
         <Modal
           show={showLikersModal}
           onClose={handleCloseLikersModal}
+          likers = {likers}
         // Pass any necessary props to your likers modal component
       >
-        <text>list of likers</text>
+        <text></text>
       </Modal>
 
           <ThumbButton onClick={handleDislikeButton}>
@@ -607,6 +620,18 @@ const ThreadComponent = ({
         {openReply ? (
           <ReplyTextEditor id={0} threadId={thread.Id} />
         ) : null}
+        {
+          likers.length == 0 ? (null) : likers.length == 1 ? (
+            <RegularText> 
+            <Username onClick = {handleShowLikers}> Liked by @{likers[0].Username} </Username>
+          </RegularText>
+          ) :
+            (
+            <RegularText> 
+              <Username onClick = {handleShowLikers}> Liked by @{likers[0].Username} and {likers.length - 1} others</Username>
+            </RegularText>
+            )
+        }
       </ThreadContainerDiv>
     );
   };
