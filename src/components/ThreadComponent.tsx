@@ -237,6 +237,12 @@ const ThreadComponent = ({
   // const [likers, setLikers] = useState<LikersType[]>([
   //   { Id: userIdString, Username: userName },
   // ]);
+
+  // const [likers, setLikers] = useState<LikersType[]>([
+  //   { Id: "1", Username: "Chronal" },
+  //   { Id: "2", Username: "Chronal2"}
+  // ]);
+
   const [likers, setLikers] = useState<LikersType[]>([]);
 
   let likeStatus = 0;
@@ -275,7 +281,15 @@ const ThreadComponent = ({
           likeStatus = 1;
           break;
         case "NEUTRAL":
-          setLikers(prevLikers => [...prevLikers, {"Id": userIdString, "Username": userName}]);
+          setLikers(prevLikers => {
+            if (!Array.isArray(prevLikers)) {
+              // Handle the case when prevLikers is not an array
+              return [{"Id": userIdString, "Username": userName}]; // or return some default array with the new item
+            } else {
+              // Add the new item to the array using spread syntax
+              return [...prevLikers, {"Id": userIdString, "Username": userName}];
+            }
+          });
           setLikesCount(likesCount + 1);
           setStatus("LIKED");
           likeStatus = 1;
@@ -398,6 +412,25 @@ const ThreadComponent = ({
   };
 
   /**
+   * Fetches list of likers
+   */
+
+  const fetchListOfLikers = () => {
+    fetch(API_URL + `/likes/thread/${threadId}/likes`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("List of Likers");
+        console.log("data", data)
+        console.log("data.likes", data.likes);
+        setLikers(data.likes);
+      })
+      .catch((error) => {
+        console.log("List of likers error");
+        console.log(error);
+      });
+  };
+
+  /**
    * Fetches liked status from the backend.
    */
   const fetchLikeStatus = () => {
@@ -444,6 +477,7 @@ const ThreadComponent = ({
    */
   useEffect(() => {
     setLoading(true);
+    fetchListOfLikers();
     fetchThreadData();
     fetchBookmarkStatus();
   }, [threadId]);
@@ -452,13 +486,14 @@ const ThreadComponent = ({
     case "QUESTION_PAGE":
       useEffect(() => {
         setLoading(true);
-        fetchThreadData();
+        fetchListOfLikers();
       }, []);
   }
 
   useEffect(() => {
     if (type === "QUESTION_PAGE" && thread !== ThreadInitialState) {
       fetchLikeStatus();
+      fetchListOfLikers();
     }
     setLoading(false);
   }, []);
@@ -620,7 +655,7 @@ const ThreadComponent = ({
         {openReply ? (
           <ReplyTextEditor id={0} threadId={thread.Id} />
         ) : null}
-        {
+        { likers === undefined ? null : 
           likers.length == 0 ? (null) : likers.length == 1 ? (
             <RegularText> 
             <Username onClick = {handleShowLikers}> Liked by @{likers[0].Username} </Username>
