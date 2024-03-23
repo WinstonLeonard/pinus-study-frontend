@@ -15,6 +15,7 @@ import ReplyTextEditor from "../components/editor/ReplyTextEditor";
 import { selectId, selectToken } from "../redux/features/users/userSlice";
 import { isLoggedIn } from "../utils";
 import { useSelector } from "react-redux";
+import InvalidLink from "../components/InvalidLink";
 
 // Uncomment display grid once my module component is done
 const MainContainer = styled.div`
@@ -117,6 +118,7 @@ const QuestionPage = () => {
   const token = useSelector(selectToken);
   const userId = useSelector(selectId);
   const [thread, setThread] = useState<Thread>(ThreadInitialState);
+  const [validThread, setValidThread] = useState(true);
 
   /**
    * Fetches thread data from the backend.
@@ -125,6 +127,11 @@ const QuestionPage = () => {
     fetch(API_URL + `/thread/${threadId}`)
       .then((response) => response.json())
       .then((data) => {
+          if (data.thread.Id == 0) {
+          setValidThread(false);
+          console.log("Invalid Module");
+          return;
+        }
         setThread(data.thread);
       })
       .catch((error) => {
@@ -141,7 +148,9 @@ const QuestionPage = () => {
   }
 
   return (
-    <>
+    <div>
+      {validThread ? (
+        <>
       <Navbar />
       <Background>
         <MainContainer>
@@ -187,7 +196,18 @@ const QuestionPage = () => {
           </RightSide>
         </MainContainer>
       </Background>
-    </>
+        
+        </>
+      ) : (
+        <>
+        <Navbar/>
+        <Background>
+          <InvalidLink></InvalidLink>
+        </Background>
+        </>
+      )
+      }
+    </div>
   );
 };
 
