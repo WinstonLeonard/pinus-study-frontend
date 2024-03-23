@@ -223,6 +223,7 @@ const ThreadComponent = ({
   const [loading, setLoading] = useState<boolean>(false);
   const [bookmarked, setBookmarked] = useState<boolean>(false);
   const [showLikersModal, setShowLikersModal] = useState<boolean>(false);
+  
   type LikersType = {
     Id: string;
     Username: string;
@@ -234,14 +235,7 @@ const ThreadComponent = ({
   const userId = useSelector(selectId);
   const userIdString = userId.toString();
   const userName = useSelector(selectUsername);
-  // const [likers, setLikers] = useState<LikersType[]>([
-  //   { Id: userIdString, Username: userName },
-  // ]);
 
-  // const [likers, setLikers] = useState<LikersType[]>([
-  //   { Id: "1", Username: "Chronal" },
-  //   { Id: "2", Username: "Chronal2"}
-  // ]);
 
   const [likers, setLikers] = useState<LikersType[]>([]);
 
@@ -619,7 +613,7 @@ const ThreadComponent = ({
         }
         <br />
         <RegularText>
-          Postedd by <Username onClick={directToUserPage}>@{thread?.Username} in {thread?.ModuleId}</Username>
+          Posted by <Username onClick={directToUserPage}>@{thread?.Username} in {thread?.ModuleId}</Username>
         </RegularText>
         <br />
         <Content>{deserialize(thread.Content)}</Content>
