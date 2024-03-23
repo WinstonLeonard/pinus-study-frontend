@@ -13,6 +13,7 @@ import { selectId, selectToken } from "../redux/features/users/userSlice";
 import TextEditor from "../components/editor/TextEditor";
 import { useState, useEffect } from "react";
 import { isLoggedIn } from "../utils";
+import InvalidLink from "../components/InvalidLink";
 
 const ModulePageWrapper = styled.div`
   display: grid;
@@ -139,44 +140,55 @@ useEffect(() => {
   fetchMod();
 }, [])
 
-  return (
-    <div>
-      {}
-      {openTextEditor ? <TextEditor closeTextEditor={closeTextEditor} /> : null}
-      <NavigationBar />
-      <Background>
-        <ModulePageWrapper>
-          <div>
-            <HeadingDiv>
-              <ForumHeadingDiv>
-                <Heading>Discussion Forum</Heading>
-              </ForumHeadingDiv>
-              <ButtonDiv>
-                <SortByFont>Sort By:</SortByFont>
-                <SelectBox onChange={onChange}>
-                  {sortedType.map((label) => {
-                    return <option value={label}>{label}</option>
-                  })}
-                </SelectBox>
-                {isLoggedIn(token, userId) ? (
-                  <Button onClick={showTextEditor} mobilePadding="10px 20px">+ New Post</Button>
-                ) : (
-                  <></>
-                )}
-              </ButtonDiv>
-            </HeadingDiv>
-            <ThreadListContainer>
-              <ThreadList selectedModule={mod ? mod.toString() : ""} sortType={sortType}/>
-            </ThreadListContainer>
-          </div>
-          <RightSide>
-            <ModuleForum selectedModule={mod ? mod.toString() : ""} />
-            <MyModules />
-          </RightSide>
-        </ModulePageWrapper>
-      </Background>
-    </div>
-  );
+return (
+  <div>
+    {validModule ? (
+      <>
+        {openTextEditor ? <TextEditor closeTextEditor={closeTextEditor} /> : null}
+        <NavigationBar />
+        <Background>
+          <ModulePageWrapper>
+            <div>
+              <HeadingDiv>
+                <ForumHeadingDiv>
+                  <Heading>Discussion Forum</Heading>
+                </ForumHeadingDiv>
+                <ButtonDiv>
+                  <SortByFont>Sort By:</SortByFont>
+                  <SelectBox onChange={onChange}>
+                    {sortedType.map((label) => {
+                      return <option value={label}>{label}</option>;
+                    })}
+                  </SelectBox>
+                  {isLoggedIn(token, userId) ? (
+                    <Button onClick={showTextEditor} mobilePadding="10px 20px">+ New Post</Button>
+                  ) : (
+                    <></>
+                  )}
+                </ButtonDiv>
+              </HeadingDiv>
+              <ThreadListContainer>
+                <ThreadList selectedModule={mod ? mod.toString() : ""} sortType={sortType}/>
+              </ThreadListContainer>
+            </div>
+            <RightSide>
+              <ModuleForum selectedModule={mod ? mod.toString() : ""} />
+              <MyModules />
+            </RightSide>
+          </ModulePageWrapper>
+        </Background>
+      </>
+    ) : (
+      <>
+        <NavigationBar/>
+        <Background>
+          <InvalidLink></InvalidLink>
+        </Background>
+      </>
+    )}
+  </div>
+);
+
 };
 
 export default ModulePage;
