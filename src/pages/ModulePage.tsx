@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
+import { API_URL } from '../constants';
 import Background from "../components/Background";
 import NavigationBar from "../components/Navbar";
+import { Module, ModuleInitialState } from '../redux/features/modules/moduleSlice';
 import { Colors, ScreenSizes } from "../constants";
 import MyModules from "../components/MyModules";
 import ModuleForum, { Button, SelectBox } from "../components/ModuleForum";
@@ -9,7 +11,7 @@ import ThreadList from "../components/ThreadList";
 import { useSelector } from "react-redux";
 import { selectId, selectToken } from "../redux/features/users/userSlice";
 import TextEditor from "../components/editor/TextEditor";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { isLoggedIn } from "../utils";
 
 const ModulePageWrapper = styled.div`
@@ -101,6 +103,8 @@ const ModulePage = () => {
   const [openTextEditor, setOpenTextEditor] = useState(false);
   const sortedType = ["Newest", "Latest", "Replies", "Likes", "Dislikes"];
   const [sortType, setSortType] = useState(sortedType[0]);
+  const [module, setModule] = useState(ModuleInitialState);
+  const [validModule, setValidModule] = useState(true);
 
   const showTextEditor = () => {
     setOpenTextEditor(true);
@@ -113,8 +117,31 @@ const ModulePage = () => {
     setSortType(e.currentTarget.value);
     console.log(e.currentTarget.value);
   };
+
+  const fetchMod = () => {
+    fetch(API_URL + `/module/${mod?.toString().toUpperCase()}`)
+        .then(response => response.json())
+        .then(data => {
+          console.log("Data.Module", data.module);
+          if (data.module.Id == '') {
+            setValidModule(false);
+            console.log("Invalid Module");
+            return;
+          }
+          setModule(data.module);
+        })
+    .catch(error => {
+        console.log(error)
+    })
+}
+
+useEffect(() => {
+  fetchMod();
+}, [])
+
   return (
     <div>
+      {}
       {openTextEditor ? <TextEditor closeTextEditor={closeTextEditor} /> : null}
       <NavigationBar />
       <Background>
