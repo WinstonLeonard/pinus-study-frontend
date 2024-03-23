@@ -419,9 +419,8 @@ const ThreadComponent = ({
     fetch(API_URL + `/likes/thread/${threadId}/likes`)
       .then((response) => response.json())
       .then((data) => {
-        console.log("List of Likers");
-        console.log("data", data)
-        console.log("data.likes", data.likes);
+        console.log("List of likers data", data)
+        // console.log("data.likes", data.likes);
         setLikers(data.likes);
       })
       .catch((error) => {
@@ -472,6 +471,9 @@ const ThreadComponent = ({
       .catch((error) => console.log("error fethcing: " + error));
   };
 
+  useEffect(() => {
+    console.log("inside of likers:", likers);
+  }, [likers])
   /**
    * Hook to fetch data.
    */
@@ -655,7 +657,7 @@ const ThreadComponent = ({
         {openReply ? (
           <ReplyTextEditor id={0} threadId={thread.Id} />
         ) : null}
-        { likers === undefined ? null : 
+        { likers === null ? null : 
           likers.length == 0 ? (null) : likers.length == 1 ? (
             <RegularText> 
             <Username onClick = {handleShowLikers}> Liked by @{likers[0].Username} </Username>
