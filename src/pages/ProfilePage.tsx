@@ -57,7 +57,6 @@ const MostRecentPosts = styled.span`
 `;
 
 const TitleContainer = styled.span`
-  background: white;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
