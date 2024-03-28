@@ -86,6 +86,8 @@ export const selectToken = (state: RootState) => state.user.Token;
 
 export const selectId = (state: RootState) => state.user.Id;
 
+export const selectUsername = (state: RootState) => state.user.Username;
+
 export const selectUser = (state: RootState) => state.user;
 
 export default userSlice.reducer;
