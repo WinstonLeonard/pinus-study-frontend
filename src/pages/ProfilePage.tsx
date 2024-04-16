@@ -9,6 +9,9 @@ import { UserInitialState } from "../redux/features/users/userSlice";
 import { RightSide } from "./ModulePage";
 import MyModules from "../components/MyModules";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { Review, ReviewInitialState } from '../redux/features/reviews/reviewSlice';
+import ReviewComponent from '../components/ReviewComponent';
+
 
 const ProfilePageWrapper = styled.div`
   display: grid;
@@ -75,6 +78,7 @@ const TitleContainer = styled.span`
     0px 5px 0 -0.5px ${Colors.dark_grey};
 
   :hover {
+    cursor: pointer;
     background-color: ${props => props.subscribed? Colors.blue_3 : Colors.blue_accent};
     position: relative; 
     top: 3px;
@@ -99,17 +103,28 @@ const TitleContainer = styled.span`
   }
 `;
 
+const ReviewListContainer = styled.div`
+  margin-left: 8px;
+`;
+
+const ReviewComponentWrapper = styled.span`
+    margin-top: 1em;
+`
+
 const ProfilePage = () => {
   const navigate = useNavigate();
   const { userId } = useParams<{ userId: string }>();
   const [user, setUser] = useState(UserInitialState);
   const [threads, setThreads] = useState(user.RecentThreads);
   const [viewPost, setViewPost] = useState<boolean>(true)
+  const [reviews, setReviews] = useState<Review[]>([ReviewInitialState]);
+
 
   useEffect(() => {
     const userIdNum = userId ? parseInt(userId, 10) : null;
     if (userIdNum) {
       fetchUser(userIdNum);
+      fetchReviews();
     }
   }, [userId]);
 
@@ -128,6 +143,25 @@ const ProfilePage = () => {
         navigate('/PageNotFound');
       });
   };
+  
+  useEffect(() => {
+    console.log("REVIEWS:")
+    console.log(reviews)
+  }, [reviews])
+
+  const fetchReviews = () => {
+    fetch(API_URL + `/review/user/${userId}`)
+        .then(response => response.json())
+        .then(data => {
+            console.log("REVIEW fetch: ");
+            console.log(data)
+            setReviews(data.review.map((r: any) => ({
+                ...r,
+                Comments: []
+            })))
+        })
+        .catch(error => console.log(error))
+}
 
   const showReviews = () => {
     setViewPost(!viewPost);
@@ -174,6 +208,7 @@ const ProfilePage = () => {
               ))}
             </>
           ) : (
+            <>
             <TitleContainer>
               <TextContainer>
                 <MostRecentPosts>Most Recent Reviews</MostRecentPosts>
@@ -182,6 +217,14 @@ const ProfilePage = () => {
                 See My Posts
               </Button>
             </TitleContainer>
+            {reviews.map((review) => (
+                <ReviewComponentWrapper >
+                  <ReviewComponent
+                      review = {review}
+                  />
+                </ReviewComponentWrapper>
+              ))}
+            </>
           )}
       </ThreadWrapper>
 
