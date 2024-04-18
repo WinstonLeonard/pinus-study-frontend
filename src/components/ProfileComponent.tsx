@@ -226,7 +226,14 @@ const PostAndLikes = styled.div`
   flex-direction: row;
 `;
 
+const FollowersAndFollowing = styled.div`
+  margin-top: 1em;
+  display: flex;
+  flex-direction: row;
+`;
+
 const NumberAndDescription = styled.div`
+  width: 5em;
   text-align: center;
 `;
 
@@ -237,6 +244,17 @@ const Number = styled.div`
 
   ${ScreenSizes.medium_below} {
     font-size: 1.5em;
+  }
+`;
+
+const NumberAndDescriptionFollow = styled.div`
+  width: 5em;
+  text-align: center;
+  border-radius: 10px;
+  cursor: pointer;
+
+  :hover {
+    background-color: ${Colors.light_grey_25};
   }
 `;
 
@@ -256,7 +274,7 @@ const VerticalLine = styled.div`
   margin-left: 1.5em;
   margin-right: 1.5em;
   width: 0.05vw;
-  height: 10vh;
+  height: 8vh;
 `;
 
 export const ErrorMessage = styled.p`
@@ -388,6 +406,21 @@ const ProfileComponent = ({
             Log Out
           </Button>)
       }
+      <FollowersAndFollowing>
+        <NumberAndDescriptionFollow>
+          <Number>{user.NumberOfFollowers}</Number>
+          <Description>
+            Followers
+          </Description>
+        </NumberAndDescriptionFollow>
+        <VerticalLine />
+        <NumberAndDescriptionFollow>
+          <Number>{user.NumberOfFollowing}</Number>
+          <Description>
+            Following
+          </Description>
+        </NumberAndDescriptionFollow>
+      </FollowersAndFollowing>
       <PostAndLikes>
         <NumberAndDescription>
           <Number>{user.NumberOfQuestionsAsked}</Number>

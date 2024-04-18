@@ -73,6 +73,7 @@ const ProfilePage = () => {
       .then((response) => response.json())
       .then((data) => {
         setUser(data)
+        console.log(data);
         if (data.Username === '') {
           navigate('/PageNotFound');
         }

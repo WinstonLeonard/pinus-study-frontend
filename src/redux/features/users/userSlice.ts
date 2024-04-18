@@ -6,6 +6,8 @@ export interface User {
   Id: number;
   Username: string;
   Token: string;
+  NumberOfFollowers: number;
+  NumberOfFollowing: number;
   NumberOfQuestionsAsked: number;
   NumberOfLikesReceived: number;
   RecentThreads: Thread[];
@@ -16,6 +18,8 @@ export const UserInitialState: User = {
   Id: 0,
   Username: "",
   Token: "",
+  NumberOfFollowers: 0,
+  NumberOfFollowing: 0,
   NumberOfQuestionsAsked: 999,
   NumberOfLikesReceived: 999,
   RecentThreads: [],
@@ -39,6 +43,8 @@ export const userSlice = createSlice({
       const newState = {
         ...state,
         Username: action.payload.Username,
+        NumberOfFollowers: action.payload.NumberOfFollowers,
+        NumberOfFollowing: action.payload.NumberOfFollowing,
         NumberOfQuestionsAsked: action.payload.NumberOfQuestionsAsked,
         NumberOfLikesReceived: action.payload.NumberOfLikesReceived,
         RecentThreads: action.payload.RecentThreads,
