@@ -10,6 +10,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import { USER_URL, API_URL } from "../constants";
+import Modal from "./user_list/UserListModal";
 
 const ProfileContainer = styled.div`
   background-color: ${Colors.green_2};
@@ -298,6 +299,8 @@ const ProfileComponent = ({
   const [isLoading, setIsLoading] = useState<Boolean>(false);
   const [error, setError] = useState<string>("");
   const [username, setUsername] = useState<string>(user.Username);
+  const [showFollowers, setShowFollowers] = useState<boolean>(false);
+  const [showFollowing, setShowFollowing] = useState<boolean>(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -314,6 +317,23 @@ const ProfileComponent = ({
   const bookmarkButtonHandler = () => {
     navigate("/bookmarked");
   }
+
+  const handleShowFollowers = () => {
+    setShowFollowers(true);
+  }
+
+  const handleCloseFollowers = () => {
+    setShowFollowers(false);
+  }
+
+  const handleShowFollowing = () => {
+    setShowFollowing(true);
+  }
+
+  const handleCloseFollowing = () => {
+    setShowFollowing(false);
+  }
+
 
   /**
    * Change the username of the user.
@@ -472,20 +492,22 @@ const ProfileComponent = ({
           </Button>)
       }
       <FollowersAndFollowing>
-        <NumberAndDescriptionFollow>
+        <NumberAndDescriptionFollow onClick={handleShowFollowers}>
           <Number>{user.NumberOfFollowers}</Number>
           <Description>
             Followers
           </Description>
         </NumberAndDescriptionFollow>
         <VerticalLine />
-        <NumberAndDescriptionFollow>
+        <NumberAndDescriptionFollow onClick={handleShowFollowing}>
           <Number>{user.NumberOfFollowing}</Number>
           <Description>
             Following
           </Description>
         </NumberAndDescriptionFollow>
       </FollowersAndFollowing>
+      <Modal header={'Followers: '} show={showFollowers} onClose={handleCloseFollowers} users={user.Followers}/>
+      <Modal header={'Following: '} show={showFollowing} onClose={handleCloseFollowing} users={user.Following}/>
       <PostAndLikes>
         <NumberAndDescription>
           <Number>{user.NumberOfQuestionsAsked}</Number>
