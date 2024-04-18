@@ -9,7 +9,7 @@ import { pfp } from "../assets";
 import EditIcon from '@mui/icons-material/Edit';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
-import { USER_URL } from "../constants";
+import { USER_URL, API_URL } from "../constants";
 
 const ProfileContainer = styled.div`
   background-color: ${Colors.green_2};
@@ -304,6 +304,7 @@ const ProfileComponent = ({
 
   const token = useSelector(selectToken);
   const currUserId = useSelector(selectId);
+  const isFollowing = user.Followers.filter((user) => user.Id == currUserId).length ? true : false;
 
   const logOut = () => {
     dispatch(logout());
@@ -358,6 +359,70 @@ const ProfileComponent = ({
       changeUsername(username);
     }
   };
+
+  const follow = () => {
+    setIsLoading(true);
+    setError("");
+
+    fetch(API_URL + '/follow/' + currUserId, {
+      method: "POST",
+      headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+          followingId: userId,
+      }),
+    }).then(response => response.json())
+    .then(data => {
+        if (data.status === "failure") {
+            setError(data.cause);
+            console.log(data.cause);
+            return "fail";
+        }
+
+        fetchUser(userId ? userId:0);
+        setError("");
+        return "success";
+    })
+    .catch(error => console.log(error))
+    .finally(() => setIsLoading(false));
+
+    return "success";
+  }
+
+  const unfollow = () => {
+    setIsLoading(true);
+    setError("");
+
+    fetch(API_URL + '/follow/' + currUserId, {
+      method: "DELETE",
+      headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+          followingId: userId,
+      }),
+    }).then(response => response.json())
+    .then(data => {
+        if (data.status === "failure") {
+            setError(data.cause);
+            console.log(data.cause);
+            return "fail";
+        }
+
+        fetchUser(userId ? userId:0);
+        setError("");
+        return "success";
+    })
+    .catch(error => console.log(error))
+    .finally(() => setIsLoading(false));
+
+    return "success";
+  }
 
   return (
     <ProfileContainer>
@@ -431,7 +496,7 @@ const ProfileComponent = ({
           </Description>
         </NumberAndDescription>
         <VerticalLine />
-        <NumberAndDescription>
+        <NumberAndDescription onClick={() => console.log(user.Followers, user.Following)}>
           <Number>{user.NumberOfLikesReceived}</Number>
           <Description>
             Likes
@@ -444,6 +509,14 @@ const ProfileComponent = ({
         isLoggedIn(token, user.Id) && currUserId === userId &&
         <Button marginTop="1em" onClick={bookmarkButtonHandler}>
           Bookmarked
+        </Button>
+      }
+      {
+        isLoggedIn(token, user.Id) && currUserId !== userId &&
+        <Button marginTop="1em" onClick={isFollowing ? unfollow : follow}>
+          {
+            isFollowing ? 'Unfollow' : 'Follow'
+          }
         </Button>
       }
     </ProfileContainer>

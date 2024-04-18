@@ -9,6 +9,7 @@ import { UserInitialState } from "../redux/features/users/userSlice";
 import { RightSide } from "./ModulePage";
 import MyModules from "../components/MyModules";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { userInfo } from "os";
 
 const ProfilePageWrapper = styled.div`
   display: grid;
@@ -68,22 +69,23 @@ const ProfilePage = () => {
       fetchUser(userIdNum);
     }
   }, [userId]);
+
   const fetchUser = (userId: Number) => {
     fetch(API_URL + `/user/${userId}`)
       .then((response) => response.json())
       .then((data) => {
+        console.log(data)
         setUser(data)
-        console.log(data);
         if (data.Username === '') {
           navigate('/PageNotFound');
         }
-        console.log(data);
       })
       .catch((error) => {
         console.log(error);
         navigate('/PageNotFound');
       });
   };
+
   useEffect(() => {
     setThreads(user.RecentThreads);
   }, [user])
@@ -99,7 +101,7 @@ const ProfilePage = () => {
       <NavigationBar />
       <Background>
         <ProfilePageWrapper>
-          <ProfileComponent user={user} userId={userId?+userId:0} fetchUser={fetchUser}/>
+          <ProfileComponent user={user} userId={userId?+userId:0} fetchUser={fetchUser} />
           <ThreadWrapper>
             <TextContainer>
               <MostRecentPosts>Most Recent Posts</MostRecentPosts>
