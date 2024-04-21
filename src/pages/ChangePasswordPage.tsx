@@ -8,11 +8,10 @@ import { WhiteLoader } from "../components/Loader";
 
 const PageWrapper = styled.div`
     padding: 2em;
-
-    ${ScreenSizes.medium_below} {
-        display: flex;
-        flex-direction: column;
-    }
+    display: flex;
+    flex-direction: column;
+    justify-content: column;
+    align-items: center;
 `
 
 const TextContainer = styled.div`
@@ -52,6 +51,7 @@ const MessageText = styled.p`
 const FormContainer = styled.div`
     display: flex;
     flex-direction: column;
+    align-items: center;
     padding: 20px 0;
 `
 
@@ -121,6 +121,7 @@ const ChangePasswordPage = () => {
     const [secretCode, setSecretCode] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [isChanged, setIsChanged] = useState(false);
     
     useEffect(() => {
         const urlParams = window.location.search.substring(1);
@@ -184,6 +185,7 @@ const ChangePasswordPage = () => {
             if (data.status === 'failure') {
                 setError(data.cause);
             } else {
+                setIsChanged(true);
                 setError("");
             }
         })
@@ -210,13 +212,14 @@ const ChangePasswordPage = () => {
                     { !isLoading ? 
                     <TextContainer >
                         {!linkError ? (
-                            <HeaderText>Enter Your New Password!</HeaderText>
+                            !isChanged && <HeaderText>Enter Your New Password!</HeaderText>
                         ) : (
                             <HeaderText>Something Went Wrong!</HeaderText>
                         )}
                         {linkError ? (
                             <MessageText> This link has expired or doesn't exist </MessageText>
-                        ) : (
+                        ) : 
+                        !isChanged ? (
                             <FormContainer>
                                 <Input
                                     marginBottom="1em"
@@ -239,6 +242,8 @@ const ChangePasswordPage = () => {
                                 </AuthButton>
                                 <MessageText>{error}</MessageText>
                             </FormContainer>
+                        ) : (
+                            <HeaderText>Password succesfully changed!</HeaderText>
                         )}
                         
                     </TextContainer> : null }
