@@ -233,7 +233,7 @@ const HomePage = () => {
                 <HomePageWrapper>
                     <div>
                         <DisplayWrapper>
-                            <Heading>Popular Modules</Heading><br></br>
+                            <Heading onClick={() => {console.log(threads)}}>Popular Modules</Heading><br></br>
                             <PopularModulesWrapper>
                                 {modules.map(module => (
                                     <ModuleComponentWrapper key={module.Id} moduleCode={module.Id} />
