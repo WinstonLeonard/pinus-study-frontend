@@ -19,7 +19,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Loader, WhiteLoader } from "../Loader";
 import { getUserDetailsRequest } from "../../requests";
 
-const LoginModal = ({cancel, showSignUpModal} : {cancel: () => void; showSignUpModal: () => void}) => {
+const LoginModal = ({cancel, showSignUpModal, showChangePasswordModal} : {cancel: () => void; showSignUpModal: () => void; showChangePasswordModal: () => void}) => {
     const [emailOrUsername, setEmailOrUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [showError, setShowError] = useState<Boolean>(false);
@@ -125,7 +125,7 @@ const LoginModal = ({cancel, showSignUpModal} : {cancel: () => void; showSignUpM
                 </ModalDiv>
                 
                 <ModalDiv justifyContent="center">
-                    <ForgetPassword>Forget Password?</ForgetPassword>
+                    <ForgetPassword onClick={() => showChangePasswordModal()}>Forget Password?</ForgetPassword>
                 </ModalDiv>
                
                 <ModalDiv/>
