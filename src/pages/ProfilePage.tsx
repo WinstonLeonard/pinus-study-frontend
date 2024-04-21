@@ -8,7 +8,7 @@ import { API_URL, Colors, ScreenSizes } from "../constants";
 import { UserInitialState } from "../redux/features/users/userSlice";
 import { RightSide } from "./ModulePage";
 import MyModules from "../components/MyModules";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const ProfilePageWrapper = styled.div`
   display: grid;
@@ -86,7 +86,7 @@ const ProfilePage = () => {
   useEffect(() => {
     setThreads(user.RecentThreads);
   }, [user])
-  if (user == UserInitialState) {
+  if (user === UserInitialState) {
     return (
       <div>
         <NavigationBar />
