@@ -13,6 +13,7 @@ import SubscribersPage from "./pages/SubscribersPage";
 import ReviewsPage from "./pages/ReviewsPage";
 import ProfilePage from "./pages/ProfilePage";
 import VerifiedPage from "./pages/VerifiedPage";
+import ChangePasswordPage from "./pages/ChangePasswordPage";
 import { PersistGate } from "redux-persist/integration/react";
 import SearchModulesPage from "./pages/SearchModulesPage";
 import BookmarkPage from "./pages/BookmarkPage";
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
     {
         path: "/profile/:userId",
         element: <ProfilePage />
+    },
+    {
+        path: "/password_recovery",
+        element: <ChangePasswordPage />
     },
     {
         path: "/verify_email",
