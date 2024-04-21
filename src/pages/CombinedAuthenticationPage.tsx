@@ -4,9 +4,11 @@ import {
   selectLoginModal,
   selectCreateAccountModal,
   selectVerifyAccountModal,
+  selectChangePasswordModal,
   toggleCreateAccount,
   toggleLogin,
-  toggleVerifyAccount
+  toggleVerifyAccount,
+  toggleChangePassword
 } from "../redux/features/modal/modal";
 import { selectToken, selectId } from "../redux/features/users/userSlice";
 import { isLoggedIn } from "../utils";
@@ -16,6 +18,7 @@ import {
   CreateAccountModal,
 } from "../components/authentication_modal";
 import VerifyAccountModal from "../components/authentication_modal/VerifyAccountModal";
+import ChangePasswordModal from "../components/authentication_modal/ChangePasswordModal";
 
 export const CombinedAuthenticationPage = () => {
   const [signUpEmail, setSignUpEmail] = useState<string>("");
@@ -27,6 +30,7 @@ export const CombinedAuthenticationPage = () => {
   const showLogin = useSelector(selectLoginModal);
   const showCreateAccount = useSelector(selectCreateAccountModal);
   const showVerifyAccount = useSelector(selectVerifyAccountModal);
+  const showChangePassword = useSelector(selectChangePasswordModal);
 
   const userToken = useSelector(selectToken);
   const userId = useSelector(selectId);
@@ -36,18 +40,21 @@ export const CombinedAuthenticationPage = () => {
     dispatch(toggleLogin(false));
     dispatch(toggleCreateAccount(false));
     dispatch(toggleVerifyAccount(false));
+    dispatch(toggleChangePassword(false));
   };
 
   const showLogInModal = () => {
     dispatch(toggleLogin(true));
     dispatch(toggleCreateAccount(false));
     dispatch(toggleVerifyAccount(false));
+    dispatch(toggleChangePassword(false));
   };
 
   const authoriseCreateAccountModal = () => {
     dispatch(toggleLogin(false));
     dispatch(toggleCreateAccount(true));
     dispatch(toggleVerifyAccount(false));
+    dispatch(toggleChangePassword(false));
   };
 
   const showVerificationModal = (email: string, userId: number) => {
@@ -56,6 +63,14 @@ export const CombinedAuthenticationPage = () => {
     dispatch(toggleLogin(false));
     dispatch(toggleCreateAccount(false));
     dispatch(toggleVerifyAccount(true));
+    dispatch(toggleChangePassword(false));
+  }
+
+  const showChangePasswordModal = () => {
+    dispatch(toggleLogin(false));
+    dispatch(toggleCreateAccount(false));
+    dispatch(toggleVerifyAccount(false));
+    dispatch(toggleChangePassword(true));
   }
 
   useEffect(() => {
@@ -72,7 +87,11 @@ export const CombinedAuthenticationPage = () => {
   return (
     <>
       {showLogin ? (
-        <LoginModal cancel={hideAllModals} showSignUpModal={authoriseCreateAccountModal} />
+        <LoginModal 
+          cancel={hideAllModals} 
+          showSignUpModal={authoriseCreateAccountModal} 
+          showChangePasswordModal={showChangePasswordModal}
+        />
       ) : null}
       {showCreateAccount ? (
         <CreateAccountModal
@@ -87,6 +106,11 @@ export const CombinedAuthenticationPage = () => {
           cancel={hideAllModals}
           email={signUpEmail}
           userId={signUpUserId}
+        />
+      ) : null}
+      {showChangePassword ? (
+        <ChangePasswordModal
+          cancel={hideAllModals}
         />
       ) : null}
     </>

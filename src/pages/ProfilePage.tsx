@@ -11,7 +11,7 @@ import MyModules from "../components/MyModules";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { Review, ReviewInitialState } from '../redux/features/reviews/reviewSlice';
 import ReviewComponent from '../components/ReviewComponent';
-
+import { userInfo } from "os";
 
 const ProfilePageWrapper = styled.div`
   display: grid;
@@ -132,11 +132,11 @@ const ProfilePage = () => {
     fetch(API_URL + `/user/${userId}`)
       .then((response) => response.json())
       .then((data) => {
+        console.log(data)
         setUser(data)
         if (data.Username === '') {
           navigate('/PageNotFound');
         }
-        console.log(data);
       })
       .catch((error) => {
         console.log(error);
@@ -185,7 +185,7 @@ const ProfilePage = () => {
       <NavigationBar />
       <Background>
         <ProfilePageWrapper>
-          <ProfileComponent user={user} userId={userId?+userId:0} fetchUser={fetchUser}/>
+          <ProfileComponent user={user} userId={userId?+userId:0} fetchUser={fetchUser} />
           <ThreadWrapper>
           {viewPost ? (
             <>
