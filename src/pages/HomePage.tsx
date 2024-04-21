@@ -8,6 +8,8 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../redux/features/users/userSlice";
 import { RightSide } from "./ModulePage";
 import { ScreenSizes } from "../constants";
+import { Thread } from "../redux/features/threads/threadSlice";
+import { ThreadComponent } from "../components";
 
 const HomePageWrapper = styled.div`
     display: grid;
@@ -142,6 +144,40 @@ const WelcomeMessage = styled.div`
     }
 `
 
+const ThreadWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const ThreadComponentWrapper = styled.span`
+  margin-top: 1em;
+`;
+
+const TextContainer = styled.div`
+  margin-top: 0.5em;
+
+  ${ScreenSizes.medium_below} {
+    margin-top: 1em;
+  }
+`;
+
+const MostRecentPosts = styled.span`
+  font-family: "Poppins", "sans-serif";
+  font-size: 1em;
+  font-weight: 600;
+  color: ${Colors.dark_grey};
+  background: linear-gradient(
+    to bottom,
+    transparent 50%,
+    ${Colors.blue_2_75} 50%
+  );
+  padding: 2.5px 5px 2.5px 5px;
+
+  ${ScreenSizes.medium_below} {
+    font-size: 1em;
+  }
+`;
+
 const FeedbackLink = styled.a`
   color: ${Colors.hyperlink};
   text-decoration: none;
@@ -157,12 +193,22 @@ const FeedbackLink = styled.a`
 const HomePage = () => {
     const user = useSelector(selectUser);
     const [modules, setModules] = useState<any[]>([]);
-
+    const [threads, setThreads] = useState<Thread[]>([]);
     const isLoggedIn = () => {
         return user.Id !== 0 && user.Token !== "";
     }
-
+    const fetchMod = () => {
+        console.log(user.Id);
+        fetch(API_URL + `/follow/thread/${user.Id}`)
+            .then(response => response.json())
+            .then(data => {
+              console.log(data);
+              setThreads(data.threads?data.threads:[]);
+            })
+        .catch(error => console.log(error))
+    }
     useEffect(() => {
+        fetchMod();
         fetch(API_URL + `/module`, {
             method: "POST",
             headers: {
@@ -187,7 +233,7 @@ const HomePage = () => {
                 <HomePageWrapper>
                     <div>
                         <DisplayWrapper>
-                            <Heading>Popular Modules</Heading><br></br>
+                            <Heading onClick={() => {console.log(threads)}}>Popular Modules</Heading><br></br>
                             <PopularModulesWrapper>
                                 {modules.map(module => (
                                     <ModuleComponentWrapper key={module.Id} moduleCode={module.Id} />
@@ -200,11 +246,26 @@ const HomePage = () => {
                                 Have something you want to improve? Fill in this <FeedbackLink href="https://pinusonline.org/contact">feedback form</FeedbackLink>.
                                 <br /><br />
                                 Have fun studying!
-                            </WelcomeMessage>
+                            </WelcomeMessage>{
+                                threads.length > 0 
+                                    ? <ThreadWrapper>
+                                        <TextContainer>
+                                            <MostRecentPosts>Most Recent Posts</MostRecentPosts>
+                                        </TextContainer>
+                                        {threads.map((thread) => {
+                                        return (
+                                            <ThreadComponentWrapper>
+                                                <ThreadComponent threadId={thread.Id} type="MODULE_PAGE" threadComponent = {thread} />
+                                            </ThreadComponentWrapper>
+                                        );
+                                        })}
+                                    </ThreadWrapper>
+                                    :<></>
+                            }
                         </DisplayWrapper>
                     </div>
                     <div>
-                        <MyModules />
+                        <MyModules/>
                     </div>
                 </HomePageWrapper>
             </Background>

@@ -171,7 +171,7 @@ const ProfilePage = () => {
   useEffect(() => {
     setThreads(user.RecentThreads);
   }, [user])
-  if (user == UserInitialState) {
+  if (user === UserInitialState) {
     return (
       <div>
         <NavigationBar />

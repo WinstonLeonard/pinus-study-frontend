@@ -179,12 +179,14 @@ const Username = styled.span`
 
 const BookmarkButton = styled.button`
   border: none;
-  background-color: ${Colors.blue_3};
+  background-color: transparent;
   float: right;
   margin-right: 5px;
   margin-bottom: 5px;
+  border-radius: 8px;
   :hover {
-    background-color: ${Colors.blue_accent};
+    background-color: ${Colors.blue_4};
+    cursor: pointer;
   }
 `;
 
