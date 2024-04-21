@@ -12,6 +12,7 @@ const fadeIn = keyframes`
 `
 
 export const BlurredBackground = styled.div`
+    z-index: 1;
     align-items: center;
     bottom: 0px;
     display: flex;
