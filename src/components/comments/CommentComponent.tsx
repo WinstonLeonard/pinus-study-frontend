@@ -19,11 +19,13 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import ReplyTextEditor from "../editor/ReplyTextEditor";
 import CommentList from "./CommentList";
 import { useDispatch, useSelector } from "react-redux";
-import { selectId, selectToken } from "../../redux/features/users/userSlice";
+import { selectId, selectToken, selectUsername } from "../../redux/features/users/userSlice";
 import CombinedAuthenticationPage from "../../pages/CombinedAuthenticationPage";
 import { isLoggedIn } from "../../utils";
 import { deserialize } from "../editor/serializer";
 import { PostedSince, RegularText, ThreadContainerDiv } from "../ThreadComponent";
+import Modal from "../LikersModal"; // Import your modal component here
+
 
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -61,6 +63,7 @@ const Content = styled.span`
 const VerticalCenterAlignLayout = styled.div`
   display: flex;
   align-items: center;
+  margin-bottom: 10px;
 `;
 
 const LevelContainerDiv = styled.div<MarginProps>`
@@ -119,6 +122,13 @@ const ViewRepliesLink = styled.div`
   }
 `;
 
+const Username = styled.span`
+  cursor: pointer;
+  :hover {
+    text-decoration: underline;
+  }
+`
+
 /**
  * Comment component for the web forum.
  *
@@ -134,6 +144,12 @@ const CommentComponent = ({
   level: number;
   threadId: number;
 }) => {
+
+  type LikersType = {
+    Id: string;
+    Username: string;
+  };
+
   const [comment, setComment] = useState<Comment>(CommentInitialState);
   const [openReply, setOpenReply] = useState<Boolean>(false);
   const [viewReplies, setViewReplies] = useState<Boolean>(false);
@@ -143,6 +159,11 @@ const CommentComponent = ({
   const [dislikesCount, setDislikesCount] = useState<number>(0);
   const userId = useSelector(selectId);
   const token = useSelector(selectToken);
+  const userIdString = userId.toString();
+  const userName = useSelector(selectUsername);
+  const [showLikersModal, setShowLikersModal] = useState<boolean>(false);
+  const [likers, setLikers] = useState<LikersType[]>([]);
+
 
   const openReplyInputField = (): void => {
     setOpenReply(!openReply);
@@ -164,17 +185,28 @@ const CommentComponent = ({
       setLoading(true);
       switch (status) {
         case "LIKED":
+          setLikers(prevLikers => prevLikers.filter(item => item.Id !== userIdString && item.Username !== userName));
           setLikesCount(likesCount - 1);
           setStatus("NEUTRAL");
           likeStatus = 0;
           break;
         case "DISLIKED":
+          setLikers(prevLikers => [...prevLikers, {"Id": userIdString, "Username": userName}]);
           setLikesCount(likesCount + 1);
           setDislikesCount(dislikesCount - 1);
           setStatus("LIKED");
           likeStatus = 1;
           break;
         case "NEUTRAL":
+          setLikers(prevLikers => {
+            if (!Array.isArray(prevLikers)) {
+              // Handle the case when prevLikers is not an array
+              return [{"Id": userIdString, "Username": userName}]; // or return some default array with the new item
+            } else {
+              // Add the new item to the array using spread syntax
+              return [...prevLikers, {"Id": userIdString, "Username": userName}];
+            }
+          });
           setLikesCount(likesCount + 1);
           setStatus("LIKED");
           likeStatus = 1;
@@ -193,6 +225,7 @@ const CommentComponent = ({
       setLoading(true);
       switch (status) {
         case "LIKED":
+          setLikers(prevLikers => prevLikers.filter(item => item.Id !== userIdString && item.Username !== userName));
           setLikesCount(likesCount - 1);
           setDislikesCount(dislikesCount + 1);
           setStatus("DISLIKED");
@@ -230,6 +263,14 @@ const CommentComponent = ({
         }),
       }).then((response) => console.log("success!"));
     }
+  };
+
+  const handleShowLikers = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setShowLikersModal(true);
+  };
+
+  const handleCloseLikersModal = () => {
+    setShowLikersModal(false);
   };
 
   /**
@@ -273,11 +314,30 @@ const CommentComponent = ({
   };
 
   /**
+   * Fetches list of likers
+   */
+
+  const fetchListOfLikers = () => {
+    fetch(API_URL + `/likes/comment/${commentId}/likes`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("List of likers data", data)
+        // console.log("data.likes", data.likes);
+        setLikers(data.likes);
+      })
+      .catch((error) => {
+        console.log("List of likers error");
+        console.log(error);
+      });
+  };
+
+  /**
    * Hook to fetch data.
    */
   useEffect(() => {
     setLoading(true);
     fetchCommentData();
+    fetchListOfLikers();
   }, []);
 
   useEffect(() => {
@@ -345,11 +405,32 @@ const CommentComponent = ({
               <ThumbDownOutlinedIcon />
             )}
           </ThumbButton>
+          <Modal
+          show={showLikersModal}
+          onClose={handleCloseLikersModal}
+          likers = {likers}
+        // Pass any necessary props to your likers modal component
+      >
+        <text></text>
+      </Modal>
+
           <MediumText>&#8196;{dislikesCount}&#8195;</MediumText>
           <ModeCommentOutlinedIcon />
           <MediumText>&#8196;</MediumText>
           <ReplyText onClick={() => openReplyInputField()}>Reply</ReplyText>
         </VerticalCenterAlignLayout>
+        { likers === null ? null : 
+          likers.length == 0 ? (null) : likers.length == 1 ? (
+            <RegularText> 
+            <Username onClick = {handleShowLikers}> Liked by @{likers[0].Username} </Username>
+          </RegularText>
+          ) :
+            (
+            <RegularText> 
+              <Username onClick = {handleShowLikers}> Liked by @{likers[0].Username} and {likers.length - 1} others</Username>
+            </RegularText>
+            )
+        }
         {openReply ? (
           <ReplyTextEditor id={commentId} threadId={threadId} />
         ) : null}
@@ -405,6 +486,26 @@ const CommentComponent = ({
           <MediumText>&#8196;</MediumText>
           <ReplyText onClick={() => openReplyInputField()}>Reply</ReplyText>
         </VerticalCenterAlignLayout>
+        <Modal
+          show={showLikersModal}
+          onClose={handleCloseLikersModal}
+          likers = {likers}
+        // Pass any necessary props to your likers modal component
+      >
+        <text></text>
+      </Modal>
+        { likers === null ? null : 
+          likers.length == 0 ? (null) : likers.length == 1 ? (
+            <RegularText> 
+            <Username onClick = {handleShowLikers}> Liked by @{likers[0].Username} </Username>
+          </RegularText>
+          ) :
+            (
+            <RegularText> 
+              <Username onClick = {handleShowLikers}> Liked by @{likers[0].Username} and {likers.length - 1} others</Username>
+            </RegularText>
+            )
+        }
         {openReply ? (
           <ReplyTextEditor id={commentId} threadId={threadId} />
         ) : null}

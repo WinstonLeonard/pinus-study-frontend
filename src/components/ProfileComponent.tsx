@@ -9,7 +9,8 @@ import { pfp } from "../assets";
 import EditIcon from '@mui/icons-material/Edit';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
-import { USER_URL } from "../constants";
+import { USER_URL, API_URL } from "../constants";
+import Modal from "./user_list/UserListModal";
 
 const ProfileContainer = styled.div`
   background-color: ${Colors.green_2};
@@ -226,7 +227,14 @@ const PostAndLikes = styled.div`
   flex-direction: row;
 `;
 
+const FollowersAndFollowing = styled.div`
+  margin-top: 1em;
+  display: flex;
+  flex-direction: row;
+`;
+
 const NumberAndDescription = styled.div`
+  width: 5em;
   text-align: center;
 `;
 
@@ -237,6 +245,17 @@ const Number = styled.div`
 
   ${ScreenSizes.medium_below} {
     font-size: 1.5em;
+  }
+`;
+
+const NumberAndDescriptionFollow = styled.div`
+  width: 5em;
+  text-align: center;
+  border-radius: 10px;
+  cursor: pointer;
+
+  :hover {
+    background-color: ${Colors.light_grey_25};
   }
 `;
 
@@ -256,7 +275,7 @@ const VerticalLine = styled.div`
   margin-left: 1.5em;
   margin-right: 1.5em;
   width: 0.05vw;
-  height: 10vh;
+  height: 8vh;
 `;
 
 export const ErrorMessage = styled.p`
@@ -280,12 +299,15 @@ const ProfileComponent = ({
   const [isLoading, setIsLoading] = useState<Boolean>(false);
   const [error, setError] = useState<string>("");
   const [username, setUsername] = useState<string>(user.Username);
+  const [showFollowers, setShowFollowers] = useState<boolean>(false);
+  const [showFollowing, setShowFollowing] = useState<boolean>(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const token = useSelector(selectToken);
   const currUserId = useSelector(selectId);
+  const isFollowing = user.Followers.filter((user) => user.Id == currUserId).length ? true : false;
 
   const logOut = () => {
     dispatch(logout());
@@ -295,6 +317,23 @@ const ProfileComponent = ({
   const bookmarkButtonHandler = () => {
     navigate("/bookmarked");
   }
+
+  const handleShowFollowers = () => {
+    setShowFollowers(true);
+  }
+
+  const handleCloseFollowers = () => {
+    setShowFollowers(false);
+  }
+
+  const handleShowFollowing = () => {
+    setShowFollowing(true);
+  }
+
+  const handleCloseFollowing = () => {
+    setShowFollowing(false);
+  }
+
 
   /**
    * Change the username of the user.
@@ -340,6 +379,70 @@ const ProfileComponent = ({
       changeUsername(username);
     }
   };
+
+  const follow = () => {
+    setIsLoading(true);
+    setError("");
+
+    fetch(API_URL + '/follow/' + currUserId, {
+      method: "POST",
+      headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+          followingId: userId,
+      }),
+    }).then(response => response.json())
+    .then(data => {
+        if (data.status === "failure") {
+            setError(data.cause);
+            console.log(data.cause);
+            return "fail";
+        }
+
+        fetchUser(userId ? userId:0);
+        setError("");
+        return "success";
+    })
+    .catch(error => console.log(error))
+    .finally(() => setIsLoading(false));
+
+    return "success";
+  }
+
+  const unfollow = () => {
+    setIsLoading(true);
+    setError("");
+
+    fetch(API_URL + '/follow/' + currUserId, {
+      method: "DELETE",
+      headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+          followingId: userId,
+      }),
+    }).then(response => response.json())
+    .then(data => {
+        if (data.status === "failure") {
+            setError(data.cause);
+            console.log(data.cause);
+            return "fail";
+        }
+
+        fetchUser(userId ? userId:0);
+        setError("");
+        return "success";
+    })
+    .catch(error => console.log(error))
+    .finally(() => setIsLoading(false));
+
+    return "success";
+  }
 
   return (
     <ProfileContainer>
@@ -388,6 +491,23 @@ const ProfileComponent = ({
             Log Out
           </Button>)
       }
+      <FollowersAndFollowing>
+        <NumberAndDescriptionFollow onClick={handleShowFollowers}>
+          <Number>{user.NumberOfFollowers}</Number>
+          <Description>
+            Followers
+          </Description>
+        </NumberAndDescriptionFollow>
+        <VerticalLine />
+        <NumberAndDescriptionFollow onClick={handleShowFollowing}>
+          <Number>{user.NumberOfFollowing}</Number>
+          <Description>
+            Following
+          </Description>
+        </NumberAndDescriptionFollow>
+      </FollowersAndFollowing>
+      <Modal header={'Followers: '} show={showFollowers} onClose={handleCloseFollowers} users={user.Followers}/>
+      <Modal header={'Following: '} show={showFollowing} onClose={handleCloseFollowing} users={user.Following}/>
       <PostAndLikes>
         <NumberAndDescription>
           <Number>{user.NumberOfQuestionsAsked}</Number>
@@ -398,7 +518,7 @@ const ProfileComponent = ({
           </Description>
         </NumberAndDescription>
         <VerticalLine />
-        <NumberAndDescription>
+        <NumberAndDescription onClick={() => console.log(user.Followers, user.Following)}>
           <Number>{user.NumberOfLikesReceived}</Number>
           <Description>
             Likes
@@ -411,6 +531,14 @@ const ProfileComponent = ({
         isLoggedIn(token, user.Id) && currUserId === userId &&
         <Button marginTop="1em" onClick={bookmarkButtonHandler}>
           Bookmarked
+        </Button>
+      }
+      {
+        isLoggedIn(token, user.Id) && currUserId !== userId &&
+        <Button marginTop="1em" onClick={isFollowing ? unfollow : follow}>
+          {
+            isFollowing ? 'Unfollow' : 'Follow'
+          }
         </Button>
       }
     </ProfileContainer>

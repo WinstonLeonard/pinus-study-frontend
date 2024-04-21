@@ -12,19 +12,21 @@ import {
 } from "./ModalComponents";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
+import { Link, useNavigate } from "react-router-dom";
 import { login, selectToken } from '../../redux/features/users/userSlice';
-import { LOGIN_URL } from "../../constants";
+import { LOGIN_URL, API_URL } from "../../constants";
 import CloseIcon from '@mui/icons-material/Close';
 import { Loader, WhiteLoader } from "../Loader";
 import { getUserDetailsRequest } from "../../requests";
 
-const LoginModal = ({cancel, showSignUpModal} : {cancel: () => void; showSignUpModal: () => void}) => {
+const LoginModal = ({cancel, showSignUpModal, showChangePasswordModal} : {cancel: () => void; showSignUpModal: () => void; showChangePasswordModal: () => void}) => {
     const [emailOrUsername, setEmailOrUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [showError, setShowError] = useState<Boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [statusMessage, setStatusMessage] = useState<string>("");
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     /**
      * Detects changes on the Email / Username input element.
@@ -85,13 +87,6 @@ const LoginModal = ({cancel, showSignUpModal} : {cancel: () => void; showSignUpM
     }
 
     /**
-     * #TODO: Implement when backend is ready
-     */
-    const forgetPassword = () => {
-        // Implement code here
-    }
-
-    /**
      * Hides error message upon input to the Email / Username or Password field.
      */
     useEffect(() => {
@@ -122,16 +117,17 @@ const LoginModal = ({cancel, showSignUpModal} : {cancel: () => void; showSignUpM
                         disabled={isLoading}/>
                     { showError ? <ErrorMessage>{statusMessage}</ErrorMessage> : null }
                 </ModalDiv>
-                {/*
-                <ModalDiv justifyContent="center">
-                    <ForgetPassword onClick={forgetPassword}>Forget Password?</ForgetPassword>
-                </ModalDiv>
-                */}
+                
                 <ModalDiv>
                     <AuthButton onClick={logIn} disabled={isLoading}>
                         {isLoading ? <WhiteLoader /> : "Log In"}
                     </AuthButton>
                 </ModalDiv>
+                
+                <ModalDiv justifyContent="center">
+                    <ForgetPassword onClick={() => showChangePasswordModal()}>Forget Password?</ForgetPassword>
+                </ModalDiv>
+               
                 <ModalDiv/>
                 <ModalDiv/>
                 <ModalDiv/>
