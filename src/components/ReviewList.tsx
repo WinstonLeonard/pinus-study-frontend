@@ -54,7 +54,7 @@ const SearchBar = styled.input`
 const ReviewList = ({ selectedModule, sortType } : { selectedModule : string, sortType: string }) => {
     const [reviews, setReviews] = useState<Review[]>([ReviewInitialState]);
     const [query, setQuery] = useState("");
-    const placeholder = "Search threads here...";
+    const placeholder = "Search reviews here...";
     const [filteredList, setFilteredList] = useState<Review[]>([]);
     const onChange = (e: React.FormEvent<HTMLInputElement>): void => {
         setQuery(e.currentTarget.value);
