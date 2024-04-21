@@ -61,6 +61,7 @@ const ThreadList = ({ selectedModule, sortType } : { selectedModule : string, so
     const [query, setQuery] = useState("");
     const placeholder = "Search threads here...";
     const [filteredList, setFilteredList] = useState<Thread[]>([]);
+    const [validModule, setValidModule] = useState(true);
     const onChange = (e: React.FormEvent<HTMLInputElement>): void => {
         setQuery(e.currentTarget.value);
         setFilteredList(module.Threads.filter(a => a.Title.toLowerCase().includes(e.currentTarget.value.toLowerCase())));
@@ -70,11 +71,18 @@ const ThreadList = ({ selectedModule, sortType } : { selectedModule : string, so
         fetch(API_URL + `/module/${selectedModule?.toString().toUpperCase()}`)
             .then(response => response.json())
             .then(data => {
-              console.log(data);
+            //   console.log("Valid Module");
+            //   console.log("Data.Module", data.module);
+            //   if (data.module.Id == '') {
+            //     console.log("Invalid Module");
+            //   }
               setModule(data.module);
               setFilteredList(sortList(sortType, data.module.Threads?data.module.Threads:[]));
             })
-        .catch(error => console.log(error))
+        .catch(error => {
+            console.log("Invalid Module");
+            console.log(error)
+        })
     }
     const sortList = (sortingtype: string, threads: Thread[]) => {
         return sortingtype === "Newest"

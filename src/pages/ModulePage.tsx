@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
+import { API_URL } from '../constants';
 import Background from "../components/Background";
 import NavigationBar from "../components/Navbar";
+import { Module, ModuleInitialState } from '../redux/features/modules/moduleSlice';
 import { Colors, ScreenSizes } from "../constants";
 import MyModules from "../components/MyModules";
 import ModuleForum, { Button, SelectBox } from "../components/ModuleForum";
@@ -9,8 +11,9 @@ import ThreadList from "../components/ThreadList";
 import { useSelector } from "react-redux";
 import { selectId, selectToken } from "../redux/features/users/userSlice";
 import TextEditor from "../components/editor/TextEditor";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { isLoggedIn } from "../utils";
+import InvalidLink from "../components/InvalidLink";
 
 const ModulePageWrapper = styled.div`
   display: grid;
@@ -101,6 +104,8 @@ const ModulePage = () => {
   const [openTextEditor, setOpenTextEditor] = useState(false);
   const sortedType = ["Newest", "Latest", "Replies", "Likes", "Dislikes"];
   const [sortType, setSortType] = useState(sortedType[0]);
+  const [module, setModule] = useState(ModuleInitialState);
+  const [validModule, setValidModule] = useState(true);
 
   const showTextEditor = () => {
     setOpenTextEditor(true);
@@ -113,43 +118,77 @@ const ModulePage = () => {
     setSortType(e.currentTarget.value);
     console.log(e.currentTarget.value);
   };
-  return (
-    <div>
-      {openTextEditor ? <TextEditor closeTextEditor={closeTextEditor} /> : null}
-      <NavigationBar />
-      <Background>
-        <ModulePageWrapper>
-          <div>
-            <HeadingDiv>
-              <ForumHeadingDiv>
-                <Heading>Discussion Forum</Heading>
-              </ForumHeadingDiv>
-              <ButtonDiv>
-                <SortByFont>Sort By:</SortByFont>
-                <SelectBox onChange={onChange}>
-                  {sortedType.map((label) => {
-                    return <option value={label}>{label}</option>
-                  })}
-                </SelectBox>
-                {isLoggedIn(token, userId) ? (
-                  <Button onClick={showTextEditor} mobilePadding="10px 20px">+ New Post</Button>
-                ) : (
-                  <></>
-                )}
-              </ButtonDiv>
-            </HeadingDiv>
-            <ThreadListContainer>
-              <ThreadList selectedModule={mod ? mod.toString() : ""} sortType={sortType}/>
-            </ThreadListContainer>
-          </div>
-          <RightSide>
-            <ModuleForum selectedModule={mod ? mod.toString() : ""} />
-            <MyModules />
-          </RightSide>
-        </ModulePageWrapper>
-      </Background>
-    </div>
-  );
+
+  const fetchMod = () => {
+    fetch(API_URL + `/module/${mod?.toString().toUpperCase()}`)
+        .then(response => response.json())
+        .then(data => {
+          console.log("Data.Module", data.module);
+          if (data.module.Id == '') {
+            setValidModule(false);
+            console.log("Invalid Module");
+            return;
+          }
+          setModule(data.module);
+        })
+    .catch(error => {
+        console.log(error)
+    })
+}
+
+useEffect(() => {
+  fetchMod();
+}, [])
+
+return (
+  <div>
+    {validModule ? (
+      <>
+        {openTextEditor ? <TextEditor closeTextEditor={closeTextEditor} /> : null}
+        <NavigationBar />
+        <Background>
+          <ModulePageWrapper>
+            <div>
+              <HeadingDiv>
+                <ForumHeadingDiv>
+                  <Heading>Discussion Forum</Heading>
+                </ForumHeadingDiv>
+                <ButtonDiv>
+                  <SortByFont>Sort By:</SortByFont>
+                  <SelectBox onChange={onChange}>
+                    {sortedType.map((label) => {
+                      return <option value={label}>{label}</option>;
+                    })}
+                  </SelectBox>
+                  {isLoggedIn(token, userId) ? (
+                    <Button onClick={showTextEditor} mobilePadding="10px 20px">+ New Post</Button>
+                  ) : (
+                    <></>
+                  )}
+                </ButtonDiv>
+              </HeadingDiv>
+              <ThreadListContainer>
+                <ThreadList selectedModule={mod ? mod.toString() : ""} sortType={sortType}/>
+              </ThreadListContainer>
+            </div>
+            <RightSide>
+              <ModuleForum selectedModule={mod ? mod.toString() : ""} />
+              <MyModules />
+            </RightSide>
+          </ModulePageWrapper>
+        </Background>
+      </>
+    ) : (
+      <>
+        <NavigationBar/>
+        <Background>
+          <InvalidLink></InvalidLink>
+        </Background>
+      </>
+    )}
+  </div>
+);
+
 };
 
 export default ModulePage;
