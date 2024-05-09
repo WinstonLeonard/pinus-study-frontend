@@ -120,7 +120,7 @@ const CreateAccountModal = ({
             },
             body: JSON.stringify({
                 username: username,
-                email: email,
+                email: email.toLowerCase(),
                 password: password,
             }),
         })

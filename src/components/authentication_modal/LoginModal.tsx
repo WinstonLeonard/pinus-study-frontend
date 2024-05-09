@@ -65,7 +65,7 @@ const LoginModal = ({cancel, showSignUpModal, showChangePasswordModal} : {cancel
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                username: emailOrUsername,
+                username: emailOrUsername.toLowerCase(),
                 password: password,
             }),
         }).then(response => response.json())
