@@ -177,6 +177,13 @@ const Username = styled.span`
   }
 `
 
+const ModuleId = styled.span`
+  cursor: pointer;
+  :hover{
+    text-decoration: underline;
+  }
+`
+
 const BookmarkButton = styled.button`
   border: none;
   background-color: transparent;
@@ -598,6 +605,10 @@ const ThreadComponent = ({
     navigate(`/profile/${thread.AuthorId}`);
   };
 
+  const directToModulePage = () => {
+    navigate(`/module/${thread?.ModuleId}`);
+  }
+
   /**
    * Renders the thread in the Question Page.
    */
@@ -615,7 +626,7 @@ const ThreadComponent = ({
         }
         <br />
         <RegularText>
-          Posted by <Username onClick={directToUserPage}>@{thread?.Username} in {thread?.ModuleId}</Username>
+          Posted by <Username onClick={directToUserPage}>@{thread?.Username}</Username> in <ModuleId onClick={directToModulePage}>{thread?.ModuleId}</ModuleId>
         </RegularText>
         <br />
         <Content>{deserialize(thread.Content)}</Content>
