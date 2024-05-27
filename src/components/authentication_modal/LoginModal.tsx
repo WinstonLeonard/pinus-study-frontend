@@ -44,6 +44,12 @@ const LoginModal = ({cancel, showSignUpModal, showChangePasswordModal} : {cancel
         setPassword(event.target.value);
     }
 
+    const handleEnter = (event: any) => {
+        if (event.key === "Enter") {
+            logIn();
+        }
+    }
+
     /**
      * Logs the user into the application. If the user inputs invalid 
      * credentials, an error message will be shown.
@@ -65,7 +71,7 @@ const LoginModal = ({cancel, showSignUpModal, showChangePasswordModal} : {cancel
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                username: emailOrUsername,
+                username: emailOrUsername.toLowerCase(),
                 password: password,
             }),
         }).then(response => response.json())
@@ -75,12 +81,11 @@ const LoginModal = ({cancel, showSignUpModal, showChangePasswordModal} : {cancel
                 setStatusMessage(data.cause);
                 return;
             }
-
             dispatch(login({
                 Id: data.userid,
                 Token: data.token
             }));
-            
+            cancel();
         })
         .catch(error => console.log(error))
         .finally(() => setIsLoading(false));
@@ -114,6 +119,7 @@ const LoginModal = ({cancel, showSignUpModal, showChangePasswordModal} : {cancel
                         type="password"
                         onChange={handlePasswordChange}
                         value={password}
+                        onKeyDown={handleEnter}
                         disabled={isLoading}/>
                     { showError ? <ErrorMessage>{statusMessage}</ErrorMessage> : null }
                 </ModalDiv>

@@ -165,11 +165,11 @@ const ProfilePage = () => {
 
   const showReviews = () => {
     setViewPost(!viewPost);
-    console.log("loll");
   }
 
   useEffect(() => {
     setThreads(user.RecentThreads);
+    console.log(user.RecentThreads);
   }, [user])
   if (user === UserInitialState) {
     return (
