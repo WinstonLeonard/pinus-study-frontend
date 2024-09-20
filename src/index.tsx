@@ -10,9 +10,14 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import ModulePage from "./pages/ModulePage";
 import SubscribersPage from "./pages/SubscribersPage";
+import ReviewsPage from "./pages/ReviewsPage";
 import ProfilePage from "./pages/ProfilePage";
+import VerifiedPage from "./pages/VerifiedPage";
+import ChangePasswordPage from "./pages/ChangePasswordPage";
 import { PersistGate } from "redux-persist/integration/react";
 import SearchModulesPage from "./pages/SearchModulesPage";
+import BookmarkPage from "./pages/BookmarkPage";
+import SpecificReviewPage from "./pages/SpecificReviewPage";
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);
@@ -39,13 +44,33 @@ const router = createBrowserRouter([
         element: <SubscribersPage />
     },
     {
+        path: "/reviews/:mod",
+        element: <ReviewsPage />,
+    },
+    {
+        path: "/reviews/:mod/:userId",
+        element: <SpecificReviewPage />
+    },
+    {
         path: "/thread/:threadId",
         element: <QuestionPage />
     },
     {
         path: "/profile/:userId",
         element: <ProfilePage />
-    }
+    },
+    {
+        path: "/password_recovery",
+        element: <ChangePasswordPage />
+    },
+    {
+        path: "/verify_email",
+        element: <VerifiedPage />
+    },
+    {
+        path: "/bookmarked",
+        element: <BookmarkPage/>
+    },
 ]);
 
 root.render(

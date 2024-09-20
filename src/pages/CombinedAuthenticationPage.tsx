@@ -2,30 +2,35 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectLoginModal,
-  selectSignupModal,
   selectCreateAccountModal,
+  selectVerifyAccountModal,
+  selectChangePasswordModal,
   toggleCreateAccount,
   toggleLogin,
-  toggleSignup,
+  toggleVerifyAccount,
+  toggleChangePassword
 } from "../redux/features/modal/modal";
 import { selectToken, selectId } from "../redux/features/users/userSlice";
 import { isLoggedIn } from "../utils";
 import { useLocation } from "react-router-dom";
 import {
   LoginModal,
-  SignUpModal,
   CreateAccountModal,
 } from "../components/authentication_modal";
+import VerifyAccountModal from "../components/authentication_modal/VerifyAccountModal";
+import ChangePasswordModal from "../components/authentication_modal/ChangePasswordModal";
 
 export const CombinedAuthenticationPage = () => {
   const [signUpEmail, setSignUpEmail] = useState<string>("");
+  const [signUpUserId, setSignUpUserId] = useState<number>(-1);
 
   const location = useLocation();
 
-  // States for login / signup / create account modals
+  // States for login / create account modals
   const showLogin = useSelector(selectLoginModal);
-  const showSignup = useSelector(selectSignupModal);
   const showCreateAccount = useSelector(selectCreateAccountModal);
+  const showVerifyAccount = useSelector(selectVerifyAccountModal);
+  const showChangePassword = useSelector(selectChangePasswordModal);
 
   const userToken = useSelector(selectToken);
   const userId = useSelector(selectId);
@@ -33,28 +38,40 @@ export const CombinedAuthenticationPage = () => {
 
   const hideAllModals = () => {
     dispatch(toggleLogin(false));
-    dispatch(toggleSignup(false));
     dispatch(toggleCreateAccount(false));
-  };
-
-  const showSignUpModal = () => {
-    dispatch(toggleLogin(false));
-    dispatch(toggleSignup(true));
-    dispatch(toggleCreateAccount(false));
+    dispatch(toggleVerifyAccount(false));
+    dispatch(toggleChangePassword(false));
   };
 
   const showLogInModal = () => {
     dispatch(toggleLogin(true));
-    dispatch(toggleSignup(false));
     dispatch(toggleCreateAccount(false));
+    dispatch(toggleVerifyAccount(false));
+    dispatch(toggleChangePassword(false));
   };
 
-  const authoriseCreateAccountModal = (email: string) => {
-    setSignUpEmail(email);
+  const authoriseCreateAccountModal = () => {
     dispatch(toggleLogin(false));
-    dispatch(toggleSignup(false));
     dispatch(toggleCreateAccount(true));
+    dispatch(toggleVerifyAccount(false));
+    dispatch(toggleChangePassword(false));
   };
+
+  const showVerificationModal = (email: string, userId: number) => {
+    setSignUpEmail(email);
+    setSignUpUserId(userId);
+    dispatch(toggleLogin(false));
+    dispatch(toggleCreateAccount(false));
+    dispatch(toggleVerifyAccount(true));
+    dispatch(toggleChangePassword(false));
+  }
+
+  const showChangePasswordModal = () => {
+    dispatch(toggleLogin(false));
+    dispatch(toggleCreateAccount(false));
+    dispatch(toggleVerifyAccount(false));
+    dispatch(toggleChangePassword(true));
+  }
 
   useEffect(() => {
     if (isLoggedIn(userToken, userId)) {
@@ -70,13 +87,10 @@ export const CombinedAuthenticationPage = () => {
   return (
     <>
       {showLogin ? (
-        <LoginModal cancel={hideAllModals} showSignUpModal={showSignUpModal} />
-      ) : null}
-      {showSignup ? (
-        <SignUpModal
-          cancel={hideAllModals}
-          showLogInModal={showLogInModal}
-          authoriseCreateAccountModal={authoriseCreateAccountModal}
+        <LoginModal 
+          cancel={hideAllModals} 
+          showSignUpModal={authoriseCreateAccountModal} 
+          showChangePasswordModal={showChangePasswordModal}
         />
       ) : null}
       {showCreateAccount ? (
@@ -84,6 +98,19 @@ export const CombinedAuthenticationPage = () => {
           cancel={hideAllModals}
           email={signUpEmail}
           showLogInModal={showLogInModal}
+          showVerificationModal={showVerificationModal}
+        />
+      ) : null}
+      {showVerifyAccount ? (
+        <VerifyAccountModal
+          cancel={hideAllModals}
+          email={signUpEmail}
+          userId={signUpUserId}
+        />
+      ) : null}
+      {showChangePassword ? (
+        <ChangePasswordModal
+          cancel={hideAllModals}
         />
       ) : null}
     </>

@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { Colors, ScreenSizes } from "../constants";
-import pfp from "../assets/default_pfp.png";
+import { Colors, ScreenSizes } from "../../constants";
+import pfp from "../../assets/default_pfp.png";
 
-const SubscriberComponentBackground = styled.div`
+const UserComponentBackground = styled.div`
   border: 2px solid ${Colors.dark_grey};
   border-radius: 20px;
   background-color: ${Colors.blue_3};
@@ -18,6 +18,7 @@ const SubscriberComponentBackground = styled.div`
   cursor: pointer;
   padding: 0.5em;
   box-shadow: 5px 5px 0px ${Colors.green_2}, 5px 5px 0px 2px ${Colors.dark_grey};
+  margin-bottom: 10px;
 
   :hover {
     background-color: ${Colors.blue_accent};
@@ -70,29 +71,32 @@ const Name = styled.span`
   }
 `;
 
-const SubscriberComponent = ({
-  subscriberId,
-  subscriberUsername,
+const UserComponent = ({
+  userId,
+  username,
+  close,
 }: {
-  subscriberId: string;
-  subscriberUsername: string;
+  userId: number;
+  username: string;
+  close: () => void;
 }) => {
   const navigate = useNavigate();
 
   const navigateToProfilePage = () => {
-    navigate(`/profile/${subscriberId}`);
+    close();
+    navigate(`/profile/${userId}`);
   };
 
   return (
-    <SubscriberComponentBackground onClick={navigateToProfilePage}>
+    <UserComponentBackground onClick={navigateToProfilePage}>
       <ProfilePicDiv>
         <TempProfilePic src={pfp} />
       </ProfilePicDiv>
       <NameDiv>
-        <Name>@{subscriberUsername}</Name>
+        <Name>@{username}</Name>
       </NameDiv>
-    </SubscriberComponentBackground>
+    </UserComponentBackground>
   );
 };
 
-export default SubscriberComponent;
+export default UserComponent;

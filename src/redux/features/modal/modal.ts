@@ -3,14 +3,16 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export interface ModalState {
   showLogin: boolean;
-  showSignup: boolean;
   showCreateAccount: boolean;
+  showVerifyAccount: boolean;
+  showChangePassword: boolean;
 }
 
 const ModalInitialState : ModalState = {
   showLogin: false,
-  showSignup: false,
-  showCreateAccount: false
+  showCreateAccount: false,
+  showVerifyAccount: true,
+  showChangePassword: false
 }
 
 export const modalSlice = createSlice({
@@ -25,30 +27,40 @@ export const modalSlice = createSlice({
       return newState;
     },
 
-    toggleSignup: (state, action) => {
-      const newState = {
-        ...state,
-        showSignup: action.payload
-      };
-      return newState;
-    },
-
     toggleCreateAccount: (state, action) => {
       const newState = {
         ...state,
         showCreateAccount: action.payload
       };
       return newState;
+    },
+
+    toggleVerifyAccount: (state, action) => {
+      const newState = {
+        ...state,
+        showVerifyAccount: action.payload
+      };
+      return newState;
+    },
+
+    toggleChangePassword: (state, action) => {
+      const newState = {
+        ...state,
+        showChangePassword: action.payload
+      };
+      return newState;
     }
   },
 });
 
-export const { toggleLogin, toggleSignup, toggleCreateAccount } = modalSlice.actions;
+export const { toggleLogin, toggleCreateAccount, toggleVerifyAccount, toggleChangePassword } = modalSlice.actions;
 
 export const selectLoginModal = (state: RootState) => state.modal.showLogin;
 
-export const selectSignupModal = (state: RootState) => state.modal.showSignup;
-
 export const selectCreateAccountModal = (state: RootState) => state.modal.showCreateAccount;
+
+export const selectVerifyAccountModal = (state: RootState) => state.modal.showVerifyAccount;
+
+export const selectChangePasswordModal = (state: RootState) => state.modal.showChangePassword;
 
 export default modalSlice.reducer;

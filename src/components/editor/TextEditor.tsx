@@ -209,12 +209,27 @@ const TextEditor = ({ closeTextEditor }: { closeTextEditor: () => void }) => {
       return true;
     }
 
-    //Title can't be empty, do nothing if empty
-    if (postTitle.text === "") {
+    let isValid = false;
+
+    for (let i = 0 ; i < data[0].children[0].text.length; i++) {
+      if (data[0].children[0].text.charAt(i) !== " ") {
+        isValid = true;
+        break;
+      }
+    }
+
+    if (!isValid) {
       return true;
     }
 
-    return false;
+    //Title can't be empty, do nothing if empty
+    for (let i = 0; i < postTitle.text.length; i++) {
+      if (postTitle.text.charAt(i) !== " ") {
+        return false;
+      }
+    }
+
+    return true;
   };
 
   const postThread = (data: any) => {

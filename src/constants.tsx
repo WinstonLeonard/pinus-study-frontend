@@ -64,8 +64,10 @@ export const ScreenSizes = {
     extra_huge_up: '@media only screen and (min-width: 2000px)'
 };
 
-// export const API_URL = 'http://localhost:8080';
-export const API_URL = 'https://pinus-study-backend-deployment-production.up.railway.app';
+
+export const API_URL = process.env.REACT_APP_API_URL || 'https://pinus-study-backend-deployment-production.up.railway.app';
+//export const API_URL = 'http://localhost:8080';
 
 export const LOGIN_URL = `${API_URL}/login`;
 export const USER_URL = `${API_URL}/user`;
+export const VERIFICATION_URL = `${API_URL}/verify_email`;

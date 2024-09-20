@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Colors, ScreenSizes } from "../constants";
 import pfp from "../assets/default_pfp.png";
 
-const SubscriberComponentBackground = styled.div`
+const LikerComponentBackground = styled.div`
   border: 2px solid ${Colors.dark_grey};
   border-radius: 20px;
   background-color: ${Colors.blue_3};
@@ -18,6 +18,7 @@ const SubscriberComponentBackground = styled.div`
   cursor: pointer;
   padding: 0.5em;
   box-shadow: 5px 5px 0px ${Colors.green_2}, 5px 5px 0px 2px ${Colors.dark_grey};
+  margin-bottom: 10px;
 
   :hover {
     background-color: ${Colors.blue_accent};
@@ -70,29 +71,29 @@ const Name = styled.span`
   }
 `;
 
-const SubscriberComponent = ({
-  subscriberId,
-  subscriberUsername,
+const LikersComponent = ({
+  likerId,
+  likerUsername,
 }: {
-  subscriberId: string;
-  subscriberUsername: string;
+  likerId: string;
+  likerUsername: string;
 }) => {
   const navigate = useNavigate();
 
   const navigateToProfilePage = () => {
-    navigate(`/profile/${subscriberId}`);
+    navigate(`/profile/${likerId}`);
   };
 
   return (
-    <SubscriberComponentBackground onClick={navigateToProfilePage}>
+    <LikerComponentBackground onClick={navigateToProfilePage}>
       <ProfilePicDiv>
         <TempProfilePic src={pfp} />
       </ProfilePicDiv>
       <NameDiv>
-        <Name>@{subscriberUsername}</Name>
+        <Name>@{likerUsername}</Name>
       </NameDiv>
-    </SubscriberComponentBackground>
+    </LikerComponentBackground>
   );
 };
 
-export default SubscriberComponent;
+export default LikersComponent;

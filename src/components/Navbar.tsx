@@ -9,7 +9,6 @@ import { selectId, selectToken } from "../redux/features/users/userSlice";
 import {
   toggleCreateAccount,
   toggleLogin,
-  toggleSignup,
 } from "../redux/features/modal/modal";
 import { isLoggedIn } from "../utils";
 import CombinedAuthenticationPage from "../pages/CombinedAuthenticationPage";
@@ -291,13 +290,11 @@ const NavigationBar = () => {
 
   const showSignUpModal = () => {
     dispatch(toggleLogin(false));
-    dispatch(toggleSignup(true));
-    dispatch(toggleCreateAccount(false));
+    dispatch(toggleCreateAccount(true));
   };
 
   const showLogInModal = () => {
     dispatch(toggleLogin(true));
-    dispatch(toggleSignup(false));
     dispatch(toggleCreateAccount(false));
   };
 
@@ -308,7 +305,7 @@ const NavigationBar = () => {
   };
 
   const navigateToSearchPage = () => {
-    navigate(`/search/${query}`);
+    navigate(`/search/${encodeURIComponent(query)}`);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {

@@ -12,13 +12,14 @@ import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import ThumbDownOutlinedIcon from "@mui/icons-material/ThumbDownOutlined";
 import ModeCommentOutlinedIcon from "@mui/icons-material/ModeCommentOutlined";
+import BookMarkAddIcon from "@mui/icons-material/BookmarkAdd";
+import BookMarkAddedIcon from "@mui/icons-material/BookmarkAdded"
 import ReplyTextEditor from "./editor/ReplyTextEditor";
 import { useNavigate } from "react-router-dom";
-import { selectId, selectToken } from "../redux/features/users/userSlice";
+import { selectId, selectToken, selectUsername } from "../redux/features/users/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { isLoggedIn } from "../utils";
 import {
-  toggleSignup,
   toggleCreateAccount,
   toggleLogin,
 } from "../redux/features/modal/modal";
@@ -27,6 +28,8 @@ import { deserialize } from "./editor/serializer";
 
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime';
+
+import Modal from "./LikersModal"; // Import your modal component here
 
 /** TODO: Add POST methods for likes (change functions in `<ThumbButton onClick={...}`) and upon submitting comment */
 
@@ -77,6 +80,7 @@ export const PostedSince = styled(RegularText)`
 const VerticalCenterAlignLayout = styled.div`
   display: flex;
   align-items: center;
+  margin-bottom: 15px;
 `;
 
 /** MODULE-PAGE THREAD ONLY */
@@ -172,6 +176,36 @@ const Username = styled.span`
     text-decoration: underline;
   }
 `
+
+const ModuleId = styled.span`
+  cursor: pointer;
+  :hover{
+    text-decoration: underline;
+  }
+`
+
+const BookmarkButton = styled.button`
+  border: none;
+  background-color: transparent;
+  float: right;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  border-radius: 8px;
+  :hover {
+    background-color: ${Colors.blue_4};
+    cursor: pointer;
+  }
+`;
+
+const LikeCountButton = styled.button`
+  border: none;
+  background-color: ${Colors.blue_3};
+  :hover {
+    background-color: ${Colors.blue_accent};
+  }
+`;
+
+
 /**
  * Thread component for the web forum.
  *
@@ -182,9 +216,11 @@ const Username = styled.span`
 const ThreadComponent = ({
   threadId,
   type,
+  threadComponent
 }: {
   threadId: number;
   type?: ThreadType;
+  threadComponent?: Thread;
 }) => {
   const [thread, setThread] = useState<Thread>(ThreadInitialState);
   const [likesCount, setLikesCount] = useState<number>(thread.LikesCount);
@@ -194,11 +230,23 @@ const ThreadComponent = ({
   const [openReply, setOpenReply] = useState<boolean>(false);
   const [status, setStatus] = useState<LikedStatus>("NEUTRAL");
   const [loading, setLoading] = useState<boolean>(false);
-
+  const [bookmarked, setBookmarked] = useState<boolean>(false);
+  const [showLikersModal, setShowLikersModal] = useState<boolean>(false);
+  
+  type LikersType = {
+    Id: string;
+    Username: string;
+  };
+  
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const token = useSelector(selectToken);
   const userId = useSelector(selectId);
+  const userIdString = userId.toString();
+  const userName = useSelector(selectUsername);
+
+
+  const [likers, setLikers] = useState<LikersType[]>([]);
 
   let likeStatus = 0;
 
@@ -206,13 +254,13 @@ const ThreadComponent = ({
     setOpenReply(!openReply);
   };
 
-  const handleThreadClick = () => {
+  const handleThreadClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
     navigate(`/thread/${threadId}`);
-  };
+};
 
   const showLogInModal = () => {
     dispatch(toggleLogin(true));
-    dispatch(toggleSignup(false));
     dispatch(toggleCreateAccount(false));
   };
 
@@ -223,17 +271,28 @@ const ThreadComponent = ({
       setLoading(true);
       switch (status) {
         case "LIKED":
+          setLikers(prevLikers => prevLikers.filter(item => item.Id !== userIdString && item.Username !== userName));
           setLikesCount(likesCount - 1);
           setStatus("NEUTRAL");
           likeStatus = 0;
           break;
         case "DISLIKED":
+          setLikers(prevLikers => [...prevLikers, {"Id": userIdString, "Username": userName}]);
           setLikesCount(likesCount + 1);
           setDislikesCount(dislikesCount - 1);
           setStatus("LIKED");
           likeStatus = 1;
           break;
         case "NEUTRAL":
+          setLikers(prevLikers => {
+            if (!Array.isArray(prevLikers)) {
+              // Handle the case when prevLikers is not an array
+              return [{"Id": userIdString, "Username": userName}]; // or return some default array with the new item
+            } else {
+              // Add the new item to the array using spread syntax
+              return [...prevLikers, {"Id": userIdString, "Username": userName}];
+            }
+          });
           setLikesCount(likesCount + 1);
           setStatus("LIKED");
           likeStatus = 1;
@@ -252,6 +311,7 @@ const ThreadComponent = ({
       setLoading(true);
       switch (status) {
         case "LIKED":
+          setLikers(prevLikers => prevLikers.filter(item => item.Id !== userIdString && item.Username !== userName));
           setLikesCount(likesCount - 1);
           setDislikesCount(dislikesCount + 1);
           setStatus("DISLIKED");
@@ -272,6 +332,40 @@ const ThreadComponent = ({
       handleLikesCount();
       setLoading(false);
     }
+  };
+
+  const handleBookmarkButton = () => {
+    if (bookmarked === false) {
+      fetch(API_URL + `/bookmark/${threadId}/${userId}`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          token: token,
+          bookmarked: !bookmarked,
+        }),
+      }).then((response) => console.log("success!"));
+    } else {
+      fetch(`${API_URL}/bookmark/${threadId}/${userId}`, {
+        method: "DELETE",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Failed to delete bookmark");
+          }
+          console.log("Bookmark deleted successfully!");
+        })
+        .catch((error) => console.error(error));
+    }
+    setBookmarked(!bookmarked);
   };
 
   const handleLikesCount = () => {
@@ -293,6 +387,16 @@ const ThreadComponent = ({
     }
   };
 
+  const handleShowLikers = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setShowLikersModal(true);
+  };
+
+  // Function to close the likers modal
+  const handleCloseLikersModal = () => {
+    setShowLikersModal(false);
+  };
+
+
   /**
    * Fetches thread data from the backend.
    */
@@ -306,6 +410,24 @@ const ThreadComponent = ({
         setDislikesCount(data.thread.DislikesCount);
       })
       .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  /**
+   * Fetches list of likers
+   */
+
+  const fetchListOfLikers = () => {
+    fetch(API_URL + `/likes/thread/${threadId}/likes`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("List of likers data", data)
+        // console.log("data.likes", data.likes);
+        setLikers(data.likes);
+      })
+      .catch((error) => {
+        console.log("List of likers error");
         console.log(error);
       });
   };
@@ -335,19 +457,51 @@ const ThreadComponent = ({
   };
 
   /**
+   * Fetches bookmarked data
+   */
+
+  const fetchBookmarkStatus = () => {
+    fetch(API_URL + `/bookmark/${threadId}/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data.bookmarked);
+        setBookmarked(data.bookmarked)
+      })
+      .catch((error) => console.log("error fethcing: " + error));
+  };
+
+  useEffect(() => {
+    console.log("inside of likers:", likers);
+  }, [likers])
+  /**
    * Hook to fetch data.
    */
   useEffect(() => {
     setLoading(true);
+    fetchListOfLikers();
     fetchThreadData();
-  }, []);
+    fetchBookmarkStatus();
+  }, [threadId]);
+
+  switch (type) {
+    case "QUESTION_PAGE":
+      useEffect(() => {
+        setLoading(true);
+        fetchListOfLikers();
+      }, []);
+  }
 
   useEffect(() => {
     if (type === "QUESTION_PAGE" && thread !== ThreadInitialState) {
       fetchLikeStatus();
+      fetchListOfLikers();
     }
     setLoading(false);
-  }, [thread]);
+  }, []);
 
   /**
    * Shortens the content to max. 150 characters to prevent the
@@ -423,18 +577,24 @@ const ThreadComponent = ({
     return (
       <div onClick={handleThreadClick}>
         <ThreadContainerButton>
-          <PostedSince>{parseLastModified(thread.Timestamp)}</PostedSince>
-          <QuestionTitle>{thread.Title}</QuestionTitle>
+          <PostedSince>{parseLastModified(threadComponent?.Timestamp?threadComponent.Timestamp:"")}</PostedSince>
+          <QuestionTitle>{threadComponent?.Title}</QuestionTitle>
+          {
+            isLoggedIn(token, userId) &&
+            <BookmarkButton onClick={handleBookmarkButton}>
+              {bookmarked === true ? <BookMarkAddedIcon/> : <BookMarkAddIcon/>}
+            </BookmarkButton>
+          }
           <br />
           <RegularText>
-            Posted by @{thread.Username} in {thread.ModuleId}
+            Posted by @{threadComponent?.Username} in {threadComponent?.ModuleId}
           </RegularText>
           <br />
-          <Content>{shortenRemoveHtml(thread.Content)}</Content>
+          <Content>{shortenRemoveHtml(threadComponent?.Content?threadComponent.Content:"")}</Content>
           <br />
           <VerticalCenterAlignLayout>
             <CommentOutlinedIcon sx={{ fontSize: "1.375em" }} />
-            <RegularText>&#8196;{thread.Comments?.length || 0}</RegularText>
+            <RegularText>&#8196;{threadComponent?.CommentsCount}</RegularText>
           </VerticalCenterAlignLayout>
         </ThreadContainerButton>
       </div>
@@ -445,6 +605,10 @@ const ThreadComponent = ({
     navigate(`/profile/${thread.AuthorId}`);
   };
 
+  const directToModulePage = () => {
+    navigate(`/module/${thread?.ModuleId}`);
+  }
+
   /**
    * Renders the thread in the Question Page.
    */
@@ -454,9 +618,15 @@ const ThreadComponent = ({
         <CombinedAuthenticationPage />
         <PostedSince>{parseLastModified(thread.Timestamp)}</PostedSince>
         <QuestionTitle>{thread.Title}</QuestionTitle>
+        {
+          isLoggedIn(token, userId) &&
+          <BookmarkButton onClick={handleBookmarkButton}>
+            {bookmarked === true ? <BookMarkAddedIcon/> : <BookMarkAddIcon/>}
+          </BookmarkButton>
+        }
         <br />
         <RegularText>
-          Posted by <Username onClick={directToUserPage}>@{thread.Username}</Username>
+          Posted by <Username onClick={directToUserPage}>@{thread?.Username}</Username> in <ModuleId onClick={directToModulePage}>{thread?.ModuleId}</ModuleId>
         </RegularText>
         <br />
         <Content>{deserialize(thread.Content)}</Content>
@@ -466,7 +636,18 @@ const ThreadComponent = ({
             {status === "LIKED" ? <ThumbUpIcon /> : <ThumbUpOutlinedIcon />}
           </ThumbButton>
           {/* &#8195; (Em Space) and &#8196; (Three-Per-Em Space) are Unicode spaces. */}
-          <MediumText>&#8196;{likesCount}&#8195;</MediumText>
+            <MediumText>&#8196;{likesCount}&#8195;</MediumText>
+
+          {/* Likers Modal */}
+        <Modal
+          show={showLikersModal}
+          onClose={handleCloseLikersModal}
+          likers = {likers}
+        // Pass any necessary props to your likers modal component
+      >
+        <text></text>
+      </Modal>
+
           <ThumbButton onClick={handleDislikeButton}>
             {status === "DISLIKED" ? (
               <ThumbDownIcon />
@@ -483,6 +664,18 @@ const ThreadComponent = ({
         {openReply ? (
           <ReplyTextEditor id={0} threadId={thread.Id} />
         ) : null}
+        { likers === null ? null : 
+          likers.length == 0 ? (null) : likers.length == 1 ? (
+            <RegularText> 
+            <Username onClick = {handleShowLikers}> Liked by @{likers[0].Username} </Username>
+          </RegularText>
+          ) :
+            (
+            <RegularText> 
+              <Username onClick = {handleShowLikers}> Liked by @{likers[0].Username} and {likers.length - 1} others</Username>
+            </RegularText>
+            )
+        }
       </ThreadContainerDiv>
     );
   };
